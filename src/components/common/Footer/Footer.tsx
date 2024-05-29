@@ -3,11 +3,11 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <div className="p-2 px-8 flex justify-between items-center bg-[#3F3D56] text-white h-6 text-sm">
+    <div className="p-2 md:px-8 flex justify-between items-center bg-[#3F3D56] text-white h-6 text-xs truncate">
       <p></p>
-      <p>Ⓒ RipeSeed 2024. All Right Reserved</p>
+      <p>Ⓒ RipeSeed 2024</p>
       <p className="flex gap-1">
-        <p className="text-xs flex items-end">Built by </p>
+        <p className="flex items-end">Built by </p>
         <Link href={"https://ripeseed.io"} target="_blank">
           <Image
             src={"/logo/logo.svg"}
