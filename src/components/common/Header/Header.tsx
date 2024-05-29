@@ -22,9 +22,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Settings } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MenuView from "./MenuView";
 import type { Menu } from "./types";
+import { toast } from "sonner";
 
 export const menuItems = [
   {
@@ -33,7 +34,7 @@ export const menuItems = [
     pathMatch: "/",
   },
   {
-    title: "Ask Ripeseed",
+    title: "Ask RipeSeed",
     href: "/ask-ripeseed",
     pathMatch: "/ask-ripeseed/*",
   },
@@ -71,6 +72,7 @@ export const Header = () => {
 };
 
 const ConfigDialogue = () => {
+  const closeRef = useRef<HTMLButtonElement>(null);
   const [formValues, setFormValues] = useState({
     openaiKey: localStorage.getItem("openai:key") ?? "",
   });
@@ -84,6 +86,8 @@ const ConfigDialogue = () => {
 
   const saveConfig = () => {
     localStorage.setItem("openai:key", formValues.openaiKey);
+    toast.success("Your OpenAI has been updated in your Local Storage.");
+    closeRef.current?.click();
   };
 
   return (
@@ -111,7 +115,11 @@ const ConfigDialogue = () => {
         </div>
         <DialogFooter className="sm:justify-end">
           <DialogClose asChild>
-            <Button type="button" variant="secondary" className="rounded-full">
+            <Button
+              type="button"
+              variant="secondary"
+              className="rounded-full"
+              ref={closeRef}>
               Close
             </Button>
           </DialogClose>
