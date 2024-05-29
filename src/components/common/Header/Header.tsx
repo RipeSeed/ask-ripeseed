@@ -25,6 +25,7 @@ import { Settings } from "lucide-react";
 import { useState } from "react";
 import MenuView from "./MenuView";
 import type { Menu } from "./types";
+import Image from "next/image";
 
 export const menuItems = [
   {
@@ -43,11 +44,14 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 p-2 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-16 md:py-4">
       <div className="flex justify-between">
-        <Link href={"/"}>
-          <Avatar className="mr-3 cursor-pointer">
-            <AvatarImage src={`/logo_tombot.png`} alt="avatar" />
-            <AvatarFallback>AR</AvatarFallback>
-          </Avatar>
+        <Link href={"/"} className="max-h-[40px]">
+          <Image
+            src={`/logo/logo.svg`}
+            alt="ripeseed.io"
+            height={100}
+            width={100}
+            className="h-[40px] cursor-pointer"
+          />
         </Link>
         <NavigationMenu>
           <NavigationMenuList>
@@ -87,9 +91,6 @@ const ConfigDialogue = () => {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Configure you API keys</DialogTitle>
-          {/* <DialogDescription>
-            Anyone who has this link will be able to view this.
-          </DialogDescription> */}
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
