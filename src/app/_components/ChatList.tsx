@@ -1,8 +1,8 @@
 "use client";
 
-import { MessageSquareText } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { MessagesSquare } from "lucide-react";
 
 export const ChatList = () => {
   const chats = [
@@ -10,7 +10,7 @@ export const ChatList = () => {
       id: "1",
       updatedAt: new Date().toDateString(),
       isSelected: true,
-    },
+    }
   ];
 
   return (
@@ -36,11 +36,12 @@ const SidebarChatComponent = ({ chat }: { chat: SidebarChat }) => {
       <Button
         className={cn(
           buttonVariants({ variant: "default", size: "lg" }),
-          `shrink bg-muted text-primary transition-all  hover:bg-primary/10 ${chat.isSelected && "bg-primary/20 shadow-primary"}`
-        )}
-      >
+          ` rounded-full shrink bg-muted text-primary transition-all  hover:bg-primary/10 ${
+            chat.isSelected && "bg-primary/20 shadow-[#FFAB00]"
+          }`,
+        )}>
         <div className="flex justify-start gap-4">
-          <MessageSquareText className="h-4 w-4" />
+          <MessagesSquare className="h-4 w-4" />
           <span>{chat.updatedAt}</span>
         </div>
       </Button>
