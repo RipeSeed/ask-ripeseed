@@ -63,7 +63,7 @@ export const Header = () => {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="">
+        <div className="flex justify-center items-center">
           <ConfigDialogue />
         </div>
       </div>
