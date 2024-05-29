@@ -23,9 +23,10 @@ import { Label } from "@/components/ui/label";
 import { Settings } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import MenuView from "./MenuView";
-import type { Menu } from "./types";
 import { toast } from "sonner";
+import MenuView from "./MenuView";
+import { NavSheet } from "./NavSheet";
+import type { Menu } from "./types";
 
 export const menuItems = [
   {
@@ -53,18 +54,23 @@ export const Header = () => {
             className="h-[40px] cursor-pointer"
           />
         </Link>
-        <NavigationMenu>
-          <NavigationMenuList>
-            {menuItems.map((menuItem, i) => (
-              <NavigationMenuItem key={i} className="rounded-full">
-                <MenuView menuItem={menuItem as Menu} />
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
+        <div className="hidden md:block">
+          <NavigationMenu>
+            <NavigationMenuList>
+              {menuItems.map((menuItem, i) => (
+                <NavigationMenuItem key={i} className="rounded-full">
+                  <MenuView menuItem={menuItem as Menu} />
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
 
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center gap-2">
           <ConfigDialogue />
+          <div className={`block md:hidden`}>
+            <NavSheet />
+          </div>
         </div>
       </div>
     </header>
