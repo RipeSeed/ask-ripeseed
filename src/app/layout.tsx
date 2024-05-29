@@ -1,19 +1,19 @@
-import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
+"use client";
+
+import { Footer } from "@/components/common/Footer";
 import { Header } from "@/components/common/Header";
+import { cn } from "@/lib/utils";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Inter as FontSans } from "next/font/google";
+import { Toaster } from "sonner";
+import "./globals.css";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
-export const metadata = {
-  title: "Ask Ripeseed",
-  description: "Ask Ripeseed - A prouct of ripeseed.io",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -25,13 +25,22 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        <Header />
-        <main className="h-[calc(100vh-57px)] md:h-[calc(100vh-73px)]">
-          {children}
-        </main>
+          fontSans.variable,
+        )}>
+        <QueryClientProvider client={queryClient}>
+          <Header />
+          {/* (57 & 73) Header Height || (24) Footer Height */}
+          <main className="h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
+            {children}
+          </main>
+          <Footer />
+          <Toaster
+            closeButton
+            duration={3500}
+            position="top-right"
+            richColors
+          />
+        </QueryClientProvider>
       </body>
     </html>
   );

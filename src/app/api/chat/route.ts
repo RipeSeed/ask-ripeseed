@@ -1,12 +1,13 @@
-import OpenAI from "openai"
+import { Message } from "@/app/_components/chat/types";
+import OpenAI from "openai";
 
 export async function POST(request: Request) {
-  const { apiKey, messages } = await request.json()
- 
+  const { apiKey, messages } = await request.json();
+
   const openai = new OpenAI({
-    apiKey
-  })
-  
+    apiKey,
+  });
+
   const gptResponse = await openai.chat.completions.create({
     temperature: 0,
     max_tokens: 4096,
@@ -15,5 +16,11 @@ export async function POST(request: Request) {
   });
   const response = gptResponse.choices[0]?.message.content ?? null;
 
-  return Response.json({ response })
+  const resObject: Message = {
+    content: response,
+    createdAt: new Date(),
+    role: "system",
+  };
+
+  return Response.json({ data: resObject });
 }

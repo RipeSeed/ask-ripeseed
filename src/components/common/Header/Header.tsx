@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -22,27 +21,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Settings } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import MenuView from "./MenuView";
 import type { Menu } from "./types";
-import Image from "next/image";
 
 export const menuItems = [
   {
-    title: "Ask Ripeseed",
+    title: "General",
     href: "/",
     pathMatch: "/",
   },
   {
-    title: "OpenAI Chat",
-    href: "/openai",
-    pathMatch: "/openai/*",
+    title: "Ask Ripeseed",
+    href: "/ask-ripeseed",
+    pathMatch: "/ask-ripeseed/*",
   },
 ];
 
 export const Header = () => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 p-2 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-16 md:py-4">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 p-2 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-16 md:py-4">
       <div className="flex justify-between">
         <Link href={"/"} className="max-h-[40px]">
           <Image
@@ -56,7 +55,7 @@ export const Header = () => {
         <NavigationMenu>
           <NavigationMenuList>
             {menuItems.map((menuItem, i) => (
-              <NavigationMenuItem key={i}>
+              <NavigationMenuItem key={i} className="rounded-full">
                 <MenuView menuItem={menuItem as Menu} />
               </NavigationMenuItem>
             ))}
@@ -73,7 +72,7 @@ export const Header = () => {
 
 const ConfigDialogue = () => {
   const [formValues, setFormValues] = useState({
-    openaiKey: "",
+    openaiKey: localStorage.getItem("openai:key") ?? "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,10 +82,14 @@ const ConfigDialogue = () => {
     });
   };
 
+  const saveConfig = () => {
+    localStorage.setItem("openai:key", formValues.openaiKey);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild className="flex justify-center items-center">
-        <Settings className=" rounded-xl w-full cursor-pointer hover:bg-secondary" />
+        <Settings className=" rounded-xl w-full cursor-pointer hover:bg-secondary text-muted-foreground" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
@@ -102,16 +105,19 @@ const ConfigDialogue = () => {
               name="openaiKey"
               onChange={handleChange}
               value={formValues.openaiKey}
+              className="rounded-full"
             />
           </div>
         </div>
         <DialogFooter className="sm:justify-end">
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
+            <Button type="button" variant="secondary" className="rounded-full">
               Close
             </Button>
           </DialogClose>
-          <Button type="submit">Save</Button>
+          <Button type="button" onClick={saveConfig} className="rounded-full">
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
