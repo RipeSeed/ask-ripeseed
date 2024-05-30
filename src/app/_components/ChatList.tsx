@@ -10,12 +10,12 @@ export const ChatList = () => {
       id: "1",
       updatedAt: new Date().toDateString(),
       isSelected: true,
-    }
+    },
   ];
 
   return (
     <div className="flex h-full flex-col gap-4">
-      <nav className="grid gap-2 text-lg font-medium">
+      <nav className="grid gap-0.5 text-lg font-medium">
         {chats?.map((chat, index) => (
           <SidebarChatComponent chat={chat} key={index} />
         ))}
@@ -36,8 +36,8 @@ const SidebarChatComponent = ({ chat }: { chat: SidebarChat }) => {
       <Button
         className={cn(
           buttonVariants({ variant: "default", size: "lg" }),
-          ` rounded-full shrink bg-muted text-primary transition-all  hover:bg-primary/10 ${
-            chat.isSelected && "bg-primary/20 shadow-[#FFAB00]"
+          `rounded-full shrink bg-muted text-primary transition-all  hover:bg-[#ECECEC] shadow-none  ${
+            chat.isSelected && "bg-[#ECECEC] border border-primary"
           }`,
         )}>
         <div className="flex justify-start gap-4">

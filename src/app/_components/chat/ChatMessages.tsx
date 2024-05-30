@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { ChatMessageInput } from "./ChatMessageInput";
 import { MessageContainer } from "./MessageContainer";
 import { Message } from "./types";
+import { WelcomeCards } from "./WelcomeCards";
 
 export function ChatMessages() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -77,9 +78,13 @@ export function ChatMessages() {
           {/* {isLoading ? (
             <MessagesSkeleton />
           ) : ( */}
-          {messages?.map((message, i) => (
-            <MessageContainer message={message} key={i} />
-          ))}
+          {!messages.length ? (
+            <WelcomeCards sendMessage={sendMessage} />
+          ) : (
+            messages.map((message, i) => (
+              <MessageContainer message={message} key={i} />
+            ))
+          )}
           {/* )} */}
         </AnimatePresence>
       </div>
