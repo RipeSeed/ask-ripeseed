@@ -6,7 +6,7 @@ export const Footer = () => {
     <div className="p-2 md:px-8 flex justify-between items-center bg-[#3F3D56] text-white h-6 text-xs truncate">
       <p></p>
       <p>Ⓒ RipeSeed 2024</p>
-      <p className="flex gap-1">
+      <div className="flex gap-1">
         <p className="flex items-end">Built by </p>
         <Link href={"https://ripeseed.io"} target="_blank">
           <Image
@@ -16,7 +16,7 @@ export const Footer = () => {
             height={100}
           />
         </Link>
-      </p>
+      </div>
     </div>
   );
 };

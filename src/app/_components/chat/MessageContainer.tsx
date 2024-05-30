@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 
-import type { Message } from "./types";
-import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import type { Message } from "./types";
 
 interface MessageContainerProps {
   message: Message;
@@ -34,7 +34,7 @@ export const MessageContainer = ({ message }: MessageContainerProps) => {
         {message.role === "system" && (
           <div className="flex h-full flex-col">
             <div className="flex-grow"></div>
-            <Avatar className="flex items-center justify-center">
+            <Avatar className="flex items-center justify-center border border-primary p-0.5">
               <AvatarImage
                 src={`/logo/logo.svg`}
                 alt={message.role}

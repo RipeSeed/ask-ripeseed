@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Settings } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import MenuView from "./MenuView";
 import { NavSheet } from "./NavSheet";
@@ -80,8 +80,18 @@ export const Header = () => {
 const ConfigDialogue = () => {
   const closeRef = useRef<HTMLButtonElement>(null);
   const [formValues, setFormValues] = useState({
-    openaiKey: localStorage.getItem("openai:key") ?? "",
+    openaiKey: "",
   });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setFormValues({
+        ...formValues,
+        openaiKey: localStorage.getItem("openai:key") ?? "",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({

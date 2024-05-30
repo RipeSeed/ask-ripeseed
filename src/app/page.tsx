@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
       <div className="w-full h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
-        <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-32px)]">
+        <div className="grid md:grid-cols-[280px_1fr] h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-32px)]">
           <SidebarView />
           <Chat />
         </div>

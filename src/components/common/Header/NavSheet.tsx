@@ -15,7 +15,7 @@ export function NavSheet() {
       <SheetTrigger asChild>
         <MenuIcon />
       </SheetTrigger>
-      <SheetContent side={`left`} className="w-[320px]">
+      <SheetContent side={`right`} className="w-[320px]">
         <NavigationMenu>
           <NavigationMenuList className="flex flex-col gap-2">
             {menuItems.map((menuItem, i) => (
