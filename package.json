@@ -20,7 +20,9 @@
     "@tanstack/react-query": "^5.40.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dexie": "^4.0.7",
     "framer-motion": "^11.2.6",
+    "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.379.0",
     "next": "14.2.3",
@@ -29,10 +31,12 @@
     "react-dom": "^18",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "valtio": "^1.13.2"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.35.6",
+    "@types/lodash": "^4.17.4",
     "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^18",
