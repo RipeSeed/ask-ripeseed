@@ -36,8 +36,8 @@ const SidebarChatComponent = ({ chat }: { chat: SidebarChat }) => {
       <Button
         className={cn(
           buttonVariants({ variant: "default", size: "lg" }),
-          `rounded-full shrink bg-muted text-primary transition-all  hover:bg-[#ECECEC] shadow-none  ${
-            chat.isSelected && "bg-[#ECECEC] border border-primary"
+          `shrink bg-[#FBFBFB] transition-all text-gray-500 hover:bg-[#ECECEC] shadow-none  ${
+            chat.isSelected && "bg-[#ECECEC] text-primary"
           }`,
         )}>
         <div className="flex justify-start gap-4">
