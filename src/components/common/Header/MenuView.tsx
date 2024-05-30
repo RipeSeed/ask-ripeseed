@@ -27,7 +27,7 @@ const MenuView = ({ menuItem }: { menuItem: Menu }) => {
         href={menuItem.href}
         className={` hover:text-primary focus:text-primary ${
           isPath(menuItem.pathMatch)
-            ? "bg-muted text-primary"
+            ? "bg-muted text-primary border border-primary"
             : "text-muted-foreground"
         }`}>
         {menuItem.title}
