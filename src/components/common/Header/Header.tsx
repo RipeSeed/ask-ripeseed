@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Settings } from "lucide-react";
+import { ExternalLink, Settings } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -111,7 +111,7 @@ const ConfigDialogue = () => {
       <DialogTrigger asChild className="flex justify-center items-center">
         <Settings className=" rounded-xl w-full cursor-pointer hover:bg-secondary text-muted-foreground" />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md rounded-lg">
         <DialogHeader>
           <DialogTitle>Configure you API keys</DialogTitle>
         </DialogHeader>
@@ -129,19 +129,32 @@ const ConfigDialogue = () => {
             />
           </div>
         </div>
-        <DialogFooter className="sm:justify-end">
-          <DialogClose asChild>
-            <Button
-              type="button"
-              variant="secondary"
-              className="rounded-full"
-              ref={closeRef}>
-              Close
+        <DialogFooter className="w-full !justify-between flex-col space-y-1">
+          <div className="justify-start">
+            <p className="text-sm text-gray-500">
+              <div>Don&apos;t have an OpenAI key? </div>
+              <Link
+                href={`https://platform.openai.com/api-keys`}
+                target="_blank"
+                className="flex flex-row gap-1 underline text-blue-500">
+                Generate one here <ExternalLink className="h-4 w-4" />
+              </Link>
+            </p>
+          </div>
+          <div className="flex sm:flex-row flex-col gap-1 sm:justify-end">
+            <DialogClose asChild>
+              <Button
+                type="button"
+                variant="secondary"
+                className="rounded-full"
+                ref={closeRef}>
+                Close
+              </Button>
+            </DialogClose>
+            <Button type="button" onClick={saveConfig} className="rounded-full">
+              Save
             </Button>
-          </DialogClose>
-          <Button type="button" onClick={saveConfig} className="rounded-full">
-            Save
-          </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
