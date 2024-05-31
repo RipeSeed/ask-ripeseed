@@ -1,6 +1,7 @@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
 import { BookOpenCheck } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const cards = [
   {
@@ -19,16 +20,21 @@ interface Props {
 }
 
 export const WelcomeCards = ({ sendMessage }: Props) => {
+  const [openAIKey, setOpenAIKey] = useState("");
   const handleSendMessage = (i: number) => {
     const userPrompt = cards[i].content;
     sendMessage(userPrompt);
   };
 
+  useEffect(() => {
+    setOpenAIKey(localStorage.getItem("openai:key") ?? "");
+  }, []);
+
   return (
     <div className="flex justify-center items-center h-full flex-col gap-4">
-      <div className="max-w-[500px] flex flex-col gap-4">
-        <Note className="w-full" />
-        <div className="flex justify-center items-center flex-col gap-2">
+      <div className="max-w-[500px] md:w-[500px] flex flex-col gap-4">
+        {openAIKey.length === 0 && <Note className="w-full" />}
+        <div className="flex justify-center items-center flex-col gap-2 w-full">
           <Card
             className="bg-white shadow-none hover:bg-gray-100 cursor-pointer h-24 flex justify-center w-full items-center p-2 text-gray-500"
             onClick={() => handleSendMessage(0)}>
