@@ -1,6 +1,6 @@
 "use client";
 
-import { Chat } from "@/app/_components/chat/Chat";
+import { Chat } from "./_components/Chat";
 import { Chat as IChat, getChat } from "@/app/_lib/db";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

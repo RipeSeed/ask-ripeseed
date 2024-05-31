@@ -1,6 +1,6 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
-import { ChatList } from "../ChatList";
+import { ChatList } from "../../_components/ChatList";
 
 export function ChatsSheet() {
   return (
