@@ -5,7 +5,7 @@ export {
   clearAllMessages,
   deleteMessage,
   getMessage,
-  getMessagesByChat,
+  getAllMessagesByChat,
   updateMessage,
 } from "./messages";
 

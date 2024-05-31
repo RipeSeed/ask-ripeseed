@@ -5,13 +5,15 @@ import { Message } from "./types";
 export async function addMessage({
   content,
   chatId,
+  role,
 }: {
   content: string;
   chatId: number;
+  role: "user" | "system";
 }): Promise<number> {
   const createdAt = new Date().toISOString();
   const updatedAt = createdAt;
-  return db.messages.add({ content, chatId, createdAt, updatedAt });
+  return db.messages.add({ content, chatId, createdAt, updatedAt, role });
 }
 
 // Get a message by ID
@@ -24,7 +26,7 @@ export async function getMessage({
 }
 
 // Get all messages for a specific chat
-export async function getMessagesByChat({
+export async function getAllMessagesByChat({
   chatId,
 }: {
   chatId: number;

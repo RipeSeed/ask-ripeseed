@@ -31,13 +31,13 @@ import type { Menu } from "./types";
 export const menuItems = [
   {
     title: "General",
-    href: "/",
-    pathMatch: "/",
+    href: "/general",
+    pathMatch: ["/general", "/general/*"],
   },
   {
     title: "Ask RipeSeed",
     href: "/ask-ripeseed",
-    pathMatch: "/ask-ripeseed/*",
+    pathMatch: ["/ask-ripeseed", "/ask-ripeseed/*"],
   },
 ];
 
