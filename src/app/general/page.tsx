@@ -16,14 +16,14 @@ export default function Chat() {
           name: "Chat",
         });
         const __chats = await getAllChats();
-        router.push(`/general/${__chats[0].id}`);
+        router.push(`/general/${__chats[__chats.length - 1].id}`);
       } else {
-        router.push(`/general/${_chats[0].id}`);
+        router.push(`/general/${_chats[_chats.length - 1].id}`);
       }
     };
 
     void getChats();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
