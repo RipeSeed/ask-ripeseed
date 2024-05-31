@@ -16,13 +16,14 @@ export default function Chat() {
           name: "Chat",
         });
         const __chats = await getAllChats();
-        router.push(`/${__chats[0].id}`);
+        router.push(`/general/${__chats[0].id}`);
       } else {
-        return router.push(`/${_chats[0].id}`);
+        router.push(`/general/${_chats[0].id}`);
       }
     };
 
     void getChats();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;

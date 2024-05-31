@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 
+import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import type { Message } from "./types";
 
 interface MessageContainerProps {
   message: Message;
@@ -45,7 +45,6 @@ export const MessageContainer = ({ message }: MessageContainerProps) => {
           </div>
         )}
         <span className="max-w-[250px] overflow-x-auto rounded-md bg-accent p-3 sm:max-w-sm md:max-w-md">
-          {/* {showMessageContent(message, typeOfMessage)} */}
           {message.content}
         </span>
         {message.role === "user" && (

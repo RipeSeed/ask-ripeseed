@@ -18,8 +18,8 @@ const Page = ({ params: { chatId } }: PageProps) => {
   useEffect(() => {
     const _getChat = async () => {
       if (!chatId.length) return;
-      const id = parseInt(chatId);
-      if (isNaN(id)) return router.push("/not-found");
+      const id = Number(chatId);
+      if (isNaN(id) || id < 1) return router.push("/not-found");
 
       const _chat = await getChat({
         id,
@@ -29,6 +29,7 @@ const Page = ({ params: { chatId } }: PageProps) => {
     };
 
     void _getChat();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!chat) {

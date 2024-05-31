@@ -1,4 +1,4 @@
-import { Message } from "@/app/_components/chat/types";
+import { Message } from "@/app/_lib/db";
 
 type APIRequest = {
   message: Message;

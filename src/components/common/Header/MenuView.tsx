@@ -12,11 +12,20 @@ import { cn } from "@/lib/utils";
 const MenuView = ({ menuItem }: { menuItem: Menu }) => {
   const pathname = usePathname();
 
-  const isPath = (path: string) => {
-    const regexPattern = new RegExp(
-      "^" + path.replace(/:\w+/g, "\\w+").replace(/\/\*$/, "(/.*)?") + "$",
-    );
-    return regexPattern.test(pathname);
+  const isPath = (path: string[]) => {
+    const regexPattern = [];
+
+    for (const p of path) {
+      regexPattern.push(
+        new RegExp(
+          "^" + p.replace(/:\w+/g, "\\w+").replace(/\/\*$/, "(/.*)?") + "$",
+        ),
+      );
+    }
+    for (const r of regexPattern) {
+      if (r.test(pathname)) return true;
+    }
+    return false;
   };
 
   return (
