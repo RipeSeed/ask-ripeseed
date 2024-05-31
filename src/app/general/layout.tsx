@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import SidebarView from "../_components/SidebarView";
+import SidebarView from "./_components/SidebarView";
 
 export const metadata: Metadata = {
   title: "Ask Ripeseed",
