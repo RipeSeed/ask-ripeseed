@@ -15,7 +15,11 @@ export async function getChat({
 }: {
   id: number;
 }): Promise<Chat | undefined> {
-  return db.chats.get(id);
+  if (typeof id !== "number" || isNaN(id)) {
+    throw new Error("Invalid input: id must be a valid number");
+  }
+  const chat = await db.chats.get(id);
+  return chat;
 }
 
 // Get all chats
