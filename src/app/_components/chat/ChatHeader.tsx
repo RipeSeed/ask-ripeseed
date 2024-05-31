@@ -13,7 +13,7 @@ export function ChatHeader() {
             <ChatsSheet />
           </div>
           <span className="font-medium text-muted-foreground">
-            {selectedChat?.name || "Chat"}
+            {new Date(selectedChat?.updatedAt ?? 0).toDateString()}
           </span>
         </div>
       </div>

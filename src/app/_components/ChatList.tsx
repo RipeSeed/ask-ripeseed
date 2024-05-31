@@ -65,7 +65,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
         onClick={() => handleSelectedChatChange(chat)}>
         <div className="flex justify-start gap-4">
           <MessagesSquare className="h-4 w-4" />
-          <span>{chat.name}</span>
+          <span>{new Date(chat.updatedAt).toDateString()}</span>
         </div>
       </Button>
     </>
