@@ -1,3 +1,4 @@
+import { store } from "@/app/_utils/store";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
 import { BookOpenCheck } from "lucide-react";
@@ -20,35 +21,40 @@ interface Props {
 }
 
 export const WelcomeCards = ({ sendMessage }: Props) => {
-  const [openAIKey, setOpenAIKey] = useState("");
+  const { set, useSnapshot } = store;
+  const { openAIKey } = useSnapshot();
   const handleSendMessage = (i: number) => {
     const userPrompt = cards[i].content;
     sendMessage(userPrompt);
   };
 
   useEffect(() => {
-    setOpenAIKey(localStorage.getItem("openai:key") ?? "");
+    set("openAIKey", localStorage.getItem("openai:key") ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-full flex-col gap-4">
-      <div className="max-w-[500px] md:w-[500px] flex flex-col gap-4">
-        {openAIKey.length === 0 && <Note className="w-full" />}
-        <div className="flex justify-center items-center flex-col gap-2 w-full">
+    <div className="flex h-full flex-col items-center justify-center gap-4">
+      <div className="flex max-w-[500px] flex-col gap-4 md:w-[500px]">
+        {openAIKey.length === 0 && <Note className="w-full cursor-pointer" />}
+        <div className="flex w-full flex-col items-center justify-center gap-2">
           <Card
-            className="bg-white shadow-none hover:bg-gray-100 cursor-pointer h-24 flex justify-center w-full items-center p-2 text-gray-500"
-            onClick={() => handleSendMessage(0)}>
+            className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
+            onClick={() => handleSendMessage(0)}
+          >
             {cards[0].content}
           </Card>
-          <div className="flex flex-row gap-2 w-full">
+          <div className="flex w-full flex-row gap-2">
             <Card
-              className="bg-white shadow-none hover:bg-gray-100 cursor-pointer h-24 flex justify-center w-full items-center p-2 text-gray-500"
-              onClick={() => handleSendMessage(1)}>
+              className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
+              onClick={() => handleSendMessage(1)}
+            >
               {cards[1].content}
             </Card>
             <Card
-              className="bg-white shadow-none hover:bg-gray-100 cursor-pointer h-24 flex justify-center w-full items-center p-2 text-gray-500"
-              onClick={() => handleSendMessage(2)}>
+              className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
+              onClick={() => handleSendMessage(2)}
+            >
               {cards[2].content}
             </Card>
           </div>
@@ -59,10 +65,14 @@ export const WelcomeCards = ({ sendMessage }: Props) => {
 };
 
 const Note = ({ className }: { className?: string }) => {
+  const { set } = store;
+  const handleOpenConfig = () => {
+    set("isConfigOpen", true);
+  };
   return (
-    <Alert variant="info" className={className}>
+    <Alert variant="info" className={className} onClick={handleOpenConfig}>
       <AlertDescription className="flex flex-row gap-2">
-        <BookOpenCheck className="h-4 w-4 mt-0.5" />
+        <BookOpenCheck className="mt-0.5 h-4 w-4" />
         Configure your OpenAI Key from gear icon at top-right to continue.
       </AlertDescription>
     </Alert>

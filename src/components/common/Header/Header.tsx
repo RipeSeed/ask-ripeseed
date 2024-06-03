@@ -8,6 +8,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 
+import { store } from "@/app/_utils/store";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -66,7 +67,7 @@ export const Header = () => {
           </NavigationMenu>
         </div>
 
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <ConfigDialogue />
           <div className={`block md:hidden`}>
             <NavSheet />
@@ -79,28 +80,45 @@ export const Header = () => {
 
 const ConfigDialogue = () => {
   const closeRef = useRef<HTMLButtonElement>(null);
+  const openRef = useRef<HTMLButtonElement>(null);
+  const { set, useSnapshot } = store;
+  const { isConfigOpen } = useSnapshot();
   const [formValues, setFormValues] = useState({
     openaiKey: "",
   });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      const _key = localStorage.getItem("openai:key") ?? "";
       setFormValues({
         ...formValues,
-        openaiKey: localStorage.getItem("openai:key") ?? "",
+        openaiKey: _key,
       });
+      set("openAIKey", _key);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (isConfigOpen) {
+      openRef.current?.click();
+    }
+    return () => {
+      set("isConfigOpen", false);
+      closeRef.current?.click();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConfigOpen]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({
       ...formValues,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.trim(),
     });
   };
 
   const saveConfig = () => {
+    set("openAIKey", formValues.openaiKey);
     localStorage.setItem("openai:key", formValues.openaiKey);
     toast.success("Your OpenAI has been updated in your Local Storage.");
     closeRef.current?.click();
@@ -108,10 +126,12 @@ const ConfigDialogue = () => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild className="flex justify-center items-center">
-        <Settings className=" rounded-xl w-full cursor-pointer hover:bg-secondary text-muted-foreground" />
+      <DialogTrigger asChild className="flex items-center justify-center">
+        <button ref={openRef} className="m-0 p-0">
+          <Settings className="w-full cursor-pointer rounded-xl text-muted-foreground hover:bg-secondary" />
+        </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md rounded-lg">
+      <DialogContent className="rounded-lg sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Configure you API keys</DialogTitle>
         </DialogHeader>
@@ -129,25 +149,27 @@ const ConfigDialogue = () => {
             />
           </div>
         </div>
-        <DialogFooter className="w-full !justify-between flex-col space-y-1">
+        <DialogFooter className="w-full flex-col !justify-between space-y-1">
           <div className="justify-start">
             <p className="text-sm text-gray-500">
               <div>Don&apos;t have an OpenAI key? </div>
               <Link
                 href={`https://platform.openai.com/api-keys`}
                 target="_blank"
-                className="flex flex-row gap-1 underline text-blue-500">
+                className="flex flex-row gap-1 text-blue-500 underline"
+              >
                 Generate one here <ExternalLink className="h-4 w-4" />
               </Link>
             </p>
           </div>
-          <div className="flex sm:flex-row flex-col gap-1 sm:justify-end">
+          <div className="flex flex-col gap-1 sm:flex-row sm:justify-end">
             <DialogClose asChild>
               <Button
                 type="button"
                 variant="secondary"
                 className="rounded-full"
-                ref={closeRef}>
+                ref={closeRef}
+              >
                 Close
               </Button>
             </DialogClose>
