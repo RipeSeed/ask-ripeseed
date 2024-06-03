@@ -12,9 +12,7 @@ export default function Chat() {
     const getChats = async () => {
       const _chats = await getAllChats();
       if (!_chats.length) {
-        await addChat({
-          name: "Chat",
-        });
+        await addChat({});
         const __chats = await getAllChats();
         router.push(`/general/${__chats[__chats.length - 1].id}`);
       } else {

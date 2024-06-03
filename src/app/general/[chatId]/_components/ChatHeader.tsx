@@ -55,7 +55,7 @@ export function ChatHeader() {
           {isEditing ? (
             <>
               <Input
-                className="text-lg font-medium"
+                className="text-sm font-medium"
                 placeholder="title ..."
                 value={title}
                 onKeyDown={handleKeyPress}
