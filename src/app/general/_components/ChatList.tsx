@@ -11,7 +11,7 @@ import {
 import { store } from "@/app/_utils/store";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Delete, MessagesSquare, Plus } from "lucide-react";
+import { MessagesSquare, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -72,7 +72,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
         router.push(`/general/${allChats[0].id}`);
       }
       if (allChats.length === 0) {
-        const newChatId = await addChat({ name: "Chat" });
+        const newChatId = await addChat({});
         set("selectedChat", await getChat({ id: newChatId }));
         router.push(`/general/${newChatId}`);
       }
@@ -97,7 +97,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
             <span>{new Date(chat.updatedAt).toDateString()}</span>
           </div>
           <div className="flex justify-end" onClick={handleDelete}>
-            <Delete className="h-4 w-4" />
+            <Trash2 className="h-4 w-4" />
           </div>
         </div>
       </Button>
@@ -110,7 +110,7 @@ const CreateNewChat = () => {
   const { set } = store;
 
   const handleCreateNewChat = async () => {
-    const newChatId = await addChat({ name: "Chat" });
+    const newChatId = await addChat({});
     const allChats = await getAllChats();
 
     if (allChats.length === 1) {

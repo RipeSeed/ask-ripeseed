@@ -5,7 +5,7 @@ import { Chat } from "./types";
 export async function addChat({ name }: { name?: string }): Promise<number> {
   const createdAt = new Date().toISOString();
   const updatedAt = createdAt;
-  name = name?.length ? name : createdAt;
+  name = name?.length ? name : new Date(createdAt).toDateString();
   return db.chats.add({ name, createdAt, updatedAt });
 }
 
