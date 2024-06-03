@@ -111,17 +111,26 @@ export function ChatMessages() {
         ref={messagesContainerRef}
         className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
         <AnimatePresence>
-          {/* {isLoading ? (
-            <MessagesSkeleton />
-          ) : ( */}
           {!messages.length ? (
             <WelcomeCards sendMessage={sendMessage} />
           ) : (
-            messages.map((message, i) => (
-              <MessageContainer message={message} key={i} />
-            ))
+            <>
+              {messages.map((message, i) => (
+                <MessageContainer message={message} key={i} />
+              ))}
+              {isPending && (
+                <MessageContainer
+                  message={{
+                    content: "83d6374579544e41fbe9c66f9678841e",
+                    role: "system",
+                    chatId: selectedChatId,
+                    createdAt: new Date().toString(),
+                    updatedAt: new Date().toString(),
+                  }}
+                />
+              )}
+            </>
           )}
-          {/* )} */}
         </AnimatePresence>
       </div>
       <ChatMessageInput sendMessage={sendMessage} isReplyPending={isPending} />

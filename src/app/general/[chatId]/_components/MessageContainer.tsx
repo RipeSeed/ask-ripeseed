@@ -45,7 +45,16 @@ export const MessageContainer = ({ message }: MessageContainerProps) => {
           </div>
         )}
         <span className="max-w-[250px] overflow-x-auto rounded-md bg-accent p-3 sm:max-w-sm md:max-w-md">
-          {message.content}
+          {message.content === "83d6374579544e41fbe9c66f9678841e" ? (
+            <div className="flex items-center justify-center space-x-2">
+              <span className="sr-only">Thinking ...</span>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.3s]"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.15s]"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500"></div>
+            </div>
+          ) : (
+            message.content
+          )}
         </span>
         {message.role === "user" && (
           <div className="flex h-full flex-col">
