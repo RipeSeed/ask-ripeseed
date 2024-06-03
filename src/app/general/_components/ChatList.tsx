@@ -110,7 +110,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
         <div className="flex w-full flex-row justify-between">
           <div className="flex justify-start gap-4 truncate">
             <MessagesSquare className="h-4 w-4" />
-            <span>{new Date(chat.updatedAt).toDateString()}</span>
+            <span>{chat.name}</span>
           </div>
           <Dialog>
             <DialogTrigger asChild>
