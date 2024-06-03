@@ -3,9 +3,9 @@
 import {
   addChat,
   Chat,
+  clearMessagesByChat,
   deleteChat,
   getAllChats,
-  getAllMessagesByChat,
   getChat,
 } from "@/app/_lib/db";
 import { store } from "@/app/_utils/store";
@@ -63,7 +63,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
     await deleteChat({ id: chat.id! });
-    await getAllMessagesByChat({ chatId: chat.id! });
+    await clearMessagesByChat({ chatId: chat.id! });
     const allChats = await getAllChats();
 
     if (selectedChat?.id === chat.id) {
