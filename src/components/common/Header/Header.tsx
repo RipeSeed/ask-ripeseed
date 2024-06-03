@@ -151,7 +151,7 @@ const ConfigDialogue = () => {
         </div>
         <DialogFooter className="w-full flex-col !justify-between space-y-1">
           <div className="justify-start">
-            <p className="text-sm text-gray-500">
+            <div className="text-sm text-gray-500">
               <div>Don&apos;t have an OpenAI key? </div>
               <Link
                 href={`https://platform.openai.com/api-keys`}
@@ -160,7 +160,7 @@ const ConfigDialogue = () => {
               >
                 Generate one here <ExternalLink className="h-4 w-4" />
               </Link>
-            </p>
+            </div>
           </div>
           <div className="flex flex-col gap-1 sm:flex-row sm:justify-end">
             <DialogClose asChild>
