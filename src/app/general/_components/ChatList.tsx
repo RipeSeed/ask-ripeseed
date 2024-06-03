@@ -10,10 +10,20 @@ import {
 } from "@/app/_lib/db";
 import { store } from "@/app/_utils/store";
 import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { MessagesSquare, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const ChatList = () => {
   const { useSnapshot, set } = store;
@@ -54,6 +64,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
   const { useSnapshot, set } = store;
   const { selectedChat } = useSnapshot();
   const variant = selectedChat?.id === chat.id ? true : false;
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   const handleSelectedChatChange = (chat: Chat) => {
     set("selectedChat", chat);
@@ -62,6 +73,9 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
+  };
+
+  const onDelete = async () => {
     await deleteChat({ id: chat.id! });
     await clearMessagesByChat({ chatId: chat.id! });
     const allChats = await getAllChats();
@@ -78,6 +92,8 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
       }
     }
     set("chats", allChats);
+
+    closeRef.current?.click();
   };
 
   return (
@@ -96,9 +112,40 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
             <MessagesSquare className="h-4 w-4" />
             <span>{new Date(chat.updatedAt).toDateString()}</span>
           </div>
-          <div className="flex justify-end" onClick={handleDelete}>
-            <Trash2 className="h-4 w-4" />
-          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <div className="flex justify-end" onClick={handleDelete}>
+                <Trash2 className="h-4 w-4" />
+              </div>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Delete Chat</DialogTitle>
+                <DialogDescription>
+                  Are you sure want to delete this chat? This action cannot be
+                  undone.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose>
+                  <Button
+                    variant="outline"
+                    className="rounded-full"
+                    ref={closeRef}
+                  >
+                    Cancel
+                  </Button>
+                </DialogClose>
+                <Button
+                  type="submit"
+                  className="rounded-full"
+                  onClick={onDelete}
+                >
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </Button>
     </>
