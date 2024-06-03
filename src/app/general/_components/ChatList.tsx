@@ -1,10 +1,17 @@
 "use client";
 
-import { addChat, Chat, getAllChats } from "@/app/_lib/db";
+import {
+  addChat,
+  Chat,
+  deleteChat,
+  getAllChats,
+  getAllMessagesByChat,
+  getChat,
+} from "@/app/_lib/db";
 import { store } from "@/app/_utils/store";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { MessagesSquare, Plus } from "lucide-react";
+import { Delete, MessagesSquare, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -53,19 +60,45 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
     router.push(`/general/${chat.id}`);
   };
 
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    await deleteChat({ id: chat.id! });
+    await getAllMessagesByChat({ chatId: chat.id! });
+    const allChats = await getAllChats();
+
+    if (selectedChat?.id === chat.id) {
+      if (allChats[0]) {
+        set("selectedChat", allChats[0]);
+        router.push(`/general/${allChats[0].id}`);
+      }
+      if (allChats.length === 0) {
+        const newChatId = await addChat({ name: "Chat" });
+        set("selectedChat", await getChat({ id: newChatId }));
+        router.push(`/general/${newChatId}`);
+      }
+    }
+    set("chats", allChats);
+  };
+
   return (
     <>
       <Button
         className={cn(
           buttonVariants({ variant: "default", size: "lg" }),
-          `shrink bg-[#FBFBFB] transition-all text-gray-500 hover:bg-[#ECECEC] shadow-none  ${
+          `shrink bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#ECECEC] ${
             variant && "bg-[#ECECEC] text-primary"
           }`,
         )}
-        onClick={() => handleSelectedChatChange(chat)}>
-        <div className="flex justify-start gap-4">
-          <MessagesSquare className="h-4 w-4" />
-          <span>{new Date(chat.updatedAt).toDateString()}</span>
+        onClick={() => handleSelectedChatChange(chat)}
+      >
+        <div className="flex w-full flex-row justify-between">
+          <div className="flex justify-start gap-4 truncate">
+            <MessagesSquare className="h-4 w-4" />
+            <span>{new Date(chat.updatedAt).toDateString()}</span>
+          </div>
+          <div className="flex justify-end" onClick={handleDelete}>
+            <Delete className="h-4 w-4" />
+          </div>
         </div>
       </Button>
     </>
@@ -74,8 +107,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
 
 const CreateNewChat = () => {
   const router = useRouter();
-  const { useSnapshot, set } = store;
-  const { chats } = useSnapshot();
+  const { set } = store;
 
   const handleCreateNewChat = async () => {
     const newChatId = await addChat({ name: "Chat" });
@@ -103,9 +135,10 @@ const CreateNewChat = () => {
     <Button
       className={cn(
         buttonVariants({ variant: "default", size: "lg" }),
-        `shrink bg-[#FBFBFB] transition-all text-gray-500 hover:bg-[#ECECEC] shadow-none border`,
+        `shrink border bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#ECECEC]`,
       )}
-      onClick={handleCreateNewChat}>
+      onClick={handleCreateNewChat}
+    >
       <div className="flex justify-start gap-4">
         <Plus className="h-4 w-4" />
         <span>New Chat</span>
