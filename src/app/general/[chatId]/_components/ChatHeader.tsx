@@ -33,7 +33,10 @@ export function ChatHeader() {
       name: title,
     });
     const updated = await getAllChats();
-    set("chats", updated);
+    const sorted = updated.sort((a, b) => {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    });
+    set("chats", sorted);
 
     const updatedChat = await getChat({ id });
     set("selectedChat", updatedChat);
