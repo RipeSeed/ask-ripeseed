@@ -12,8 +12,10 @@ export function ChatHeader() {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditClick = () => {
-    setTitle(selectedChat?.name ?? "");
-    setIsEditing((prev) => !prev);
+    if (selectedChat?.id) {
+      setTitle(selectedChat.name);
+      setIsEditing((prev) => !prev);
+    }
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -72,7 +74,7 @@ export function ChatHeader() {
             className="flex cursor-pointer items-center justify-center"
             onClick={handleEditClick}
           >
-            {!isEditing && (
+            {!isEditing && selectedChat?.name && (
               <Edit
                 className="font-medium text-muted-foreground"
                 style={{

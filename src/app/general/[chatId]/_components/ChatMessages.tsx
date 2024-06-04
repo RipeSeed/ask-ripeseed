@@ -3,10 +3,18 @@
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-import { addMessage, getAllMessagesByChat, Message } from "@/app/_lib/db";
+import {
+  addChat,
+  addMessage,
+  getAllChats,
+  getAllMessagesByChat,
+  getChat,
+  Message,
+} from "@/app/_lib/db";
+import { store } from "@/app/_utils/store";
 import { sendMessage as ApiSendMessage } from "@/dal/message";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ChatMessageInput } from "./ChatMessageInput";
 import { MessageContainer } from "./MessageContainer";
@@ -14,9 +22,14 @@ import { WelcomeCards } from "./WelcomeCards";
 
 export function ChatMessages() {
   const pathname = usePathname();
-  const selectedChatId = Number(pathname.split("/")[2]);
+  const selectedChatId = isNaN(Number(pathname.split("/")[2]))
+    ? 0
+    : Number(pathname.split("/")[2]);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const router = useRouter();
+  const { set, useSnapshot } = store;
+  const { blankMsg } = useSnapshot();
 
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: ApiSendMessage,
@@ -50,6 +63,16 @@ export function ChatMessages() {
   });
 
   useEffect(() => {
+    if (blankMsg.chatId === selectedChatId && blankMsg.message.length) {
+      sendMessage(blankMsg.message);
+      set("blankMsg", {
+        chatId: 0,
+        message: "",
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     if (messages.length) {
       scrollToBottom();
     }
@@ -71,6 +94,22 @@ export function ChatMessages() {
   };
 
   const sendMessage = async (newMessage: string) => {
+    if (!newMessage.trim()) {
+      return false;
+    }
+    if (!selectedChatId || isNaN(selectedChatId)) {
+      // create a new chat , redirect user to that chat and also send this messge agaist that chat
+      const _newChatId = await addChat({});
+      set("selectedChat", await getChat({ id: _newChatId }));
+      set("chats", await getAllChats());
+      set("blankMsg", {
+        chatId: _newChatId,
+        message: newMessage,
+      });
+      router.push(`/general/${_newChatId}`);
+      return true;
+    }
+
     const tmpMessage: Message = {
       content: newMessage,
       role: "user",
@@ -109,7 +148,8 @@ export function ChatMessages() {
     <div className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
       <div
         ref={messagesContainerRef}
-        className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
+        className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden"
+      >
         <AnimatePresence>
           {!messages.length ? (
             <WelcomeCards sendMessage={sendMessage} />

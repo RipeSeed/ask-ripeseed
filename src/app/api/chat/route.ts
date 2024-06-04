@@ -1,4 +1,5 @@
-import { Message } from "@/app/_components/chat/types";
+// import { Message } from "@/app/_components/chat/types";
+import { Message } from "@/app/_lib/db";
 import OpenAI from "openai";
 
 export async function POST(request: Request) {
@@ -17,8 +18,10 @@ export async function POST(request: Request) {
   const response = gptResponse.choices[0]?.message.content ?? null;
 
   const resObject: Message = {
-    content: response,
-    createdAt: new Date(),
+    content: response ?? "Sorry, I don't understand that.",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    chatId: 0,
     role: "system",
   };
 
