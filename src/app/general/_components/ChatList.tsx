@@ -6,7 +6,6 @@ import {
   clearMessagesByChat,
   deleteChat,
   getAllChats,
-  getChat,
 } from "@/app/_lib/db";
 import { store } from "@/app/_utils/store";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -79,19 +78,28 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
     await deleteChat({ id: chat.id! });
     await clearMessagesByChat({ chatId: chat.id! });
     const allChats = await getAllChats();
+    const len = allChats.length;
 
     if (selectedChat?.id === chat.id) {
       if (allChats[0]) {
-        set("selectedChat", allChats[0]);
-        router.push(`/general/${allChats[0].id}`);
+        set("selectedChat", allChats[len - 1]);
+        router.push(`/general/${allChats[len - 1].id}`);
+      } else {
+        set("selectedChat", undefined);
+        router.push(`/general`);
       }
-      if (allChats.length === 0) {
-        const newChatId = await addChat({});
-        set("selectedChat", await getChat({ id: newChatId }));
-        router.push(`/general/${newChatId}`);
-      }
+    } else {
+      set("selectedChat", allChats[0]);
+      router.push(`/general/${allChats[0].id}`);
     }
-    set("chats", allChats);
+    set(
+      "chats",
+      allChats.sort((a, b) => {
+        return (
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        );
+      }),
+    );
 
     closeRef.current?.click();
   };
@@ -127,7 +135,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <DialogClose>
+                <DialogClose asChild>
                   <Button
                     variant="outline"
                     className="rounded-full"
