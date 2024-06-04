@@ -89,8 +89,8 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
         router.push(`/general`);
       }
     } else {
-      set("selectedChat", allChats[0]);
-      router.push(`/general/${allChats[0].id}`);
+      set("selectedChat", allChats[len - 1]);
+      router.push(`/general/${allChats[len - 1].id}`);
     }
     set(
       "chats",
