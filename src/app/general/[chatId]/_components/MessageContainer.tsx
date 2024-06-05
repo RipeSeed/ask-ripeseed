@@ -6,9 +6,13 @@ import { cn } from "@/lib/utils";
 
 interface MessageContainerProps {
   message: Message;
+  isPending?: boolean;
 }
 
-export const MessageContainer = ({ message }: MessageContainerProps) => {
+export const MessageContainer = ({
+  message,
+  isPending,
+}: MessageContainerProps) => {
   return (
     <motion.div
       layout
@@ -45,7 +49,7 @@ export const MessageContainer = ({ message }: MessageContainerProps) => {
           </div>
         )}
         <span className="max-w-[250px] overflow-x-auto rounded-md bg-accent p-3 sm:max-w-sm md:max-w-md">
-          {message.content === "83d6374579544e41fbe9c66f9678841e" ? (
+          {isPending ? (
             <div className="flex items-center justify-center space-x-2">
               <span className="sr-only">Thinking ...</span>
               <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.3s]"></div>
