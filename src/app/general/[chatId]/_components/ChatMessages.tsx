@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   addChat,
@@ -12,34 +12,36 @@ import {
   Message,
 } from "@/app/_lib/db";
 import { store } from "@/app/_utils/store";
-import { sendMessage as ApiSendMessage } from "@/dal/message";
+import { sendMessage as apiSendMessage } from "@/dal/message";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
+
 import { ChatMessageInput } from "./ChatMessageInput";
 import { MessageContainer } from "./MessageContainer";
 import { WelcomeCards } from "./WelcomeCards";
 
 export function ChatMessages() {
   const pathname = usePathname();
-  const selectedChatId = isNaN(Number(pathname.split("/")[2]))
-    ? 0
-    : Number(pathname.split("/")[2]);
+  const selectedChatId = useMemo(() => {
+    const id = Number(pathname.split("/")[2]);
+    return isNaN(id) ? 0 : id;
+  }, [pathname]);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const router = useRouter();
   const { set, useSnapshot } = store;
-  const { blankMsg } = useSnapshot();
+  const { stateMsg } = useSnapshot();
 
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
-    mutationFn: ApiSendMessage,
+    mutationFn: apiSendMessage,
     onSuccess: (res) => {
       addMessage({
         chatId: selectedChatId,
         content: res.content,
         role: "system",
       });
-      setMessages([...messages, res]);
+      setMessages((prev) => [...prev, res]);
       setTimeout(() => {
         scrollToBottom();
       }, 0);
@@ -63,13 +65,18 @@ export function ChatMessages() {
   });
 
   useEffect(() => {
-    if (blankMsg.chatId === selectedChatId && blankMsg.message.length) {
-      sendMessage(blankMsg.message);
-      set("blankMsg", {
-        chatId: 0,
-        message: "",
-      });
-    }
+    const sendStateMessage = async () => {
+      if (stateMsg.chatId === selectedChatId && stateMsg.message.length) {
+        await sendMessage(stateMsg.message);
+        set("stateMsg", {
+          chatId: 0,
+          message: "",
+        });
+      }
+    };
+
+    void sendStateMessage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -79,22 +86,22 @@ export function ChatMessages() {
   }, [messages]);
 
   useEffect(() => {
-    setMessages(messagesRes ?? []);
+    if (messagesRes?.length) {
+      setMessages(messagesRes);
+    }
   }, [messagesRes]);
 
   const scrollToBottom = () => {
-    if (messagesContainerRef.current) {
-      setTimeout(() => {
-        if (messagesContainerRef.current) {
-          messagesContainerRef.current.scrollTop =
-            messagesContainerRef.current.scrollHeight;
-        }
-      }, 0);
-    }
+    setTimeout(() => {
+      if (messagesContainerRef.current) {
+        messagesContainerRef.current.scrollTop =
+          messagesContainerRef.current.scrollHeight;
+      }
+    }, 0);
   };
 
   const sendMessage = async (newMessage: string) => {
-    if (!newMessage.trim()) {
+    if (!newMessage.trim() || isPending) {
       return false;
     }
     if (!selectedChatId || isNaN(selectedChatId)) {
@@ -102,7 +109,7 @@ export function ChatMessages() {
       const _newChatId = await addChat({});
       set("selectedChat", await getChat({ id: _newChatId }));
       set("chats", await getAllChats());
-      set("blankMsg", {
+      set("stateMsg", {
         chatId: _newChatId,
         message: newMessage,
       });
@@ -125,7 +132,7 @@ export function ChatMessages() {
       return false;
     }
 
-    setMessages([...messages, tmpMessage]);
+    setMessages((prev) => [...prev, tmpMessage]);
     scrollToBottom();
 
     addMessage({
@@ -160,8 +167,9 @@ export function ChatMessages() {
               ))}
               {isPending && (
                 <MessageContainer
+                  isPending={true}
                   message={{
-                    content: "83d6374579544e41fbe9c66f9678841e",
+                    content: "",
                     role: "system",
                     chatId: selectedChatId,
                     createdAt: new Date().toString(),

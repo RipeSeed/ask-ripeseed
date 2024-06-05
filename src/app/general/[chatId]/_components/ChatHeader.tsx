@@ -28,7 +28,11 @@ export function ChatHeader() {
 
   const onSave = async () => {
     const id = selectedChat?.id;
-    if (!title.length || !id) return;
+    if (!title.length || !id) {
+      setIsEditing(false);
+      setTitle("");
+      return;
+    };
 
     await updateChat({
       id,
@@ -48,7 +52,7 @@ export function ChatHeader() {
   };
 
   return (
-    <div className="h-15 flex w-full items-center justify-between border-b bg-muted/40 p-4">
+    <div className="h-14 flex w-full items-center justify-between border-b bg-muted/40 p-4">
       <div className="flex items-center gap-2">
         <div className="flex flex-row gap-2">
           <div className="block md:hidden">
@@ -59,6 +63,7 @@ export function ChatHeader() {
               <Input
                 className="text-sm font-medium"
                 placeholder="title ..."
+                ref={(input) => input?.focus()}
                 value={title}
                 onKeyDown={handleKeyPress}
                 onBlur={onSave}

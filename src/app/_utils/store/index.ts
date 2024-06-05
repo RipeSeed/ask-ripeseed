@@ -7,7 +7,7 @@ export const initialState: {
   isConfigOpen: boolean;
   openAIKey: string;
 
-  blankMsg: {
+  stateMsg: {
     chatId: number;
     message: string;
   };
@@ -17,7 +17,7 @@ export const initialState: {
   isConfigOpen: false,
   openAIKey: "",
 
-  blankMsg: {
+  stateMsg: {
     chatId: 0,
     message: "",
   },
