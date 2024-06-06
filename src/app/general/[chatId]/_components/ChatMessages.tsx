@@ -19,7 +19,15 @@ import { toast } from "sonner";
 
 import { ChatMessageInput } from "./ChatMessageInput";
 import { MessageContainer } from "./MessageContainer";
-import { WelcomeCards } from "./WelcomeCards";
+import { Cardset, WelcomeCards } from "./WelcomeCards";
+
+
+const cards: Cardset = {
+  top: "What are Ḥasan Ibn al-Haytham's contributions?",
+  bottomLeft: "Tell me a fun fact.",
+  bottomRight: "Explain Algebra.",
+};
+
 
 export function ChatMessages() {
   const pathname = usePathname();
@@ -159,7 +167,7 @@ export function ChatMessages() {
       >
         <AnimatePresence>
           {!messages.length ? (
-            <WelcomeCards sendMessage={sendMessage} />
+            <WelcomeCards sendMessage={sendMessage} cards={cards} />
           ) : (
             <>
               {messages.map((message, i) => (

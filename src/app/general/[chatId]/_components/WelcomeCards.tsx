@@ -4,30 +4,21 @@ import { Card } from "@/components/ui/card";
 import { BookOpenCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const cards = [
-  {
-    content: "What are Ḥasan Ibn al-Haytham's contributions?",
-  },
-  {
-    content: "Tell me a fun fact.",
-  },
-  {
-    content: "Explain Algebra.",
-  },
-];
+export interface Cardset {
+  top: string;
+  bottomLeft: string;
+  bottomRight: string;
+}
 
 interface Props {
   sendMessage: (newMessage: string) => Promise<boolean>;
+  cards: Cardset
 }
 
-export const WelcomeCards = ({ sendMessage }: Props) => {
+export const WelcomeCards = ({ sendMessage, cards }: Props) => {
   const { set, useSnapshot } = store;
   const { openAIKey } = useSnapshot();
   const [key, setKey] = useState<string>("");
-  const handleSendMessage = (i: number) => {
-    const userPrompt = cards[i].content;
-    sendMessage(userPrompt);
-  };
 
   useEffect(() => {
     set("openAIKey", localStorage.getItem("openai:key") ?? "");
@@ -42,22 +33,22 @@ export const WelcomeCards = ({ sendMessage }: Props) => {
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <Card
             className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
-            onClick={() => handleSendMessage(0)}
+            onClick={() => sendMessage(cards.top)}
           >
-            {cards[0].content}
+            {cards.top}
           </Card>
           <div className="flex w-full flex-row gap-2">
             <Card
               className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
-              onClick={() => handleSendMessage(1)}
+              onClick={() => sendMessage(cards.bottomLeft)}
             >
-              {cards[1].content}
+              {cards.bottomLeft}
             </Card>
             <Card
               className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
-              onClick={() => handleSendMessage(2)}
+              onClick={() => sendMessage(cards.bottomRight)}
             >
-              {cards[2].content}
+              {cards.bottomRight}
             </Card>
           </div>
         </div>
