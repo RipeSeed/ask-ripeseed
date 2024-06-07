@@ -1,21 +1,21 @@
-import OpenAI from "openai";
-import { converse } from "@/services/chat/conversation";
 import { Message } from "@/app/_lib/db";
+import { converse } from "@/services/chat/conversation";
+import OpenAI from "openai";
 
 export async function POST(request: Request) {
-  const { apiKey, messages, chatId } = await request.json();
+  // indexId is the id of the document index
+  const { apiKey, messages, indexId } = await request.json();
   const openai = new OpenAI({
     apiKey,
   });
 
-
-  if (chatId?.length) {
+  if (indexId?.length) {
     // Documents chat
     const { result, sourceDocuments } = await converse(
       messages[messages.length - 1].content,
       messages,
-      [chatId],
-      apiKey
+      [indexId],
+      apiKey,
     );
     const resObject: Message = {
       content: result,
@@ -26,7 +26,6 @@ export async function POST(request: Request) {
     };
     return Response.json({ data: resObject, sourceDocuments });
   }
-
 
   // Generic chat
   const gptResponse = await openai.chat.completions.create({

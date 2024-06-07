@@ -3,11 +3,13 @@ import { Message } from "@/app/_lib/db";
 type APIRequest = {
   message: Message;
   apiKey?: string | undefined;
+  indexId?: string | null;
 };
 
 export const sendMessage = async ({
   message,
   apiKey = "",
+  indexId = null,
 }: APIRequest): Promise<Message> => {
   try {
     if (!apiKey?.length || !message.content?.length) {
@@ -18,6 +20,7 @@ export const sendMessage = async ({
 
     const raw = JSON.stringify({
       apiKey,
+      indexId,
       messages: [
         {
           role: "user",
