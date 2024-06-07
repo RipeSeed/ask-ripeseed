@@ -2,12 +2,12 @@ import { Message } from "@/app/_lib/db";
 
 type APIRequest = {
   message: Message;
-  apiKey?: string | undefined;
-  indexId?: string | null;
+  uId: string;
 };
 
 export const askRS_sendMessage = async ({
   message,
+  uId,
 }: APIRequest): Promise<Message> => {
   try {
     if (!message.content?.length) {
@@ -17,6 +17,7 @@ export const askRS_sendMessage = async ({
     headers.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
+      uId,
       messages: [
         {
           role: "user",
