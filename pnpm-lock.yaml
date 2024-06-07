@@ -10,16 +10,16 @@ importers:
     dependencies:
       '@langchain/community':
         specifier: ^0.2.4
-        version: 0.2.9(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(lodash@4.17.21)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
+        version: 0.2.9(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(lodash@4.17.21)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
       '@langchain/core':
         specifier: ^0.2.6
-        version: 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+        version: 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       '@langchain/openai':
         specifier: ^0.0.34
-        version: 0.0.34(encoding@0.1.13)(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))
+        version: 0.0.34(encoding@0.1.13)(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))
       '@langchain/pinecone':
         specifier: ^0.0.7
-        version: 0.0.7(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+        version: 0.0.7(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       '@paralleldrive/cuid2':
         specifier: ^2.2.2
         version: 2.2.2
@@ -73,7 +73,7 @@ importers:
         version: 11.2.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       langchain:
         specifier: ^0.2.3
-        version: 0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
+        version: 0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -83,6 +83,9 @@ importers:
       lucide-react:
         specifier: ^0.379.0
         version: 0.379.0(react@18.3.1)
+      mongoose:
+        specifier: ^8.4.1
+        version: 8.4.1
       next:
         specifier: 14.2.3
         version: 14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -610,6 +613,9 @@ packages:
     resolution: {integrity: sha512-cXWgKE3sdWLSqAa8ykbCcUsUF1Kyr5J3HOWYGuobhPEycXW4WI++d5DhzdpL238mzoEXTi90VqfSCra37l5YqA==}
     engines: {node: '>=18'}
 
+  '@mongodb-js/saslprep@1.1.7':
+    resolution: {integrity: sha512-dCHW/oEX0KJ4NjDULBo3JiOaK5+6axtpBbS+ao2ZInoAL9/YRQLhXzSNAFz7hP4nzLkIqsfYAK/PDE3+XHny0Q==}
+
   '@next/env@14.2.3':
     resolution: {integrity: sha512-W7fd7IbkfmeeY2gXrzJYDx8D2lWKbVoTIj1o1ScPHNzvp30s1AuoEFSdr39bC5sjxJaxTtq3OTCZboNp0lNWHA==}
 
@@ -1113,6 +1119,12 @@ packages:
   '@types/uuid@9.0.8':
     resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
 
+  '@types/webidl-conversions@7.0.3':
+    resolution: {integrity: sha512-CiJJvcRtIgzadHCYXw7dqEnMNRjhGZlYK05Mj9OyktqV8uVT8fD2BFOB7S1uwBE3Kj2Z+4UyPmFw/Ixgw/LAlA==}
+
+  '@types/whatwg-url@11.0.5':
+    resolution: {integrity: sha512-coYR071JRaHa+xoEvvYqvnIHaVqaYrLPbsufM9BF63HkwI5Lgmy2QR8Q5K/lYDYo5AK82wOvSOS0UsLTpTG7uQ==}
+
   '@typescript-eslint/parser@7.2.0':
     resolution: {integrity: sha512-5FKsVcHTk6TafQKQbuIVkXq58Fnbkd2wDL4LB7AURN7RUOu1utVP+G8+6u3ZhEroW3DF6hyo3ZEXxgKgp4KeCg==}
     engines: {node: ^16.0.0 || >=18.0.0}
@@ -1315,6 +1327,10 @@ packages:
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
+
+  bson@6.7.0:
+    resolution: {integrity: sha512-w2IquM5mYzYZv6rs3uN2DZTOBe2a0zXLj53TGDqwF4l6Sz/XsISrisXOJihArF9+BZ6Cq/GjVht7Sjfmri7ytQ==}
+    engines: {node: '>=16.20.1'}
 
   busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
@@ -2016,6 +2032,10 @@ packages:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
 
+  kareem@2.6.3:
+    resolution: {integrity: sha512-C3iHfuGUXK2u8/ipq9LfjFfXFxAZMQJJq7vLS45r3D9Y2xQ/m4S8zaR4zMLFWh9AsNPXmcFfUDhTEO8UIC/V6Q==}
+    engines: {node: '>=12.0.0'}
+
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
@@ -2396,6 +2416,9 @@ packages:
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
 
+  memory-pager@1.5.0:
+    resolution: {integrity: sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==}
+
   merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -2444,6 +2467,48 @@ packages:
 
   ml-tree-similarity@1.0.0:
     resolution: {integrity: sha512-XJUyYqjSuUQkNQHMscr6tcjldsOoAekxADTplt40QKfwW6nd++1wHWV9AArl0Zvw/TIHgNaZZNvr8QGvE8wLRg==}
+
+  mongodb-connection-string-url@3.0.1:
+    resolution: {integrity: sha512-XqMGwRX0Lgn05TDB4PyG2h2kKO/FfWJyCzYQbIhXUxz7ETt0I/FqHjUeqj37irJ+Dl1ZtU82uYyj14u2XsZKfg==}
+
+  mongodb@6.6.2:
+    resolution: {integrity: sha512-ZF9Ugo2JCG/GfR7DEb4ypfyJJyiKbg5qBYKRintebj8+DNS33CyGMkWbrS9lara+u+h+yEOGSRiLhFO/g1s1aw==}
+    engines: {node: '>=16.20.1'}
+    peerDependencies:
+      '@aws-sdk/credential-providers': ^3.188.0
+      '@mongodb-js/zstd': ^1.1.0
+      gcp-metadata: ^5.2.0
+      kerberos: ^2.0.1
+      mongodb-client-encryption: '>=6.0.0 <7'
+      snappy: ^7.2.2
+      socks: ^2.7.1
+    peerDependenciesMeta:
+      '@aws-sdk/credential-providers':
+        optional: true
+      '@mongodb-js/zstd':
+        optional: true
+      gcp-metadata:
+        optional: true
+      kerberos:
+        optional: true
+      mongodb-client-encryption:
+        optional: true
+      snappy:
+        optional: true
+      socks:
+        optional: true
+
+  mongoose@8.4.1:
+    resolution: {integrity: sha512-odQ2WEWGL3hb0Qex+QMN4eH6D34WdMEw7F1If2MGABApSDmG9cMmqv/G1H6WsXmuaH9mkuuadW/WbLE5+tHJwA==}
+    engines: {node: '>=16.20.1'}
+
+  mpath@0.9.0:
+    resolution: {integrity: sha512-ikJRQTk8hw5DEoFVxHG1Gn9T/xcjtdnOKIU1JTmGjZZlg9LST2mBLmcX3/ICIbgJydT2GOc15RnNy5mHmzfSew==}
+    engines: {node: '>=4.0.0'}
+
+  mquery@5.0.0:
+    resolution: {integrity: sha512-iQMncpmEK8R8ncT8HJGsGc9Dsp8xcgYMVSbs5jgnm1lFHTZqMJTUWTDx1LBO8+mK3tPNZWFLBghQEIOULSTHZg==}
+    engines: {node: '>=14.0.0'}
 
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
@@ -2892,6 +2957,9 @@ packages:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
     engines: {node: '>= 0.4'}
 
+  sift@17.1.3:
+    resolution: {integrity: sha512-Rtlj66/b0ICeFzYTuNvX/EF1igRbbnGSvEyT79McoZa/DeGhMyC5pWKOEsZKnpkqtSeovd5FL/bjHWC3CIIvCQ==}
+
   signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
@@ -2909,6 +2977,9 @@ packages:
   source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
     engines: {node: '>=0.10.0'}
+
+  sparse-bitfield@3.0.3:
+    resolution: {integrity: sha512-kvzhi7vqKTfkh0PZU+2D2PIllw2ymqJKujUcyPMd9Y75Nv4nPbGJZXNhxsgdQab2BmlDct1YnfQCguEvHr7VsQ==}
 
   streamsearch@1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
@@ -3012,6 +3083,10 @@ packages:
 
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+
+  tr46@4.1.1:
+    resolution: {integrity: sha512-2lv/66T7e5yNyhAAC4NaKe5nVavzuGJQVVtRYLyQ2OI8tsJ61PMLlelehb0wi2Hx6+hT/OJUWZcw8MjlSRnxvw==}
+    engines: {node: '>=14'}
 
   ts-api-utils@1.3.0:
     resolution: {integrity: sha512-UQMIo7pb8WRomKR1/+MFVLTroIvDVtMX3K6OUir8ynLyzB8Jeriont2bTAtmNPa1ekAgN7YPDyf6V+ygrdU+eQ==}
@@ -3120,6 +3195,14 @@ packages:
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+
+  webidl-conversions@7.0.0:
+    resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
+    engines: {node: '>=12'}
+
+  whatwg-url@13.0.0:
+    resolution: {integrity: sha512-9WWbymnqj57+XEuqADHrCJ2eSXzn8WXIW/YSGaZtb2WKAInQ6CHfaUUcTyyver0p8BDg5StLQq8h1vtZuwmOig==}
+    engines: {node: '>=16'}
 
   whatwg-url@5.0.0:
     resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
@@ -3262,16 +3345,16 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@langchain/community@0.2.9(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(lodash@4.17.21)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)':
+  '@langchain/community@0.2.9(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(lodash@4.17.21)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)':
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
-      '@langchain/openai': 0.1.2(encoding@0.1.13)(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))
+      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/openai': 0.1.2(encoding@0.1.13)(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
-      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      langchain: 0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
+      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       uuid: 9.0.1
       zod: 3.23.8
       zod-to-json-schema: 3.23.0(zod@3.23.8)
@@ -3279,6 +3362,7 @@ snapshots:
       '@pinecone-database/pinecone': 2.2.2
       ignore: 5.3.1
       lodash: 4.17.21
+      mongodb: 6.6.2
       pdf-parse: 1.1.1
     transitivePeerDependencies:
       - '@gomomento/sdk-web'
@@ -3290,13 +3374,13 @@ snapshots:
       - peggy
       - pyodide
 
-  '@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
+  '@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
@@ -3308,13 +3392,13 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/core@0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
+  '@langchain/core@0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
@@ -3326,9 +3410,9 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/openai@0.0.34(encoding@0.1.13)(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))':
+  '@langchain/openai@0.0.34(encoding@0.1.13)(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))':
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       js-tiktoken: 1.0.12
       openai: 4.47.1(encoding@0.1.13)
       zod: 3.23.8
@@ -3337,9 +3421,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/openai@0.0.34(encoding@0.1.13)(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))':
+  '@langchain/openai@0.0.34(encoding@0.1.13)(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))':
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       js-tiktoken: 1.0.12
       openai: 4.47.1(encoding@0.1.13)
       zod: 3.23.8
@@ -3348,9 +3432,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/openai@0.1.2(encoding@0.1.13)(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))':
+  '@langchain/openai@0.1.2(encoding@0.1.13)(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))':
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       js-tiktoken: 1.0.12
       openai: 4.47.1(encoding@0.1.13)
       zod: 3.23.8
@@ -3359,9 +3443,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/openai@0.1.2(encoding@0.1.13)(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))':
+  '@langchain/openai@0.1.2(encoding@0.1.13)(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))':
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       js-tiktoken: 1.0.12
       openai: 4.47.1(encoding@0.1.13)
       zod: 3.23.8
@@ -3370,9 +3454,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/pinecone@0.0.7(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
+  '@langchain/pinecone@0.0.7(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       '@pinecone-database/pinecone': 2.2.2
       flat: 5.0.2
       uuid: 9.0.1
@@ -3380,21 +3464,25 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
       - openai
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))':
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
       - openai
+
+  '@mongodb-js/saslprep@1.1.7':
+    dependencies:
+      sparse-bitfield: 3.0.3
 
   '@next/env@14.2.3': {}
 
@@ -3893,6 +3981,12 @@ snapshots:
 
   '@types/uuid@9.0.8': {}
 
+  '@types/webidl-conversions@7.0.3': {}
+
+  '@types/whatwg-url@11.0.5':
+    dependencies:
+      '@types/webidl-conversions': 7.0.3
+
   '@typescript-eslint/parser@7.2.0(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
       '@typescript-eslint/scope-manager': 7.2.0
@@ -4143,6 +4237,8 @@ snapshots:
   braces@3.0.3:
     dependencies:
       fill-range: 7.1.1
+
+  bson@6.7.0: {}
 
   busboy@1.6.0:
     dependencies:
@@ -4981,21 +5077,23 @@ snapshots:
       object.assign: 4.1.5
       object.values: 1.2.0
 
+  kareem@2.6.3: {}
+
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
 
-  langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1):
+  langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1):
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
-      '@langchain/openai': 0.0.34(encoding@0.1.13)(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/openai': 0.0.34(encoding@0.1.13)(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.11
-      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
@@ -5006,22 +5104,23 @@ snapshots:
     optionalDependencies:
       '@pinecone-database/pinecone': 2.2.2
       ignore: 5.3.1
+      mongodb: 6.6.2
       pdf-parse: 1.1.1
     transitivePeerDependencies:
       - encoding
       - openai
 
-  langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1):
+  langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1):
     dependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
-      '@langchain/openai': 0.1.2(encoding@0.1.13)(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      '@langchain/openai': 0.1.2(encoding@0.1.13)(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.11
-      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      langsmith: 0.1.30(@langchain/core@0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
@@ -5032,6 +5131,7 @@ snapshots:
     optionalDependencies:
       '@pinecone-database/pinecone': 2.2.2
       ignore: 5.3.1
+      mongodb: 6.6.2
       pdf-parse: 1.1.1
     transitivePeerDependencies:
       - encoding
@@ -5039,7 +5139,7 @@ snapshots:
 
   langchainhub@0.0.11: {}
 
-  langsmith@0.1.30(@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)):
+  langsmith@0.1.30(@langchain/core@0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -5047,11 +5147,11 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
-      langchain: 0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
+      '@langchain/core': 0.2.6(langchain@0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      langchain: 0.2.3(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
       openai: 4.47.1(encoding@0.1.13)
 
-  langsmith@0.1.30(@langchain/core@0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)):
+  langsmith@0.1.30(@langchain/core@0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)))(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13)):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -5059,8 +5159,8 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
-      langchain: 0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
+      '@langchain/core': 0.2.6(langchain@0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1))(openai@4.47.1(encoding@0.1.13))
+      langchain: 0.2.5(@pinecone-database/pinecone@2.2.2)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.6.2)(openai@4.47.1(encoding@0.1.13))(pdf-parse@1.1.1)
       openai: 4.47.1(encoding@0.1.13)
 
   language-subtag-registry@0.3.23: {}
@@ -5099,6 +5199,8 @@ snapshots:
   lucide-react@0.379.0(react@18.3.1):
     dependencies:
       react: 18.3.1
+
+  memory-pager@1.5.0: {}
 
   merge2@1.4.1: {}
 
@@ -5149,6 +5251,44 @@ snapshots:
     dependencies:
       binary-search: 1.3.6
       num-sort: 2.1.0
+
+  mongodb-connection-string-url@3.0.1:
+    dependencies:
+      '@types/whatwg-url': 11.0.5
+      whatwg-url: 13.0.0
+
+  mongodb@6.6.2:
+    dependencies:
+      '@mongodb-js/saslprep': 1.1.7
+      bson: 6.7.0
+      mongodb-connection-string-url: 3.0.1
+
+  mongoose@8.4.1:
+    dependencies:
+      bson: 6.7.0
+      kareem: 2.6.3
+      mongodb: 6.6.2
+      mpath: 0.9.0
+      mquery: 5.0.0
+      ms: 2.1.3
+      sift: 17.1.3
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@mongodb-js/zstd'
+      - gcp-metadata
+      - kerberos
+      - mongodb-client-encryption
+      - snappy
+      - socks
+      - supports-color
+
+  mpath@0.9.0: {}
+
+  mquery@5.0.0:
+    dependencies:
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
 
   ms@2.1.2: {}
 
@@ -5551,6 +5691,8 @@ snapshots:
       get-intrinsic: 1.2.4
       object-inspect: 1.13.1
 
+  sift@17.1.3: {}
+
   signal-exit@4.1.0: {}
 
   slash@3.0.0: {}
@@ -5561,6 +5703,10 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
 
   source-map-js@1.2.0: {}
+
+  sparse-bitfield@3.0.3:
+    dependencies:
+      memory-pager: 1.5.0
 
   streamsearch@1.1.0: {}
 
@@ -5696,6 +5842,10 @@ snapshots:
 
   tr46@0.0.3: {}
 
+  tr46@4.1.1:
+    dependencies:
+      punycode: 2.3.1
+
   ts-api-utils@1.3.0(typescript@5.4.5):
     dependencies:
       typescript: 5.4.5
@@ -5801,6 +5951,13 @@ snapshots:
   web-streams-polyfill@4.0.0-beta.3: {}
 
   webidl-conversions@3.0.1: {}
+
+  webidl-conversions@7.0.0: {}
+
+  whatwg-url@13.0.0:
+    dependencies:
+      tr46: 4.1.1
+      webidl-conversions: 7.0.0
 
   whatwg-url@5.0.0:
     dependencies:
