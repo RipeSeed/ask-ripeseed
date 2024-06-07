@@ -63,6 +63,7 @@ const ExternalLinks = () => {
   return (
     <Link
       href={"https://ripeseed.io/our-work"}
+      target="_blank"
       className={cn(
         buttonVariants({
           variant: "default",
