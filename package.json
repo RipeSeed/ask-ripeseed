@@ -34,6 +34,7 @@
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.379.0",
+    "mongoose": "^8.4.1",
     "next": "14.2.3",
     "openai": "^4.47.1",
     "pdf-parse": "^1.1.1",
