@@ -13,11 +13,6 @@ const Message = new Schema(
       required: [true, "role is required"],
       enum: ["user", "system", "assistant"],
     },
-    indexId: {
-      type: String,
-      trim: true,
-      required: [true, "indexId is required"],
-    },
   },
   {
     timestamps: true,
@@ -33,13 +28,31 @@ const askRipeseedChatShema = new Schema(
       unique: true,
     },
     messages: [Message],
+    indexId: {
+      type: String,
+      trim: true,
+      required: [true, "indexId is required"],
+    },
   },
   {
     timestamps: true,
   },
 );
 
-export const AskRipeseedChat = mongoose.model(
-  "AskRipeseedChat",
-  askRipeseedChatShema,
-);
+export const AskRipeseedChat =
+  mongoose.models.AskRipeseedChat ||
+  mongoose.model("AskRipeseedChat", askRipeseedChatShema);
+
+export type Message = {
+  content: string;
+  role: "user" | "system" | "assistant";
+  createdAt?: string;
+  updatedAt?: string;
+};
+export type AskRipeseedChat = {
+  uId: string;
+  messages: Message[];
+  indexId: string;
+  createdAt?: string;
+  updatedAt?: string;
+};

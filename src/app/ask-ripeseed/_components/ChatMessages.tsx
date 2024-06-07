@@ -14,6 +14,7 @@ import {
   Cardset,
   WelcomeCards,
 } from "@/app/general/[chatId]/_components/WelcomeCards";
+import { createId } from "@paralleldrive/cuid2";
 
 const cards: Cardset = {
   top: "What is the speciality of ripeseed?",
@@ -53,10 +54,22 @@ export function ChatMessages() {
     }, 0);
   };
 
+  const getUId = () => {
+    // get uId from local storage, if it does not exist create one
+    let uId = localStorage.getItem("uId");
+    if (!uId) {
+      const _uId = createId();
+      uId = _uId;
+      localStorage.setItem("uId", _uId);
+    }
+    return uId;
+  };
+
   const sendMessage = async (newMessage: string) => {
     if (!newMessage.trim() || isPending) {
       return false;
     }
+    const uId = getUId();
 
     const tmpMessage: Message = {
       content: newMessage,
@@ -71,6 +84,7 @@ export function ChatMessages() {
 
     await sendMessageMutation({
       message: tmpMessage,
+      uId,
     });
     return true;
   };
