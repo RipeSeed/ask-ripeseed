@@ -1,18 +1,21 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { LoaderCircle, SendHorizontal } from "lucide-react";
+import { LoaderCircle, PlusIcon, SendHorizontal } from "lucide-react";
 import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { UploadDocument } from "./UploadDocument";
 
 interface ChatFooterProps {
   sendMessage: (newMessage: string) => Promise<boolean>;
   isReplyPending: boolean;
+  enableFileUpload?: boolean;
 }
 
 export function ChatMessageInput({
   sendMessage,
   isReplyPending: isDisabled,
+  enableFileUpload = false,
 }: ChatFooterProps) {
   const [message, setMessage] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -48,6 +51,7 @@ export function ChatMessageInput({
   return (
     <div className="flex w-full items-center justify-between gap-2 p-2">
       <AnimatePresence initial={false}>
+        {enableFileUpload && <UploadDocumentWrapper />}
         <motion.div
           key="input"
           className="relative w-full"
@@ -79,7 +83,7 @@ export function ChatMessageInput({
         disabled={isDisabled}
         size={`icon`}
         className={
-          "h-9 w-9 shrink-0 dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white rounded-3xl hover:border hover:border-primary"
+          "h-9 w-9 shrink-0 rounded-3xl hover:border hover:border-primary dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
         }
         onClick={handleSendMessage}>
         {isDisabled ? (
@@ -91,3 +95,14 @@ export function ChatMessageInput({
     </div>
   );
 }
+
+const UploadDocumentWrapper = () => {
+  const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
+
+  return (
+    <>
+      <PlusIcon className="mr-2" onClick={() => setIsUploadDocOpen(true)} />
+      <UploadDocument isOpen={isUploadDocOpen} setIsOpen={setIsUploadDocOpen} />
+    </>
+  );
+};
