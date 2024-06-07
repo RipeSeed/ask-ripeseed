@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 import { Message } from "@/app/_lib/db";
-import { sendMessage as apiSendMessage } from "@/dal/message";
+import { askRS_sendMessage as apiSendMessage } from "@/dal/message";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -66,21 +66,11 @@ export function ChatMessages() {
       updatedAt: new Date().toString(),
     };
 
-    const apiKey = localStorage.getItem("openai:key");
-    // TODO: won't need api key in future.
-    if (!apiKey?.length) {
-      toast.info(
-        "Need OpenAI key. You can enter your key from gear icon - top-right",
-      );
-      return false;
-    }
-
     setMessages((prev) => [...prev, tmpMessage]);
     scrollToBottom();
 
     await sendMessageMutation({
       message: tmpMessage,
-      apiKey,
     });
     return true;
   };
