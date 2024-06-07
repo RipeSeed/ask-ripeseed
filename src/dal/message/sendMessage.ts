@@ -32,7 +32,7 @@ export const sendMessage = async ({
       body: raw,
     };
 
-    const response = await fetch(`/api/chat`, requestOptions);
+    const response = await fetch(`/api/chat/send-message`, requestOptions);
     const resObject: { data: Message } = await response.json();
 
     return resObject.data;
