@@ -12,10 +12,15 @@ export interface Cardset {
 
 interface Props {
   sendMessage: (newMessage: string) => Promise<boolean>;
-  cards: Cardset
+  cards: Cardset;
+  hideSetupKey?: boolean;
 }
 
-export const WelcomeCards = ({ sendMessage, cards }: Props) => {
+export const WelcomeCards = ({
+  sendMessage,
+  cards,
+  hideSetupKey = false,
+}: Props) => {
   const { set, useSnapshot } = store;
   const { openAIKey } = useSnapshot();
   const [key, setKey] = useState<string>("");
@@ -29,7 +34,9 @@ export const WelcomeCards = ({ sendMessage, cards }: Props) => {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-4">
       <div className="flex max-w-[500px] flex-col gap-4 md:w-[500px]">
-        {!key.length ? <Note className="w-full cursor-pointer" /> : null}
+        {!hideSetupKey && !key.length ? (
+          <Note className="w-full cursor-pointer" />
+        ) : null}
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <Card
             className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
