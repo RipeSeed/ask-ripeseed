@@ -15,3 +15,5 @@ export interface Message {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface AskRSMessage extends Omit<Message, "chatId" | "id"> {}
