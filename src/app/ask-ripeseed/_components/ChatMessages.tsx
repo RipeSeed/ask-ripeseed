@@ -3,7 +3,7 @@
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-import { Message } from "@/app/_lib/db";
+import { addMessage_aRS, Message } from "@/app/_lib/db";
 import { askRS_sendMessage as apiSendMessage } from "@/dal/message";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -30,6 +30,7 @@ export function ChatMessages() {
     mutationFn: apiSendMessage,
     onSuccess: (res) => {
       setMessages((prev) => [...prev, res]);
+      addMessage_aRS({ content: res.content, role: res.role });
       setTimeout(() => {
         scrollToBottom();
       }, 0);
@@ -80,6 +81,7 @@ export function ChatMessages() {
     };
 
     setMessages((prev) => [...prev, tmpMessage]);
+    addMessage_aRS({ content: tmpMessage.content, role: tmpMessage.role });
     scrollToBottom();
 
     await sendMessageMutation({
