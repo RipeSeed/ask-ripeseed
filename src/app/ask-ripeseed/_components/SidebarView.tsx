@@ -79,7 +79,7 @@ const ExternalLink = ({ href, text }: { href: string; text: string }) => {
           variant: "default",
           size: "lg",
         }),
-        `w-full cursor-pointer border-none bg-[#FBFBFB] text-gray-400 shadow-none transition-all hover:bg-[#FBFBFB] hover:text-primary hover:underline`,
+        `w-full cursor-pointer border-none bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#FBFBFB] hover:text-primary hover:underline`,
       )}
     >
       <div className="flex w-full flex-row justify-center">

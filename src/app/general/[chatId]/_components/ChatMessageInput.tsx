@@ -15,13 +15,11 @@ import { UploadDocument } from "./UploadDocument";
 interface ChatFooterProps {
   sendMessage: (newMessage: string) => Promise<boolean>;
   isReplyPending: boolean;
-  enableFileUpload?: boolean;
 }
 
 export function ChatMessageInput({
   sendMessage,
-  isReplyPending: isDisabled,
-  enableFileUpload = false,
+  isReplyPending: isDisabled
 }: ChatFooterProps) {
   const [message, setMessage] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -59,7 +57,6 @@ export function ChatMessageInput({
   return (
     <div className="flex w-full items-center justify-between gap-2 p-2">
       <AnimatePresence initial={false}>
-        {enableFileUpload && selectedChat?.id && <UploadDocumentWrapper />}
         <motion.div
           key="input"
           className="relative w-full"
@@ -103,24 +100,3 @@ export function ChatMessageInput({
     </div>
   );
 }
-
-const UploadDocumentWrapper = () => {
-  const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
-
-  return (
-    <>
-      <Tooltip delayDuration={0}>
-        <TooltipTrigger>
-          <CloudUpload
-            className="h-6 w-6 cursor-pointer rounded-full border p-1"
-            onClick={() => setIsUploadDocOpen(true)}
-          />
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Uplaod a document</p>
-        </TooltipContent>
-      </Tooltip>
-      <UploadDocument isOpen={isUploadDocOpen} setIsOpen={setIsUploadDocOpen} />
-    </>
-  );
-};
