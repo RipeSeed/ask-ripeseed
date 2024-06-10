@@ -61,20 +61,30 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
 
 const ExternalLinks = () => {
   return (
+    <>
+      <ExternalLink href="https://ripeseed.io/our-work" text="Our Work" />
+      <ExternalLink href="https://ripeseed.io/team" text="Our Team" />
+      <ExternalLink href="https://ripeseed.io/contact-us" text="Contact Us" />
+    </>
+  );
+};
+
+const ExternalLink = ({ href, text }: { href: string; text: string }) => {
+  return (
     <Link
-      href={"https://ripeseed.io/our-work"}
+      href={href}
       target="_blank"
       className={cn(
         buttonVariants({
           variant: "default",
           size: "lg",
         }),
-        `w-full cursor-pointer bg-[#FBFBFB] text-blue-500 transition-all hover:bg-[#FBFBFB] hover:underline hover:shadow-sm`,
+        `w-full cursor-pointer border-none bg-[#FBFBFB] text-gray-400 shadow-none transition-all hover:bg-[#FBFBFB] hover:text-gray-500 hover:underline`,
       )}
     >
       <div className="flex w-full flex-row justify-center">
         <div className="flex justify-center gap-4 truncate">
-          <span>Our Work</span>
+          <span>{text}</span>
         </div>
       </div>
     </Link>
