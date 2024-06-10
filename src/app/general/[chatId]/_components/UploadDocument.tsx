@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 
+import { addChat, getAllChats, getChat, updateChat } from "@/app/_lib/db";
+import { store } from "@/app/_utils/store";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -15,9 +17,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 import { addDocument } from "../actions";
-import { store } from "@/app/_utils/store";
-import { updateChat } from "@/app/_lib/db";
 
 interface Props {
   isOpen: boolean;
@@ -36,6 +37,7 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { set, useSnapshot } = store;
   const { selectedChat } = useSnapshot();
+  const router = useRouter();
 
   const handleSubmit = async (formData: FormData) => {
     if (isPending) return;
@@ -54,17 +56,31 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
     try {
       startTransition(async () => {
         toast.promise(addDocument(formData), {
-          success: ({ indexId }) => {
-            updateChat({
-              id: selectedChat!.id!,
-              indexId,
-            });
-            set("selectedChat", {
-              ...selectedChat!,
-              indexId,
-            });
-            setIsOpen(false);
-            return `Files uplaoded.`;
+          success: async ({ indexId }) => {
+            if (!selectedChat?.id) {
+              const _newChatId = await addChat({ indexId });
+              set("selectedChat", await getChat({ id: _newChatId }));
+              set("chats", await getAllChats());
+              set("stateMetadata", {
+                chatId: _newChatId,
+                message: "",
+                indexId,
+              });
+              router.push(`/general/${_newChatId}`);
+              setIsOpen(false);
+              toast.dismiss();
+              return `Files uplaoded and chat created.`;
+            } else {
+              updateChat({
+                id: selectedChat.id,
+                indexId,
+              });
+              set("selectedChat", {
+                ...selectedChat,
+                indexId,
+              });
+              return `Files uplaoded.`;
+            }
           },
           error: "Error",
         });

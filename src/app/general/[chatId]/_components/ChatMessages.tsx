@@ -37,7 +37,7 @@ export function ChatMessages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const router = useRouter();
   const { set, useSnapshot } = store;
-  const { stateMsg } = useSnapshot();
+  const { stateMetadata } = useSnapshot();
 
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
@@ -72,11 +72,17 @@ export function ChatMessages() {
 
   useEffect(() => {
     const sendStateMessage = async () => {
-      if (stateMsg.chatId === selectedChatId && stateMsg.message.length) {
-        await sendMessage(stateMsg.message);
-        set("stateMsg", {
+      if (stateMetadata.chatId === selectedChatId) {
+        if (stateMetadata.message.length) {
+          await sendMessage(stateMetadata.message);
+        } else if (stateMetadata.indexId.length) {
+          toast.info("Document added to chat.");
+        }
+
+        set("stateMetadata", {
           chatId: 0,
           message: "",
+          indexId: "",
         });
       }
     };
@@ -115,9 +121,10 @@ export function ChatMessages() {
       const _newChatId = await addChat({});
       set("selectedChat", await getChat({ id: _newChatId }));
       set("chats", await getAllChats());
-      set("stateMsg", {
+      set("stateMetadata", {
         chatId: _newChatId,
         message: newMessage,
+        indexId: "",
       });
       router.push(`/general/${_newChatId}`);
       return true;
@@ -190,11 +197,7 @@ export function ChatMessages() {
           )}
         </AnimatePresence>
       </div>
-      <ChatMessageInput
-        sendMessage={sendMessage}
-        isReplyPending={isPending}
-        enableFileUpload={true}
-      />
+      <ChatMessageInput sendMessage={sendMessage} isReplyPending={isPending} />
     </div>
   );
 }

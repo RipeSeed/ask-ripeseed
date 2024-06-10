@@ -7,9 +7,10 @@ export const initialState: {
   isConfigOpen: boolean;
   openAIKey: string;
 
-  stateMsg: {
+  stateMetadata: {
     chatId: number;
     message: string;
+    indexId: string;
   };
 } = {
   chats: [],
@@ -17,9 +18,10 @@ export const initialState: {
   isConfigOpen: false,
   openAIKey: "",
 
-  stateMsg: {
+  stateMetadata: {
     chatId: 0,
     message: "",
+    indexId: "",
   },
 };
 
