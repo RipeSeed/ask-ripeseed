@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 
+import { getAllChats } from "@/app/_lib/db";
 import { useEffect } from "react";
-import { addChat, getAllChats } from "@/app/_lib/db";
 import { Chat } from "./[chatId]/_components/Chat";
 
 export default function Page() {
