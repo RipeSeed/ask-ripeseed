@@ -19,7 +19,7 @@ import { createId } from "@paralleldrive/cuid2";
 const cards: Cardset = {
   top: "What is the speciality of ripeseed?",
   bottomLeft: "List ripeseed projects",
-  bottomRight: "Can put something else here",
+  bottomRight: "Does ripeseed work on GenAI?",
 };
 
 export function ChatMessages() {
