@@ -82,16 +82,16 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
-          <AlertDialogTitle>Add Document</AlertDialogTitle>
+          <AlertDialogTitle>Upload Document</AlertDialogTitle>
           <AlertDialogDescription>
-            You can intract with documents using the Analytics utility.
+            After you uplaod, you can chat with the AI against the document.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <form action={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Upload file(s)
+                Upload
               </Label>
               <Input
                 id="file"
