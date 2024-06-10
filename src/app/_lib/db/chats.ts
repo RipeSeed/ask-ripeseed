@@ -2,11 +2,17 @@ import { db } from "./db";
 import { Chat } from "./types";
 
 // Add a new chat
-export async function addChat({ name }: { name?: string }): Promise<number> {
+export async function addChat({
+  name,
+  indexId,
+}: {
+  name?: string;
+  indexId?: string | null;
+}): Promise<number> {
   const createdAt = new Date().toISOString();
   const updatedAt = createdAt;
   name = name?.length ? name : new Date(createdAt).toDateString();
-  return db.chats.add({ name, createdAt, updatedAt });
+  return db.chats.add({ name, createdAt, updatedAt, indexId });
 }
 
 // Get a chat by ID
@@ -31,12 +37,21 @@ export async function getAllChats(): Promise<Chat[]> {
 export async function updateChat({
   id,
   name,
+  indexId,
 }: {
   id: number;
-  name: string;
+  name?: string;
+  indexId?: string;
 }): Promise<number> {
+  const _prev = await getChat({ id });
   const updatedAt = new Date().toISOString();
-  return db.chats.update(id, { name, updatedAt });
+  const newObj = {
+    ..._prev,
+    name: name ?? _prev?.name,
+    updatedAt,
+    indexId: indexId ?? _prev?.indexId,
+  };
+  return db.chats.update(id, newObj);
 }
 
 // Delete a chat by ID
