@@ -2,6 +2,7 @@
 export interface Chat {
   id?: number;
   name: string;
+  indexId?: string | null;
   createdAt: string;
   updatedAt: string;
 }

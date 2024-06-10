@@ -8,7 +8,7 @@ class ChatDatabase extends Dexie {
   constructor() {
     super("ripeseed");
     this.version(1).stores({
-      chats: "++id, name, createdAt, updatedAt",
+      chats: "++id, name, createdAt, updatedAt, indexId",
       messages: "++id, content, chatId, createdAt, updatedAt",
     });
 
