@@ -8,5 +8,9 @@ export {
   getAllMessagesByChat,
   updateMessage,
 } from "./messages";
+export {
+  addMessage as addMessage_aRS,
+  getAllMessages as getAllMessages__aRS,
+} from "./askRSMessages";
 
-export type { Chat, Message } from "./types";
+export type { Chat, Message, AskRSMessage } from "./types";
