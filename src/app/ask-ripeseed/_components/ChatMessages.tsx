@@ -1,11 +1,16 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-import { addMessage_aRS, Message } from "@/app/_lib/db";
+import {
+  addMessage_aRS,
+  AskRSMessage,
+  getAllMessages_aRS,
+  Message,
+} from "@/app/_lib/db";
 import { askRS_sendMessage as apiSendMessage } from "@/dal/message";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { ChatMessageInput } from "@/app/general/[chatId]/_components/ChatMessageInput";
@@ -15,6 +20,7 @@ import {
   WelcomeCards,
 } from "@/app/general/[chatId]/_components/WelcomeCards";
 import { createId } from "@paralleldrive/cuid2";
+import { usePathname } from "next/navigation";
 
 const cards: Cardset = {
   top: "What is the speciality of ripeseed?",
@@ -23,8 +29,13 @@ const cards: Cardset = {
 };
 
 export function ChatMessages() {
+  const pathname = usePathname();
   const messagesContainerRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<AskRSMessage[]>([]);
+  const uId = useMemo(() => {
+    return getUId();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
@@ -40,11 +51,26 @@ export function ChatMessages() {
     },
   });
 
+  const { data: messagesRes } = useQuery({
+    queryKey: ["messages", "askRS"],
+    queryFn: async () => {
+      if (!uId) return [];
+
+      return await getAllMessages_aRS();
+    },
+  });
+
   useEffect(() => {
     if (messages.length) {
       scrollToBottom();
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (messagesRes?.length) {
+      setMessages(messagesRes);
+    }
+  }, [messagesRes]);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -55,7 +81,7 @@ export function ChatMessages() {
     }, 0);
   };
 
-  const getUId = () => {
+  function getUId() {
     // get uId from local storage, if it does not exist create one
     let uId = localStorage.getItem("uId");
     if (!uId) {
@@ -64,13 +90,12 @@ export function ChatMessages() {
       localStorage.setItem("uId", _uId);
     }
     return uId;
-  };
+  }
 
   const sendMessage = async (newMessage: string) => {
     if (!newMessage.trim() || isPending) {
       return false;
     }
-    const uId = getUId();
 
     const tmpMessage: Message = {
       content: newMessage,
@@ -103,7 +128,7 @@ export function ChatMessages() {
           ) : (
             <>
               {messages.map((message, i) => (
-                <MessageContainer message={message} key={i} />
+                <MessageContainer message={message as Message} key={i} />
               ))}
               {isPending && (
                 <MessageContainer
