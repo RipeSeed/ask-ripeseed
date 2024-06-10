@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ExternalLink, Settings } from "lucide-react";
+import { Bolt, ExternalLink, Settings } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -128,7 +128,7 @@ const ConfigDialogue = () => {
     <Dialog>
       <DialogTrigger asChild className="flex items-center justify-center">
         <button ref={openRef} className="m-0 p-0">
-          <Settings className="w-full cursor-pointer rounded-xl text-muted-foreground hover:bg-secondary" />
+          <Bolt className="w-full cursor-pointer rounded-xl text-muted-foreground hover:bg-secondary" />
         </button>
       </DialogTrigger>
       <DialogContent className="rounded-lg sm:max-w-md">
