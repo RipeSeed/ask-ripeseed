@@ -21,13 +21,11 @@ import { ChatMessageInput } from "./ChatMessageInput";
 import { MessageContainer } from "./MessageContainer";
 import { Cardset, WelcomeCards } from "./WelcomeCards";
 
-
 const cards: Cardset = {
   top: "What are Ḥasan Ibn al-Haytham's contributions?",
   bottomLeft: "Tell me a fun fact.",
   bottomRight: "Explain Algebra.",
 };
-
 
 export function ChatMessages() {
   const pathname = usePathname();
@@ -140,6 +138,8 @@ export function ChatMessages() {
       return false;
     }
 
+    const indexId = (await getChat({ id: selectedChatId }))?.indexId;
+
     setMessages((prev) => [...prev, tmpMessage]);
     scrollToBottom();
 
@@ -151,6 +151,7 @@ export function ChatMessages() {
     await sendMessageMutation({
       message: tmpMessage,
       apiKey,
+      indexId,
     });
     return true;
   };
@@ -189,7 +190,11 @@ export function ChatMessages() {
           )}
         </AnimatePresence>
       </div>
-      <ChatMessageInput sendMessage={sendMessage} isReplyPending={isPending} />
+      <ChatMessageInput
+        sendMessage={sendMessage}
+        isReplyPending={isPending}
+        enableFileUpload={true}
+      />
     </div>
   );
 }

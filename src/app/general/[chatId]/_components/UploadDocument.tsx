@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addDocument } from "../actions";
+import { store } from "@/app/_utils/store";
+import { updateChat } from "@/app/_lib/db";
 
 interface Props {
   isOpen: boolean;
@@ -32,6 +34,8 @@ export interface UploadedFile {
 
 export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
   const [isPending, startTransition] = useTransition();
+  const { set, useSnapshot } = store;
+  const { selectedChat } = useSnapshot();
 
   const handleSubmit = async (formData: FormData) => {
     if (isPending) return;
@@ -50,7 +54,15 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
     try {
       startTransition(async () => {
         toast.promise(addDocument(formData), {
-          success: () => {
+          success: ({ indexId }) => {
+            updateChat({
+              id: selectedChat!.id!,
+              indexId,
+            });
+            set("selectedChat", {
+              ...selectedChat!,
+              indexId,
+            });
             setIsOpen(false);
             return `Files uplaoded.`;
           },

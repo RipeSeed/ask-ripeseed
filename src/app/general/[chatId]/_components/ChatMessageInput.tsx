@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { LoaderCircle, PlusIcon, SendHorizontal } from "lucide-react";
+import { CloudUpload, LoaderCircle, SendHorizontal } from "lucide-react";
 import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { UploadDocument } from "./UploadDocument";
+import { store } from "@/app/_utils/store";
 
 interface ChatFooterProps {
   sendMessage: (newMessage: string) => Promise<boolean>;
@@ -19,6 +20,8 @@ export function ChatMessageInput({
 }: ChatFooterProps) {
   const [message, setMessage] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const { useSnapshot } = store;
+  const { selectedChat } = useSnapshot();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
@@ -51,7 +54,7 @@ export function ChatMessageInput({
   return (
     <div className="flex w-full items-center justify-between gap-2 p-2">
       <AnimatePresence initial={false}>
-        {enableFileUpload && <UploadDocumentWrapper />}
+        {enableFileUpload && selectedChat?.id && <UploadDocumentWrapper />}
         <motion.div
           key="input"
           className="relative w-full"
@@ -75,7 +78,7 @@ export function ChatMessageInput({
             onChange={handleInputChange}
             name="message"
             placeholder="Your query here"
-            className=" flex h-9 min-h-0 w-full resize-none items-center overflow-hidden rounded-full border bg-background"></Textarea>
+            className="flex h-9 min-h-0 w-full resize-none items-center overflow-hidden rounded-full border bg-background"></Textarea>
         </motion.div>
       </AnimatePresence>
       <Button
@@ -101,7 +104,10 @@ const UploadDocumentWrapper = () => {
 
   return (
     <>
-      <PlusIcon className="mr-2" onClick={() => setIsUploadDocOpen(true)} />
+      <CloudUpload
+        className="h-6 w-6 cursor-pointer rounded-full border p-1"
+        onClick={() => setIsUploadDocOpen(true)}
+      />
       <UploadDocument isOpen={isUploadDocOpen} setIsOpen={setIsUploadDocOpen} />
     </>
   );
