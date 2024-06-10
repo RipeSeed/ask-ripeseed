@@ -24,9 +24,9 @@ import { createId } from "@paralleldrive/cuid2";
 import { usePathname } from "next/navigation";
 
 const cards: Cardset = {
-  top: "What is the speciality of ripeseed?",
-  bottomLeft: "List ripeseed projects",
-  bottomRight: "Does ripeseed work on GenAI?",
+  top: "Can you tell me about some of your projects?",
+  bottomLeft: "What is RipeSeed known for?",
+  bottomRight: "Do you guys work on AI?",
 };
 
 export function ChatMessages() {
