@@ -2,10 +2,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CloudUpload, LoaderCircle, SendHorizontal } from "lucide-react";
 import { useRef, useState } from "react";
 
+import { store } from "@/app/_utils/store";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { UploadDocument } from "./UploadDocument";
-import { store } from "@/app/_utils/store";
 
 interface ChatFooterProps {
   sendMessage: (newMessage: string) => Promise<boolean>;
@@ -104,10 +109,17 @@ const UploadDocumentWrapper = () => {
 
   return (
     <>
-      <CloudUpload
-        className="h-6 w-6 cursor-pointer rounded-full border p-1"
-        onClick={() => setIsUploadDocOpen(true)}
-      />
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger>
+          <CloudUpload
+            className="h-6 w-6 cursor-pointer rounded-full border p-1"
+            onClick={() => setIsUploadDocOpen(true)}
+          />
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Uplaod a document</p>
+        </TooltipContent>
+      </Tooltip>
       <UploadDocument isOpen={isUploadDocOpen} setIsOpen={setIsUploadDocOpen} />
     </>
   );
