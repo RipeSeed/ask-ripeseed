@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Inter as FontSans } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,20 +27,23 @@ export default function RootLayout({
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
-        )}>
+        )}
+      >
         <QueryClientProvider client={queryClient}>
-          <Header />
-          {/* (57 & 73) Header Height || (24) Footer Height */}
-          <main className="h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
-            {children}
-          </main>
-          <Footer />
-          <Toaster
-            closeButton
-            duration={3500}
-            position="top-right"
-            richColors
-          />
+          <TooltipProvider>
+            <Header />
+            {/* (57 & 73) Header Height || (24) Footer Height */}
+            <main className="h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
+              {children}
+            </main>
+            <Footer />
+            <Toaster
+              closeButton
+              duration={3500}
+              position="top-right"
+              richColors
+            />
+          </TooltipProvider>
         </QueryClientProvider>
       </body>
     </html>
