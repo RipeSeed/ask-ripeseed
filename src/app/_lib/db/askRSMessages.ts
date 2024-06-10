@@ -18,3 +18,8 @@ export async function addMessage({
 export async function getAllMessages(): Promise<AskRSMessage[]> {
   return db.askRSMessages.orderBy("createdAt").toArray();
 }
+
+// delet all messages
+export async function deleteAllMessages(): Promise<void> {
+  return db.askRSMessages.clear();
+}

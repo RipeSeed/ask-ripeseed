@@ -10,7 +10,8 @@ export {
 } from "./messages";
 export {
   addMessage as addMessage_aRS,
-  getAllMessages as getAllMessages__aRS,
+  getAllMessages as getAllMessages_aRS,
+  deleteAllMessages as deleteAllMessages_aRS,
 } from "./askRSMessages";
 
 export type { Chat, Message, AskRSMessage } from "./types";
