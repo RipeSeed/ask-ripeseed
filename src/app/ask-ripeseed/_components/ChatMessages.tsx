@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   addMessage_aRS,
@@ -19,6 +19,7 @@ import {
   Cardset,
   WelcomeCards,
 } from "@/app/general/[chatId]/_components/WelcomeCards";
+import Loading from "@/app/loading";
 import { createId } from "@paralleldrive/cuid2";
 import { usePathname } from "next/navigation";
 
@@ -30,12 +31,9 @@ const cards: Cardset = {
 
 export function ChatMessages() {
   const pathname = usePathname();
+  const [uId, setUId] = useState<string>("");
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<AskRSMessage[]>([]);
-  const uId = useMemo(() => {
-    return getUId();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
 
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
@@ -51,13 +49,14 @@ export function ChatMessages() {
     },
   });
 
-  const { data: messagesRes } = useQuery({
+  const { data: messagesRes, isPending: isLoading } = useQuery({
     queryKey: ["messages", "askRS"],
     queryFn: async () => {
       if (!uId) return [];
 
       return await getAllMessages_aRS();
     },
+    enabled: !!uId,
   });
 
   useEffect(() => {
@@ -71,6 +70,10 @@ export function ChatMessages() {
       setMessages(messagesRes);
     }
   }, [messagesRes]);
+
+  useEffect(() => {
+    setUId(getUId());
+  }, []);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -116,6 +119,10 @@ export function ChatMessages() {
     return true;
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
       <div
@@ -124,7 +131,11 @@ export function ChatMessages() {
       >
         <AnimatePresence>
           {!messages.length ? (
-            <WelcomeCards sendMessage={sendMessage} cards={cards} />
+            <WelcomeCards
+              sendMessage={sendMessage}
+              cards={cards}
+              hideSetupKey={true}
+            />
           ) : (
             <>
               {messages.map((message, i) => (
