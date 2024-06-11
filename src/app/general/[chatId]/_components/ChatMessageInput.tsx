@@ -1,16 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { CloudUpload, LoaderCircle, SendHorizontal } from "lucide-react";
+import { LoaderCircle, SendHorizontal } from "lucide-react";
 import { useRef, useState } from "react";
 
-import { store } from "@/app/_utils/store";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { UploadDocument } from "./UploadDocument";
 
 interface ChatFooterProps {
   sendMessage: (newMessage: string) => Promise<boolean>;
@@ -19,12 +12,10 @@ interface ChatFooterProps {
 
 export function ChatMessageInput({
   sendMessage,
-  isReplyPending: isDisabled
+  isReplyPending: isDisabled,
 }: ChatFooterProps) {
   const [message, setMessage] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const { useSnapshot } = store;
-  const { selectedChat } = useSnapshot();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
@@ -70,7 +61,8 @@ export function ChatMessageInput({
               type: "spring",
               bounce: 0.15,
             },
-          }}>
+          }}
+        >
           <Textarea
             autoComplete="off"
             value={message}
@@ -80,7 +72,8 @@ export function ChatMessageInput({
             onChange={handleInputChange}
             name="message"
             placeholder="Your query here"
-            className="flex h-9 min-h-0 w-full resize-none items-center overflow-hidden rounded-full border bg-background"></Textarea>
+            className="flex h-9 min-h-0 w-full resize-none items-center overflow-hidden rounded-full border bg-background"
+          ></Textarea>
         </motion.div>
       </AnimatePresence>
       <Button
@@ -90,7 +83,8 @@ export function ChatMessageInput({
         className={
           "h-9 w-9 shrink-0 rounded-3xl hover:border hover:border-primary dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
         }
-        onClick={handleSendMessage}>
+        onClick={handleSendMessage}
+      >
         {isDisabled ? (
           <LoaderCircle className="animate-spin text-primary" />
         ) : (

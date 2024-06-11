@@ -2,11 +2,10 @@ import { Chat, getAllChats, getChat, updateChat } from "@/app/_lib/db";
 import { store } from "@/app/_utils/store";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Edit, FileBarChart2 } from "lucide-react";
+import { Edit, FileBarChart2, Paperclip } from "lucide-react";
 import { useState } from "react";
 import { ChatsSheet } from "./ChatsSheet";
 import { UploadDocument } from "./UploadDocument";
-
 export function ChatHeader() {
   const { useSnapshot, set } = store;
   const { selectedChat } = useSnapshot();
@@ -112,10 +111,7 @@ const UploadDocumentWrapper = ({
   return (
     <>
       {selectedChat?.doc.name ? (
-        <Badge
-          variant={"outline"}
-          className="gap-1 rounded-3xl border border-primary text-xs text-gray-500"
-        >
+        <Badge className="gap-1 rounded-3xl border border-primary text-xs text-white">
           <FileBarChart2 className="h-3 w-3" />
           {selectedChat.doc.name}
         </Badge>
@@ -126,7 +122,8 @@ const UploadDocumentWrapper = ({
             className="cursor-pointer rounded-3xl border border-primary text-xs text-gray-500 hover:bg-primary hover:text-white"
             onClick={() => setIsUploadDocOpen(true)}
           >
-            attach a document
+            <Paperclip className="h-3 w-3" />
+            <span>Attach knowledgebase</span>
           </Badge>
           <UploadDocument
             isOpen={isUploadDocOpen}
