@@ -1,4 +1,4 @@
-import { Message } from "@/app/_lib/db";
+import { getContext_aRS, type Message } from "@/app/_lib/db";
 
 type APIRequest = {
   message: Message;
@@ -16,9 +16,11 @@ export const askRS_sendMessage = async ({
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
+    const context = await getContext_aRS();
     const raw = JSON.stringify({
       uId,
       messages: [
+        ...context,
         {
           role: "user",
           content: message.content,
