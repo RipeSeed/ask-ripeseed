@@ -7,14 +7,24 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { ChatOpenAI } from "@langchain/openai";
 
-
 export interface Context {
   role: "user" | "assistant" | "system";
   content: string;
 }
 
+const instructions = `
+  Act like an agent from RipeSeed, a software services company and answer the user queries accordingly.
+  If a user asks if we have worked with particular technology/niche, check if its available in the context and give answers accordingly
+  If a user asks if we have worked with a particular technology/niche, and it's not available in the context, check if a similar/niche technology is available in the context and present that to the user
+  If you need more information about the technologies client is looking for, feel free to ask them and narrow down the client's requirements before checking the context.
+  If a user asks for bugdet/timeline for a project ask them to schedule a call with ripeseed representative
+  In your response do not intimate the steps or logic you are following to conclude the answer
+`;
+
 const questionPrompt = PromptTemplate.fromTemplate(
   ` Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+----------
+INSTRUCTIONS: {instructions}
 ----------
 CONTEXT: {context}
 ----------
@@ -34,9 +44,12 @@ FOLLOWUP QUESTION: {question}
 Standalone question:`,
 );
 
-const getChain = (promptType: "questionGenerator" | "question", apiKey: string) => {
+const getChain = (
+  promptType: "questionGenerator" | "question",
+  apiKey: string,
+) => {
   const chatModel = new ChatOpenAI({
-    apiKey
+    apiKey,
   });
   const chain = new LLMChain({
     llm: chatModel,
@@ -52,7 +65,8 @@ const performQuestionAnswering = async (input: {
   question: string;
   chatHistory: string;
   context: Array<Document>;
-  apiKey: string
+  apiKey: string;
+  isAskRipeseedChat: boolean;
 }): Promise<{ result: string; sourceDocuments: Array<Document> }> => {
   const docs = input.context.map(
     (doc) =>
@@ -63,17 +77,40 @@ const performQuestionAnswering = async (input: {
   );
   const serializedDocs = formatDocumentsAsString(docs);
 
-  const { text } = await getChain("questionGenerator", input.apiKey).invoke({
+  const questionGeneratorInput: {
+    chatHistory: string;
+    context: string;
+    question: string;
+    instructions?: string;
+  } = {
     chatHistory: input.chatHistory,
     context: serializedDocs,
     question: input.question,
-  });
+  };
+  input.isAskRipeseedChat
+    ? (questionGeneratorInput["instructions"] = instructions)
+    : null;
+  const { text } = await getChain("questionGenerator", input.apiKey).invoke(
+    questionGeneratorInput,
+  );
 
-  const response = await getChain("question", input.apiKey).invoke({
+  const questionInput: {
+    chatHistory: string;
+    context: string;
+    question: string;
+    instructions?: string;
+  } = {
     chatHistory: input.chatHistory,
     context: serializedDocs,
     question: text as string,
-  });
+  };
+  input.isAskRipeseedChat
+    ? (questionInput["instructions"] = instructions)
+    : null;
+
+  const response = await getChain("question", input.apiKey).invoke(
+    questionInput,
+  );
 
   return {
     result: response.text as string,
@@ -100,6 +137,7 @@ export const converse = async (
   context: Context[],
   idArray: string[],
   openAIApiKey: string,
+  isAskRipeseedChat: boolean = false,
 ) => {
   const chain = RunnableSequence.from([
     {
@@ -109,7 +147,7 @@ export const converse = async (
       },
       context: async (input: { question: string }) => {
         const embeddings = new OpenAIEmbeddings({
-          openAIApiKey
+          openAIApiKey,
         });
         const vector = await embeddings.embedQuery(input.question);
         const docs = await pineconeIndex.query({
@@ -120,7 +158,8 @@ export const converse = async (
         });
         return docs.matches;
       },
-      apiKey: () => openAIApiKey
+      apiKey: () => openAIApiKey,
+      isAskRipeseedChat: () => isAskRipeseedChat,
     },
     performQuestionAnswering,
   ]);
