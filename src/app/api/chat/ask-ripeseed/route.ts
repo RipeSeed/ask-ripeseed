@@ -16,6 +16,7 @@ async function POST(request: Request) {
     messages,
     [indexId],
     apiKey,
+    true
   );
 
   const resObject: Message = {

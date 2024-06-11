@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { addDocument } from "../actions";
+import { validateReq } from "../utils/validateDocReq";
 
 interface Props {
   isOpen: boolean;
@@ -42,15 +43,13 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
     if (isPending) return;
     const file = formData.get("file") as UploadedFile;
     const apiKey = localStorage.getItem("openai:key");
-    if (!file?.size) {
-      toast.info("Select a file to upload.");
+
+    const { isValid, msg } = validateReq(file, apiKey);
+    if (!isValid) {
+      toast.error(msg);
       return;
     }
-    if (!apiKey) {
-      toast.error("API Key is required.");
-      return;
-    }
-    formData.append("apiKey", apiKey);
+    formData.append("apiKey", apiKey!);
 
     try {
       startTransition(async () => {
