@@ -21,7 +21,6 @@ import {
 } from "@/app/general/[chatId]/_components/WelcomeCards";
 import Loading from "@/app/loading";
 import { createId } from "@paralleldrive/cuid2";
-import { usePathname } from "next/navigation";
 
 const cards: Cardset = {
   top: "Can you tell me about some of your projects?",
@@ -30,7 +29,6 @@ const cards: Cardset = {
 };
 
 export function ChatMessages() {
-  const pathname = usePathname();
   const [uId, setUId] = useState<string>("");
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<AskRSMessage[]>([]);
