@@ -35,7 +35,7 @@ export const MessageContainer = ({
         message.role === "user" ? "items-end" : "items-start",
       )}>
       <div className="flex items-center gap-3">
-        {message.role === "system" && (
+        {message.role === "assistant" && (
           <div className="flex h-full flex-col">
             <div className="flex-grow"></div>
             <Avatar className="flex items-center justify-center border border-primary p-0.5">

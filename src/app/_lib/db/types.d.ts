@@ -12,11 +12,12 @@ export interface Message {
   id?: number;
   content: string;
   chatId: number;
-  role: "user" | "system";
+  role: Role;
   createdAt: string;
   updatedAt: string;
 }
 
+export type Role = "user" | "assistant";
 export interface AskRSMessage extends Omit<Message, "chatId" | "id"> {}
 export interface Doc {
   name: string;
