@@ -1,3 +1,4 @@
+import { Role } from "@/app/_lib/db/types";
 import mongoose, { Schema } from "mongoose";
 
 const Message = new Schema(
@@ -11,7 +12,7 @@ const Message = new Schema(
       type: String,
       trim: true,
       required: [true, "role is required"],
-      enum: ["user", "system", "assistant"],
+      enum: ["user", "assistant"],
     },
   },
   {
@@ -45,7 +46,7 @@ export const AskRipeseedChat =
 
 export type Message = {
   content: string;
-  role: "user" | "system" | "assistant";
+  role: Role;
   createdAt?: string;
   updatedAt?: string;
 };

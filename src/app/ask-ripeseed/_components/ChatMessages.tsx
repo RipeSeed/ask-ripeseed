@@ -146,7 +146,7 @@ export function ChatMessages() {
                   isPending={true}
                   message={{
                     content: "",
-                    role: "system",
+                    role: "assistant",
                     chatId: 1,
                     createdAt: new Date().toString(),
                     updatedAt: new Date().toString(),

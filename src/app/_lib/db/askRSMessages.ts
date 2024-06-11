@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { AskRSMessage } from "./types";
+import { AskRSMessage, Role } from "./types";
 
 // Add a new message
 export async function addMessage({
@@ -7,7 +7,7 @@ export async function addMessage({
   role,
 }: {
   content: string;
-  role: "user" | "system";
+  role: Role;
 }): Promise<number> {
   const createdAt = new Date().toISOString();
   const updatedAt = createdAt;

@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { Message } from "./types";
+import { Message, Role } from "./types";
 
 // Add a new message to a chat
 export async function addMessage({
@@ -9,7 +9,7 @@ export async function addMessage({
 }: {
   content: string;
   chatId: number;
-  role: "user" | "system";
+  role: Role;
 }): Promise<number> {
   const createdAt = new Date().toISOString();
   const updatedAt = createdAt;

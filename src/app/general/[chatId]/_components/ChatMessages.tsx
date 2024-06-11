@@ -45,7 +45,7 @@ export function ChatMessages() {
       addMessage({
         chatId: selectedChatId,
         content: res.content,
-        role: "system",
+        role: "assistant",
       });
       setMessages((prev) => [...prev, res]);
       setTimeout(() => {
@@ -186,7 +186,7 @@ export function ChatMessages() {
                   isPending={true}
                   message={{
                     content: "",
-                    role: "system",
+                    role: "assistant",
                     chatId: selectedChatId,
                     createdAt: new Date().toString(),
                     updatedAt: new Date().toString(),

@@ -23,7 +23,7 @@ async function POST(request: Request) {
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     chatId: 0,
-    role: "system",
+    role: "assistant",
   };
 
   const userMsg: MessageModel = {
