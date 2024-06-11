@@ -69,3 +69,18 @@ export async function deleteChat({ id }: { id: number }): Promise<void> {
 export async function clearChats(): Promise<void> {
   return db.chats.clear();
 }
+
+export const getChatContext = async ({ chatId }: { chatId: number }) => {
+  // context is of last 8 messages.
+  const messages = (await db.messages.where({ chatId }).sortBy("createdAt"))
+    .reverse()
+    .slice(0, 9);
+  // last messages of the user that he's currently asking for
+  const trimmed = messages.slice(1).reverse();
+  const context = trimmed.map((m) => ({
+    role: m.role,
+    content: m.content,
+  }));
+
+  return [...context];
+};
