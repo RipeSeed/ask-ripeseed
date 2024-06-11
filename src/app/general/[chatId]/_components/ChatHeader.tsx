@@ -1,8 +1,8 @@
-import { getAllChats, getChat, updateChat } from "@/app/_lib/db";
+import { Chat, getAllChats, getChat, updateChat } from "@/app/_lib/db";
 import { store } from "@/app/_utils/store";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Edit } from "lucide-react";
+import { Edit, FileBarChart2 } from "lucide-react";
 import { useState } from "react";
 import { ChatsSheet } from "./ChatsSheet";
 import { UploadDocument } from "./UploadDocument";
@@ -94,7 +94,7 @@ export function ChatHeader() {
             </div>
           </div>
           <div>
-            <UploadDocumentWrapper />
+            <UploadDocumentWrapper selectedChat={selectedChat} />
           </div>
         </div>
       </div>
@@ -102,19 +102,38 @@ export function ChatHeader() {
   );
 }
 
-const UploadDocumentWrapper = () => {
+const UploadDocumentWrapper = ({
+  selectedChat,
+}: {
+  selectedChat: Chat | undefined;
+}) => {
   const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
 
   return (
     <>
-      <Badge
-        variant={"outline"}
-        className="cursor-pointer rounded-3xl border border-primary text-xs text-gray-500 hover:bg-primary hover:text-white"
-        onClick={() => setIsUploadDocOpen(true)}
-      >
-        attach a document
-      </Badge>
-      <UploadDocument isOpen={isUploadDocOpen} setIsOpen={setIsUploadDocOpen} />
+      {selectedChat?.doc.name ? (
+        <Badge
+          variant={"outline"}
+          className="gap-1 rounded-3xl border border-primary text-xs text-gray-500"
+        >
+          <FileBarChart2 className="h-3 w-3" />
+          {selectedChat.doc.name}
+        </Badge>
+      ) : (
+        <>
+          <Badge
+            variant={"outline"}
+            className="cursor-pointer rounded-3xl border border-primary text-xs text-gray-500 hover:bg-primary hover:text-white"
+            onClick={() => setIsUploadDocOpen(true)}
+          >
+            attach a document
+          </Badge>
+          <UploadDocument
+            isOpen={isUploadDocOpen}
+            setIsOpen={setIsUploadDocOpen}
+          />
+        </>
+      )}
     </>
   );
 };

@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { addDocument } from "../actions";
 
@@ -41,9 +40,9 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
 
   const handleSubmit = async (formData: FormData) => {
     if (isPending) return;
-    const files = formData.getAll("file") as UploadedFile[];
+    const file = formData.get("file") as UploadedFile;
     const apiKey = localStorage.getItem("openai:key");
-    if (!files.length || !files[0]?.size) {
+    if (!file?.size) {
       toast.info("Select a file to upload.");
       return;
     }
@@ -56,30 +55,56 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
     try {
       startTransition(async () => {
         toast.promise(addDocument(formData), {
-          success: async ({ indexId }) => {
+          success: ({ indexId }) => {
             if (!selectedChat?.id) {
-              const _newChatId = await addChat({ indexId });
-              set("selectedChat", await getChat({ id: _newChatId }));
-              set("chats", await getAllChats());
-              set("stateMetadata", {
-                chatId: _newChatId,
-                message: "",
-                indexId,
-              });
-              router.push(`/general/${_newChatId}`);
-              setIsOpen(false);
-              toast.dismiss();
-              return `Files uplaoded and chat created.`;
+              (async () => {
+                // in case the user uploaded a document from /general
+                const _newChatId = await addChat({
+                  indexId,
+                  doc: {
+                    size: file.size,
+                    type: file.type,
+                    name: file.name,
+                    lastModified: file.lastModified,
+                  },
+                });
+                set("selectedChat", await getChat({ id: _newChatId }));
+                set("chats", await getAllChats());
+                set("stateMetadata", {
+                  chatId: _newChatId,
+                  message: "",
+                  indexId,
+                });
+                router.push(`/general/${_newChatId}`);
+                setIsOpen(false);
+                toast.dismiss();
+                return `Files uplaoded and chat created.`;
+              })();
             } else {
+              // document from /general/[chatId]
               updateChat({
                 id: selectedChat.id,
                 indexId,
+                doc: {
+                  size: file.size,
+                  type: file.type,
+                  name: file.name,
+                  lastModified: file.lastModified,
+                },
               });
               set("selectedChat", {
                 ...selectedChat,
                 indexId,
+                doc: {
+                  size: file.size,
+                  type: file.type,
+                  name: file.name,
+                  lastModified: file.lastModified,
+                },
               });
-              return `Files uplaoded.`;
+              setIsOpen(false);
+              toast.dismiss();
+              return `File uplaoded.`;
             }
           },
           error: "Error",
@@ -104,17 +129,14 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <form action={handleSubmit}>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Upload
-              </Label>
+          <div className="grid gap-4 pb-4">
+            <div className="items-center gap-4">
               <Input
                 id="file"
                 type="file"
                 name="file"
                 multiple={false}
-                className="col-span-3"
+                className="w-full"
               />
             </div>
           </div>
