@@ -1,18 +1,21 @@
 import { db } from "./db";
-import { Chat } from "./types";
+import { Chat, Doc } from "./types";
 
 // Add a new chat
 export async function addChat({
   name,
   indexId,
+  doc,
 }: {
   name?: string;
   indexId?: string | null;
+  doc?: Doc;
 }): Promise<number> {
   const createdAt = new Date().toISOString();
   const updatedAt = createdAt;
   name = name?.length ? name : new Date(createdAt).toDateString();
-  return db.chats.add({ name, createdAt, updatedAt, indexId });
+  doc = doc ?? { lastModified: 0, name: "", size: 0, type: "" };
+  return db.chats.add({ name, createdAt, updatedAt, indexId, doc });
 }
 
 // Get a chat by ID
@@ -38,10 +41,12 @@ export async function updateChat({
   id,
   name,
   indexId,
+  doc,
 }: {
   id: number;
   name?: string;
   indexId?: string;
+  doc?: Doc;
 }): Promise<number> {
   const _prev = await getChat({ id });
   const updatedAt = new Date().toISOString();
@@ -50,6 +55,7 @@ export async function updateChat({
     name: name ?? _prev?.name,
     updatedAt,
     indexId: indexId ?? _prev?.indexId,
+    doc: doc ?? _prev?.doc,
   };
   return db.chats.update(id, newObj);
 }
