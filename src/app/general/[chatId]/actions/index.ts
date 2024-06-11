@@ -1,0 +1,1 @@
+export { addDocument } from './addDocument'
