@@ -1,11 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <main className="flex flex-col items-center">
-      <div>
-        <Button>Click me</Button>
-      </div>
-    </main>
-  );
-}
+const Page = () => {
+  redirect("/general");
+};
+
+export default Page;
