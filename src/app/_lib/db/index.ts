@@ -1,4 +1,4 @@
-export { addChat, getChat, getAllChats, deleteChat, updateChat } from "./chats";
+export { addChat, getChat, getAllChats, deleteChat, updateChat, getChatContext } from "./chats";
 export {
   addMessage,
   clearMessagesByChat,
@@ -12,6 +12,7 @@ export {
   addMessage as addMessage_aRS,
   getAllMessages as getAllMessages_aRS,
   deleteAllMessages as deleteAllMessages_aRS,
+  getContext as getContext_aRS,
 } from "./askRSMessages";
 
 export type { Chat, Message, AskRSMessage } from "./types";
