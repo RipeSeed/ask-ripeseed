@@ -82,5 +82,5 @@ export const getChatContext = async ({ chatId }: { chatId: number }) => {
     content: m.content,
   }));
 
-  return context;
+  return [...context];
 };
