@@ -89,7 +89,7 @@ const performQuestionAnswering = async (input: {
   };
   input.isAskRipeseedChat
     ? (questionGeneratorInput["instructions"] = instructions)
-    : null;
+    : (questionGeneratorInput["instructions"] = "");
   const { text } = await getChain("questionGenerator", input.apiKey).invoke(
     questionGeneratorInput,
   );
@@ -106,7 +106,7 @@ const performQuestionAnswering = async (input: {
   };
   input.isAskRipeseedChat
     ? (questionInput["instructions"] = instructions)
-    : null;
+    : (questionInput["instructions"] = "");
 
   const response = await getChain("question", input.apiKey).invoke(
     questionInput,
