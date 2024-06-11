@@ -159,6 +159,7 @@ export function ChatMessages() {
       message: tmpMessage,
       apiKey,
       indexId,
+      chatId: selectedChatId,
     });
     return true;
   };
