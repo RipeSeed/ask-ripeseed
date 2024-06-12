@@ -7,6 +7,7 @@ import {
   deleteChat,
   getAllChats,
 } from "@/app/_lib/db";
+import { truncateString } from "@/app/_utils";
 import { store } from "@/app/_utils/store";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -118,7 +119,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
         <div className="flex w-full flex-row justify-between">
           <div className="flex justify-start gap-4 truncate">
             <MessagesSquare className="h-4 w-4" />
-            <span>{chat.name}</span>
+            <span>{truncateString(chat.name, 18)}</span>
           </div>
           <Dialog>
             <DialogTrigger asChild>
