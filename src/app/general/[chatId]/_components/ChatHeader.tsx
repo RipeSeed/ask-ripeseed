@@ -1,4 +1,5 @@
 import { Chat, getAllChats, getChat, updateChat } from "@/app/_lib/db";
+import { truncateString } from "@/app/_utils";
 import { store } from "@/app/_utils/store";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -73,9 +74,14 @@ export function ChatHeader() {
                 />
               </>
             ) : (
-              <span className="font-medium text-muted-foreground">
-                {selectedChat?.name}
-              </span>
+              <>
+                <span className="block font-medium text-muted-foreground md:hidden">
+                  {selectedChat?.name && truncateString(selectedChat.name, 18)}
+                </span>
+                <span className="hidden font-medium text-muted-foreground md:block">
+                  {selectedChat?.name && truncateString(selectedChat.name, 26)}
+                </span>
+              </>
             )}
             <div
               className="flex cursor-pointer items-center justify-center"
@@ -107,13 +113,14 @@ const UploadDocumentWrapper = ({
   selectedChat: Chat | undefined;
 }) => {
   const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
+  const name = selectedChat?.doc.name!;
 
   return (
     <>
       {selectedChat?.doc.name ? (
         <Badge className="gap-1 rounded-3xl border border-primary text-xs text-white">
           <FileBarChart2 className="h-3 w-3" />
-          {selectedChat.doc.name}
+          {truncateString(name, 16)}
         </Badge>
       ) : (
         <>
