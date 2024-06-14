@@ -3,10 +3,10 @@ import { AskRipeseedChat } from "@/models";
 import type { Message as MessageModel } from "@/models/AskRipeseedChat.model";
 import { converse } from "@/services/chat/conversation";
 
-export { POST };
+export const runtime = 'edge';
 
 // this is chat with ripeseed's own document. so users can ask questions
-async function POST(request: Request) {
+export async function POST(request: Request) {
   const { messages, uId } = await request.json();
   const indexId = process.env.RIPESEED_DOC_INDEX_ID!;
   const apiKey = process.env.RIPESEED_OPENAI_API_KEY!;
