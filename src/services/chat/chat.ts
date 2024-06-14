@@ -1,7 +1,7 @@
 import type { Document as LangchainDoc } from "langchain/document";
 import { PineconeStore } from "@langchain/pinecone";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { pineconeIndex } from "./config";
 
@@ -9,9 +9,11 @@ export const splitText = async (file: File, id: string) => {
   try {
     const splitter = new RecursiveCharacterTextSplitter();
     const loader = new PDFLoader(file);
-    const laoded = await loader.load();
-    const splittedDocs = await splitter.splitDocuments(laoded);
-    return splittedDocs;
+    const docs = loader.loadAndSplit(splitter)
+    return docs;
+    // const laoded = await loader.load();
+    // const splittedDocs = await splitter.splitDocuments(laoded);
+    // return splittedDocs;
   } catch (error) {
     throw Error("Error splitting text");
   }
