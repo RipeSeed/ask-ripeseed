@@ -50,10 +50,10 @@ export const MessageContainer = ({
         )}
         <span className="max-w-[250px] overflow-x-auto rounded-md bg-accent p-3 sm:max-w-sm md:max-w-md">
           {isPending ? (
-            <div className="flex items-center justify-center space-x-2">
+            <div className="flex items-center justify-center gap-2">
               <span className="sr-only">Thinking ...</span>
-              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.3s]"></div>
-              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.15s]"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.4s]"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]"></div>
               <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500"></div>
             </div>
           ) : (
