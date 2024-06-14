@@ -16,14 +16,7 @@ export const SidebarView = () => {
                 <nav className="h-full gap-4 text-lg font-medium">
                   <div className="flex h-full flex-col gap-0.5 text-lg font-medium">
                     <div className="w-full grow">
-                      <SidebarChatComponent
-                        chat={{
-                          name: "Ask Ripeseed",
-                          createdAt: new Date().toString(),
-                          updatedAt: new Date().toString(),
-                          id: 1,
-                        }}
-                      />
+                      <SidebarChatComponent title={"Ask RipeSeed"} />
                     </div>
                     <div className="w-full p-2">
                       <Separator className="w-full" />
@@ -42,7 +35,7 @@ export const SidebarView = () => {
   );
 };
 
-const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
+const SidebarChatComponent = ({ title }: { title: string }) => {
   return (
     <Button
       variant={"default"}
@@ -52,7 +45,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
       <div className="flex w-full flex-row justify-between">
         <div className="flex justify-start gap-4 truncate">
           <MessagesSquare className="h-4 w-4" />
-          <span>{chat.name}</span>
+          <span>{title}</span>
         </div>
       </div>
     </Button>
