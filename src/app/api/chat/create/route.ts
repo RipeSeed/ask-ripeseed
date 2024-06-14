@@ -1,7 +1,7 @@
 
 import { vectorize } from "@/services/chat/chat";
-import crypto from "crypto"
 
+export const runtime = 'edge';
 
 export async function POST(request: Request) {
   const formData = await request.formData()
