@@ -1,11 +1,11 @@
+import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
+import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { LLMChain } from "langchain/chains";
 import { Document } from "langchain/document";
 import { formatDocumentsAsString } from "langchain/util/document";
+import "server-only";
 import { pineconeIndex } from "./config";
-import { PromptTemplate } from "@langchain/core/prompts";
-import { OpenAIEmbeddings } from "@langchain/openai";
-import { ChatOpenAI } from "@langchain/openai";
 
 export interface Context {
   role: "user" | "assistant" | "system";

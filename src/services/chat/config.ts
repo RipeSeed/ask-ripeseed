@@ -1,4 +1,5 @@
-import { OpenAI } from "@langchain/openai";
+import "server-only"
+
 import { Pinecone } from "@pinecone-database/pinecone";
 
 
@@ -14,6 +15,5 @@ const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX!);
 
 export {
   // model,
-  pineconeIndex,
-  // chatModel
+  pineconeIndex
 };
