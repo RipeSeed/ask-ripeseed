@@ -2,6 +2,8 @@ import { Message } from "@/app/_lib/db";
 import { converse } from "@/services/chat/conversation";
 import OpenAI from "openai";
 
+export const runtime = 'edge';
+
 export async function POST(request: Request) {
   // indexId is the id of the document index
   const { apiKey, messages, indexId } = await request.json();

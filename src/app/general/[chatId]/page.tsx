@@ -11,6 +11,8 @@ interface PageProps {
   };
 }
 
+export const runtime = 'edge';
+
 const Page = ({ params: { chatId } }: PageProps) => {
   const router = useRouter();
   const [chat, setChat] = useState<IChat | undefined>(undefined);
