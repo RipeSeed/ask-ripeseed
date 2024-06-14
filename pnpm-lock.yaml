@@ -154,6 +154,9 @@ devDependencies:
   typescript:
     specifier: ^5
     version: 5.4.5
+  vercel:
+    specifier: ^34.2.7
+    version: 34.2.7
 
 packages:
 
