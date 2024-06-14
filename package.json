@@ -6,7 +6,8 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pages:build": "npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@langchain/community": "^0.2.4",
@@ -29,7 +30,6 @@
     "@tanstack/react-query": "^5.40.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "csv-parse": "^5.5.6",
     "dexie": "^4.0.7",
     "framer-motion": "^11.2.6",
     "langchain": "^0.2.3",
@@ -39,7 +39,6 @@
     "mongoose": "^8.4.1",
     "next": "14.2.3",
     "openai": "^4.47.1",
-    "pdf-parse": "^1.1.1",
     "prettier-plugin-tailwindcss": "^0.6.1",
     "react": "^18",
     "react-dom": "^18",
@@ -54,13 +53,18 @@
     "@types/lodash": "^4.17.4",
     "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
-    "@types/pdf-parse": "^1.1.4",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^34.2.7"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   }
 }

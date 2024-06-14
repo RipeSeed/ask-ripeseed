@@ -1,0 +1,66 @@
+﻿Link,Name,Platform,Technologies,Industry / Niche,Brief,Relevant People,Visibility
+https://aquadata.worldfishcenter.org/,AquaData,Web,NextJS,Dashboard,"A project of World Fish Center, showing stories, demonstrating the importance of aquatic food systems worldwide.",,Private
+https://ripeseed.io/,RipeSeed,Web,"NextJS, React, Strapi CMS","Agency, Dashboard","RipeSeed’s company website, showcasing their capabilities, projects and Team",,Public
+https://superreply.co/,SuperReply,Chrome Extension,"ChatGPT, Generative AI, JavaScript, React","Productivity, SaaS","A productivity browser plugin, built using Chrome Manifest V3, helping users write better emails",Rizwan,Public
+http://moozilyrics.com/,MooziLyrics,Web,"Google Translate API, NextJS, OpenAI",Entertainment,"Multilingual Song Translation Platform. It specializes in translating song lyrics into various languages,","Ahsan, Sameer",Public
+www.merchynt.com/profilepro,ProfilePro,Chrome Extension,"Chrome Manifest, JavaScript, React","Business, SEO, SaaS","AI SEO tool that optimizes your Google Business Profile - for free.
+(10k+ downloads)","Nushirvan, Rizwan, Sidra",Public
+https://development.storynoi.com/,Kinderbeez,Web,"AWS Transcribe, Elevenlabs, NextJS, PrismaORM, StablityAi, polay, remotion","Dashboard, Entertainment","A platform to write kid’s stories, taking contextual ideas and transforming them into engaging content","Adnan, Mursal, Sidra, Wahab",Private
+https://d3b8vv6kh70xyo.cloudfront.net/,Steven Stone,Web,"JavaScript, VueJS",Ecommerce,An E-commerce store for a UK based Jewellery store chain,"Osama Riaz, Sameer, Wahab",Private
+"Play Store: https://play.google.com/store/apps/details?id=com.bluewave.facescope2
+
+App Store: https://apps.apple.com/tr/app/facescope-2/id1572508578
+
+Admin Panel: https://portal.facescope.io",FaceScope,"Android App, Cross Platform App, iOS App","AWS, AWS Amplify, AWS Lambda, AWS Rekognition, React Native, TypeScript","Loss Prevention, SaaS, Security","A Loss prevention platform, helping US based private security agencies, to prevent crime using an easy to use mobile app with Facial Recognition capabilities",,Public
+http://felix.fm/,felix.fm,Web,"GatsbyJS, React",Entertainment,A simple landing page used to collect feedback from users about a product,Osama Riaz,Public
+https://www.composetrip.com/,ComposeTrip,Web,"OpenAI, React","SaaS, Travel",Travel Itinerary Planner that uses AI to create personalized trip plans.,"Afaq, Asad",Private
+"https://satoshisindex.com/
+
+App: https://app.satoshisindex.com/",Satoshi’s Index,Web,"JavaScript, NestJS, React, Web 3","Blockchain, Crypto, Dashboard, SaaS",A platform to allow users to connect their crypto exchange accounts to an algorithm that makes the trades on user’s behalf,"Nushirvan, Usama",Private
+https://play.google.com/store/apps/details?id=com.hashed.apps.dorch,Dorch,Android App,"Android, Java, Kotlin","Tools, Utilities","A torch application that allows users to turn on front and back flashlight of their (supported) phones at the same time, a product built by our Founder himself",,Public
+https://play.google.com/store/apps/details?id=com.meethashirb.feels,Feels,Android App,Flutter,"Entertainment, Social",A micro-social platform that tracks how the users are feelings today,,Public
+https://play.google.com/store/apps/details?id=com.meethashirb.vise,Vise,Android App,Flutter,"Entertainment, Social",A micro-social platform where users randomly give advice to public,,Public
+https://play.google.com/store/apps/details?id=com.meethashirb.moment_share,Moment Share,Android App,"Dart, Firebase, Flutter","Entertainment, Social",A micro-social platform where you can share some good moments about your day,,Public
+"App Store: https://apps.apple.com/us/app/croissant-at-home/id6475767834
+
+Play Store: https://play.google.com/store/apps/details?id=io.ripeseed.croissantathome",Croissant at Home,"Android App, Cross Platform App, iOS App","Firebase, MongoDB, React Native",Food,"A croissant recipe app, a product of RipeSeed",Asad,Public
+"https://play.google.com/store/apps/details?id=io.ripeseed.tractyoursubs
+
+https://apps.apple.com/us/app/track-your-subs/id6479640056",Track Your Subs,"Android App, Cross Platform App, iOS App","Analytics, Firebase, JavaScript, MongoDB, React Native","Productivity, SaaS, Tools","An application to help you keep track of your subscriptions by giving you reminders before your renewals, a product of RipeSeed",,Public
+http://audioread-tts.web.app/,Audioread,Web,"Flask, Python, React, Stripe","Entertainment, Tools",A natural & human-like text-to-speech API platform. We worked on development of their primary landing page,Muaaz,Private
+https://honeyseeds.ripeseed.io/,Honeyseeds,Web,"Chrome Manifest, GatsbyJS, React, Web 3","Blockchain, Crypto","An NFT website, launched by RipeSeed back in 2022",Rizwan,Public
+https://drive.google.com/file/d/1_trd-VeFj2BBVeZG3W2oCMZmcvjq14cU/view?usp=sharing,Unity Audio Chatbot,"Android App, Game","ChatGPT, OpenAI, Unity",AI,A 3D animated character that responds to user’s questions using generative AI capabilities,Muaaz,Private
+https://play.google.com/store/apps/details?id=com.redpetalgames.spookysphere,Spooky Sphere,"Cross Platform App, Game",Unity,"Entertainment, Game","Originally designed for a 3-day GameJam, Spooky Sphere is a game created by RipeSeed, that has since evolved and offers many more levels. You have only two buttons that are randomly regenerated. You must use these buttons to move through a maze and reach the end of the level.","Afaq, Haider, Muaaz",Public
+https://play.google.com/store/apps/details?id=com.ripeseed.gaze_maze,Gaze Maze,Game,"Firebase, Unity",Game,"GazeMaze is a game that presents a 3D map to user, that they need to navigate from, while collecting coins and avoiding obstacles. This is a hybrid-casual game with two main mechanics: runner and puzzle.","Adeel, Afaq, Haider, Muaaz",Public
+"iOS: https://apps.apple.com/us/app/baggage-boss/id6444000563
+
+Android: https://play.google.com/store/apps/details?id=com.ripeseed.baggageboss",Baggage Boss,Game,"Firebase, Unity",Game,A game where the user has to place right sized baggages into the right sized carts,"Adeel, Muaaz",Public
+https://play.google.com/store/apps/details?id=com.ripeseed.orbitsurfers,Orbit Surfers,Game,"Firebase, Unity",Game,"A hyper-casual game, where the player releases rockets in orbits of planets, with the goal of keeping the rockets from crashing into these planets.","Adeel, Afaq, Haider, Muaaz",Public
+https://app.applybro.com/,ApplyBro,Web,"Firebase, Node","Resume Generation, SaaS",Application for automated resume creation that utilizes AI to retrieve data from LinkedIn.,"Adnan, Rizwan, Sameer",Private
+https://roboreply.merchynt.com/login,RoboReply,Web,"NextJS, Node",SaaS,A platform to automate responding to google business profile reviews,"Noraiz, Nushirvan, Rizwan",Public
+https://app.tressly.co/,Tressly,Web,NextJS,"Social, appointment booking",All-in-one booking system for hair stylists,"Mursal, Noraiz, Wahab",Private
+https://partnerhub.merchynt.com/,Partner Hub,Web,"GAuth, GoogleSheets, NestJS","Dashboard, SaaS","A subscription and Billing Management Platform. It centralizes the management of user subscriptions, billing history and onboarding of new clients to portal. ","Nushirvan, Usama",Public
+https://topperoni.com/,Topperoni,Web,"NextJS, StoryBlok",Affiliate Marketing,A platform that lists top products from a category and uses Amazon affiliate links for moentization,"Ahsan, Sameer, Zia",Private
+http://tabouleh.com/,Tabouleh,"Chrome Extension, Web","Adsense, Firebase, React",Charity,"A new tab chrome extension, aimed to collect charity funds by showing ads.","Ahsan, Haseeb",Public
+https://www.codraft.ai/,Codraft ai,"MS Word Extension, Web","Langchain, Pinecone, Python","AI, NLP, Writing assistant","A product, trained on the US Constitution, assists lawyers and attorneys in drafting legal documents.","Nushirvan, Usama",Public
+Not Released,Foxtrax,Web,"Facebook Graph API, Graphql, Node, React, XState",Marketing,Marketing resource management and insights,Faizan,Don't List
+http://app.descriptionwise.ai/,DescriptionWise,Web,NextJS,"Dashboard, Marketing, SEO",An tool that helps in generating Amazon Product description using AI,Mursal,Private
+http://business.atpay.io/,@Pay business,Web,MERN,Crypto,A platform that allows professionals to charge their customers and receive payment in cryptocurrency,"Faizan, Mursal",Private
+http://enroll.perryhealth.com/,Perry Health,Web,"FastAPI, NextJS, Salesforce",Healthcare,"A platform aimed at creating the world’s first remote, continuous health system for patients living with chronic disease.",Mursal,Private
+http://precd34.com/,ML Calculator,Web,"Flask, Python, React",AI,A tool for PreCd34+ rate calculation.,Nushirvan,Public
+https://chrome.google.com/webstore/detail/appointmentcore-plugin-fo/mmjcajbhlpjbaegiliagmjaapfkicjml,AppointmentCore,Chrome Extension,"JQuery, Node, React, React Native",appointment booking,"A SaaS platform, used for B2B appointment scheduling. Integrated with Salesforce, Gmail, Keepa, and Outlook","Hashir, Nushirvan, Taimoor",Private
+Not Released,Emmy,Web,"Django, Python, Retool",Ecommerce,"An amazon product research tool, used for analysing and comparing products by scrapping their information from Keepa and Rainforest","Faizan, Mursal, Nushirvan",Private
+https://noustalk.com/,NousTalk,Web,".NET, C#, Docker, Node, React","Healthcare, Therapy, appointment booking",A health-tech platform to book appointments with therapists,Nushirvan,Private
+http://beltwaybrief.com/,Beltway Brief,Web,"Flask, Langchain, Python","AI, Media Coverage",An AI based newsletters creation tool that also sends these newsletters to it’s subscribed users,"Nushirvan, Sameer",Public
+https://www.merchynt.com/paige,pAIge,Web,MERN,"AI, Business Management, Dashboard",Unified tool used to manage Google Business Profiles. Has integrations with multiple websites and products.,"Nushirvan, Rizwan",Public
+https://movezly.com.au/,Movezly,Web,"Angular, MySQL, php","Luggage Movers, Transport",A platforms that allows users to find people and vehicles to transfer their luggage from one place to the other.,"Sameer, Sidra",Private
+https://www.loom.com/share/5fbc357d38354c4bb8371f11b27dca14,UpCatch,Chrome Extension,"MERN, PubSub","AI, Email Scheduling, auto email generation",A chrome extension that helped users auto generate replies to emails. It also helped them schedule emails for the future,"Afaq, Sameer, Sidra",Private
+Not Released,LinkedIn Scraper,Chrome Extension,React,"Job hunting, Resume Generation",scrapped all of user's relevant information from their linkedIn profile,"Afaq, Sidra",Don't List
+https://www.loom.com/share/6f66c8602b2e40dbace6643c7429d43f,Twilio Video App,Web,"Node, React, Twilio","Screen sharing, Video Calling",A customised secure video calling web app with a screen sharing feature. Could manage upto 20 users in the same meeting.,"Osama Riaz, Sidra",Private
+https://www.loom.com/share/6753bd4fe35943c4b3ed6dab0e384a59,Real Estate Website,Web,"Node, React",Real Estate,A platform that allows users to buy and rent properties online.,"Osama Riaz, Sameer, Sidra",Public
+Not Released,Betacarbon,Web,MERN,"Blockchain, Cryptocurrency",A platform to manage Carbon Token on Blockchain,"Afaq, Faizan, Mursal, Nushirvan",Private
+https://mydreamdj.com/,My Dream DJ,Web,"Django, NextJS",Music,"A platform for Local Talent, for Personal and Corporate Events","Afaq, Mursal",Private
+https://app.buscarid.com/authentication/sign-in,Buscarid/IDFY,Web,MERN,Marketing analysis,A website to monitor logs and matrix of the marketing tools you are using on meta or google,"Afaq, Sameer",Private
+https://amplifyd.io/,Amplifyd,Web,"GatsbyJS, React",Freelance,An influencer marketplace where brands could get in touch and have contracts with influencers,Hashir,Private
+https://app.hirello.ai/,Hirello,Web,"Document AI, Generative AI, NextJS, Node, OpenAI, ShadCN","Dashboard, Document AI, Resume Parsing",A platform for recruiters to shortlist and assess candidates with the help of AI. The platform also helps conduct AI based candidate outreach and conduct AI interviews,Noraiz,Private
+https://llamaedu.com/,LlamaEdu,Web,"ChatGPT, Generative AI, OpenAI, React, Stripe","Ed-Tech, Education",A platform to help educators create and share Lesson Plans,Usama,Public

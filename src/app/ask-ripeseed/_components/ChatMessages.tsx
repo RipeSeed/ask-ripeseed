@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   addMessage_aRS,
   AskRSMessage,
+  deleteAllMessages_aRS,
   getAllMessages_aRS,
   Message,
 } from "@/app/_lib/db";
@@ -21,6 +22,7 @@ import {
 } from "@/app/general/[chatId]/_components/WelcomeCards";
 import Loading from "@/app/loading";
 import { createId } from "@paralleldrive/cuid2";
+import { Paintbrush } from "lucide-react";
 
 const cards: Cardset = {
   top: "Can you tell me about some of your projects?",
@@ -32,10 +34,14 @@ export function ChatMessages() {
   const [uId, setUId] = useState<string>("");
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<AskRSMessage[]>([]);
+  let isMounted = useRef(true);
 
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
+    mutationKey: ["sendMessage", "askRS"],
     onSuccess: (res) => {
+      if (!isMounted.current) return;
+
       setMessages((prev) => [...prev, res]);
       addMessage_aRS({ content: res.content, role: res.role });
       setTimeout(() => {
@@ -51,7 +57,6 @@ export function ChatMessages() {
     queryKey: ["messages", "askRS"],
     queryFn: async () => {
       if (!uId) return [];
-
       return await getAllMessages_aRS();
     },
     enabled: !!uId,
@@ -64,13 +69,16 @@ export function ChatMessages() {
   }, [messages]);
 
   useEffect(() => {
-    if (messagesRes?.length) {
-      setMessages(messagesRes);
-    }
+    if (!messagesRes) return;
+
+    setMessages(messagesRes);
   }, [messagesRes]);
 
   useEffect(() => {
     setUId(getUId());
+    return () => {
+      isMounted.current = false;
+    };
   }, []);
 
   const scrollToBottom = () => {
@@ -84,11 +92,11 @@ export function ChatMessages() {
 
   function getUId() {
     // get uId from local storage, if it does not exist create one
-    let uId = localStorage.getItem("uId");
+    const uId = localStorage.getItem("uId");
     if (!uId) {
       const _uId = createId();
-      uId = _uId;
       localStorage.setItem("uId", _uId);
+      return _uId;
     }
     return uId;
   }
@@ -115,6 +123,11 @@ export function ChatMessages() {
       uId,
     });
     return true;
+  };
+
+  const clearChat = async () => {
+    void deleteAllMessages_aRS();
+    setMessages([]);
   };
 
   if (isLoading) {
@@ -150,6 +163,14 @@ export function ChatMessages() {
                     updatedAt: new Date().toString(),
                   }}
                 />
+              )}
+              {messages.length && (
+                <div
+                  className="absolute bottom-[5.5rem] right-5 z-20 cursor-pointer rounded-full p-2 text-muted-foreground shadow-md shadow-slate-300 ring-1 ring-muted-foreground hover:shadow-lg"
+                  onClick={clearChat}
+                >
+                  <Paintbrush className="h-6 w-6" />
+                </div>
               )}
             </>
           )}
