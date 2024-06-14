@@ -1,3 +1,5 @@
+
+import "server-only"
 import type { Document as LangchainDoc } from "langchain/document";
 import { PineconeStore } from "@langchain/pinecone";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
