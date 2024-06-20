@@ -3,8 +3,6 @@ import { AskRipeseedChat } from "@/models";
 import type { Message as MessageModel } from "@/models/AskRipeseedChat.model";
 import { converse } from "@/services/chat/conversation";
 
-export const runtime = 'edge';
-
 // this is chat with ripeseed's own document. so users can ask questions
 export async function POST(request: Request) {
   const { messages, uId } = await request.json();
@@ -16,7 +14,7 @@ export async function POST(request: Request) {
     messages,
     [indexId],
     apiKey,
-    true
+    true,
   );
 
   const resObject: Message = {

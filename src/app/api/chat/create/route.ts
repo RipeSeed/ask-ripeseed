@@ -1,7 +1,4 @@
-
 import { vectorize } from "@/services/chat/chat";
-
-export const runtime = 'edge';
 
 export async function POST(request: Request) {
   const formData = await request.formData()
