@@ -1,3 +1,5 @@
+"use client";
+
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -5,13 +7,15 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
+import { useState } from "react";
 import { menuItems } from "./Header";
 import MenuView from "./MenuView";
 import { Menu } from "./types";
 
 export function NavSheet() {
+  const [sheetOpen, setSheetOpen] = useState(false);
   return (
-    <Sheet>
+    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>
         <MenuIcon />
       </SheetTrigger>
@@ -19,7 +23,7 @@ export function NavSheet() {
         <NavigationMenu>
           <NavigationMenuList className="flex flex-col gap-2">
             {menuItems.map((menuItem, i) => (
-              <NavigationMenuItem key={i} className="rounded-full">
+              <NavigationMenuItem key={i} className="rounded-full" onClick={() => setSheetOpen(false)}>
                 <MenuView menuItem={menuItem as Menu} />
               </NavigationMenuItem>
             ))}
