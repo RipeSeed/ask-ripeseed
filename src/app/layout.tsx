@@ -2,12 +2,13 @@
 
 import { Footer } from "@/components/common/Footer";
 import { Header } from "@/components/common/Header";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Inter as FontSans } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
-import { TooltipProvider } from "@/components/ui/tooltip";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -46,6 +47,8 @@ export default function RootLayout({
           </TooltipProvider>
         </QueryClientProvider>
       </body>
+
+      <GoogleAnalytics gaId={process.env.GA_ID ?? ""} />
     </html>
   );
 }
