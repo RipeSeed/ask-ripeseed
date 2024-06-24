@@ -6,28 +6,12 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
-import type { Menu } from "./types";
 import { cn } from "@/lib/utils";
+import { isPath } from "./constants";
+import type { Menu } from "./types";
 
 const MenuView = ({ menuItem }: { menuItem: Menu }) => {
   const pathname = usePathname();
-
-  const isPath = (path: string[]) => {
-    const regexPattern = [];
-
-    for (const p of path) {
-      regexPattern.push(
-        new RegExp(
-          "^" + p.replace(/:\w+/g, "\\w+").replace(/\/\*$/, "(/.*)?") + "$",
-        ),
-      );
-    }
-    for (const r of regexPattern) {
-      if (r.test(pathname)) return true;
-    }
-    return false;
-  };
-
   return (
     <NavigationMenuLink
       className={cn(navigationMenuTriggerStyle(), "rounded-full")}
@@ -35,7 +19,7 @@ const MenuView = ({ menuItem }: { menuItem: Menu }) => {
       <Link
         href={menuItem.href}
         className={` hover:text-primary focus:text-primary bg-white focus:bg-white ${
-          isPath(menuItem.pathMatch)
+          isPath(menuItem.pathMatch, pathname)
             ? "text-primary border border-primary"
             : "text-muted-foreground"
         }`}>
