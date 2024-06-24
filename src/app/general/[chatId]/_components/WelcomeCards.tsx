@@ -32,7 +32,7 @@ export const WelcomeCards = ({
   }, [openAIKey]);
 
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-4">
+    <div className="flex h-full flex-col items-center justify-center gap-4 px-4">
       <div className="flex max-w-[500px] flex-col gap-4 md:w-[500px]">
         {!hideSetupKey && !key.length ? (
           <Note className="w-full cursor-pointer" />
