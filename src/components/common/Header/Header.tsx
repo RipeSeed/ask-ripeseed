@@ -21,28 +21,20 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Bolt, ExternalLink, Settings } from "lucide-react";
+import { Bolt, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { configPaths, isPath, menuItems } from "./constants";
 import MenuView from "./MenuView";
 import { NavSheet } from "./NavSheet";
 import type { Menu } from "./types";
 
-export const menuItems = [
-  {
-    title: "General",
-    href: "/general",
-    pathMatch: ["/general", "/general/*"],
-  },
-  {
-    title: "Ask RipeSeed",
-    href: "/ask-ripeseed",
-    pathMatch: ["/ask-ripeseed", "/ask-ripeseed/*"],
-  },
-];
+
 
 export const Header = () => {
+  const pathname = usePathname();
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 p-2 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-16 md:py-4">
       <div className="flex justify-between">
@@ -68,7 +60,9 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center justify-center gap-2">
-          <ConfigDialogue />
+          {isPath(configPaths, pathname) ? (
+            <ConfigDialogue />
+          ) : null}
           <div className={`block md:hidden`}>
             <NavSheet />
           </div>
