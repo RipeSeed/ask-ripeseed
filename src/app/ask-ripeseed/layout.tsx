@@ -2,9 +2,27 @@ import { Metadata } from "next";
 import { SidebarView } from "./_components/SidebarView";
 
 export const metadata: Metadata = {
-  title: "Ask Ripeseed | ripeseed.io",
-  description: "Ask Ripeseed - Ask question about RipeSeed from a bot - A prouct of ripeseed.io",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  title: "Ask Ripeseed | RipeSeed",
+  description: "Ask question about RipeSeed from a bot",
+  keywords: [
+    "ChatGPT",
+    "Artificial Intelignece",
+    "Next.js",
+    "React",
+    "JavaScript",
+    "Web Development",
+    "App Development",
+    "RipeSeed",
+  ],
+
+  openGraph: {
+    title: "Ask Ripeseed | RipeSeed",
+    description: "Ask question about RipeSeed from a bot",
+    url: "https://ask.ripeseed.io/ask-ripeseed",
+    siteName: "RipeSeed",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
