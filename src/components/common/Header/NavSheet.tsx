@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
-import { menuItems } from "./Header";
+import { menuItems } from "./constants";
 import MenuView from "./MenuView";
 import { Menu } from "./types";
 
