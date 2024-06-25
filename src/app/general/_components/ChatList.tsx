@@ -46,7 +46,7 @@ export const ChatList = () => {
   }, [allChats, set]);
 
   return (
-    <div className="flex h-full flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <nav className="grid gap-4 text-lg font-medium">
         <CreateNewChat />
         <div className="grid gap-0.5 text-lg font-medium">
