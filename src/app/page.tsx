@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 const Page = () => {
-  redirect("/general");
+  redirect("/ask-ripeseed");
 };
 
 export default Page;
