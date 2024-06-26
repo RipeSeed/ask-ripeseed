@@ -3,11 +3,28 @@ import { motion } from "framer-motion";
 import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import Markdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 
 interface MessageContainerProps {
   message: Message;
   isPending?: boolean;
 }
+
+const components = {
+  a: (props: any) => {
+    return (
+      <a
+        {...props}
+        className="text-blue-600 underline"
+        target="_blank"
+        rel="noreferrer"
+      >
+        {props.children}
+      </a>
+    );
+  },
+};
 
 export const MessageContainer = ({
   message,
@@ -33,7 +50,8 @@ export const MessageContainer = ({
       className={cn(
         "flex flex-col gap-2 whitespace-pre-wrap p-4",
         message.role === "user" ? "items-end" : "items-start",
-      )}>
+      )}
+    >
       <div className="flex items-center gap-3">
         {message.role === "assistant" && (
           <div className="flex h-full flex-col">
@@ -57,7 +75,9 @@ export const MessageContainer = ({
               <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500"></div>
             </div>
           ) : (
-            message.content
+            <Markdown rehypePlugins={[rehypeHighlight]} components={components}>
+              {message.content}
+            </Markdown>
           )}
         </span>
         {message.role === "user" && (
