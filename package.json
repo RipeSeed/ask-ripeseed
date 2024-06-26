@@ -40,6 +40,7 @@
     "mongoose": "^8.4.1",
     "next": "14.2.3",
     "openai": "^4.47.1",
+    "pdf-parse": "^1.1.1",
     "prettier-plugin-tailwindcss": "^0.6.1",
     "react": "^18",
     "react-dom": "^18",

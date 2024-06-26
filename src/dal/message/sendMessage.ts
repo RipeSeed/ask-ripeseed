@@ -44,13 +44,17 @@ export const sendMessage = async ({
     };
 
     const response = await fetch(`/api/chat/send-message`, requestOptions);
+    if (response.ok === false) {
+      const err = await response.text();
+      throw new Error(err);
+    }
     const resObject: { data: Message } = await response.json();
 
     return resObject.data;
   } catch (err) {
     if (err instanceof Error) {
-      throw err.message;
+      throw { message: err.message, status: 400 };
     }
-    throw "Something went wrong";
+    throw { message: "Something went wrong", status: 500 };
   }
 };
