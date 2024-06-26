@@ -9,8 +9,8 @@ const NotFound = () => {
   return (
     <div className="m-auto flex h-full w-full flex-col items-center  justify-center gap-4">
       The page your&apos;e looking for does not exist.
-      <Button className="rounded-full" onClick={() => router.back()}>
-        Go Back
+      <Button className="rounded-full" onClick={() => router.push('/')}>
+        Go to Home
       </Button>
     </div>
   );
