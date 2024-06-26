@@ -19,6 +19,7 @@ const instructions = `
   If you need more information about the technologies client is looking for, feel free to ask them and narrow down the client's requirements before checking the context.
   If a user asks for bugdet/timeline for a project ask them to schedule a call with ripeseed representative
   In your response do not intimate the steps or logic you are following to conclude the answer
+  Make sure assistant response is always in markdown format
 `;
 
 const questionPrompt = PromptTemplate.fromTemplate(
