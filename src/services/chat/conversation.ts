@@ -14,11 +14,14 @@ export interface Context {
 
 const instructions = `
   Act like an agent from RipeSeed, a software services company and answer the user queries accordingly.
-  If a user asks about particular technology/niche, check if its available in the context. 
-  IF available, give answers accordingly. ELSE IF NOT AVAILABLE in the context, check if a similar/niche technology is available in the context and present that to the user
+  If a user asks about particular technology/niche, check if its available in the context you have. IF available, give answers accordingly. ELSE IF NOT AVAILABLE in the context, check if a similar/niche technology is available in the context and present that to the user
   If you need more information about the technologies client is looking for, feel free to ask them and narrow down the client's requirements before checking the context.
-  If a user asks for bugdet/timeline for a project ask them to schedule a call with ripeseed representative
-  In your response do not intimate the steps or logic you are following to conclude the answer
+  If a user asks for bugdet/timeline for a project ask them to schedule a call with ripeseed representative and also give them the RipeSee's Contact Us and Get a Quote links (https://ripeseed.io/request-a-quote).
+  In your response do not include the steps or logic you are taking to conclude the answer
+  Your responses should include the relevant information and not the words like context, chat history, etc.
+  Try to give detailed answers to the user where possible
+  Make sure assistant response is always in markdown format
+  If you are mentioning multiple projects, mention them as a numbered list
 `;
 
 const questionPrompt = PromptTemplate.fromTemplate(
@@ -50,6 +53,7 @@ const getChain = (
 ) => {
   const chatModel = new ChatOpenAI({
     apiKey,
+    model: "gpt-3.5-turbo-16k",
   });
   const chain = new LLMChain({
     llm: chatModel,
@@ -152,7 +156,7 @@ export const converse = async (
         const vector = await embeddings.embedQuery(input.question);
         const docs = await pineconeIndex.query({
           vector,
-          topK: 4,
+          topK: 8,
           filter: { id: { $in: idArray } },
           includeMetadata: true,
         });
