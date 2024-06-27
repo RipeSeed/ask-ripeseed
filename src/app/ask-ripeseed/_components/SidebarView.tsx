@@ -1,9 +1,7 @@
-import { Chat } from "@/app/_lib/db";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { MessagesSquare, ExternalLink as ExternalLinkIcon } from "lucide-react";
-import Link from "next/link";
+import { MessagesSquare } from "lucide-react";
+import { ExternalLink } from "./ExternalLink";
 
 export const SidebarView = () => {
   return (
@@ -59,28 +57,5 @@ const ExternalLinks = () => {
       <ExternalLink href="https://ripeseed.io/team" text="Our Team" />
       <ExternalLink href="https://ripeseed.io/contact-us" text="Contact Us" />
     </>
-  );
-};
-
-const ExternalLink = ({ href, text }: { href: string; text: string }) => {
-  return (
-    <Link
-      href={href}
-      target="_blank"
-      className={cn(
-        buttonVariants({
-          variant: "default",
-          size: "lg",
-        }),
-        `w-full cursor-pointer border-none bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#FBFBFB] hover:text-primary hover:underline`,
-      )}
-    >
-      <div className="flex w-full flex-row justify-center">
-        <div className="flex flex-row items-center justify-center gap-1 truncate">
-          <span>{text} </span>
-          <ExternalLinkIcon className="h-3 w-3" />
-        </div>
-      </div>
-    </Link>
   );
 };
