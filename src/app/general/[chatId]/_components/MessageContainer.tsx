@@ -4,16 +4,25 @@ import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import rehypeHighlight from "rehype-highlight";
-import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
-import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import remarkBreaks from 'remark-breaks'
+import remarkBreaks from "remark-breaks";
+import remarkGfm from "remark-gfm";
+import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
 
 interface MessageContainerProps {
   message: Message;
   isPending?: boolean;
 }
 
+const components = {
+  a: (props: any) => {
+    return (
+      <a {...props} target="_blank" rel="noreferrer">
+        {props.children}
+      </a>
+    );
+  },
+};
 
 export const MessageContainer = ({
   message,
@@ -66,7 +75,13 @@ export const MessageContainer = ({
           ) : (
             <MessageMarkdownMemoized
               className="prose prose-sm"
-              rehypePlugins={[rehypeHighlight, remarkGfm, rehypeRaw, remarkBreaks]}
+              rehypePlugins={[
+                rehypeHighlight,
+                remarkGfm,
+                rehypeRaw,
+                remarkBreaks,
+              ]}
+              components={components}
             >
               {message.content}
             </MessageMarkdownMemoized>
