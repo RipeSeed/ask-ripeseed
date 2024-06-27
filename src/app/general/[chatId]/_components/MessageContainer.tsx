@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
+import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
 
 interface MessageContainerProps {
   message: Message;
@@ -75,9 +75,12 @@ export const MessageContainer = ({
               <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500"></div>
             </div>
           ) : (
-            <Markdown rehypePlugins={[rehypeHighlight]} components={components}>
+            <MessageMarkdownMemoized
+              rehypePlugins={[rehypeHighlight]}
+              components={components}
+            >
               {message.content}
-            </Markdown>
+            </MessageMarkdownMemoized>
           )}
         </span>
         {message.role === "user" && (
