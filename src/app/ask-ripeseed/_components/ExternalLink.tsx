@@ -2,7 +2,6 @@
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { sendGAEvent } from "@next/third-parties/google";
 import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -14,7 +13,10 @@ export const ExternalLink = ({
   text: string;
 }) => {
   const triggerGAEvent = () => {
-    sendGAEvent("External Link", "external_click", { href });
+    gtag("event", "external_click", {
+      event_label: `${text}: Redirect to RipeSeed`,
+      value: JSON.stringify({ uId: localStorage.getItem("uId") ?? "", href }),
+    });
   };
   return (
     <Link
