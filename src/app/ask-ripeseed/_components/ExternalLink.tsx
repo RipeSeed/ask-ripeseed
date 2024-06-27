@@ -13,10 +13,10 @@ export const ExternalLink = ({
   text: string;
 }) => {
   const triggerGAEvent = () => {
-    gtag("event", "external_link_click", {
+    gtag("event", "click", {
       event_category: "external_link",
-      event_label: "External Link Clicked: " + href,
-      value: `uId: ${localStorage.getItem("uId") ?? ""}`,
+      event_label: "External Link Clicked",
+      value: JSON.stringify({ uId: localStorage.getItem("uId") ?? "", href }),
     });
   };
   return (
