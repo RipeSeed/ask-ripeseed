@@ -14,20 +14,6 @@ interface MessageContainerProps {
   isPending?: boolean;
 }
 
-const components = {
-  a: (props: any) => {
-    return (
-      <a
-        {...props}
-        className="text-blue-600 underline"
-        target="_blank"
-        rel="noreferrer"
-      >
-        {props.children}
-      </a>
-    );
-  },
-};
 
 export const MessageContainer = ({
   message,
@@ -81,7 +67,6 @@ export const MessageContainer = ({
             <MessageMarkdownMemoized
               className="prose prose-sm"
               rehypePlugins={[rehypeHighlight, remarkGfm, rehypeRaw, remarkBreaks]}
-              components={components}
             >
               {message.content}
             </MessageMarkdownMemoized>
