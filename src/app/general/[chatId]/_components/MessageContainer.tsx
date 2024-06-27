@@ -73,18 +73,24 @@ export const MessageContainer = ({
               <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500"></div>
             </div>
           ) : (
-            <MessageMarkdownMemoized
-              className="prose prose-sm"
-              rehypePlugins={[
-                rehypeHighlight,
-                remarkGfm,
-                rehypeRaw,
-                remarkBreaks,
-              ]}
-              components={components}
-            >
-              {message.content}
-            </MessageMarkdownMemoized>
+            <>
+              {message.role === "user" ? (
+                message.content
+              ) : (
+                <MessageMarkdownMemoized
+                  className="prose prose-sm"
+                  rehypePlugins={[
+                    rehypeHighlight,
+                    remarkGfm,
+                    rehypeRaw,
+                    remarkBreaks,
+                  ]}
+                  components={components}
+                >
+                  {message.content}
+                </MessageMarkdownMemoized>
+              )}
+            </>
           )}
         </span>
         {message.role === "user" && (
