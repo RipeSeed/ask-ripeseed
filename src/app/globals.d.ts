@@ -1,7 +1,6 @@
 interface GtagEventParameters {
-  event_category: string;
   event_label: string;
-  value?: string | number;
+  value: string | number;
 }
 
 interface GtagFunction {

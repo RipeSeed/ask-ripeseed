@@ -13,9 +13,8 @@ export const ExternalLink = ({
   text: string;
 }) => {
   const triggerGAEvent = () => {
-    gtag("event", "click", {
-      event_category: "external_link",
-      event_label: "External Link Clicked",
+    gtag("event", "external_click", {
+      event_label: `${text}: Redirect to RipeSeed`,
       value: JSON.stringify({ uId: localStorage.getItem("uId") ?? "", href }),
     });
   };
