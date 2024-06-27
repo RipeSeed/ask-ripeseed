@@ -5,6 +5,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import rehypeHighlight from "rehype-highlight";
 import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import remarkBreaks from 'remark-breaks'
 
 interface MessageContainerProps {
   message: Message;
@@ -76,7 +79,8 @@ export const MessageContainer = ({
             </div>
           ) : (
             <MessageMarkdownMemoized
-              rehypePlugins={[rehypeHighlight]}
+              className="prose prose-sm"
+              rehypePlugins={[rehypeHighlight, remarkGfm, rehypeRaw, remarkBreaks]}
               components={components}
             >
               {message.content}
