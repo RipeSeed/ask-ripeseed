@@ -3,11 +3,26 @@ import { motion } from "framer-motion";
 import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
+import remarkBreaks from "remark-breaks";
+import remarkGfm from "remark-gfm";
+import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
 
 interface MessageContainerProps {
   message: Message;
   isPending?: boolean;
 }
+
+const components = {
+  a: (props: any) => {
+    return (
+      <a {...props} target="_blank" rel="noreferrer">
+        {props.children}
+      </a>
+    );
+  },
+};
 
 export const MessageContainer = ({
   message,
@@ -33,7 +48,8 @@ export const MessageContainer = ({
       className={cn(
         "flex flex-col gap-2 whitespace-pre-wrap p-4",
         message.role === "user" ? "items-end" : "items-start",
-      )}>
+      )}
+    >
       <div className="flex items-center gap-3">
         {message.role === "assistant" && (
           <div className="flex h-full flex-col">
@@ -57,7 +73,24 @@ export const MessageContainer = ({
               <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500"></div>
             </div>
           ) : (
-            message.content
+            <>
+              {message.role === "user" ? (
+                message.content
+              ) : (
+                <MessageMarkdownMemoized
+                  className="prose prose-sm"
+                  rehypePlugins={[
+                    rehypeHighlight,
+                    remarkGfm,
+                    rehypeRaw,
+                    remarkBreaks,
+                  ]}
+                  components={components}
+                >
+                  {message.content}
+                </MessageMarkdownMemoized>
+              )}
+            </>
           )}
         </span>
         {message.role === "user" && (

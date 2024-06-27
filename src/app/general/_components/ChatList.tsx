@@ -146,6 +146,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
                   </Button>
                 </DialogClose>
                 <Button
+                  autoFocus
                   type="submit"
                   className="rounded-full"
                   onClick={onDelete}
