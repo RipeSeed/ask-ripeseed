@@ -35,7 +35,7 @@ export default function RootLayout({
             <Header />
             {/* (57 & 73) Header Height || (24) Footer Height */}
             <main className="h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
-              {children}
+                {children}
             </main>
             <Footer />
             <Toaster
