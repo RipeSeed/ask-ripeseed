@@ -30,8 +30,7 @@ import { configPaths, isPath, menuItems } from "./constants";
 import MenuView from "./MenuView";
 import { NavSheet } from "./NavSheet";
 import type { Menu } from "./types";
-
-
+import { ModeToggle } from "@/components/Providers/ThemeProvider";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -60,9 +59,8 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center justify-center gap-2">
-          {isPath(configPaths, pathname) ? (
-            <ConfigDialogue />
-          ) : null}
+          <ModeToggle />
+          {isPath(configPaths, pathname) ? <ConfigDialogue /> : null}
           <div className={`block md:hidden`}>
             <NavSheet />
           </div>

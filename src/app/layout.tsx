@@ -2,13 +2,13 @@
 
 import { Footer } from "@/components/common/Footer";
 import { Header } from "@/components/common/Header";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import Providers from "@/components/Providers";
 import { cn } from "@/lib/utils";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { Inter as FontSans } from "next/font/google";
+import Script from "next/script";
 import { Toaster } from "sonner";
 import "./globals.css";
-import Script from "next/script";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -30,22 +30,20 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <Header />
-            {/* (57 & 73) Header Height || (24) Footer Height */}
-            <main className="h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
-                {children}
-            </main>
-            <Footer />
-            <Toaster
-              closeButton
-              duration={3500}
-              position="top-right"
-              richColors
-            />
-          </TooltipProvider>
-        </QueryClientProvider>
+        <Providers>
+          <Header />
+          {/* (57 & 73) Header Height || (24) Footer Height */}
+          <main className="h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
+            {children}
+          </main>
+          <Footer />
+          <Toaster
+            closeButton
+            duration={3500}
+            position="top-right"
+            richColors
+          />
+        </Providers>
       </body>
 
       <Script
