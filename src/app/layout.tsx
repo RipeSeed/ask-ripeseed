@@ -4,7 +4,6 @@ import { Footer } from "@/components/common/Footer";
 import { Header } from "@/components/common/Header";
 import Providers from "@/components/Providers";
 import { cn } from "@/lib/utils";
-import { QueryClient } from "@tanstack/react-query";
 import { Inter as FontSans } from "next/font/google";
 import Script from "next/script";
 import { Toaster } from "sonner";
@@ -14,8 +13,6 @@ const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-
-const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
