@@ -1,6 +1,5 @@
 "use client";
 
-import { Footer } from "@/components/common/Footer";
 import { Header } from "@/components/common/Header";
 import Providers from "@/components/Providers";
 import { cn } from "@/lib/utils";
@@ -28,12 +27,10 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <Header />
           {/* (57 & 73) Header Height || (24) Footer Height */}
-          <main className="h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
+          <main className="">
             {children}
           </main>
-          <Footer />
           <Toaster
             closeButton
             duration={3500}

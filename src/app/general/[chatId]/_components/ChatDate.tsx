@@ -3,11 +3,13 @@ import { truncateString } from "@/app/_utils";
 import { store } from "@/app/_utils/store";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Edit, FileBarChart2, Paperclip } from "lucide-react";
+import { Edit, FileBarChart, FileBarChart2, Paperclip } from "lucide-react";
 import { useState } from "react";
 import { ChatsSheet } from "./ChatsSheet";
 import { UploadDocument } from "./UploadDocument";
-export function ChatHeader() {
+import pencil from '../../../../../public/pencil.png'
+import Image from "next/image";
+export function ChatDate() {
   const { useSnapshot, set } = store;
   const { selectedChat } = useSnapshot();
   const [title, setTitle] = useState("");
@@ -54,9 +56,14 @@ export function ChatHeader() {
   };
 
   return (
-    <div className="flex h-14 w-full items-center justify-between border-b bg-muted/40 p-4">
-      <div className="flex w-full items-center gap-2">
-        <div className="flex w-full flex-row justify-between">
+    <div className="flex w-full items-center justify-between p-1 ">
+      <div className="flex w-full items-center bg-white dark:bg-[#404043] p-3 gap-2">
+        <div className="flex w-full flex-row justify-between ">
+          <li className="flex items-center gap-2">
+            <Image alt="pencil img" src={pencil}  className="h-3 w-3"/>
+            <span className="text-[#B6B4B5] font-medium">Mon June 10 2024</span>
+
+          </li>
           <div className="flex flex-row gap-2">
             <div className="block md:hidden">
               <ChatsSheet />
@@ -124,13 +131,14 @@ const UploadDocumentWrapper = ({
         </Badge>
       ) : (
         <>
+        
           <Badge
             variant={"outline"}
-            className="cursor-pointer rounded-3xl border border-primary text-xs text-gray-500 hover:bg-primary hover:text-white"
+            className="cursor-pointer rounded-3xl border dark:border-white text-xs px-5 py-2 hover:bg-primary text-[#575757] dark:text-white"
             onClick={() => setIsUploadDocOpen(true)}
           >
-            <Paperclip className="h-3 w-3" />
-            <span>Attach knowledgebase</span>
+            <div className="flex gap-2 items-center"><FileBarChart className="w-4 h-4 dark:text-[#EBEBEB]" />
+            <span>Ask Ripeseed.pdf</span></div>
           </Badge>
           <UploadDocument
             isOpen={isUploadDocOpen}
