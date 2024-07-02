@@ -3,6 +3,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
 import { BookOpenCheck } from "lucide-react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import clock from '../../../../../public/clock.png'
+import config from '../../../../../public/config.png'
 
 export interface Cardset {
   top: string;
@@ -32,32 +35,42 @@ export const WelcomeCards = ({
   }, [openAIKey]);
 
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-4 px-4">
+    <div className="flex h-full flex-col  items-center justify-center gap-4 px-4">
       <div className="flex max-w-[500px] flex-col gap-4 md:w-[500px]">
         {!hideSetupKey && !key.length ? (
           <Note className="w-full cursor-pointer" />
         ) : null}
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <Card
-            className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
+            className="flex h-24 w-full cursor-pointer items-center justify-center border-0 dark:bg-[#404043] bg-white  dark:text-darkText p-2 text-lightText shadow-none "
             onClick={() => sendMessage(cards.top)}
           >
+            <div className="">
+            <Image src={clock} alt="clock" className="block m-auto my-2" />
             {cards.top}
+            </div>
           </Card>
           <div className="flex w-full flex-row gap-2">
             <Card
-              className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
+              className="flex h-24 w-full cursor-pointer items-center justify-center border-0  dark:bg-[#404043] bg-white  dark:text-darkText  p-2 text-lightText shadow-none "
               onClick={() => sendMessage(cards.bottomLeft)}
             >
-              {cards.bottomLeft}
+               <div>
+            <Image src={clock} alt="clock" className="block m-auto my-2" />
+            {cards.bottomLeft}
+            </div>
             </Card>
             <Card
-              className="flex h-24 w-full cursor-pointer items-center justify-center bg-white p-2 text-gray-500 shadow-none hover:bg-gray-100"
+              className="flex h-24 w-full cursor-pointer items-center justify-center border-0 dark:bg-[#404043] bg-white  dark:text-darkText p-2 text-lightText shadow-none "
               onClick={() => sendMessage(cards.bottomRight)}
             >
-              {cards.bottomRight}
+               <div>
+            <Image src={clock} alt="clock" className="block m-auto my-2" />
+            {cards.bottomRight}
+            </div>
             </Card>
           </div>
+          
         </div>
       </div>
     </div>
@@ -70,10 +83,11 @@ const Note = ({ className }: { className?: string }) => {
     set("isConfigOpen", true);
   };
   return (
-    <Alert variant="info" className={className} onClick={handleOpenConfig}>
-      <AlertDescription className="flex flex-row gap-2">
-        <BookOpenCheck className="mt-0.5 h-4 w-4" />
-        Configure your OpenAI Key from gear icon at top-right to continue.
+    <Alert variant="info" className={`${className} bg-[#D4E1DE] dark:bg-[#334040] border-[#1B9E84] text-white`} onClick={handleOpenConfig}>
+      <AlertDescription className="flex items-center flex-row gap-2 ">
+        <Image alt="config" src={config} className="h-3 w-3" />
+        <span className="text-[#1B9E84]">        Configure your OpenAI Key from gear icon at top-right to continue.
+</span>
       </AlertDescription>
     </Alert>
   );

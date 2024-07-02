@@ -21,10 +21,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { MessagesSquare, Plus, Trash2 } from "lucide-react";
+import { MessagesSquare, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-
+import chatICon from '../../../../public/chat.png'
+import Image from "next/image";
 export const ChatList = () => {
   const { useSnapshot, set } = store;
   const { selectedChat, chats } = useSnapshot();
@@ -192,13 +193,13 @@ const CreateNewChat = () => {
     <Button
       className={cn(
         buttonVariants({ variant: "default", size: "lg" }),
-        `shrink border bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#ECECEC]`,
+        `shrink border dark:bg-[#34343C] text-gray-500 shadow-none transition-all `,
       )}
       onClick={handleCreateNewChat}
     >
-      <div className="flex justify-start gap-4">
-        <Plus className="h-4 w-4" />
-        <span>New Chat</span>
+      <div className="flex items-center justify-start gap-4">
+        <Image src={chatICon} className="h-3 w-3" alt="chat icon" />
+        <span className="text-white">New Chat</span>
       </div>
     </Button>
   );

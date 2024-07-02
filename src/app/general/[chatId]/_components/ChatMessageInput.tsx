@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-
+import Image from "next/image";
+import queryIcon from "../../../../../public/query.png"
 interface ChatFooterProps {
   sendMessage: (newMessage: string) => Promise<boolean>;
   isReplyPending: boolean;
@@ -46,7 +47,8 @@ export function ChatMessageInput({
   };
 
   return (
-    <div className="flex w-full items-center justify-between gap-2 p-2">
+    <div className="px-20">
+      <div className="flex w-full items-center justify-between bg-[#E0E0E0] dark:bg-black rounded-[100px]  gap-2 p-2">
       <AnimatePresence initial={false}>
         <motion.div
           key="input"
@@ -63,7 +65,8 @@ export function ChatMessageInput({
             },
           }}
         >
-          <Textarea
+       <div className="">
+       <Textarea
             autoComplete="off"
             value={message}
             ref={inputRef}
@@ -71,26 +74,25 @@ export function ChatMessageInput({
             onKeyDown={handleKeyPress}
             onChange={handleInputChange}
             name="message"
-            placeholder="Your query here"
-            className="flex h-9 min-h-0 w-full resize-none items-center overflow-hidden rounded-full border bg-background"
+            placeholder="Ask Anything..."
+            className="flex h-9 min-h-0 w-full resize-none items-center overflow-hidden rounded-full border bg-background bg-white dark:bg-[#313136]"
           ></Textarea>
+       </div>
         </motion.div>
       </AnimatePresence>
       <Button
         variant={`ghost`}
         disabled={isDisabled}
-        size={`icon`}
         className={
-          "h-9 w-9 shrink-0 rounded-3xl hover:border hover:border-primary dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+          " rounded-3xl  hover:border hover:border-primary bg-crayola dark:hover:text-white"
         }
         onClick={handleSendMessage}
       >
         {isDisabled ? (
           <LoaderCircle className="animate-spin text-primary" />
-        ) : (
-          <SendHorizontal size={20} className="text-primary" />
-        )}
+        ) : <Image alt="query arrow" src={queryIcon}/>}
       </Button>
+    </div>
     </div>
   );
 }
