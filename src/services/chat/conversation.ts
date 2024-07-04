@@ -156,7 +156,7 @@ export const converse = async (
         const vector = await embeddings.embedQuery(input.question);
         const docs = await pineconeIndex.query({
           vector,
-          topK: 8,
+          topK: 6,
           filter: { id: { $in: idArray } },
           includeMetadata: true,
         });
