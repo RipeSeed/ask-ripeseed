@@ -1,5 +1,4 @@
 "use client";
-
 import { Header } from "@/components/common/Header";
 import Providers from "@/components/Providers";
 import { cn } from "@/lib/utils";
@@ -7,6 +6,8 @@ import { Inter as FontSans } from "next/font/google";
 import Script from "next/script";
 import { Toaster } from "sonner";
 import "./globals.css";
+import ChatHeader from "@/components/common/_components/ChatButtonsHeader";
+import Sidebar from "@/components/common/Sidebar/Sidebar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -22,14 +23,24 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen max-w-[1550px] bg-background font-sans antialiased",
           fontSans.variable,
         )}
       >
         <Providers>
           {/* (57 & 73) Header Height || (24) Footer Height */}
-          <main className="">
-            {children}
+          <main className="grid h-screen grid-cols-[270px_1fr]">
+            {/* Sidebar */}
+
+            <div className="h-full">
+              <Sidebar />
+            </div>
+
+            {/* Chat */}
+            <div className="flex h-full flex-col">
+              <ChatHeader />
+              <div className="h-[calc(100vh-97px)]">{children}</div>
+            </div>
           </main>
           <Toaster
             closeButton

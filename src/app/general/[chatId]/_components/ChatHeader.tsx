@@ -7,9 +7,9 @@ import { Edit, FileBarChart, FileBarChart2, Paperclip } from "lucide-react";
 import { useState } from "react";
 import { ChatsSheet } from "./ChatsSheet";
 import { UploadDocument } from "./UploadDocument";
-import pencil from '../../../../../public/pencil.png'
+import pencil from "../../../../../public/pencil.png";
 import Image from "next/image";
-export function ChatDate() {
+export function ChatHeader() {
   const { useSnapshot, set } = store;
   const { selectedChat } = useSnapshot();
   const [title, setTitle] = useState("");
@@ -56,13 +56,12 @@ export function ChatDate() {
   };
 
   return (
-    <div className="flex w-full items-center justify-between p-1 ">
-      <div className="flex w-full items-center bg-white dark:bg-[#404043] p-3 gap-2">
-        <div className="flex w-full flex-row justify-between ">
+    <div className="flex w-full items-center justify-between p-1">
+      <div className="flex w-full items-center gap-2 bg-white p-3 dark:bg-[#404043]">
+        <div className="flex w-full flex-row justify-between">
           <li className="flex items-center gap-2">
-            <Image alt="pencil img" src={pencil}  className="h-3 w-3"/>
-            <span className="text-[#B6B4B5] font-medium">Mon June 10 2024</span>
-
+            <Image alt="pencil img" src={pencil} className="h-3 w-3" />
+            <span className="font-medium text-[#B6B4B5]">Mon June 10 2024</span>
           </li>
           <div className="flex flex-row gap-2">
             <div className="block md:hidden">
@@ -120,25 +119,26 @@ const UploadDocumentWrapper = ({
   selectedChat: Chat | undefined;
 }) => {
   const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
-  const name = selectedChat?.doc.name!;
+  const name = selectedChat?.doc?.name! ?? "Test";
 
   return (
     <>
-      {selectedChat?.doc.name ? (
+      {selectedChat?.doc?.name ? (
         <Badge className="gap-1 rounded-3xl border border-primary text-xs text-white">
           <FileBarChart2 className="h-3 w-3" />
           {truncateString(name, 16)}
         </Badge>
       ) : (
         <>
-        
           <Badge
             variant={"outline"}
-            className="cursor-pointer rounded-3xl border dark:border-white text-xs px-5 py-2 hover:bg-primary text-[#575757] dark:text-white"
+            className="cursor-pointer rounded-3xl border px-5 py-2 text-xs text-[#575757] hover:bg-primary dark:border-white dark:text-white"
             onClick={() => setIsUploadDocOpen(true)}
           >
-            <div className="flex gap-2 items-center"><FileBarChart className="w-4 h-4 dark:text-[#EBEBEB]" />
-            <span>Ask Ripeseed.pdf</span></div>
+            <div className="flex items-center gap-2">
+              <FileBarChart className="h-4 w-4 dark:text-[#EBEBEB]" />
+              <span>Ask Ripeseed.pdf</span>
+            </div>
           </Badge>
           <UploadDocument
             isOpen={isUploadDocOpen}
