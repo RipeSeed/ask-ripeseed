@@ -2,10 +2,10 @@ import { ChatList } from "./ChatList";
 
 const SidebarView = async () => {
   return (
-    <div className="hidden border-r bg-muted/40 md:block h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
-      <div className="flex  flex-col gap-2 py-4 h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]">
-        <div className="flex h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)] flex-col px-1 text-sm font-medium lg:px-2">
-          <div className="flex-grow overflow-y-auto overflow-x-hidden h-0">
+    <div className="hidden border-r bg-muted/40 md:block">
+      <div className="flex flex-col gap-2 py-4">
+        <div className="flex flex-col px-1 text-sm font-medium lg:px-2">
+          <div className="h-0 flex-grow overflow-y-auto overflow-x-hidden">
             <ChatList />
           </div>
         </div>
@@ -15,3 +15,9 @@ const SidebarView = async () => {
 };
 
 export default SidebarView;
+
+// h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]
+
+// h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]
+
+// h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]

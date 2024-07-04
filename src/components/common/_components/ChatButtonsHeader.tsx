@@ -1,24 +1,49 @@
 "use client";
 import { useState } from "react";
 import { Settings } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 export default function ChatHeader() {
-    const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(false);
 
-const toggleHandler = () =>{
-    setToggle(!toggle)
-  }
+  const toggleHandler = () => {
+    setToggle(!toggle);
+  };
   return (
-    <div className=" flex  justify-between border-b-[#ACACAC]  items-center py-6">
-    <div></div>
-    <div className="flex bg-[#E0E0E0] dark:bg-[#5E5E61] text-[#575757] dark:text-white  rounded-full">
-      <a  href="/ask-ripeseed" className={`py-2 px-6 text-lg font-medium  cursor-pointer ${toggle ? "bg-crayola text-white rounded-full":""} `} onClick={toggleHandler}>Ask Ripeseed</a>
-      <span className={`py-2 px-6 text-lg font-medium cursor-pointer ${toggle? "":"bg-crayola text-white rounded-full"}`}onClick={toggleHandler}>Ask Anything</span>
-    </div>
-    <div>
-      
-     <Settings className="mr-4 dark:text-white" />
-      
+    <div className="sticky h-[97px] items-center justify-between border-b-[#ACACAC] py-6 md:flex">
+      <div></div>
+      <div className="flex rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white">
+        <a
+          href="/ask-ripeseed"
+          className={`cursor-pointer px-6 py-2 text-lg font-medium ${toggle ? "rounded-full bg-crayola text-white" : ""} `}
+          onClick={toggleHandler}
+        >
+          Ask Ripeseed
+        </a>
+        <span
+          className={`cursor-pointer px-6 py-2 text-lg font-medium ${toggle ? "" : "rounded-full bg-crayola text-white"}`}
+          onClick={toggleHandler}
+        >
+          Ask Anything
+        </span>
       </div>
-    </div> 
-  )
+      <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Settings className="mr-4 cursor-pointer dark:text-white" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem className="cursor-pointer">
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">Dark</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  );
 }

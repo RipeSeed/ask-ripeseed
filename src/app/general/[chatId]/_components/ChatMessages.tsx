@@ -169,10 +169,11 @@ export function ChatMessages() {
   }
 
   return (
-    <div className="flex  w-full flex-col py-4 overflow-y-auto overflow-x-hidden">
+    <div className="flex h-[calc(100vh-97px-58px)] w-full flex-col">
+      {/* cards div */}
       <div
         ref={messagesContainerRef}
-        className="flex  w-full flex-col py-5 md:py-[180px] overflow-x-hidden"
+        className="flex max-h-[85%] w-full flex-auto flex-col overflow-y-auto overflow-x-hidden px-6"
       >
         <AnimatePresence>
           {!messages.length ? (
@@ -197,9 +198,13 @@ export function ChatMessages() {
             </>
           )}
         </AnimatePresence>
-       
       </div>
-      <ChatMessageInput sendMessage={sendMessage} isReplyPending={isPending} />
+      <div className="mb-2">
+        <ChatMessageInput
+          sendMessage={sendMessage}
+          isReplyPending={isPending}
+        />
+      </div>
     </div>
   );
 }
