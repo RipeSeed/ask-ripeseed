@@ -53,7 +53,7 @@ const getChain = (
 ) => {
   const chatModel = new ChatOpenAI({
     apiKey,
-    model: "gpt-3.5-turbo-16k",
+    model: "gpt-3.5-turbo-0125",
   });
   const chain = new LLMChain({
     llm: chatModel,
