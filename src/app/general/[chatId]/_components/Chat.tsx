@@ -112,7 +112,6 @@ export const Chat = ({ chat }: { chat?: IChat }) => {
   };
 
   return (
-    // getting height due to grid
     <div
       className="flex h-full grow flex-col overflow-x-hidden bg-[#E8E8E8] dark:bg-[#363639]"
       onClick={() => setToggle(false)}

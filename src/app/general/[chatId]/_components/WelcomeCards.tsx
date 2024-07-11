@@ -36,8 +36,11 @@ export const WelcomeCards = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openAIKey]);
   const messageHandler = (message: string) => {
-    sendMessage(message);
-    handleOpenConfig();
+    if (!key) {
+      handleOpenConfig();
+    } else {
+      sendMessage(message);
+    }
   };
   return (
     <div className="flex w-full flex-col items-center justify-center gap-4 px-4 py-3">
@@ -52,7 +55,13 @@ export const WelcomeCards = ({
             onClick={() => messageHandler(cards.top)}
           >
             <div className="">
-              <Image src={clock} alt="clock" width={22} height={22} className="m-auto my-2 block " />
+              <Image
+                src={clock}
+                alt="clock"
+                width={22}
+                height={22}
+                className="m-auto my-2 block"
+              />
               {cards.top}
             </div>
           </Card>
@@ -63,7 +72,13 @@ export const WelcomeCards = ({
               onClick={() => messageHandler(cards.bottomLeft)}
             >
               <div>
-                <Image src={clock} alt="clock" width={22} height={22} className="m-auto my-2 block " />
+                <Image
+                  src={clock}
+                  alt="clock"
+                  width={22}
+                  height={22}
+                  className="m-auto my-2 block"
+                />
                 {cards.bottomLeft}
               </div>
             </Card>
@@ -73,7 +88,13 @@ export const WelcomeCards = ({
               onClick={() => messageHandler(cards.bottomRight)}
             >
               <div>
-                <Image src={clock} alt="clock" width={22} height={22} className="m-auto my-2 block " />
+                <Image
+                  src={clock}
+                  alt="clock"
+                  width={22}
+                  height={22}
+                  className="m-auto my-2 block"
+                />
                 {cards.bottomRight}
               </div>
             </Card>
@@ -92,7 +113,13 @@ const Note = ({ className }: { className?: string }) => {
       onClick={handleOpenConfig}
     >
       <AlertDescription className="flex flex-row items-center gap-2">
-        <Image alt="config" src={config} className="h-3 w-3" height={16} width={18} />
+        <Image
+          alt="config"
+          src={config}
+          className="h-3 w-3"
+          height={16}
+          width={18}
+        />
         <span className="text-[#1B9E84]">
           Configure your OpenAI Key from gear icon at top-right to continue.
         </span>
