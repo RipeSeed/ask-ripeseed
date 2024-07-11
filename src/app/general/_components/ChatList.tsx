@@ -21,10 +21,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { MessagesSquare, Plus, Trash2 } from "lucide-react";
+import { MessagesSquare, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-
+import chatICon from "../../../../public/chat.png";
+import Image from "next/image";
 export const ChatList = () => {
   const { useSnapshot, set } = store;
   const { selectedChat, chats } = useSnapshot();
@@ -118,9 +119,11 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
       >
         <div className="flex w-full flex-row justify-between">
           <div className="flex justify-start gap-4 truncate">
+            {/* // icon */}
             <MessagesSquare className="h-4 w-4" />
-            <span>{truncateString(chat.name, 18)}</span>
+            {/* <span>{truncateString(chat.name, 18)}</span> */}
           </div>
+          {/* //delete scene */}
           <Dialog>
             <DialogTrigger asChild>
               <div className="flex justify-end" onClick={handleDelete}>
@@ -148,7 +151,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
                 <Button
                   autoFocus
                   type="submit"
-                  className="rounded-full"
+                  className="rounded-full hover:bg-white"
                   onClick={onDelete}
                 >
                   Delete
@@ -192,13 +195,13 @@ const CreateNewChat = () => {
     <Button
       className={cn(
         buttonVariants({ variant: "default", size: "lg" }),
-        `shrink border bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#ECECEC]`,
+        `shrink border text-gray-500 shadow-none transition-all dark:bg-[#34343C]`,
       )}
       onClick={handleCreateNewChat}
     >
-      <div className="flex justify-start gap-4">
-        <Plus className="h-4 w-4" />
-        <span>New Chat</span>
+      <div className="flex items-center justify-start gap-4">
+        <Image src={chatICon} className="h-3 w-3" alt="chat icon" />
+        <span className="text-white">New Chat</span>
       </div>
     </Button>
   );
