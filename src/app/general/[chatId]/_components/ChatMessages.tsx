@@ -1,8 +1,6 @@
 "use client";
-
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-
 import {
   addChat,
   addMessage,
@@ -63,9 +61,10 @@ export function ChatMessages() {
       const chatId = selectedChatId;
       if (isNaN(chatId)) return [];
 
-      return await getAllMessagesByChat({
+       const result =  await getAllMessagesByChat({
         chatId,
       });
+      return result
     },
     enabled: !isNaN(selectedChatId) && selectedChatId > 0,
   });
@@ -141,6 +140,13 @@ export function ChatMessages() {
     if (!apiKey?.length) {
       toast.info(
         "Need OpenAI key. You can enter your key from gear icon - top-right",
+        {
+          style: {
+            background: "#13A682",
+            color: "#fff",
+          },
+          closeButton: false,
+        },
       );
       return false;
     }
@@ -169,10 +175,11 @@ export function ChatMessages() {
   }
 
   return (
-    <div className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
+    <div className="flex h-[calc(100svh-57px-58px)] w-full flex-col overflow-x-hidden md:h-[calc(100svh-93px-58px)]">
+      {/* cards div */}
       <div
         ref={messagesContainerRef}
-        className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden"
+        className={`flex w-full flex-auto ${!messages.length ? "justify-center" : ""} flex-col overflow-y-auto overflow-x-hidden md:h-[80%]`}
       >
         <AnimatePresence>
           {!messages.length ? (
@@ -198,7 +205,12 @@ export function ChatMessages() {
           )}
         </AnimatePresence>
       </div>
-      <ChatMessageInput sendMessage={sendMessage} isReplyPending={isPending} />
+      <div className="w-full px-4 pb-4 md:px-20">
+        <ChatMessageInput
+          sendMessage={sendMessage}
+          isReplyPending={isPending}
+        />
+      </div>
     </div>
   );
 }

@@ -122,10 +122,10 @@ export function ChatMessages() {
   }
 
   return (
-    <div className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
+    <div className="flex h-[calc(100svh-57px)] w-full flex-col overflow-y-auto overflow-x-hidden md:h-[calc(100svh-93px)]">
       <div
         ref={messagesContainerRef}
-        className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden"
+        className={`flex w-full flex-auto flex-col ${!messages.length ? "justify-center" : "none"} grow overflow-y-auto overflow-x-hidden md:h-[85%]`}
       >
         <AnimatePresence>
           {!messages.length ? (
@@ -155,7 +155,12 @@ export function ChatMessages() {
           )}
         </AnimatePresence>
       </div>
-      <ChatMessageInput sendMessage={sendMessage} isReplyPending={isPending} />
+      <div className="  w-full px-4 pb-4 lg:px-20">
+        <ChatMessageInput
+          sendMessage={sendMessage}
+          isReplyPending={isPending}
+        />
+      </div>
     </div>
   );
 }

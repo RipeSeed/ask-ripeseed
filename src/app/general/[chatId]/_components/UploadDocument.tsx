@@ -39,8 +39,11 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
   const { selectedChat } = useSnapshot();
   const router = useRouter();
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (isPending) return;
+
+    const formData = new FormData(event.currentTarget);
     const file = formData.get("file") as UploadedFile;
     const apiKey = localStorage.getItem("openai:key");
 
@@ -54,34 +57,35 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
     try {
       startTransition(async () => {
         toast.promise(addDocument(formData), {
-          success: ({ indexId }) => {
+          success: async ({ indexId }) => {
             if (!selectedChat?.id) {
-              (async () => {
-                // in case the user uploaded a document from /general
-                const _newChatId = await addChat({
-                  indexId,
-                  doc: {
-                    size: file.size,
-                    type: file.type,
-                    name: file.name,
-                    lastModified: file.lastModified,
-                  },
-                });
-                set("selectedChat", await getChat({ id: _newChatId }));
-                set("chats", await getAllChats());
-                set("stateMetadata", {
-                  chatId: _newChatId,
-                  message: "",
-                  indexId,
-                });
-                router.push(`/general/${_newChatId}`);
-                setIsOpen(false);
-                toast.dismiss();
-                return `Files uplaoded and chat created.`;
-              })();
+              // in case the user uploaded a document from /general
+              const _newChatId = await addChat({
+                indexId,
+                doc: {
+                  size: file.size,
+                  type: file.type,
+                  name: file.name,
+                  lastModified: file.lastModified,
+                },
+              });
+              const newChat = await getChat({ id: _newChatId });
+              const allChats = await getAllChats();
+
+              set("selectedChat", newChat);
+              set("chats", allChats);
+              set("stateMetadata", {
+                chatId: _newChatId,
+                message: "",
+                indexId,
+              });
+              router.push(`/general/${_newChatId}`);
+              setIsOpen(false);
+              toast.dismiss();
+              return `File uploaded and chat created.`;
             } else {
               // document from /general/[chatId]
-              updateChat({
+              await updateChat({
                 id: selectedChat.id,
                 indexId,
                 doc: {
@@ -103,10 +107,10 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
               });
               setIsOpen(false);
               toast.dismiss();
-              return `File uplaoded.`;
+              return `File uploaded.`;
             }
           },
-          error: "Error",
+          error: "Error uploading file",
         });
       });
     } catch (error) {
@@ -120,14 +124,14 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent className="sm:max-w-[425px]">
+      <AlertDialogContent className="w-[90%] sm:max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Upload Document</AlertDialogTitle>
           <AlertDialogDescription>
-            After you uplaod, you can chat with the AI against the document.
+            After you upload, you can chat with the AI against the document.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <form action={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <div className="grid gap-4 pb-4">
             <div className="items-center gap-4">
               <Input
@@ -135,14 +139,15 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
                 type="file"
                 name="file"
                 multiple={false}
-                className="w-full"
+                className="w-full cursor-pointer"
+                accept=".pdf, .txt"
               />
             </div>
           </div>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? "Submiting ..." : "Add"}
+            <Button type="submit" disabled={isPending} className="bg-crayola">
+              {isPending ? "Submitting ..." : "Add"}
             </Button>
           </AlertDialogFooter>
         </form>
