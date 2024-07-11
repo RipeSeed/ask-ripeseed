@@ -8,7 +8,7 @@ import { MessageSquare, UsersRound, Headset, FileCode } from "lucide-react";
 export default function Page() {
   const [toggle, setToggle] = useState(false);
 
-  const togglehandler = (e: any) => {
+  const togglehandler = (e: React.MouseEvent) => {
     e.stopPropagation();
     setToggle(!toggle);
   };

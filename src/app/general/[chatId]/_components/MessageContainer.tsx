@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-
 import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";

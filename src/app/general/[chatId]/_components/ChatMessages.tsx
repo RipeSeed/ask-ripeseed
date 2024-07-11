@@ -1,8 +1,6 @@
 "use client";
-
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-
 import {
   addChat,
   addMessage,

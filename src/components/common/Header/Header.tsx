@@ -93,13 +93,15 @@ export const ConfigDialogue = () => {
     if (isConfigOpen) {
       openRef.current?.click();
     }
+    // Store the current value of closeRef
+    const closeBtn = closeRef.current;
     return () => {
       set("isConfigOpen", false);
-      closeRef.current?.click();
+      // Use the stored value in the cleanup function
+      closeBtn?.click();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConfigOpen]);
-
+  }, [isConfigOpen, set]);
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({
       ...formValues,
