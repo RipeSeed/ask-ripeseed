@@ -49,7 +49,7 @@ export async function POST(request: Request) {
       },
     );
   } catch (err) {
-    console.error(err);
+    
   }
 
   return Response.json({ data: resObject, sourceDocuments });

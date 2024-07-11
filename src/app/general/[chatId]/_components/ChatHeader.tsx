@@ -11,7 +11,6 @@ export function ChatHeader() {
   const { selectedChat } = useSnapshot();
   const [title, setTitle] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  console.log("selected  chat inside chat", selectedChat?.id);
   const handleEditClick = () => {
     if (selectedChat?.id) {
       setTitle(selectedChat?.name);
@@ -57,7 +56,6 @@ export function ChatHeader() {
     setTitle("");
   };
 
-  console.log("selected chat name", selectedChat?.name);
 
   return (
     <div className="flex w-full items-center justify-between">

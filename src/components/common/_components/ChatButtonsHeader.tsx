@@ -25,7 +25,6 @@ import { configPaths, isPath } from "../Header/constants";
 import { askRSPaths, generalPaths } from "../Sidebar/Sidebar";
 
 export default function ChatHeader() {
-  console.log('casuing render due to change in side bar')
   const pathname = usePathname();
   const router = useRouter();
 

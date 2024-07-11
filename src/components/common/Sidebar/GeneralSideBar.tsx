@@ -44,7 +44,6 @@ export default function GeneralSideBar() {
   }
 
   const handleCreateNewChat = async () => {
-    console.log('inside general bar')
     const newChatId = await addChat({});
     const allChats = await getAllChats();
 
@@ -57,7 +56,6 @@ export default function GeneralSideBar() {
       "selectedChat",
       allChats.find((c) => c.id === newChatId),
     );
-    console.log("new chat", newChatId)
     router.push(`/general/${newChatId}`);
 
   };
@@ -70,12 +68,10 @@ export default function GeneralSideBar() {
 
   const onDelete = async (event: React.MouseEvent, chat: Chat) => {
     event.stopPropagation();
-    console.log('delete id', chat?.id)
     await deleteChat({ id: chat.id! });
     await clearMessagesByChat({ chatId: chat.id! });
     const allChats = await getAllChats();
     const len = allChats.length;
-     console.log('remaining chats', len)
     if (selectedChat?.id === chat.id) {
       if (allChats[0]) {
         set("selectedChat", allChats[len - 1]);

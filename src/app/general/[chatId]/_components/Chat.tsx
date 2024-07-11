@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 export const Chat = ({ chat }: { chat?: IChat }) => {
-  console.log("chat parent");
   const router = useRouter();
   const [toggle, setToggle] = useState(false);
   const { useSnapshot, set } = store;
@@ -63,12 +62,10 @@ export const Chat = ({ chat }: { chat?: IChat }) => {
 
   const onDelete = async (event: React.MouseEvent, chat: IChat) => {
     event.stopPropagation();
-    console.log(chat.id);
     await deleteChat({ id: chat.id! });
     await clearMessagesByChat({ chatId: chat.id! });
     const allChats = await getAllChats();
     const len = allChats.length;
-    console.log("remaining chats", len);
     if (selectedChat?.id === chat.id) {
       if (allChats[0]) {
         set("selectedChat", allChats[len - 1]);

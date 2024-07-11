@@ -61,11 +61,9 @@ export function ChatMessages() {
       const chatId = selectedChatId;
       if (isNaN(chatId)) return [];
 
-      console.time("start")
        const result =  await getAllMessagesByChat({
         chatId,
       });
-      console.timeEnd("start")
       return result
     },
     enabled: !isNaN(selectedChatId) && selectedChatId > 0,
