@@ -63,9 +63,12 @@ export function ChatMessages() {
       const chatId = selectedChatId;
       if (isNaN(chatId)) return [];
 
-      return await getAllMessagesByChat({
+      console.time("start")
+       const result =  await getAllMessagesByChat({
         chatId,
       });
+      console.timeEnd("start")
+      return result
     },
     enabled: !isNaN(selectedChatId) && selectedChatId > 0,
   });
@@ -141,6 +144,13 @@ export function ChatMessages() {
     if (!apiKey?.length) {
       toast.info(
         "Need OpenAI key. You can enter your key from gear icon - top-right",
+        {
+          style: {
+            background: "#13A682",
+            color: "#fff",
+          },
+          closeButton: false,
+        },
       );
       return false;
     }
@@ -169,11 +179,11 @@ export function ChatMessages() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-97px-58px)] w-full flex-col">
+    <div className="flex h-[calc(100svh-57px-58px)] w-full flex-col overflow-x-hidden md:h-[calc(100svh-93px-58px)]">
       {/* cards div */}
       <div
         ref={messagesContainerRef}
-        className="flex max-h-[85%] w-full flex-auto flex-col overflow-y-auto overflow-x-hidden px-6"
+        className={`flex w-full flex-auto ${!messages.length ? "justify-center" : ""} flex-col overflow-y-auto overflow-x-hidden md:h-[80%]`}
       >
         <AnimatePresence>
           {!messages.length ? (
@@ -199,7 +209,7 @@ export function ChatMessages() {
           )}
         </AnimatePresence>
       </div>
-      <div className="mb-2">
+      <div className="w-full px-4 pb-4 md:px-20">
         <ChatMessageInput
           sendMessage={sendMessage}
           isReplyPending={isPending}
