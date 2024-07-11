@@ -1,6 +1,6 @@
 export const menuItems = [
   {
-    title: "General",
+    title: "Ask Anything",
     href: "/general",
     pathMatch: ["/general", "/general/*"],
   },
