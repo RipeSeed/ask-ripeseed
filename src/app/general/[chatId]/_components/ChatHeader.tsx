@@ -46,16 +46,11 @@ export function ChatHeader() {
 
     const updatedChat = await getChat({ id });
 
-
-    // Update selectedChat state
     set("selectedChat", updatedChat);
-
-    // Add a log to verify the state after updating
 
     setIsEditing(false);
     setTitle("");
   };
-
 
   return (
     <div className="flex w-full items-center justify-between">
@@ -108,7 +103,7 @@ const UploadDocumentWrapper = ({
   selectedChat: Chat | undefined;
 }) => {
   const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
-  const name = selectedChat?.doc?.name! ?? "Test";
+  const name = selectedChat?.doc?.name!;
 
   return (
     <>

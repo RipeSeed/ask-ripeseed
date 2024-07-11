@@ -105,7 +105,6 @@ export default function GeneralSideBar() {
         </div>
       </div>
       <div className="h-[calc(100svh-96px)]">
-        {/* Chat button */}
         <div className="px-8 pb-8 pt-7">
           <div
             className="group cursor-pointer rounded-lg bg-[#DBDBDB] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#34343C] dark:hover:bg-crayola"

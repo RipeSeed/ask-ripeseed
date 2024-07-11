@@ -3,8 +3,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import clock from "../../../../../public/clock.png";
-import config from "../../../../../public/config.png";
+const clock = "/clock.png";
+const config = "/config.png";
 
 export interface Cardset {
   top: string;
@@ -35,7 +35,10 @@ export const WelcomeCards = ({
     setKey(openAIKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openAIKey]);
-
+  const messageHandler = (message: string) => {
+    sendMessage(message);
+    handleOpenConfig();
+  };
   return (
     <div className="flex w-full flex-col items-center justify-center gap-4 px-4 py-3">
       {/* // div controlls chat cards */}
@@ -44,54 +47,36 @@ export const WelcomeCards = ({
           <Note className="w-full cursor-pointer" />
         ) : null}
         <div className="flex w-full flex-col items-center justify-center gap-2">
-          <Alert variant="info" onClick={handleOpenConfig} className="p-0">
-            <AlertDescription>
-              <Card
-                className="flex h-24 w-full cursor-pointer items-center justify-center border-0 bg-white p-2 text-lightText shadow-none dark:bg-[#404043] dark:text-darkText"
-                onClick={() => sendMessage(cards.top)}
-              >
-                <div className="">
-                  <Image
-                    src={clock}
-                    alt="clock"
-                    className="m-auto my-2 block"
-                  />
-                  {cards.top}
-                </div>
-              </Card>
-            </AlertDescription>
-          </Alert>
+          <Card
+            className="flex h-24 w-full cursor-pointer items-center justify-center border-0 bg-white p-2 text-lightText shadow-none dark:bg-[#404043] dark:text-darkText"
+            onClick={() => messageHandler(cards.top)}
+          >
+            <div className="">
+              <Image src={clock} alt="clock" width={22} height={22} className="m-auto my-2 block " />
+              {cards.top}
+            </div>
+          </Card>
+
           <div className="flex w-full flex-row gap-2">
-            <Alert variant="info" onClick={handleOpenConfig} className="p-0">
-              <AlertDescription>
-                <Card
-                  className="flex h-24 w-full cursor-pointer items-center justify-center border-0 bg-white p-2 text-lightText shadow-none dark:bg-[#404043] dark:text-darkText"
-                  onClick={() => sendMessage(cards.bottomLeft)}
-                >
-                  <div>
-                    <Image
-                      src={clock}
-                      alt="clock"
-                      className="m-auto my-2 block"
-                    />
-                    {cards.bottomLeft}
-                  </div>
-                </Card>
-              </AlertDescription>
-            </Alert>
-           <Alert variant="info" onClick={handleOpenConfig} className="p-0">
-            <AlertDescription>
             <Card
               className="flex h-24 w-full cursor-pointer items-center justify-center border-0 bg-white p-2 text-lightText shadow-none dark:bg-[#404043] dark:text-darkText"
-              onClick={() => sendMessage(cards.bottomRight)}
+              onClick={() => messageHandler(cards.bottomLeft)}
             >
               <div>
-                <Image src={clock} alt="clock" className="m-auto my-2 block" />
+                <Image src={clock} alt="clock" width={22} height={22} className="m-auto my-2 block " />
+                {cards.bottomLeft}
+              </div>
+            </Card>
+
+            <Card
+              className="flex h-24 w-full cursor-pointer items-center justify-center border-0 bg-white p-2 text-lightText shadow-none dark:bg-[#404043] dark:text-darkText"
+              onClick={() => messageHandler(cards.bottomRight)}
+            >
+              <div>
+                <Image src={clock} alt="clock" width={22} height={22} className="m-auto my-2 block " />
                 {cards.bottomRight}
               </div>
             </Card>
-            </AlertDescription>
-           </Alert>
           </div>
         </div>
       </div>
@@ -107,7 +92,7 @@ const Note = ({ className }: { className?: string }) => {
       onClick={handleOpenConfig}
     >
       <AlertDescription className="flex flex-row items-center gap-2">
-        <Image alt="config" src={config} className="h-3 w-3" />
+        <Image alt="config" src={config} className="h-3 w-3" height={16} width={18} />
         <span className="text-[#1B9E84]">
           Configure your OpenAI Key from gear icon at top-right to continue.
         </span>

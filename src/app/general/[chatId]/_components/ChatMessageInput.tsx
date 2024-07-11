@@ -3,7 +3,7 @@ import { LoaderCircle } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import queryIcon from "../../../../../public/query.png";
+const queryIcon = "/query.png";
 
 interface ChatFooterProps {
   sendMessage: (newMessage: string) => Promise<boolean>;
@@ -117,13 +117,13 @@ export function ChatMessageInput({
       </AnimatePresence>
       <Button
         disabled={isDisabled}
-        className="h-10 md:h-12 rounded-3xl bg-crayola hover:border hover:border-primary dark:hover:text-white"
+        className="h-10 rounded-3xl bg-crayola hover:border hover:border-primary dark:hover:text-white md:h-12"
         onClick={handleSendMessage}
       >
         {isDisabled ? (
           <LoaderCircle className="animate-spin text-primary" />
         ) : (
-          <Image alt="query arrow" src={queryIcon} />
+          <Image alt="query arrow" src={queryIcon} width={30} height={23} />
         )}
       </Button>
     </div>
