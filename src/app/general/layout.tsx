@@ -29,9 +29,9 @@ export const metadata: Metadata = {
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     // removed h-screen
-    <div className="flex grow flex-col items-center">
+    <div className="flex h-[calc[100svh-57px]] flex-col items-center overflow-x-hidden">
       {/* // removed h--full */}
-      <div className="flex h-full w-full flex-col">
+      <div className="flex h-[calc[100svh-57px]] w-full flex-col overflow-x-hidden md:h-[calc[100svh-93px]]">
         {/* // remmoved sidebar view  and export the component inside it here*/}
         {children}
       </div>

@@ -16,8 +16,8 @@ const SidebarView = async () => {
 
 export default SidebarView;
 
-// h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]
+// h-[calc(100svh-57px-24px)] md:h-[calc(100svh-73px-24px)]
 
-// h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]
+// h-[calc(100svh-57px-24px)] md:h-[calc(100svh-73px-24px)]
 
-// h-[calc(100vh-57px-24px)] md:h-[calc(100vh-73px-24px)]
+// h-[calc(100svh-57px-24px)] md:h-[calc(100svh-73px-24px)]

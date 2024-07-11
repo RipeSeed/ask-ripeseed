@@ -31,6 +31,7 @@ import MenuView from "./MenuView";
 import { NavSheet } from "./NavSheet";
 import type { Menu } from "./types";
 import { ModeToggle } from "@/components/Providers/ThemeProvider";
+import { Settings } from "lucide-react";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -61,16 +62,13 @@ export const Header = () => {
         <div className="flex items-center justify-center gap-2">
           <ModeToggle />
           {isPath(configPaths, pathname) ? <ConfigDialogue /> : null}
-          <div className={`block md:hidden`}>
-            <NavSheet />
-          </div>
         </div>
       </div>
     </header>
   );
 };
 
-const ConfigDialogue = () => {
+export const ConfigDialogue = () => {
   const closeRef = useRef<HTMLButtonElement>(null);
   const openRef = useRef<HTMLButtonElement>(null);
   const { set, useSnapshot } = store;
@@ -120,7 +118,7 @@ const ConfigDialogue = () => {
     <Dialog>
       <DialogTrigger asChild className="flex items-center justify-center">
         <button ref={openRef} className="m-0 p-0">
-          <Bolt className="w-full cursor-pointer rounded-xl text-muted-foreground hover:bg-secondary" />
+          <Settings className="w-full cursor-pointer rounded-xl text-muted-foreground" />
         </button>
       </DialogTrigger>
       <DialogContent className="rounded-lg sm:max-w-md">

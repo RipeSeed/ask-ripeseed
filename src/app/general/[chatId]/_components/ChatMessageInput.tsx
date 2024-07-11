@@ -1,11 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { LoaderCircle, SendHorizontal } from "lucide-react";
-import { useRef, useState } from "react";
-
+import { LoaderCircle } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
-import queryIcon from "../../../../../public/query.png"
+import queryIcon from "../../../../../public/query.png";
+
 interface ChatFooterProps {
   sendMessage: (newMessage: string) => Promise<boolean>;
   isReplyPending: boolean;
@@ -16,11 +15,33 @@ export function ChatMessageInput({
   isReplyPending: isDisabled,
 }: ChatFooterProps) {
   const [message, setMessage] = useState("");
+  const [textareaHeight, setTextareaHeight] = useState<number | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const parentDivRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      adjustTextareaHeight(inputRef.current);
+    }
+  }, [message]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
+    adjustTextareaHeight(event.target);
   };
+
+  const adjustTextareaHeight = (textarea: HTMLTextAreaElement) => {
+    textarea.style.height = "auto";
+    const newHeight = textarea.scrollHeight;
+    textarea.style.height = `${newHeight}px`;
+    setTextareaHeight(newHeight);
+    if (newHeight > 50 && parentDivRef.current) {
+      parentDivRef.current.style.borderRadius = "25px";
+    } else {
+      parentDivRef.current?.style.removeProperty("border-radius");
+    }
+  };
+
   const handleSendMessage = async () => {
     if (message.trim().length) {
       const proceed = await sendMessage(message.trim());
@@ -28,6 +49,11 @@ export function ChatMessageInput({
         setMessage("");
         if (inputRef.current) {
           inputRef.current.focus();
+          inputRef.current.style.height = "auto";
+          setTextareaHeight(null);
+        }
+        if (parentDivRef.current) {
+          parentDivRef.current.style.removeProperty("border-radius");
         }
       }
     }
@@ -47,8 +73,10 @@ export function ChatMessageInput({
   };
 
   return (
-    <div className="px-20">
-      <div className="flex w-full items-center justify-between bg-[#E0E0E0] dark:bg-black rounded-[100px]  gap-2 p-2">
+    <div
+      ref={parentDivRef}
+      className="flex h-full w-full items-center justify-between gap-2 rounded-[100px] bg-[#E0E0E0] p-2 dark:bg-black"
+    >
       <AnimatePresence initial={false}>
         <motion.div
           key="input"
@@ -58,41 +86,46 @@ export function ChatMessageInput({
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1 }}
           transition={{
-            opacity: { duration: 0.05 },
+            opacity: { duration: 0.5 },
             layout: {
               type: "spring",
               bounce: 0.15,
             },
           }}
         >
-       <div className="">
-       <Textarea
-            autoComplete="off"
-            value={message}
-            ref={inputRef}
-            disabled={isDisabled}
-            onKeyDown={handleKeyPress}
-            onChange={handleInputChange}
-            name="message"
-            placeholder="Ask Anything..."
-            className="flex h-9 min-h-0 w-full resize-none items-center overflow-hidden rounded-full border bg-background bg-white dark:bg-[#313136]"
-          ></Textarea>
-       </div>
+          <div>
+            <textarea
+              autoComplete="off"
+              value={message}
+              ref={inputRef}
+              disabled={isDisabled}
+              onKeyDown={handleKeyPress}
+              onChange={handleInputChange}
+              name="message"
+              placeholder="Ask Anything..."
+              rows={1}
+              style={{
+                minHeight: "46px",
+                borderRadius:
+                  textareaHeight && textareaHeight > 50 ? "15px" : "100px",
+                transition: "border-radius 0.2s ease-in-out",
+              }}
+              className="flex max-h-[100px] w-full resize-none overflow-y-auto rounded-[100px] bg-white p-3 focus:outline-none dark:bg-[#313136]"
+            ></textarea>
+          </div>
         </motion.div>
       </AnimatePresence>
       <Button
-        variant={`ghost`}
         disabled={isDisabled}
-        className={
-          " rounded-3xl  hover:border hover:border-primary bg-crayola dark:hover:text-white"
-        }
+        className="h-10 md:h-12 rounded-3xl bg-crayola hover:border hover:border-primary dark:hover:text-white"
         onClick={handleSendMessage}
       >
         {isDisabled ? (
           <LoaderCircle className="animate-spin text-primary" />
-        ) : <Image alt="query arrow" src={queryIcon}/>}
+        ) : (
+          <Image alt="query arrow" src={queryIcon} />
+        )}
       </Button>
-    </div>
     </div>
   );
 }

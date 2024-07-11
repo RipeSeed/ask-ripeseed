@@ -3,21 +3,19 @@ import { truncateString } from "@/app/_utils";
 import { store } from "@/app/_utils/store";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Edit, FileBarChart, FileBarChart2, Paperclip } from "lucide-react";
+import { FileBarChart, FileBarChart2, PencilLine } from "lucide-react";
 import { useState } from "react";
-import { ChatsSheet } from "./ChatsSheet";
 import { UploadDocument } from "./UploadDocument";
-import pencil from "../../../../../public/pencil.png";
-import Image from "next/image";
 export function ChatHeader() {
   const { useSnapshot, set } = store;
   const { selectedChat } = useSnapshot();
   const [title, setTitle] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-
+  // const [chatSelected, setChatSelected] = useState(selectedChat)
+  console.log("selected  chat inside chat", selectedChat?.id);
   const handleEditClick = () => {
     if (selectedChat?.id) {
-      setTitle(selectedChat.name);
+      setTitle(selectedChat?.name);
       setIsEditing((prev) => !prev);
     }
   };
@@ -37,11 +35,11 @@ export function ChatHeader() {
       setTitle("");
       return;
     }
-
     await updateChat({
       id,
       name: title,
     });
+
     const updated = await getAllChats();
     const sorted = updated.sort((a, b) => {
       return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
@@ -49,23 +47,35 @@ export function ChatHeader() {
     set("chats", sorted);
 
     const updatedChat = await getChat({ id });
+    console.log("Updated Chat:", updatedChat); // Log to check the updated chat
+
+    // Add a log to verify the state before updating
+    console.log("Before set selectedChat:", selectedChat);
+
+    // Update selectedChat state
     set("selectedChat", updatedChat);
+
+    // Add a log to verify the state after updating
+    console.log("After set selectedChat:", selectedChat);
 
     setIsEditing(false);
     setTitle("");
   };
 
+  console.log("selected chat name", selectedChat?.name);
+
   return (
-    <div className="flex w-full items-center justify-between p-1">
+    <div className="flex w-full items-center justify-between">
       <div className="flex w-full items-center gap-2 bg-white p-3 dark:bg-[#404043]">
         <div className="flex w-full flex-row justify-between">
-          <li className="flex items-center gap-2">
-            <Image alt="pencil img" src={pencil} className="h-3 w-3" />
-            <span className="font-medium text-[#B6B4B5]">Mon June 10 2024</span>
-          </li>
-          <div className="flex flex-row gap-2">
-            <div className="block md:hidden">
-              <ChatsSheet />
+          <div className="flex flex-row items-center gap-2">
+            <div
+              className="flex cursor-pointer items-center justify-center"
+              onClick={handleEditClick}
+            >
+              {!isEditing && selectedChat?.name && (
+                <PencilLine className="h-4 w-4 text-[#C8C8C8]" />
+              )}
             </div>
             {isEditing ? (
               <>
@@ -89,20 +99,6 @@ export function ChatHeader() {
                 </span>
               </>
             )}
-            <div
-              className="flex cursor-pointer items-center justify-center"
-              onClick={handleEditClick}
-            >
-              {!isEditing && selectedChat?.name && (
-                <Edit
-                  className="font-medium text-muted-foreground"
-                  style={{
-                    height: "14px",
-                    width: "14px",
-                  }}
-                />
-              )}
-            </div>
           </div>
           <div>
             <UploadDocumentWrapper selectedChat={selectedChat} />
@@ -132,12 +128,14 @@ const UploadDocumentWrapper = ({
         <>
           <Badge
             variant={"outline"}
-            className="cursor-pointer rounded-3xl border px-5 py-2 text-xs text-[#575757] hover:bg-primary dark:border-white dark:text-white"
+            className="group cursor-pointer rounded-3xl border px-5 py-2 text-xs text-[#575757] transition duration-300 hover:border-crayola dark:border-white dark:text-white dark:hover:border-crayola"
             onClick={() => setIsUploadDocOpen(true)}
           >
             <div className="flex items-center gap-2">
-              <FileBarChart className="h-4 w-4 dark:text-[#EBEBEB]" />
-              <span>Ask Ripeseed.pdf</span>
+              <FileBarChart className="h-4 w-4 transition duration-300 group-hover:text-crayola dark:text-[#EBEBEB]" />
+              <span className="transition duration-300 group-hover:text-crayola">
+                Ask Ripeseed.pdf
+              </span>
             </div>
           </Badge>
           <UploadDocument

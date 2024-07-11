@@ -1,49 +1,164 @@
 "use client";
-import { useState } from "react";
-import { Settings } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { store } from "@/app/_utils/store";
+import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-export default function ChatHeader() {
-  const [toggle, setToggle] = useState(false);
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ExternalLink } from "lucide-react";
+import { toast } from "sonner";
 
-  const toggleHandler = () => {
-    setToggle(!toggle);
-  };
+import { Settings } from "lucide-react";
+
+import Link from "next/link";
+import { configPaths, isPath } from "../Header/constants";
+import { askRSPaths, generalPaths } from "../Sidebar/Sidebar";
+
+export default function ChatHeader() {
+  console.log('casuing render due to change in side bar')
+  const pathname = usePathname();
+  const router = useRouter();
+
   return (
-    <div className="sticky h-[97px] items-center justify-between border-b-[#ACACAC] py-6 md:flex">
-      <div></div>
+    <div className="sticky flex items-center justify-between border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:gap-0 md:py-6">
+      <div className="w-6"></div>
       <div className="flex rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white">
-        <a
-          href="/ask-ripeseed"
-          className={`cursor-pointer px-6 py-2 text-lg font-medium ${toggle ? "rounded-full bg-crayola text-white" : ""} `}
-          onClick={toggleHandler}
+        <li
+          onClick={() => router.push("/ask-ripeseed")}
+          className={`cursor-pointer list-none px-2 py-1 font-medium xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? "rounded-full bg-crayola text-white" : ""} `}
         >
           Ask Ripeseed
-        </a>
-        <span
-          className={`cursor-pointer px-6 py-2 text-lg font-medium ${toggle ? "" : "rounded-full bg-crayola text-white"}`}
-          onClick={toggleHandler}
+        </li>
+        <li
+          onClick={() => router.push("/general")}
+          className={`cursor-pointer list-none px-2 py-1 font-medium xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? "rounded-full bg-crayola text-white" : ""}`}
         >
           Ask Anything
-        </span>
+        </li>
       </div>
-      <div>
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Settings className="mr-4 cursor-pointer dark:text-white" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem className="cursor-pointer">
-              Light
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">Dark</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="mr-[14px] h-5 w-5">
+        {isPath(configPaths, pathname) ? <ConfigDialogue /> : null}
       </div>
     </div>
   );
 }
+
+const ConfigDialogue = () => {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const openRef = useRef<HTMLButtonElement>(null);
+  const { set, useSnapshot } = store;
+  const { isConfigOpen } = useSnapshot();
+  const [formValues, setFormValues] = useState({
+    openaiKey: "",
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const _key = localStorage.getItem("openai:key") ?? "";
+      setFormValues({
+        ...formValues,
+        openaiKey: _key,
+      });
+      set("openAIKey", _key);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (isConfigOpen) {
+      openRef.current?.click();
+    }
+    return () => {
+      set("isConfigOpen", false);
+      closeRef.current?.click();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConfigOpen]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value.trim(),
+    });
+  };
+
+  const saveConfig = () => {
+    set("openAIKey", formValues.openaiKey);
+    localStorage.setItem("openai:key", formValues.openaiKey);
+    toast.success("Your OpenAI has been updated in your Local Storage.");
+    closeRef.current?.click();
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild className="flex items-center justify-center">
+        <button ref={openRef} className="m-0 p-0">
+          <Settings className="w-full cursor-pointer rounded-xl text-muted-foreground" />
+        </button>
+      </DialogTrigger>
+      <DialogContent className="rounded-lg sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Configure you API keys</DialogTitle>
+        </DialogHeader>
+        <div className="flex items-center space-x-2">
+          <div className="grid flex-1 gap-2">
+            <Label>
+              OpenAI key:
+              <span className="text-sm text-gray-500">(ChatGPT)</span>
+            </Label>
+            <Input
+              name="openaiKey"
+              onChange={handleChange}
+              value={formValues.openaiKey}
+              className="rounded-full border-crayola"
+              type="password"
+            />
+          </div>
+        </div>
+        <DialogFooter className="w-full flex-col !justify-between space-y-1">
+          <div className="justify-start">
+            <div className="text-sm text-gray-500">
+              <div>Don&apos;t have an OpenAI key? </div>
+              <Link
+                href={`https://platform.openai.com/api-keys`}
+                target="_blank"
+                className="flex flex-row gap-1 text-blue-500 underline"
+              >
+                Generate one here <ExternalLink className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+          <div className="flex flex-col gap-1 sm:flex-row sm:justify-end">
+            <DialogClose asChild>
+              <Button
+                type="button"
+                variant="secondary"
+                className="rounded-full"
+                ref={closeRef}
+              >
+                Close
+              </Button>
+            </DialogClose>
+            <Button
+              type="button"
+              onClick={saveConfig}
+              className="rounded-full bg-crayola"
+            >
+              Save
+            </Button>
+          </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
