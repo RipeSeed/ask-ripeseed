@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logo from "../../../../public/ripeseed.png";
+const logo = "/ripeseed.png";
 import Link from "next/link";
 
 import { MessageSquare, UsersRound, Headset, FileCode } from "lucide-react";
@@ -9,11 +9,9 @@ export default function AskRipeSeedBar() {
     <div className="h-screen bg-[#EBEBEB] px-8 text-white dark:bg-black">
       {/* // logo portion */}
       <div className="sticky flex h-24 items-center justify-center border-b border-[#ACACAC] dark:border-[#34343B]">
-        <Image src={logo} alt="logo" />
+        <Image src={logo} alt="logo" height={28} width={160} />
       </div>
-      {/* chat portion */}
       <div className="h-[calc(100svh-96px)]">
-        {/* // chat button */}
         <div className="pb-8 pt-7">
           <div className="group cursor-pointer rounded-lg bg-[#DBDBDB] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#34343C] dark:hover:bg-crayola">
             <div className="flex w-full items-center gap-2">
