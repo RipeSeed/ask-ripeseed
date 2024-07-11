@@ -3,19 +3,17 @@ import { truncateString } from "@/app/_utils";
 import { store } from "@/app/_utils/store";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Edit, FileBarChart2, Paperclip } from "lucide-react";
+import { FileBarChart, FileBarChart2, PencilLine } from "lucide-react";
 import { useState } from "react";
-import { ChatsSheet } from "./ChatsSheet";
 import { UploadDocument } from "./UploadDocument";
 export function ChatHeader() {
   const { useSnapshot, set } = store;
   const { selectedChat } = useSnapshot();
   const [title, setTitle] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-
   const handleEditClick = () => {
     if (selectedChat?.id) {
-      setTitle(selectedChat.name);
+      setTitle(selectedChat?.name);
       setIsEditing((prev) => !prev);
     }
   };
@@ -35,11 +33,11 @@ export function ChatHeader() {
       setTitle("");
       return;
     }
-
     await updateChat({
       id,
       name: title,
     });
+
     const updated = await getAllChats();
     const sorted = updated.sort((a, b) => {
       return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
@@ -47,6 +45,7 @@ export function ChatHeader() {
     set("chats", sorted);
 
     const updatedChat = await getChat({ id });
+
     set("selectedChat", updatedChat);
 
     setIsEditing(false);
@@ -54,12 +53,17 @@ export function ChatHeader() {
   };
 
   return (
-    <div className="flex h-14 w-full items-center justify-between border-b bg-muted/40 p-4">
-      <div className="flex w-full items-center gap-2">
+    <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center gap-2 bg-white p-3 dark:bg-[#404043]">
         <div className="flex w-full flex-row justify-between">
-          <div className="flex flex-row gap-2">
-            <div className="block md:hidden">
-              <ChatsSheet />
+          <div className="flex flex-row items-center gap-2">
+            <div
+              className="flex cursor-pointer items-center justify-center"
+              onClick={handleEditClick}
+            >
+              {!isEditing && selectedChat?.name && (
+                <PencilLine className="h-4 w-4 text-[#C8C8C8]" />
+              )}
             </div>
             {isEditing ? (
               <>
@@ -83,20 +87,6 @@ export function ChatHeader() {
                 </span>
               </>
             )}
-            <div
-              className="flex cursor-pointer items-center justify-center"
-              onClick={handleEditClick}
-            >
-              {!isEditing && selectedChat?.name && (
-                <Edit
-                  className="font-medium text-muted-foreground"
-                  style={{
-                    height: "14px",
-                    width: "14px",
-                  }}
-                />
-              )}
-            </div>
           </div>
           <div>
             <UploadDocumentWrapper selectedChat={selectedChat} />
@@ -113,11 +103,11 @@ const UploadDocumentWrapper = ({
   selectedChat: Chat | undefined;
 }) => {
   const [isUploadDocOpen, setIsUploadDocOpen] = useState(false);
-  const name = selectedChat?.doc.name!;
+  const name = selectedChat?.doc?.name!;
 
   return (
     <>
-      {selectedChat?.doc.name ? (
+      {selectedChat?.doc?.name ? (
         <Badge className="gap-1 rounded-3xl border border-primary text-xs text-white">
           <FileBarChart2 className="h-3 w-3" />
           {truncateString(name, 16)}
@@ -126,11 +116,15 @@ const UploadDocumentWrapper = ({
         <>
           <Badge
             variant={"outline"}
-            className="cursor-pointer rounded-3xl border border-primary text-xs text-gray-500 hover:bg-primary hover:text-white"
+            className="group cursor-pointer rounded-3xl border px-5 py-2 text-xs text-[#575757] transition duration-300 hover:border-crayola dark:border-white dark:text-white dark:hover:border-crayola"
             onClick={() => setIsUploadDocOpen(true)}
           >
-            <Paperclip className="h-3 w-3" />
-            <span>Attach knowledgebase</span>
+            <div className="flex items-center gap-2">
+              <FileBarChart className="h-4 w-4 transition duration-300 group-hover:text-crayola dark:text-[#EBEBEB]" />
+              <span className="transition duration-300 group-hover:text-crayola">
+                Ask Ripeseed.pdf
+              </span>
+            </div>
           </Badge>
           <UploadDocument
             isOpen={isUploadDocOpen}

@@ -1,13 +1,7 @@
 "use client";
-
-import Link from "next/link";
-
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { store } from "@/app/_utils/store";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,54 +15,44 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Bolt, ExternalLink } from "lucide-react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { ExternalLink } from "lucide-react";
 import { toast } from "sonner";
-import { configPaths, isPath, menuItems } from "./constants";
-import MenuView from "./MenuView";
-import { NavSheet } from "./NavSheet";
-import type { Menu } from "./types";
-import { ModeToggle } from "@/components/Providers/ThemeProvider";
+
 import { Settings } from "lucide-react";
 
-export const Header = () => {
+import Link from "next/link";
+import { configPaths, isPath } from "../Header/constants";
+import { askRSPaths, generalPaths } from "../Sidebar/Sidebar";
+
+export default function ChatHeader() {
   const pathname = usePathname();
+  const router = useRouter();
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 p-2 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-16 md:py-4">
-      <div className="flex justify-between">
-        <Link href={"/"} className="max-h-[40px]">
-          <Image
-            src={`/logo/logo.svg`}
-            alt="ripeseed.io"
-            height={100}
-            width={100}
-            className="h-[40px] cursor-pointer"
-          />
-        </Link>
-        <div className="hidden md:block">
-          <NavigationMenu>
-            <NavigationMenuList>
-              {menuItems.map((menuItem, i) => (
-                <NavigationMenuItem key={i} className="rounded-full">
-                  <MenuView menuItem={menuItem as Menu} />
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-
-        <div className="flex items-center justify-center gap-2">
-          <ModeToggle />
-          {isPath(configPaths, pathname) ? <ConfigDialogue /> : null}
-        </div>
+    <div className="sticky flex items-center justify-between border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:gap-0 md:py-6">
+      <div className="w-6"></div>
+      <div className="flex rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white">
+        <li
+          onClick={() => router.push("/ask-ripeseed")}
+          className={`cursor-pointer list-none px-2 py-1 font-medium xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? "rounded-full bg-crayola text-white" : ""} `}
+        >
+          Ask Ripeseed
+        </li>
+        <li
+          onClick={() => router.push("/general")}
+          className={`cursor-pointer list-none px-2 py-1 font-medium xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? "rounded-full bg-crayola text-white" : ""}`}
+        >
+          Ask Anything
+        </li>
       </div>
-    </header>
+      <div className="mr-[14px] h-5 w-5">
+        {isPath(configPaths, pathname) ? <ConfigDialogue /> : null}
+      </div>
+    </div>
   );
-};
+}
 
-export const ConfigDialogue = () => {
+const ConfigDialogue = () => {
   const closeRef = useRef<HTMLButtonElement>(null);
   const openRef = useRef<HTMLButtonElement>(null);
   const { set, useSnapshot } = store;
@@ -130,14 +114,15 @@ export const ConfigDialogue = () => {
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
             <Label>
-              OpenAI key:{" "}
+              OpenAI key:
               <span className="text-sm text-gray-500">(ChatGPT)</span>
             </Label>
             <Input
               name="openaiKey"
               onChange={handleChange}
               value={formValues.openaiKey}
-              className="rounded-full"
+              className="rounded-full border-crayola"
+              type="password"
             />
           </div>
         </div>
@@ -165,7 +150,11 @@ export const ConfigDialogue = () => {
                 Close
               </Button>
             </DialogClose>
-            <Button type="button" onClick={saveConfig} className="rounded-full">
+            <Button
+              type="button"
+              onClick={saveConfig}
+              className="rounded-full bg-crayola"
+            >
               Save
             </Button>
           </div>

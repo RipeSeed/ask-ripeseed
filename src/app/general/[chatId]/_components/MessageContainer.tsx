@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-
 import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
@@ -46,15 +45,17 @@ export const MessageContainer = ({
         originY: 0.5,
       }}
       className={cn(
-        "flex flex-col gap-2 whitespace-pre-wrap p-4",
-        message.role === "user" ? "items-end" : "items-start",
+        "relative flex flex-col gap-2 whitespace-pre-wrap py-1 px-3",
+        message.role === "user"
+          ? "my-1 ml-auto items-end rounded-xl"
+          : "items-start",
       )}
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center">
         {message.role === "assistant" && (
           <div className="flex h-full flex-col">
             <div className="flex-grow"></div>
-            <Avatar className="flex items-center justify-center border border-primary p-0.5">
+            <Avatar className="mb-3 flex items-center justify-center border border-[#DBDBDB] p-0.5 dark:border-[#D1D1D1]">
               <AvatarImage
                 src={`/logo/logo.svg`}
                 alt={message.role}
@@ -64,21 +65,24 @@ export const MessageContainer = ({
             </Avatar>
           </div>
         )}
-        <span className="max-w-[250px] overflow-x-auto rounded-md bg-accent p-3 sm:max-w-sm md:max-w-md">
+        <span className="max-w-[90%] overflow-x-auto rounded-md p-3 text-white sm:max-w-sm md:max-w-md">
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <span className="sr-only">Thinking ...</span>
-              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.4s]"></div>
-              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]"></div>
-              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500"></div>
+              <div className="bg-red-200 [animation-delay:-0.4s] h-1 w-1 animate-bounce rounded-full"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full  bg-gray-500 [animation-delay:-0.2s]"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full [animation-delay:-0.2s] bg-gray-500"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full [animation-delay:-0.2s] bg-gray-500"></div>
             </div>
           ) : (
             <>
               {message.role === "user" ? (
-                message.content
+                <div className="prose prose-sm rounded-xl bg-[#EBEBEB] p-3 text-black dark:bg-[#404043] dark:text-white">
+                  {message.content}
+                </div>
               ) : (
                 <MessageMarkdownMemoized
-                  className="prose prose-sm"
+                  className="prose prose-sm rounded-xl bg-crayola p-3 text-white marker:text-white"
                   rehypePlugins={[
                     rehypeHighlight,
                     remarkGfm,
@@ -94,14 +98,14 @@ export const MessageContainer = ({
           )}
         </span>
         {message.role === "user" && (
-          <div className="flex h-full flex-col">
-            <div className="flex-grow"></div>
-            <Avatar className="flex items-center justify-center">
+          <div className="relative flex h-full flex-col">
+            <Avatar className="mt-[12px] flex items-center justify-center border">
               <AvatarImage
                 src={`/user.png`}
                 alt={message.role}
                 width={100}
                 height={100}
+                className="absolute top-0"
               />
               <AvatarFallback>{"User"}</AvatarFallback>
             </Avatar>

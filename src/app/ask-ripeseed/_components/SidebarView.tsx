@@ -5,9 +5,9 @@ import { ExternalLink } from "./ExternalLink";
 
 export const SidebarView = () => {
   return (
-    <div className="hidden h-[calc(100vh-57px-24px)] border-r bg-muted/40 md:block md:h-[calc(100vh-73px-24px)]">
-      <div className="flex h-[calc(100vh-57px-24px)] flex-col gap-2 py-4 md:h-[calc(100vh-73px-24px)]">
-        <div className="flex h-[calc(100vh-57px-24px)] flex-col px-1 text-sm font-medium md:h-[calc(100vh-73px-24px)] lg:px-2">
+    <div className="hidden h-[calc(100svh-57px-24px)] border-r bg-muted/40 md:block md:h-[calc(100svh-73px-24px)]">
+      <div className="flex h-[calc(100svh-57px-24px)] flex-col gap-2 py-4 md:h-[calc(100svh-73px-24px)]">
+        <div className="flex h-[calc(100svh-57px-24px)] flex-col px-1 text-sm font-medium md:h-[calc(100svh-73px-24px)] lg:px-2">
           <div className="h-full flex-grow overflow-y-auto overflow-x-hidden">
             <>
               <div className="flex h-full flex-col gap-4">
