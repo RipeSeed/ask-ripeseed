@@ -11,7 +11,6 @@ export function ChatHeader() {
   const { selectedChat } = useSnapshot();
   const [title, setTitle] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  // const [chatSelected, setChatSelected] = useState(selectedChat)
   console.log("selected  chat inside chat", selectedChat?.id);
   const handleEditClick = () => {
     if (selectedChat?.id) {
@@ -47,16 +46,12 @@ export function ChatHeader() {
     set("chats", sorted);
 
     const updatedChat = await getChat({ id });
-    console.log("Updated Chat:", updatedChat); // Log to check the updated chat
 
-    // Add a log to verify the state before updating
-    console.log("Before set selectedChat:", selectedChat);
 
     // Update selectedChat state
     set("selectedChat", updatedChat);
 
     // Add a log to verify the state after updating
-    console.log("After set selectedChat:", selectedChat);
 
     setIsEditing(false);
     setTitle("");

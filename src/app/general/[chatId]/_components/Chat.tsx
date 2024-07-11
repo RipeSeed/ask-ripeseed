@@ -10,11 +10,10 @@ import { ChatHeader } from "./ChatHeader";
 import { ChatMessages } from "./ChatMessages";
 import { store } from "@/app/_utils/store";
 import { Menu } from "lucide-react";
-import { useState, useEffect, useRef, MouseEvent } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   EllipsisVertical,
   MessageSquare,
-  Pencil,
   Trash2,
   X,
 } from "lucide-react";
