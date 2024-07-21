@@ -1,18 +1,20 @@
 "use client";
-import { Header } from "@/components/common/Header";
+
 import Providers from "@/components/Providers";
 import { cn } from "@/lib/utils";
-import { Inter as FontSans } from "next/font/google";
+import { Poppins } from "next/font/google";
 import Script from "next/script";
 import { Toaster } from "sonner";
 import "./globals.css";
 import ChatHeader from "@/components/common/_components/ChatButtonsHeader";
 import Sidebar from "@/components/common/Sidebar/Sidebar";
 
-const fontSans = FontSans({
+const fontSans = Poppins({
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
   subsets: ["latin"],
   variable: "--font-sans",
 });
+
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -51,10 +51,10 @@ export const WelcomeCards = ({
         ) : null}
         <div className="flex w-full flex-col items-center justify-center gap-2">
           <Card
-            className="flex h-24 w-full cursor-pointer items-center justify-center border-0 bg-white p-2 text-lightText shadow-none dark:bg-[#404043] dark:text-darkText"
+            className="flex h-24 w-full cursor-pointer items-center justify-center border border-[#CECECE] bg-[#EFEFEF] p-2 text-lightText shadow-sm dark:border-[#3C3C3F] dark:bg-[#404043] dark:text-darkText"
             onClick={() => messageHandler(cards.top)}
           >
-            <div className="">
+            <div>
               <Image
                 src={clock}
                 alt="clock"
@@ -68,7 +68,7 @@ export const WelcomeCards = ({
 
           <div className="flex w-full flex-row gap-2">
             <Card
-              className="flex h-24 w-full cursor-pointer items-center justify-center border-0 bg-white p-2 text-lightText shadow-none dark:bg-[#404043] dark:text-darkText"
+              className="flex h-24 w-full cursor-pointer items-center justify-center border border-[#CECECE] bg-[#EFEFEF] p-2 text-lightText shadow-sm dark:border-[#3C3C3F] dark:bg-[#404043] dark:text-darkText"
               onClick={() => messageHandler(cards.bottomLeft)}
             >
               <div>
@@ -84,7 +84,7 @@ export const WelcomeCards = ({
             </Card>
 
             <Card
-              className="flex h-24 w-full cursor-pointer items-center justify-center border-0 bg-white p-2 text-lightText shadow-none dark:bg-[#404043] dark:text-darkText"
+              className="flex h-24 w-full cursor-pointer items-center justify-center border border-[#CECECE] bg-[#EFEFEF] p-2 text-lightText shadow-sm dark:border-[#3C3C3F] dark:bg-[#404043] dark:text-darkText"
               onClick={() => messageHandler(cards.bottomRight)}
             >
               <div>
