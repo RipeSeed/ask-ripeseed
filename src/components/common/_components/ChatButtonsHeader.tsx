@@ -31,21 +31,21 @@ export default function ChatHeader() {
   return (
     <div className="sticky flex items-center justify-between border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:gap-0 md:py-6">
       <div className="w-6"></div>
-      <div className="flex rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white">
+      <div className="flex gap-1 rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white">
         <li
           onClick={() => router.push("/ask-ripeseed")}
-          className={`cursor-pointer list-none px-2 py-1 font-medium xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? "rounded-full bg-crayola text-white" : ""} `}
+          className={`cursor-pointer list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? "rounded-full bg-crayola text-white drop-shadow-lg" : "rounded-full hover:bg-accent"} `}
         >
           Ask Ripeseed
         </li>
         <li
           onClick={() => router.push("/general")}
-          className={`cursor-pointer list-none px-2 py-1 font-medium xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? "rounded-full bg-crayola text-white" : ""}`}
+          className={`cursor-pointer list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? "rounded-full bg-crayola text-white drop-shadow-lg" : "rounded-full hover:bg-accent"}`}
         >
           Ask Anything
         </li>
       </div>
-      <div className="mr-[14px] h-5 w-5">
+      <div className="mr-[14px]">
         {isPath(configPaths, pathname) ? <ConfigDialogue /> : null}
       </div>
     </div>
@@ -85,7 +85,7 @@ const ConfigDialogue = () => {
       closeBtn?.click();
     };
   }, [isConfigOpen, set]);
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({
       ...formValues,
@@ -103,9 +103,14 @@ const ConfigDialogue = () => {
   return (
     <Dialog>
       <DialogTrigger asChild className="flex items-center justify-center">
-        <button ref={openRef} className="m-0 p-0">
-          <Settings className="w-full cursor-pointer rounded-xl text-muted-foreground" />
-        </button>
+        <Button
+          className="border-none bg-transparent shadow-none hover:shadow-sm"
+          ref={openRef}
+          variant="outline"
+          size="icon"
+        >
+          <Settings className="h-5 w-5 cursor-pointer rounded-xl text-muted-foreground stroke-[#1B1B21] dark:stroke-[#EBEBEB]" />
+        </Button>
       </DialogTrigger>
       <DialogContent className="rounded-lg sm:max-w-md">
         <DialogHeader>

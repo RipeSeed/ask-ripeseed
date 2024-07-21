@@ -175,7 +175,7 @@ export function ChatMessages() {
   }
 
   return (
-    <div className="flex h-[calc(100svh-57px-58px)] w-full flex-col overflow-x-hidden md:h-[calc(100svh-93px-58px)]">
+    <div className="flex w-full flex-col overflow-x-hidden md:h-[calc(100svh-93px-85px)] h-[calc(100svh-57px-85px)]">
       {/* cards div */}
       <div
         ref={messagesContainerRef}

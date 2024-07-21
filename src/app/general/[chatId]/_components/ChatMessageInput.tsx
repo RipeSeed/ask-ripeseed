@@ -110,7 +110,7 @@ export function ChatMessageInput({
                   textareaHeight && textareaHeight > 50 ? "15px" : "100px",
                 transition: "border-radius 0.2s ease-in-out",
               }}
-              className="flex max-h-[100px] w-full resize-none overflow-y-auto rounded-[100px] bg-white p-3 focus:outline-none dark:bg-[#313136]"
+              className="flex placeholder:text-[16px] max-h-[100px] w-full resize-none overflow-y-auto rounded-[100px] bg-[f2f2f2] p-3 focus:outline-none dark:bg-[#313136]"
             ></textarea>
           </div>
         </motion.div>
