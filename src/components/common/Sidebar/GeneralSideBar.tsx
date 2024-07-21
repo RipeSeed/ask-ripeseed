@@ -107,7 +107,7 @@ export default function GeneralSideBar() {
       <div className="h-[calc(100svh-96px)]">
         <div className="px-8 pb-8 pt-7">
           <div
-            className="group cursor-pointer rounded-lg bg-[#DBDBDB] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#34343C] dark:hover:bg-crayola"
+            className="group cursor-pointer rounded-lg bg-[#E0E0E0] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#404043] dark:hover:bg-crayola"
             onClick={handleCreateNewChat}
           >
             <div className="flex items-center gap-2">
@@ -130,7 +130,7 @@ export default function GeneralSideBar() {
                 key={chat.id}
                 className={`relative cursor-pointer p-2 dark:text-white ${
                   selectedChat?.id === chat.id
-                    ? "rounded-full bg-[#DBDBDB] dark:bg-[#34343B]"
+                    ? "rounded-full bg-[#E0E0E0] dark:bg-[#404043]"
                     : ""
                 }`}
                 onClick={() => handleSelectedChatChange(chat)}
@@ -145,7 +145,7 @@ export default function GeneralSideBar() {
                       <DropdownMenuTrigger className="focus:outline-none">
                         <EllipsisVertical className="h-[14px] w-4 cursor-pointer text-black dark:text-white" />
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent className="absolute left-5">
+                      <DropdownMenuContent className="absolute">
                         <DropdownMenuItem
                           className="flex cursor-pointer items-center gap-2 focus:bg-[#E338612E] focus:text-[#E33861]"
                           onClick={(event) => onDelete(event, chat)}
