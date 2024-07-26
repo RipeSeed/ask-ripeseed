@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { ChatMessageInput } from "./ChatMessageInput";
 import { MessageContainer } from "./MessageContainer";
 import { Cardset, WelcomeCards } from "./WelcomeCards";
+import Loading from "@/app/loading";
 
 const cards: Cardset = {
   top: "What are Ḥasan Ibn al-Haytham's contributions?",
@@ -68,6 +69,18 @@ export function ChatMessages() {
     },
     enabled: !isNaN(selectedChatId) && selectedChatId > 0,
   });
+  
+  useEffect(() => {
+    (async () => {
+      if (selectedChatId) {
+        const chatData = await getChat({ id: selectedChatId });
+        if(!chatData) {
+          router.push("/general");
+          return;
+        }
+      }
+    })();
+  }, [selectedChatId]);
 
   useEffect(() => {
     const sendStateMessage = async () => {
@@ -115,6 +128,20 @@ export function ChatMessages() {
     if (!newMessage.trim() || isPending) {
       return false;
     }
+    const apiKey = localStorage.getItem("openai:key");
+    if (!apiKey?.length) {
+      toast.info(
+        "Need OpenAI key. You can enter your key from gear icon - top-right",
+        {
+          style: {
+            background: "#13A682",
+            color: "#fff",
+          },
+          closeButton: false,
+        },
+      );
+      return false;
+    }
     if (!selectedChatId || isNaN(selectedChatId)) {
       // create a new chat , redirect user to that chat and also send this messge agaist that chat
       const _newChatId = await addChat({});
@@ -136,20 +163,6 @@ export function ChatMessages() {
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
     };
-    const apiKey = localStorage.getItem("openai:key");
-    if (!apiKey?.length) {
-      toast.info(
-        "Need OpenAI key. You can enter your key from gear icon - top-right",
-        {
-          style: {
-            background: "#13A682",
-            color: "#fff",
-          },
-          closeButton: false,
-        },
-      );
-      return false;
-    }
 
     const indexId = (await getChat({ id: selectedChatId }))?.indexId;
 
@@ -171,7 +184,11 @@ export function ChatMessages() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center">
+        <Loading />
+      </div>
+    );
   }
 
   return (
