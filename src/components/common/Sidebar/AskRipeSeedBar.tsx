@@ -1,9 +1,16 @@
+import Image from "next/image";
+const logo = "/ripeseed.png";
 import Link from "next/link";
-import { FileCode, Headset, MessageSquare, UsersRound } from "lucide-react";
 
-export default function Page() {
+import { MessageSquare, UsersRound, Headset, FileCode } from "lucide-react";
 
+export default function AskRipeSeedBar() {
   return (
+    <div className="h-screen bg-[#EBEBEB] px-8 text-white dark:bg-black">
+      {/* // logo portion */}
+      <div className="sticky flex h-24 items-center justify-center border-b border-[#ACACAC] dark:border-[#34343B]">
+        <Image src={logo} alt="logo" height={28} width={160} />
+      </div>
       <div className="h-[calc(100svh-96px)]">
         <div className="pb-8 pt-7">
           <div className="group cursor-pointer rounded-lg bg-[#DBDBDB] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#34343C] dark:hover:bg-crayola">
@@ -49,5 +56,6 @@ export default function Page() {
           </div>
         </div>
       </div>
+    </div>
   );
 }
