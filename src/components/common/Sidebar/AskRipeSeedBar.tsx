@@ -2,7 +2,7 @@ import Image from "next/image";
 const logo = "/ripeseed.png";
 import Link from "next/link";
 import { SquareArrowOutUpRight } from 'lucide-react';
-
+ 
 import { MessageSquare, UsersRound, Headset, FileCode } from "lucide-react";
 
 export default function AskRipeSeedBar() {
