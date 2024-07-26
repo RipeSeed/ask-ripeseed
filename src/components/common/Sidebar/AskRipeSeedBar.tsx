@@ -1,6 +1,7 @@
 import Image from "next/image";
 const logo = "/ripeseed.png";
 import Link from "next/link";
+import { SquareArrowOutUpRight } from 'lucide-react';
 
 import { MessageSquare, UsersRound, Headset, FileCode } from "lucide-react";
 
@@ -28,30 +29,43 @@ export default function AskRipeSeedBar() {
           <div className="flex flex-col gap-3 pb-10">
             <Link
               href="https://ripeseed.io/our-work"
-              className="group flex list-none items-center gap-4"
+              target="_blank"
+              className="group flex items-center justify-between list-none gap-4"
             >
+              <div className="flex items-center gap-2">
               <FileCode className="h-4 w-4 text-crayola opacity-50 transition duration-300 group-hover:opacity-100" />
               <span className="text-lg font-medium text-black opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]">
-                Our Work
+                Our Work 
               </span>
+              </div>
+              <span className="opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]"><SquareArrowOutUpRight size={13} strokeWidth={1.5} /></span>
             </Link>
             <Link
               href="https://ripeseed.io/team"
-              className="group flex list-none items-center gap-4 transition duration-300"
-            >
-              <UsersRound className="h-4 w-4 text-crayola opacity-50 group-hover:opacity-100" />
-              <span className="text-lg font-medium text-black opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]">
-                Our Team
-              </span>
+              target="_blank"
+              className="group flex items-center justify-between list-none transition duration-300"
+              >
+                <div className="flex items-center gap-2">
+                  <UsersRound className="h-4 w-4 text-crayola opacity-50 group-hover:opacity-100" />
+                  <span className="text-lg font-medium  text-black opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]">
+                    Our Team 
+                  </span>
+                </div>
+              <span className="opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]"><SquareArrowOutUpRight size={13} strokeWidth={1.5} /></span>
             </Link>
             <Link
               href="https://ripeseed.io/our-work"
-              className="group flex list-none items-center gap-4"
+              target="_blank"
+              className="group flex items-center justify-between list-none gap-4"
             >
+              <div className="flex items-center gap-2">
+
               <Headset className="h-4 w-4 text-crayola opacity-50 transition duration-300 group-hover:opacity-100" />
               <span className="text-lg font-medium text-black opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]">
-                Contact Us
+                Contact Us 
               </span>
+              </div>
+              <span className="opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]"><SquareArrowOutUpRight size={13} strokeWidth={1.5} /></span>
             </Link>
           </div>
         </div>
