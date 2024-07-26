@@ -3,6 +3,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { configPaths, isPath } from "../../../../components/common/Header/constants";
+import { usePathname } from "next/navigation";
 const clock = "/clock.png";
 const config = "/config.png";
 
@@ -27,6 +29,7 @@ export const WelcomeCards = ({
   hideSetupKey = false,
 }: Props) => {
   const { set, useSnapshot } = store;
+  const pathname = usePathname();
   const { openAIKey } = useSnapshot();
   const [key, setKey] = useState<string>("");
 
@@ -36,7 +39,7 @@ export const WelcomeCards = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openAIKey]);
   const messageHandler = (message: string) => {
-    if (!key) {
+    if (isPath(configPaths, pathname) && !key) {
       handleOpenConfig();
     } else {
       sendMessage(message);

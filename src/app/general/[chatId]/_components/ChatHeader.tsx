@@ -62,7 +62,6 @@ export function ChatHeader() {
     set("chats", sorted);
 
     const updatedChat = await getChat({ id });
-    console.log("updated: ", updatedChat);
 
     set("selectedChat", updatedChat);
 
