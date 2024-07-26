@@ -10,8 +10,10 @@ import { store } from "@/app/_utils/store";
 import { useRouter } from "next/navigation";
 import { truncateString } from "@/app/_utils";
 
+import Image from "next/image";
+import logo from "../../../../public/ripeseed.png";
 import { useState, useRef, useEffect } from "react";
-import { EllipsisVertical, MessageSquare, Trash2 } from "lucide-react";
+import { EllipsisVertical, MessageSquare, Pencil, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,15 +29,14 @@ export default function GeneralSideBar() {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const _getChat = async () => {
-      const allChats = await getAllChats();
-      set("chats", allChats);
-    };
-
-    if (!chats.length) {
-      void _getChat();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getAllChats().then((chats) => {
+      const descSorted = chats.sort((a, b) => {
+        return (
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        );
+      });
+      setAllChats(descSorted);
+    });
   }, []);
 
   if (!selectedChat?.id) {
@@ -43,13 +44,26 @@ export default function GeneralSideBar() {
   }
 
   const handleCreateNewChat = async () => {
-    set("selectedChat", undefined);
-    router.push("/general/");
+    const newChatId = await addChat({});
+    const allChats = await getAllChats();
+
+    const descSorted = allChats.sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+
+    set("chats", descSorted);
+    set(
+      "selectedChat",
+      allChats.find((c) => c.id === newChatId),
+    );
+    router.push(`/general/${newChatId}`);
+
   };
 
   const handleSelectedChatChange = (chat: Chat) => {
     set("selectedChat", chat);
     router.push(`/general/${chat.id}`);
+    
   };
 
   const onDelete = async (event: React.MouseEvent, chat: Chat) => {
@@ -65,6 +79,7 @@ export default function GeneralSideBar() {
       } else {
         set("selectedChat", undefined);
         router.push(`/general`);
+        
       }
     } else {
       set("selectedChat", allChats[len - 1]);
@@ -84,8 +99,13 @@ export default function GeneralSideBar() {
 
   return (
     <div className="h-screen bg-[#EBEBEB] text-white dark:bg-black">
+      <div className="sticky px-8">
+        <div className="flex h-[95px] items-center justify-center border-b border-[#ACACAC] dark:border-[#34343B]">
+          <Image src={logo} alt="logo" />
+        </div>
+      </div>
       <div className="h-[calc(100svh-96px)]">
-        <div className="pb-8 pt-7">
+        <div className="px-8 pb-8 pt-7">
           <div
             className="group cursor-pointer rounded-lg bg-[#E0E0E0] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#404043] dark:hover:bg-crayola"
             onClick={handleCreateNewChat}
@@ -100,11 +120,11 @@ export default function GeneralSideBar() {
         </div>
         {/* Chat list */}
         <div className="h-[calc(100svh-96px-116px)] text-black dark:text-white">
-          <div className="py-3">
+          <div className="px-8 py-3">
             <span>Chat History</span>
           </div>
 
-          <div className="flex h-[calc(100svh-96px-116px-56px)] flex-col gap-2 overflow-y-auto overflow-x-hidden">
+          <div className="flex h-[calc(100svh-96px-116px-56px)] flex-col gap-2 overflow-y-auto overflow-x-hidden px-8">
             {chats.map((chat) => (
               <div
                 key={chat.id}

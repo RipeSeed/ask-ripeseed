@@ -5,7 +5,7 @@ import OpenAI from "openai";
 export async function POST(request: Request, response: Response) {
   try {
     // indexId is the id of the document index
-    const { apiKey, messages, indexId, chatId } = await request.json();
+    const { apiKey, messages, indexId } = await request.json();
     const openai = new OpenAI({
       apiKey,
     });
@@ -22,7 +22,7 @@ export async function POST(request: Request, response: Response) {
         content: result,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        chatId,
+        chatId: 0,
         role: "assistant",
       };
       return Response.json({ data: resObject, sourceDocuments });
@@ -40,7 +40,7 @@ export async function POST(request: Request, response: Response) {
       content: response ?? "Sorry, I don't understand that.",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      chatId,
+      chatId: 0,
       role: "assistant",
     };
     return Response.json({ data: resObject });
