@@ -16,7 +16,7 @@ export const sendMessage = async ({
 }: APIRequest): Promise<Message> => {
   try {
     if (!apiKey?.length || !message.content?.length) {
-      throw new Error("APi key required");
+      throw new Error("API key required");
     }
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -28,6 +28,7 @@ export const sendMessage = async ({
     const raw = JSON.stringify({
       apiKey,
       indexId,
+      chatId,
       messages: [
         ...context,
         {

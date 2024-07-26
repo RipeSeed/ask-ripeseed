@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import SidebarView from "./_components/SidebarView";
 import { ChatList } from "./_components/ChatList";
+import { ChatHeader } from "./[chatId]/_components/ChatHeader";
 export const metadata: Metadata = {
   title: "Chatbot showcase | RipeSeed",
   description:
@@ -28,11 +29,9 @@ export const metadata: Metadata = {
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    // removed h-screen
     <div className="flex h-[calc[100svh-57px]] flex-col items-center overflow-x-hidden">
-      {/* // removed h--full */}
       <div className="flex h-[calc[100svh-57px]] w-full flex-col overflow-x-hidden md:h-[calc[100svh-93px]]">
-        {/* // remmoved sidebar view  and export the component inside it here*/}
+        <ChatHeader />
         {children}
       </div>
     </div>
