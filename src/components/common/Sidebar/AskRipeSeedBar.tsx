@@ -56,7 +56,7 @@ export default function AskRipeSeedBar() {
             <Link
               href="https://ripeseed.io/our-work"
               target="_blank"
-              className="group flex items-center justify-between list-none gap-4"
+              className="group flex items-center justify-between list-none gap-4" 
             >
               <div className="flex items-center gap-2">
 
