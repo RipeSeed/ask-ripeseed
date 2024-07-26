@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import remarkGfm from "remark-gfm";
 import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface MessageContainerProps {
   message: Message;
@@ -24,7 +25,7 @@ const components = {
     return !inline ? (
       <SyntaxHighlighter
         language={(match && match[1]) ?? ""}
-        // style={oneDark}
+        style={oneDark}
         customStyle={{ margin: 0 }}
       >
         {String(children).replace(/\n$/, "")}
