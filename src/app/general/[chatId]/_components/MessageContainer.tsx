@@ -2,10 +2,7 @@ import { motion } from "framer-motion";
 import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import rehypeHighlight from "rehype-highlight";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import rehypeRaw from "rehype-raw";
-import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -23,12 +20,12 @@ const components = {
       </a>
     );
   },
-  code({inline, className, children, ...props}: any) {
+  code({className, inline, children, ...props}: any) {
     const match = /language-(\w+)/.exec(className ?? "");
     return !inline ? (
       <SyntaxHighlighter
         language={(match && match[1]) ?? ""}
-        // style={oneDark}
+        style={oneDark}
         customStyle={{ margin: 0 }}
       >
         {String(children).replace(/\n$/, "")}
@@ -104,24 +101,7 @@ export const MessageContainer = ({
                   rehypePlugins={[
                     remarkGfm,
                   ]}
-                  components={{
-                    code({node, inline, className, children, ...props}) {
-                      const match = /language-(\w+)/.exec(className ?? "");
-                      return !inline ? (
-                        <SyntaxHighlighter
-                          language={(match && match[1]) ?? ""}
-                          style={oneDark}
-                          customStyle={{ margin: 0 }}
-                        >
-                          {String(children).replace(/\n$/, "")}
-                        </SyntaxHighlighter>
-                      ) : (
-                        <code className={cn(className, "inline")} {...props}>
-                          {children}
-                        </code>
-                      );
-                    }
-                  }}
+                  components={components}
                 >
                   {message.content}
                 </MessageMarkdownMemoized>
