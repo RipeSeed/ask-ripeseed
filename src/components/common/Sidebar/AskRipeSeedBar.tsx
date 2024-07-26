@@ -58,7 +58,7 @@ export default function AskRipeSeedBar() {
               target="_blank"
               className="group flex items-center justify-between list-none gap-4" 
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2"> 
 
               <Headset className="h-4 w-4 text-crayola opacity-50 transition duration-300 group-hover:opacity-100" />
               <span className="text-lg font-medium text-black opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]">
