@@ -22,12 +22,11 @@ import { Settings } from "lucide-react";
 
 import Link from "next/link";
 import { configPaths, isPath } from "../Header/constants";
+import { askRSPaths, generalPaths } from "../Sidebar/Sidebar";
 
 export default function ChatHeader() {
   const pathname = usePathname();
   const router = useRouter();
-  const generalPaths = ["/general", "/general/*"];
-  const askRSPaths = ["/ask-ripeseed", "/ask-ripeseed/*"];
 
   return (
     <div className="sticky flex items-center justify-between border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:gap-0 md:py-6">
@@ -47,13 +46,13 @@ export default function ChatHeader() {
         </li>
       </div>
       <div className="mr-[14px]">
-        <ConfigDialogue hidden={!isPath(configPaths, pathname)}/>
+        {isPath(configPaths, pathname) ? <ConfigDialogue /> : null}
       </div>
     </div>
   );
 }
 
-const ConfigDialogue = ({ hidden = false } : { hidden?: boolean }) => {
+const ConfigDialogue = () => {
   const closeRef = useRef<HTMLButtonElement>(null);
   const openRef = useRef<HTMLButtonElement>(null);
   const { set, useSnapshot } = store;
@@ -105,12 +104,12 @@ const ConfigDialogue = ({ hidden = false } : { hidden?: boolean }) => {
     <Dialog>
       <DialogTrigger asChild className="flex items-center justify-center">
         <Button
-          className={`border-none bg-transparent shadow-none hover:shadow-sm ${hidden ? "invisible" : ""}`}
+          className="border-none bg-transparent shadow-none hover:shadow-sm"
           ref={openRef}
           variant="outline"
           size="icon"
         >
-          <Settings className="h-5 w-5 cursor-pointer rounded-xl stroke-[#1B1B21] text-muted-foreground dark:stroke-[#EBEBEB]" />
+          <Settings className="h-5 w-5 cursor-pointer rounded-xl text-muted-foreground stroke-[#1B1B21] dark:stroke-[#EBEBEB]" />
         </Button>
       </DialogTrigger>
       <DialogContent className="rounded-lg sm:max-w-md">

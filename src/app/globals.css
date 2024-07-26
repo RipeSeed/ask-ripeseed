@@ -59,17 +59,4 @@
 
 }
 
-pre {
-  display: inline;
-  padding: 0 4px !important;
-}
-
-pre:has(pre) {
-  padding: 0 !important;
-}
-
-pre > pre {
-  display: block;
-}
-
 

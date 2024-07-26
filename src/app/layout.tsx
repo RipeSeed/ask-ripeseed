@@ -1,3 +1,5 @@
+"use client";
+
 import Providers from "@/components/Providers";
 import { cn } from "@/lib/utils";
 import { Poppins } from "next/font/google";
@@ -5,20 +7,18 @@ import Script from "next/script";
 import { Toaster } from "sonner";
 import "./globals.css";
 import ChatHeader from "@/components/common/_components/ChatButtonsHeader";
-import Image from "next/image";
+import Sidebar from "@/components/common/Sidebar/Sidebar";
 
 const fontSans = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
 export default function RootLayout({
   children,
-  sidebar,
 }: Readonly<{
   children: React.ReactNode;
-  sidebar?: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -30,20 +30,15 @@ export default function RootLayout({
         style={{ overflow: "hidden" }}
       >
         <Providers>
+          {/* (57 & 73) Header Height || (24) Footer Height */}
+          {/* <Header /> */}
           <main className="m-auto grid h-[100svh] md:grid-cols-[260px_1fr] lg:grid-cols-[300px_1fr]">
+            {/* Sidebar */}
+
             <div className="hidden h-full md:block">
-              <div className="h-screen bg-[#EBEBEB] px-8 text-white dark:bg-black">
-                <div className="sticky flex h-24 items-center justify-center border-b border-[#ACACAC] dark:border-[#34343B]">
-                  <Image
-                    src="/ripeseed.png"
-                    alt="logo"
-                    height={28}
-                    width={160}
-                  />
-                </div>
-                {sidebar}
-              </div>
+              <Sidebar />
             </div>
+            {/* Chat */}
             <div className="flex h-full flex-col">
               <ChatHeader />
               <div className="h-full bg-[#E8E8E8] dark:bg-[#363639]">
