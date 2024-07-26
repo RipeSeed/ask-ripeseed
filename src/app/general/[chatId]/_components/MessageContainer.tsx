@@ -3,10 +3,12 @@ import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import rehypeHighlight from "rehype-highlight";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import rehypeRaw from "rehype-raw";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface MessageContainerProps {
   message: Message;
@@ -19,6 +21,22 @@ const components = {
       <a {...props} target="_blank" rel="noreferrer">
         {props.children}
       </a>
+    );
+  },
+  code({inline, className, children, ...props}: any) {
+    const match = /language-(\w+)/.exec(className ?? "");
+    return !inline ? (
+      <SyntaxHighlighter
+        language={(match && match[1]) ?? ""}
+        // style={oneDark}
+        customStyle={{ margin: 0 }}
+      >
+        {String(children).replace(/\n$/, "")}
+      </SyntaxHighlighter>
+    ) : (
+      <code className={className} {...props}>
+        {children}
+      </code>
     );
   },
 };
@@ -45,7 +63,7 @@ export const MessageContainer = ({
         originY: 0.5,
       }}
       className={cn(
-        "relative flex flex-col gap-2 whitespace-pre-wrap py-1 px-3",
+        "relative flex flex-col gap-2 whitespace-pre-wrap px-3 py-1",
         message.role === "user"
           ? "my-1 ml-auto items-end rounded-xl"
           : "items-start",
@@ -69,27 +87,41 @@ export const MessageContainer = ({
           {isPending ? (
             <div className="flex items-center justify-center gap-2">
               <span className="sr-only">Thinking ...</span>
-              <div className="bg-red-200 [animation-delay:-0.4s] h-1 w-1 animate-bounce rounded-full"></div>
-              <div className="h-1 w-1 animate-bounce rounded-full  bg-gray-500 [animation-delay:-0.2s]"></div>
-              <div className="h-1 w-1 animate-bounce rounded-full [animation-delay:-0.2s] bg-gray-500"></div>
-              <div className="h-1 w-1 animate-bounce rounded-full [animation-delay:-0.2s] bg-gray-500"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-red-200 [animation-delay:-0.4s]"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]"></div>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]"></div>
             </div>
           ) : (
             <>
               {message.role === "user" ? (
-                <div className="prose prose-sm rounded-xl bg-[#EBEBEB] p-3 text-black dark:bg-[#404043] dark:text-white">
+                <div className="rounded-xl bg-[#EBEBEB] p-3 text-black dark:bg-[#404043] dark:text-white">
                   {message.content}
                 </div>
               ) : (
                 <MessageMarkdownMemoized
-                  className="prose prose-sm rounded-xl bg-crayola p-3 text-white marker:text-white"
+                  className="rounded-xl bg-crayola p-3 text-white marker:text-white"
                   rehypePlugins={[
-                    rehypeHighlight,
                     remarkGfm,
-                    rehypeRaw,
-                    remarkBreaks,
                   ]}
-                  components={components}
+                  components={{
+                    code({node, inline, className, children, ...props}) {
+                      const match = /language-(\w+)/.exec(className ?? "");
+                      return !inline ? (
+                        <SyntaxHighlighter
+                          language={(match && match[1]) ?? ""}
+                          style={oneDark}
+                          customStyle={{ margin: 0 }}
+                        >
+                          {String(children).replace(/\n$/, "")}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <code className={cn(className, "inline")} {...props}>
+                          {children}
+                        </code>
+                      );
+                    }
+                  }}
                 >
                   {message.content}
                 </MessageMarkdownMemoized>
