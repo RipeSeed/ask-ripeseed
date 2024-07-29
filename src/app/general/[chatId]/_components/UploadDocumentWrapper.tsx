@@ -5,7 +5,7 @@ import { Badge } from "../../../../components/ui/badge";
 import { Paperclip, FileBarChart2 } from "lucide-react";
 import { useState } from "react";
 import { UploadDocument } from "./UploadDocument";
-import React from "react";
+import React from "react"; 
 
 const UploadDocumentWrapper = ({
   selectedChat,
