@@ -33,7 +33,7 @@ export function ChatHeader() {
         setSelectedChat(undefined);
       }
     })();
-  }, [pathname]);
+  }, [pathname , selectedChat]);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!title.length) return;

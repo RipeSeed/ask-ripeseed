@@ -6,6 +6,9 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import remarkGfm from "remark-gfm";
 import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 interface MessageContainerProps {
   message: Message;
@@ -13,6 +16,9 @@ interface MessageContainerProps {
 }
 
 const components = {
+  p: ({ children }: any) => {
+    return <p className="mb-2 last:mb-0">{children}</p>
+  },
   a: (props: any) => {
     return (
       <a {...props} target="_blank" rel="noreferrer">
@@ -25,8 +31,11 @@ const components = {
     return !inline ? (
       <SyntaxHighlighter
         language={(match && match[1]) ?? ""}
+        customStyle={{
+          margin: 0,
+          width: "100%",
+        }}
         style={oneDark}
-        customStyle={{ margin: 0 }}
       >
         {String(children).replace(/\n$/, "")}
       </SyntaxHighlighter>
@@ -35,7 +44,7 @@ const components = {
         {children}
       </code>
     );
-  },
+  }
 };
 
 export const MessageContainer = ({
@@ -60,7 +69,7 @@ export const MessageContainer = ({
         originY: 0.5,
       }}
       className={cn(
-        "relative flex flex-col gap-2 whitespace-pre-wrap px-3 py-1",
+        "relative flex flex-col gap-2 px-3 py-1",
         message.role === "user"
           ? "my-1 ml-auto items-end rounded-xl"
           : "items-start",
@@ -92,15 +101,14 @@ export const MessageContainer = ({
           ) : (
             <>
               {message.role === "user" ? (
-                <div className="rounded-xl bg-[#EBEBEB] p-3 text-black dark:bg-[#404043] dark:text-white">
+                <div className="prose rounded-xl bg-[#EBEBEB] p-3 text-black dark:bg-[#404043] dark:text-white">
                   {message.content}
                 </div>
               ) : (
                 <MessageMarkdownMemoized
-                  className="rounded-xl bg-crayola p-3 text-white marker:text-white"
-                  rehypePlugins={[
-                    remarkGfm,
-                  ]}
+                  className="rounded-xl p-3 prose dark:prose-invert bg-white dark:bg-black prose-p:leading-relaxed prose-pre:p-0 min-w-full space-y-6"
+                  remarkPlugins={[remarkGfm, remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
                   components={components}
                 >
                   {message.content}
