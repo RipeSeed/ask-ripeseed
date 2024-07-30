@@ -54,7 +54,7 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
     }
     formData.append("apiKey", apiKey!);
 
-    try {
+    try { 
       startTransition(async () => {
         toast.promise(addDocument(formData), {
           success: async ({ indexId }) => {
