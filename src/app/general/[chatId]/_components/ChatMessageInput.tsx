@@ -46,7 +46,7 @@ export function ChatMessageInput({
     if (message.trim().length) {
       const proceed = await sendMessage(message.trim());
       if (proceed) {
-        setMessage("");
+        
         if (inputRef.current) {
           inputRef.current.focus();
           inputRef.current.style.height = "auto";
@@ -65,6 +65,7 @@ export function ChatMessageInput({
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       void handleSendMessage();
+      setMessage('')
     }
     if (event.key === "Enter" && event.shiftKey) {
       event.preventDefault();
