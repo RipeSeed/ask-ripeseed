@@ -22,7 +22,7 @@ const UploadDocumentWrapper = ({
             <FileBarChart2 className="h-3 w-3" />
             {truncateString(name, 16)}
           </Badge>
-      ) : ( 
+      ) : (
         <div className="relative group">
           <Badge
             variant={"outline"}
