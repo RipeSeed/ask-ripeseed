@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Ask Ripeseed | RipeSeed",
+  title: "Ask RipeSeed | RipeSeed",
   description: "Ask question about RipeSeed from a bot",
   keywords: [
     "ChatGPT",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   ],
 
   openGraph: {
-    title: "Ask Ripeseed | RipeSeed",
+    title: "Ask RipeSeed | RipeSeed",
     description: "Ask question about RipeSeed from a bot",
     url: "https://ask.ripeseed.io/ask-ripeseed",
     siteName: "RipeSeed",
