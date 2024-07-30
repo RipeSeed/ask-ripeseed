@@ -39,7 +39,7 @@ export default function Page() {
                 <div className="flex w-full items-center gap-2">
                   <MessageSquare className="h-4 w-4 text-crayola group-hover:text-white" />
                   <span className="text-center font-medium text-black group-hover:text-white dark:text-white">
-                    Ask Ripeseed
+                    Ask RipeSeed
                   </span>
                 </div>
               </div>
