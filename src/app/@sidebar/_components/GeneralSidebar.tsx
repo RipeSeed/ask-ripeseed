@@ -101,7 +101,7 @@ export default function GeneralSideBar() {
         {/* Chat list */}
         <div className="h-[calc(100svh-96px-116px)] text-black dark:text-white">
           <div className="py-3">
-            <span>Chat History</span>
+          {chats.length > 0 ? <span>Chat History</span> : ''}
           </div>
 
           <div className="flex h-[calc(100svh-96px-116px-56px)] flex-col gap-2 overflow-y-auto overflow-x-hidden">
