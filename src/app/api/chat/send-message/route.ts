@@ -33,7 +33,7 @@ export async function POST(request: Request, response: Response) {
       temperature: 0,
       max_tokens: 4096,
       messages,
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
     });
     const response = gptResponse.choices[0]?.message.content ?? null;
     const resObject: Message = {
