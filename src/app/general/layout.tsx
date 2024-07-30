@@ -5,7 +5,7 @@ import { ChatHeader } from "./[chatId]/_components/ChatHeader";
 export const metadata: Metadata = {
   title: "Chatbot showcase | RipeSeed",
   description:
-    "Ask Ripeseed - A product of ripeseed.io - Transforming ideas into innovative software solutions",
+    "Ask RipeSeed - A product of ripeseed.io - Transforming ideas into innovative software solutions",
   keywords: [
     "ChatGPT",
     "Artificial Intelignece",

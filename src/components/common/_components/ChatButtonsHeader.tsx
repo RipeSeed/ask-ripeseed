@@ -37,7 +37,7 @@ export default function ChatHeader() {
           onClick={() => router.push("/ask-ripeseed")}
           className={`cursor-pointer list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? "rounded-full bg-crayola text-white drop-shadow-lg" : "rounded-full hover:bg-accent"} `}
         >
-          Ask Ripeseed
+          Ask RipeSeed
         </li>
         <li
           onClick={() => router.push("/general")}
