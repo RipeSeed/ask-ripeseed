@@ -30,26 +30,25 @@ export default function ChatHeader() {
   const askRSPaths = ["/ask-ripeseed", "/ask-ripeseed/*"];
 
   return (
-    <div className="sticky flex items-center justify-between border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:gap-0 md:py-6">
-      <div className="w-6"></div>
-      <div className="flex gap-1 rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white">
-        <li
-          onClick={() => router.push("/ask-ripeseed")}
-          className={`cursor-pointer list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? "rounded-full bg-crayola text-white drop-shadow-lg" : "rounded-full hover:bg-accent"} `}
-        >
-          Ask RipeSeed
-        </li>
-        <li
-          onClick={() => router.push("/general")}
-          className={`cursor-pointer list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? "rounded-full bg-crayola text-white drop-shadow-lg" : "rounded-full hover:bg-accent"}`}
-        >
-          Ask Anything
-        </li>
-      </div>
-      <div className="mr-[14px]">
-        <ConfigDialogue hidden={!isPath(configPaths, pathname)}/>
-      </div>
+    <div className="sticky top-0 flex items-center justify-center border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:py-6">
+    <div className="flex gap-1 rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white">
+      <li
+        onClick={() => router.push("/ask-ripeseed")}
+        className={`cursor-pointer list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? "rounded-full bg-crayola text-white drop-shadow-lg" : "rounded-full hover:bg-accent"} `}
+      >
+        Ask RipeSeed
+      </li>
+      <li
+        onClick={() => router.push("/general")}
+        className={`cursor-pointer list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? "rounded-full bg-crayola text-white drop-shadow-lg" : "rounded-full hover:bg-accent"}`}
+      >
+        Ask Anything
+      </li>
     </div>
+    <div className="absolute right-0 mr-[14px]">
+      <ConfigDialogue hidden={!isPath(configPaths, pathname)}/>
+    </div>
+  </div>
   );
 }
 
