@@ -12,7 +12,6 @@ const Page = () => {
     e.stopPropagation();
     setToggle(!toggle);
   };  
-  // return <ChatMessages />;
 
   return (
     <div
