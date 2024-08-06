@@ -72,7 +72,7 @@ export function ChatHeader() {
   return (
     <div className="grid h-[85px] w-full grid-cols-3 grid-rows-1 gap-x-2.5 gap-y-0">
       <div className="col-start-1 col-end-4 row-start-1 row-end-2 bg-[#EDEDED] dark:bg-[#404043]" />
-      <div className="z-30 col-start-1 col-end-2 row-start-1 row-end-2 flex items-center justify-start px-10">
+      <div className="col-start-1 col-end-3 row-start-1 row-end-2 flex items-center justify-start px-10">
         <div
           className="flex cursor-pointer items-center justify-center"
           onClick={handleEditClick}
@@ -104,7 +104,7 @@ export function ChatHeader() {
           </>
         )}
       </div>
-      <div className="z-30 col-start-3 col-end-4 row-start-1 row-end-2 flex items-center justify-end px-10">
+      <div className="col-start-3 col-end-4 row-start-1 row-end-2 flex items-center justify-end px-10">
         <UploadDocumentWrapper selectedChat={selectedChat} />
       </div>
     </div>
