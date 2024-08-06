@@ -31,7 +31,7 @@ export default function Page() {
             />
           )}
           <div
-            className={`absolute z-50 flex h-full w-[200px] transform flex-col bg-white p-4 transition-transform duration-200 ease-in-out dark:bg-black md:hidden ${toggle ? "translate-x-0" : "-translate-x-full"}`}
+            className={`absolute z-50 flex h-full w-[200px] transform flex-col bg-[rgb(235,235,235)] p-4 transition-transform duration-200 ease-in-out dark:bg-black md:hidden ${toggle ? "translate-x-0" : "-translate-x-full"}`}
             onClick={(event) => event.stopPropagation()}
           >
             <div>
