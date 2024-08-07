@@ -9,9 +9,9 @@ import { UploadDocumentWrapper } from "./UploadDocumentWrapper";
 import { usePathname } from "next/navigation";
 
 export function ChatHeader() {
-  const { set } = store;
+  const { set, useSnapshot } = store;
+  const { selectedChat } = useSnapshot();
   const pathname = usePathname();
-  const [selectedChat, setSelectedChat] = useState<Chat>();
   const [title, setTitle] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const handleEditClick = () => {
@@ -20,20 +20,6 @@ export function ChatHeader() {
       setIsEditing((prev) => !prev);
     }
   };
-  
-  useEffect(() => {
-    (async () => {
-      const id = Number(pathname.split("/")[2]);
-      const chatId = isNaN(id) ? 0 : id;
-      if (chatId) {
-        const chatData = await getChat({ id: chatId });
-        setSelectedChat(chatData);
-      }
-      else {
-        setSelectedChat(undefined);
-      }
-    })();
-  }, [pathname , selectedChat]);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!title.length) return;
