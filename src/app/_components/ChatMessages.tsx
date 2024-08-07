@@ -13,12 +13,12 @@ import { askRS_sendMessage as apiSendMessage } from "@/dal/message";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { ChatMessageInput } from "@/app/general/[chatId]/_components/ChatMessageInput";
-import { MessageContainer } from "@/app/general/[chatId]/_components/MessageContainer";
+import { ChatMessageInput } from "@/app/ask-anything/[chatId]/_components/ChatMessageInput";
+import { MessageContainer } from "@/app/ask-anything/[chatId]/_components/MessageContainer";
 import {
   Cardset,
   WelcomeCards,
-} from "@/app/general/[chatId]/_components/WelcomeCards";
+} from "@/app/ask-anything/[chatId]/_components/WelcomeCards";
 import Loading from "@/app/loading";
 import { createId } from "@paralleldrive/cuid2";
 

@@ -75,7 +75,7 @@ export function ChatMessages() {
       if (selectedChatId) {
         const chatData = await getChat({ id: selectedChatId });
         if(!chatData) {
-          router.push("/general");
+          router.push("/ask-anything");
           return;
         }
       }
@@ -152,7 +152,7 @@ export function ChatMessages() {
         message: newMessage,
         indexId: "",
       });
-      router.push(`/general/${_newChatId}`);
+      router.push(`/ask-anything/${_newChatId}`);
       return true;
     }
 

@@ -1,16 +1,16 @@
 export const menuItems = [
   {
     title: "Ask Anything",
-    href: "/general",
-    pathMatch: ["/general", "/general/*"],
+    href: "/ask-anything",
+    pathMatch: ["/ask-anything", "/ask-anything/*"],
   },
   {
     title: "Ask RipeSeed",
-    href: "/ask-ripeseed",
-    pathMatch: ["/ask-ripeseed", "/ask-ripeseed/*"],
+    href: "/",
+    pathMatch: ["/"],
   },
 ];
-export const configPaths = ["/general", "/general/*"];
+export const configPaths = ["/ask-anything", "/ask-anything/*"];
 
 
 /**
