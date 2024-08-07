@@ -18,15 +18,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePathname } from "next/navigation";
 
 export default function GeneralSideBar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { useSnapshot, set } = store;
   const { selectedChat, chats } = useSnapshot();
   const [allChats, setAllChats] = useState<Chat[]>([]);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    console.log('Get All Chats');
+    
     const _getChat = async () => {
       const allChats = await getAllChats();
       set("chats", allChats);
@@ -35,12 +39,21 @@ export default function GeneralSideBar() {
     if (!chats.length) {
       void _getChat();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+  
+    if (pathname === "/ask-anything") {
+      console.log('Select Chats');
+      set("selectedChat", undefined);
+    }
+  }, [useRouter]);
+  
 
-  if (!selectedChat?.id) {
-    set("selectedChat", allChats[0] ?? undefined);
-  }
+  // if (!selectedChat?.id) {
+  //   set("selectedChat", allChats[0] ?? undefined);
+  // }
 
   const handleCreateNewChat = async () => {
     set("selectedChat", undefined);
