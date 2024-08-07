@@ -69,7 +69,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
 
   const handleSelectedChatChange = (chat: Chat) => {
     set("selectedChat", chat);
-    router.push(`/general/${chat.id}`);
+    router.push(`/ask-anything/${chat.id}`);
   };
 
   const handleDelete = async (e: React.MouseEvent) => {
@@ -85,14 +85,14 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
     if (selectedChat?.id === chat.id) {
       if (allChats[0]) {
         set("selectedChat", allChats[len - 1]);
-        router.push(`/general/${allChats[len - 1].id}`);
+        router.push(`/ask-anything/${allChats[len - 1].id}`);
       } else {
         set("selectedChat", undefined);
-        router.push(`/general`);
+        router.push(`/ask-anything`);
       }
     } else {
       set("selectedChat", allChats[len - 1]);
-      router.push(`/general/${allChats[len - 1].id}`);
+      router.push(`/ask-anything/${allChats[len - 1].id}`);
     }
     set(
       "chats",
@@ -188,7 +188,7 @@ const CreateNewChat = () => {
       "selectedChat",
       allChats.find((c) => c.id === newChatId),
     );
-    router.push(`/general/${newChatId}`);
+    router.push(`/ask-anything/${newChatId}`);
   };
 
   return (
