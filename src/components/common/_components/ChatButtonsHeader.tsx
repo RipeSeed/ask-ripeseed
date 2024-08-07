@@ -26,20 +26,20 @@ import { configPaths, isPath } from "../Header/constants";
 export default function ChatHeader() {
   const pathname = usePathname();
   const router = useRouter();
-  const generalPaths = ["/general", "/general/*"];
-  const askRSPaths = ["/ask-ripeseed", "/ask-ripeseed/*"];
+  const generalPaths = ["/ask-anything", "/ask-anything/*"];
+  const askRSPaths = ["/"];
 
   return (
     <div className="sticky top-0 flex items-center justify-center border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:py-6">
     <div className="flex gap-1 rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white">
       <li
-        onClick={() => router.push("/ask-ripeseed")}
+        onClick={() => router.push("/")}
         className={`cursor-pointer list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? "rounded-full bg-crayola text-white drop-shadow-lg" : "rounded-full hover:bg-accent"} `}
       >
         Ask RipeSeed
       </li>
       <li
-        onClick={() => router.push("/general")}
+        onClick={() => router.push("/ask-anything")}
         className={`cursor-pointer list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? "rounded-full bg-crayola text-white drop-shadow-lg" : "rounded-full hover:bg-accent"}`}
       >
         Ask Anything
