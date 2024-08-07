@@ -9,6 +9,7 @@ import { UploadDocumentWrapper } from "./UploadDocumentWrapper";
 import { usePathname } from "next/navigation";
 
 export function ChatHeader() {
+  const [isSmScreen, setIsSmScreen] = useState(false);
   const { set } = store;
   const pathname = usePathname();
   const [selectedChat, setSelectedChat] = useState<Chat>();
@@ -20,6 +21,21 @@ export function ChatHeader() {
       setIsEditing((prev) => !prev);
     }
   };
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmScreen(window.innerWidth < 768);
+    };
+
+    // Set initial value
+    checkScreenSize();
+
+    // Add event listener
+    window.addEventListener('resize', checkScreenSize);
+
+    // Clean up the event listener on component unmount
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
   
   useEffect(() => {
     (async () => {
@@ -72,9 +88,9 @@ export function ChatHeader() {
   return (
     <div className="grid h-[85px] w-full grid-cols-3 grid-rows-1 gap-x-2.5 gap-y-0">
       <div className="col-start-1 col-end-4 row-start-1 row-end-2 bg-[#EDEDED] dark:bg-[#404043]" />
-      <div className="col-start-1 col-end-3 row-start-1 row-end-2 flex items-center justify-start px-10">
+      <div className="col-start-1 col-end-3 row-start-1 row-end-2 flex items-center justify-start px-3 md:px-10">
         <div
-          className="flex cursor-pointer items-center justify-center"
+          className="flex cursor-pointer items-center justify-center z-10"
           onClick={handleEditClick}
         >
           {!isEditing && selectedChat?.name && (
@@ -104,8 +120,10 @@ export function ChatHeader() {
           </>
         )}
       </div>
-      <div className="col-start-3 col-end-4 row-start-1 row-end-2 flex items-center justify-end px-10">
-        <UploadDocumentWrapper selectedChat={selectedChat} />
+      <div className="col-start-3 col-end-4 row-start-1 row-end-2 flex items-center justify-end px-3 md:px-10">
+        {(!isSmScreen || !isEditing) &&( 
+          <UploadDocumentWrapper selectedChat={selectedChat} />
+        )}
       </div>
     </div>
   );
