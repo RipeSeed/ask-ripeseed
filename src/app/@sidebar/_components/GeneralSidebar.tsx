@@ -44,12 +44,12 @@ export default function GeneralSideBar() {
 
   const handleCreateNewChat = async () => {
     set("selectedChat", undefined);
-    router.push("/general/");
+    router.push("/ask-anything/");
   };
 
   const handleSelectedChatChange = (chat: Chat) => {
     set("selectedChat", chat);
-    router.push(`/general/${chat.id}`);
+    router.push(`/ask-anything/${chat.id}`);
   };
 
   const onDelete = async (event: React.MouseEvent, chat: Chat) => {
@@ -61,14 +61,14 @@ export default function GeneralSideBar() {
     if (selectedChat?.id === chat.id) {
       if (allChats[0]) {
         set("selectedChat", allChats[len - 1]);
-        router.push(`/general/${allChats[len - 1].id}`);
+        router.push(`/ask-anything/${allChats[len - 1].id}`);
       } else {
         set("selectedChat", undefined);
-        router.push(`/general`);
+        router.push(`/ask-anything`);
       }
     } else {
       set("selectedChat", allChats[len - 1]);
-      router.push(`/general/${allChats[len - 1].id}`);
+      router.push(`/ask-anything/${allChats[len - 1].id}`);
     }
     set(
       "chats",
