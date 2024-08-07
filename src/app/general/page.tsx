@@ -1,10 +1,37 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChatMessages } from "./[chatId]/_components/ChatMessages";
 import MobileSideBar from "@/components/common/_components/MobileSideBar";
+import { usePathname } from "next/navigation";
+import { getChat, Chat } from "@/app/_lib/db";
+import { store } from "@/app/_utils/store";
 
 const Page = () => {
   const [toggle, setToggle] = useState(false);
+  const pathname = usePathname();
+  const { set, useSnapshot } = store;
+  const { selectedChat: snapshotSelectedChat } = useSnapshot();
+
+  const [selectedChat, setSelectedChat] = useState<Chat>();
+
+  useEffect(() => {
+    const fetchChat = async () => {
+      const id = Number(pathname.split("/")[2]);
+      const chatId = isNaN(id) ? 0 : id;
+      if (chatId) {
+        const chatData = await getChat({ id: chatId });
+        setSelectedChat(chatData);
+      }
+    };
+
+    fetchChat();
+  }, [pathname]);
+
+  useEffect(() => {
+    if (selectedChat) {
+      set("selectedChat", selectedChat);
+    }
+  }, [selectedChat, set]);
 
   return (
     <div
@@ -22,3 +49,6 @@ const Page = () => {
 };
 
 export default Page;
+
+
+
