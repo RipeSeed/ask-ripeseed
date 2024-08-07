@@ -7,7 +7,7 @@ export const menuItems = [
   {
     title: "Ask RipeSeed",
     href: "/",
-    pathMatch: ["/", "/*"],
+    pathMatch: ["/"],
   },
 ];
 export const configPaths = ["/ask-anything", "/ask-anything/*"];
