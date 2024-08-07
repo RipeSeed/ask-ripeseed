@@ -23,6 +23,7 @@ const instructions = `
   If you are mentioning multiple projects, mention them as a numbered list ONLY IF there are multiple projects.
   Make sure assistant response is ALWAYS in markdown format.
   Provide a paragraph where necessary, List where necessary, and code block with code language for syntax highlighting where code is needed.
+  Note: If user asks something NOT related to ripeseed, excuse them politely and ask them to ask the relevant questions.
 `;
 
 const questionPrompt = PromptTemplate.fromTemplate(

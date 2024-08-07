@@ -87,8 +87,6 @@ export function ChatMessages() {
       if (stateMetadata.chatId === selectedChatId) {
         if (stateMetadata.message.length) {
           await sendMessage(stateMetadata.message);
-        } else if (stateMetadata.indexId.length) {
-          toast.info("Document added to chat.");
         }
 
         set("stateMetadata", {
