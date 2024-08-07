@@ -95,30 +95,12 @@ const performQuestionAnswering = async (input: {
   input.isAskRipeseedChat
     ? (questionGeneratorInput["instructions"] = instructions)
     : (questionGeneratorInput["instructions"] = "");
-  const { text } = await getChain("questionGenerator", input.apiKey).invoke(
+  const { text } = await getChain("question", input.apiKey).invoke(
     questionGeneratorInput,
   );
 
-  const questionInput: {
-    chatHistory: string;
-    context: string;
-    question: string;
-    instructions?: string;
-  } = {
-    chatHistory: input.chatHistory,
-    context: serializedDocs,
-    question: text as string,
-  };
-  input.isAskRipeseedChat
-    ? (questionInput["instructions"] = instructions)
-    : (questionInput["instructions"] = "");
-
-  const response = await getChain("question", input.apiKey).invoke(
-    questionInput,
-  );
-
   return {
-    result: response.text as string,
+    result: text as string,
     sourceDocuments: input.context,
   };
 };
