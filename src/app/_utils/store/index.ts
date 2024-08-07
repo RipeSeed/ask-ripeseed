@@ -5,7 +5,9 @@ export const initialState: {
   chats: Chat[];
   selectedChat: Chat | undefined;
   isConfigOpen: boolean;
+  isDeleteDialogOpen: boolean;
   openAIKey: string;
+  clearChat: boolean;
 
   stateMetadata: {
     chatId: number;
@@ -16,7 +18,9 @@ export const initialState: {
   chats: [],
   selectedChat: {} as Chat | undefined,
   isConfigOpen: false,
+  isDeleteDialogOpen: false,
   openAIKey: "",
+  clearChat: false,
 
   stateMetadata: {
     chatId: 0,

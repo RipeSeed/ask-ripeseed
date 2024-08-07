@@ -12,6 +12,7 @@ import {
 import { askRS_sendMessage as apiSendMessage } from "@/dal/message";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { store } from "@/app/_utils/store";
 
 import { ChatMessageInput } from "@/app/ask-anything/[chatId]/_components/ChatMessageInput";
 import { MessageContainer } from "@/app/ask-anything/[chatId]/_components/MessageContainer";
@@ -32,6 +33,8 @@ export function ChatMessages() {
   const [uId, setUId] = useState<string>("");
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<AskRSMessage[]>([]);
+  const { set, useSnapshot } = store;
+  const { clearChat } = useSnapshot();
 
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
@@ -62,6 +65,13 @@ export function ChatMessages() {
       scrollToBottom();
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (clearChat) {
+      setMessages([]);
+      set("clearChat", false);
+    }
+  }, [clearChat]);
 
   useEffect(() => {
     if (messagesRes?.length) {
