@@ -59,7 +59,7 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
         toast.promise(addDocument(formData), {
           success: async ({ indexId }) => {
             if (!selectedChat?.id) {
-              // in case the user uploaded a document from /general
+              // in case the user uploaded a document from /ask-anything
               const _newChatId = await addChat({
                 indexId,
                 doc: {
@@ -79,12 +79,12 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
                 message: "",
                 indexId,
               });
-              router.push(`/general/${_newChatId}`);
+              router.push(`/ask-anything/${_newChatId}`);
               setIsOpen(false);
               toast.dismiss();
               return `File uploaded and chat created.`;
             } else {
-              // document from /general/[chatId]
+              // document from /ask-anything/[chatId]
               await updateChat({
                 id: selectedChat.id,
                 indexId,

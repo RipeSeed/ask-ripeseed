@@ -18,9 +18,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePathname } from "next/navigation";
 
 export default function GeneralSideBar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { useSnapshot, set } = store;
   const { selectedChat, chats } = useSnapshot();
   const [allChats, setAllChats] = useState<Chat[]>([]);
@@ -37,19 +39,21 @@ export default function GeneralSideBar() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (!selectedChat?.id) {
-    set("selectedChat", allChats[0] ?? undefined);
-  }
+  useEffect(() => {
+  
+    if (pathname === "/ask-anything") {
+      set("selectedChat", undefined);
+    }
+  }, [useRouter]);
 
   const handleCreateNewChat = async () => {
     set("selectedChat", undefined);
-    router.push("/general/");
+    router.push("/ask-anything/");
   };
 
   const handleSelectedChatChange = (chat: Chat) => {
     set("selectedChat", chat);
-    router.push(`/general/${chat.id}`);
+    router.push(`/ask-anything/${chat.id}`);
   };
 
   const onDelete = async (event: React.MouseEvent, chat: Chat) => {
@@ -61,14 +65,14 @@ export default function GeneralSideBar() {
     if (selectedChat?.id === chat.id) {
       if (allChats[0]) {
         set("selectedChat", allChats[len - 1]);
-        router.push(`/general/${allChats[len - 1].id}`);
+        router.push(`/ask-anything/${allChats[len - 1].id}`);
       } else {
         set("selectedChat", undefined);
-        router.push(`/general`);
+        router.push(`/ask-anything`);
       }
     } else {
       set("selectedChat", allChats[len - 1]);
-      router.push(`/general/${allChats[len - 1].id}`);
+      router.push(`/ask-anything/${allChats[len - 1].id}`);
     }
     set(
       "chats",
