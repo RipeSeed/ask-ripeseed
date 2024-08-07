@@ -90,7 +90,7 @@ export function ChatHeader() {
       <div className="col-start-1 col-end-4 row-start-1 row-end-2 bg-[#EDEDED] dark:bg-[#404043]" />
       <div className="col-start-1 col-end-3 row-start-1 row-end-2 flex items-center justify-start px-3 md:px-10">
         <div
-          className="flex cursor-pointer items-center justify-center z-10"
+          className="flex cursor-pointer items-center justify-center"
           onClick={handleEditClick}
         >
           {!isEditing && selectedChat?.name && (
