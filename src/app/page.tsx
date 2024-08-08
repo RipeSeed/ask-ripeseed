@@ -18,7 +18,7 @@ export default function Page() {
       Icon: UsersRound
     },
     {
-      href: "https://ripeseed.io/contact",
+      href: "https://ripeseed.io/contact-us",
       label: "Contact Us",
       Icon: Headset
     }
