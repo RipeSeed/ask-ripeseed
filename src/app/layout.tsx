@@ -6,6 +6,14 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import ChatHeader from "@/components/common/_components/ChatButtonsHeader";
 import Image from "next/image";
+import type { Viewport } from 'next'
+ 
+export const viewport: Viewport = {
+  themeColor: 'black',
+  initialScale: 1,
+  maximumScale: 1,
+  width: 'device-width'
+}
 
 const fontSans = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700"],
