@@ -35,7 +35,6 @@ export default function Page() {
             </div>
           </div>
         </div>
-        {/* // chat list */}
         <div className="flex h-[calc(100svh-96px-116px)] flex-col text-white">
         <div className="flex-grow"></div>
         <div className="flex flex-col gap-3 pb-10">
