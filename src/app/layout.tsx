@@ -6,14 +6,14 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import ChatHeader from "@/components/common/_components/ChatButtonsHeader";
 import Image from "next/image";
-import type { Viewport } from 'next'
- 
+import type { Viewport } from "next";
+
 export const viewport: Viewport = {
-  themeColor: 'black',
+  themeColor: "black",
   initialScale: 1,
   maximumScale: 1,
-  width: 'device-width'
-}
+  width: "device-width",
+};
 
 const fontSans = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700"],
@@ -38,7 +38,7 @@ export default function RootLayout({
         style={{ overflow: "hidden" }}
       >
         <Providers>
-          <main className="m-auto grid h-[100svh] md:grid-cols-[260px_1fr] lg:grid-cols-[300px_1fr]">
+          <main className="fixed w-full m-auto grid h-[100svh] md:grid-cols-[260px_1fr] lg:grid-cols-[300px_1fr]">
             <div className="hidden h-full md:block">
               <div className="h-screen bg-[#EBEBEB] px-8 text-white dark:bg-black">
                 <div className="sticky flex h-24 items-center justify-center border-b border-[#ACACAC] dark:border-[#34343B]">
