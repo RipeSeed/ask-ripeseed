@@ -1,11 +1,17 @@
 import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
-import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
+import {  OpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { LLMChain } from "langchain/chains";
 import { Document } from "langchain/document";
 import { formatDocumentsAsString } from "langchain/util/document";
 import "server-only";
 import { pineconeIndex } from "./config";
+import {
+  CacheClient,
+  Configurations,
+  CredentialProvider,
+} from "@gomomento/sdk";
+import { MomentoCache } from "@langchain/community/caches/momento";
 
 export interface Context {
   role: "user" | "assistant" | "system";
@@ -39,6 +45,7 @@ QUESTION: {question}
 ----------
 Helpful Answer:`,
 );
+
 const questionGeneratorTemplate = PromptTemplate.fromTemplate(
   `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 ----------
@@ -49,14 +56,54 @@ FOLLOWUP QUESTION: {question}
 Standalone question:`,
 );
 
-const getChain = (
+
+async function initializeCache() {
+  console.log("hi", process.env.NEXT_PUBLIC_MOMENTO_API_KEY)
+  const client = new CacheClient({
+    configuration: Configurations.Laptop.v1(),
+    credentialProvider: CredentialProvider.fromEnvironmentVariable({
+      environmentVariableName: "MOMENTO_API_KEY"
+    }),
+    defaultTtlSeconds: 60 * 60 * 24,
+  });
+
+  const cache = await MomentoCache.fromProps({
+    client,
+    cacheName: "ask-ripeseed",
+  });
+
+  return cache;
+}
+
+// const cache = initializeCache();
+
+// Initialize the Cache Client
+// const client = new CacheClient({
+//   configuration: Configurations.Laptop.v1(),
+//   credentialProvider: CredentialProvider.fromEnvironmentVariable({
+//     environmentVariableName: "MOMENTO_API_KEY",
+//   }),
+//   defaultTtlSeconds: 60 * 60 * 24,
+// });
+
+// Initialize the Cache
+// const cache = await MomentoCache.fromProps({
+//   client,
+//   cacheName: "langchain",
+// });
+
+async function getChain(
   promptType: "questionGenerator" | "question",
   apiKey: string,
-) => {
-  const chatModel = new ChatOpenAI({
+) {
+  const cache = await initializeCache(); // Wait for the cache to be ready
+
+  const chatModel = new OpenAI({
+    cache,
     apiKey,
     model: "gpt-4o-mini",
   });
+
   const chain = new LLMChain({
     llm: chatModel,
     prompt:
@@ -64,8 +111,9 @@ const getChain = (
         ? questionGeneratorTemplate
         : questionPrompt,
   });
+
   return chain;
-};
+}
 
 const performQuestionAnswering = async (input: {
   question: string;
@@ -96,7 +144,7 @@ const performQuestionAnswering = async (input: {
   input.isAskRipeseedChat
     ? (questionGeneratorInput["instructions"] = instructions)
     : (questionGeneratorInput["instructions"] = "");
-  const { text } = await getChain("question", input.apiKey).invoke(
+  const { text } = await (await getChain("question", input.apiKey)).invoke(
     questionGeneratorInput,
   );
 
@@ -155,5 +203,6 @@ export const converse = async (
   const response = await chain.invoke({
     question: message,
   });
+
   return response;
 };
