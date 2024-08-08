@@ -25,32 +25,32 @@ export async function POST(request: Request) {
     role: "assistant",
   };
 
-  // const userMsg: MessageModel = {
-  //   content: messages[messages.length - 1].content,
-  //   role: "user",
-  // };
-  // const assistantMsg: MessageModel = {
-  //   content: result,
-  //   role: "assistant",
-  // };
+  const userMsg: MessageModel = {
+    content: messages[messages.length - 1].content,
+    role: "user",
+  };
+  const assistantMsg: MessageModel = {
+    content: result,
+    role: "assistant",
+  };
 
-  // // upsert based in uId
-  // try {
-  //   await AskRipeseedChat.updateOne(
-  //     {
-  //       uId,
-  //     },
-  //     {
-  //       $push: { messages: { $each: [userMsg, assistantMsg] } },
-  //       $set: { indexId },
-  //     },
-  //     {
-  //       upsert: true,
-  //     },
-  //   );
-  // } catch (err) {
-  //   console.error(err)
-  // }
+  // upsert based in uId
+  try {
+    AskRipeseedChat.updateOne(
+      {
+        uId,
+      },
+      {
+        $push: { messages: { $each: [userMsg, assistantMsg] } },
+        $set: { indexId },
+      },
+      {
+        upsert: true,
+      },
+    );
+  } catch (err) {
+    console.error(err)
+  }
 
   return Response.json({ data: resObject, sourceDocuments });
 }
