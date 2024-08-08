@@ -43,6 +43,7 @@ export function ChatMessageInput({
   };
 
   const handleSendMessage = async () => {
+    setMessage('');
     if (message.trim().length) {
       const proceed = await sendMessage(message.trim());
       if (proceed) {
@@ -65,7 +66,6 @@ export function ChatMessageInput({
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       void handleSendMessage();
-      setMessage('')
     }
     if (event.key === "Enter" && event.shiftKey) {
       event.preventDefault();
