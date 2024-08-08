@@ -10,7 +10,7 @@ import {
   Message,
 } from "@/app/_lib/db";
 import { askRS_sendMessage as apiSendMessage } from "@/dal/message";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { store } from "@/app/_utils/store";
 
@@ -35,6 +35,7 @@ export function ChatMessages() {
   const [messages, setMessages] = useState<AskRSMessage[]>([]);
   const { set, useSnapshot } = store;
   const { clearChat } = useSnapshot();
+  const queryClient = useQueryClient();
 
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
@@ -58,6 +59,7 @@ export function ChatMessages() {
       return await getAllMessages_aRS();
     },
     enabled: !!uId,
+    staleTime: 0
   });
 
   useEffect(() => {
@@ -71,6 +73,7 @@ export function ChatMessages() {
       setMessages([]);
       set("clearChat", false);
     }
+    queryClient.invalidateQueries({ queryKey: ['messages', 'askRS'] });
   }, [clearChat]);
 
   useEffect(() => {
