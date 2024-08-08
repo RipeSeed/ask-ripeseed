@@ -75,23 +75,6 @@ async function initializeCache() {
   return cache;
 }
 
-// const cache = initializeCache();
-
-// Initialize the Cache Client
-// const client = new CacheClient({
-//   configuration: Configurations.Laptop.v1(),
-//   credentialProvider: CredentialProvider.fromEnvironmentVariable({
-//     environmentVariableName: "MOMENTO_API_KEY",
-//   }),
-//   defaultTtlSeconds: 60 * 60 * 24,
-// });
-
-// Initialize the Cache
-// const cache = await MomentoCache.fromProps({
-//   client,
-//   cacheName: "langchain",
-// });
-
 async function getChain(
   promptType: "questionGenerator" | "question",
   apiKey: string,
