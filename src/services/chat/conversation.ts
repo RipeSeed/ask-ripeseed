@@ -58,7 +58,6 @@ Standalone question:`,
 
 
 async function initializeCache() {
-  console.log("hi", process.env.NEXT_PUBLIC_MOMENTO_API_KEY)
   const client = new CacheClient({
     configuration: Configurations.Laptop.v1(),
     credentialProvider: CredentialProvider.fromEnvironmentVariable({
