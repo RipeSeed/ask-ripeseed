@@ -47,10 +47,12 @@ const UploadDocumentWrapper = ({
                 </div>
               </Button>
             </Tooltip>
-            <UploadDocument
-              isOpen={isUploadDocOpen}
-              setIsOpen={setIsUploadDocOpen}
-            />
+            {isUploadDocOpen && (
+              <UploadDocument
+                isOpen={isUploadDocOpen}
+                setIsOpen={setIsUploadDocOpen}
+              />
+            )}
           </>
       )}
     </>
