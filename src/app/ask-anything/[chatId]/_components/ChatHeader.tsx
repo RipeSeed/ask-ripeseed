@@ -6,6 +6,7 @@ import { PencilLine } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { UploadDocumentWrapper } from "./UploadDocumentWrapper";
+import { usePathname } from "next/navigation";
 
 export function ChatHeader() {
   const [isSmScreen, setIsSmScreen] = useState(false);
@@ -19,6 +20,27 @@ export function ChatHeader() {
       setIsEditing((prev) => !prev);
     }
   };
+
+
+  const pathname = usePathname();
+
+  useEffect(()=>{
+    const getChatId = async() => {
+      const id = Number(pathname.split("/")[2]);
+      console.log('getCh id : ',id);
+      
+      const chatId = isNaN(id) ? null : id;
+      console.log('getCh chatid : ',id);
+    
+    if(chatId){
+      const updatedChat = await getChat({ id });
+    
+        set("selectedChat", updatedChat);
+    }
+    }
+  
+    getChatId()
+  },[pathname])
 
   useEffect(() => {
     const checkScreenSize = () => {
