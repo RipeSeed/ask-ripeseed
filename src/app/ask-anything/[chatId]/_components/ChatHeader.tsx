@@ -10,9 +10,8 @@ import { usePathname } from "next/navigation";
 
 export function ChatHeader() {
   const [isSmScreen, setIsSmScreen] = useState(false);
-  const { set } = store;
-  const pathname = usePathname();
-  const [selectedChat, setSelectedChat] = useState<Chat>();
+  const { set, useSnapshot } = store;
+  const { selectedChat } = useSnapshot();
   const [title, setTitle] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const handleEditClick = () => {
@@ -21,6 +20,27 @@ export function ChatHeader() {
       setIsEditing((prev) => !prev);
     }
   };
+
+
+  const pathname = usePathname();
+
+  useEffect(()=>{
+    const getChatId = async() => {
+      const id = Number(pathname.split("/")[2]);
+      console.log('getCh id : ',id);
+      
+      const chatId = isNaN(id) ? null : id;
+      console.log('getCh chatid : ',id);
+    
+    if(chatId){
+      const updatedChat = await getChat({ id });
+    
+        set("selectedChat", updatedChat);
+    }
+    }
+  
+    getChatId()
+  },[pathname])
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -36,20 +56,6 @@ export function ChatHeader() {
     // Clean up the event listener on component unmount
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
-  
-  useEffect(() => {
-    (async () => {
-      const id = Number(pathname.split("/")[2]);
-      const chatId = isNaN(id) ? 0 : id;
-      if (chatId) {
-        const chatData = await getChat({ id: chatId });
-        setSelectedChat(chatData);
-      }
-      else {
-        setSelectedChat(undefined);
-      }
-    })();
-  }, [pathname , selectedChat]);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!title.length) return;

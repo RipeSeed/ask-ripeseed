@@ -23,6 +23,8 @@ import { usePathname } from "next/navigation";
 export default function GeneralSideBar() {
   const router = useRouter();
   const pathname = usePathname();
+  const id = Number(pathname.split("/")[2]);
+  const chatId = isNaN(id) ? null : id;
   const { useSnapshot, set } = store;
   const { selectedChat, chats } = useSnapshot();
   const [allChats, setAllChats] = useState<Chat[]>([]);
@@ -113,7 +115,7 @@ export default function GeneralSideBar() {
               <div
                 key={chat.id}
                 className={`relative cursor-pointer p-2 dark:text-white ${
-                  selectedChat?.id === chat.id
+                  chatId === chat.id
                     ? "rounded-full bg-[#E0E0E0] dark:bg-[#404043]"
                     : ""
                 }`}
