@@ -82,22 +82,27 @@ export function converse(
 
       const embeddings = new OpenAIEmbeddings({ openAIApiKey });
       const vector = await embeddings.embedQuery(question);
-      const docs = await pineconeIndex.query({
-        vector,
-        topK: 5,
-        filter: { id: { $in: idArray } },
-        includeMetadata: true,
-      });
 
-      const serializedDocs = formatDocumentsAsString(
-        docs.matches.map(
-          (doc) =>
-            new Document({
-              metadata: doc.metadata,
-              pageContent: doc.metadata?.text?.toString() || "",
-            }),
-        ),
-      );
+      let serializedDocs = "";
+
+      if (idArray[0] !== null) {
+        const docs = await pineconeIndex.query({
+          vector,
+          topK: 5,
+          filter: { id: { $in: idArray } },
+          includeMetadata: true,
+        });
+
+        serializedDocs = formatDocumentsAsString(
+          docs.matches.map(
+            (doc) =>
+              new Document({
+                metadata: doc.metadata,
+                pageContent: doc.metadata?.text?.toString() || "",
+              }),
+          ),
+        );
+      }
 
       const questionGeneratorInput = {
         chatHistory,
@@ -106,7 +111,9 @@ export function converse(
         instructions: isAskRipeseedChat ? instructions : "",
       };
 
-      const stream = await getChain(openAIApiKey).stream(questionGeneratorInput);
+      const stream = await getChain(openAIApiKey).stream(
+        questionGeneratorInput,
+      );
 
       for await (const chunk of stream) {
         const data = new TextDecoder().decode(chunk);
@@ -114,6 +121,6 @@ export function converse(
       }
 
       controller.close();
-    }
+    },
   });
 }
