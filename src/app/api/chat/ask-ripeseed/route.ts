@@ -21,6 +21,8 @@ export async function POST(request: Request) {
     headers: { "Content-Type": "text/plain; charset=utf-8" }
   });
   
+  // TODO: Saving the response in mongodb (the folllowing code is not removed intentionally)
+  
   // const resObject: Message = {
   //   content: result,
   //   createdAt: new Date().toISOString(),
