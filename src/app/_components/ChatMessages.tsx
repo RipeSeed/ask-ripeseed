@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 import {
+  appendMessageContent_aRS,
   addMessage_aRS,
   AskRSMessage,
   getAllMessages_aRS,
@@ -36,12 +37,22 @@ export function ChatMessages() {
   const { set, useSnapshot } = store;
   const { clearChat } = useSnapshot();
   const queryClient = useQueryClient();
+  
+  const handleChunkReceived = (id: number, chunk: string) => {
+    setMessages((prev) => {
+      const lastMessage = prev[prev.length - 1];
+      if (lastMessage) {
+      const updatedMessage = { ...lastMessage, content: lastMessage.content + chunk };
+      return [...prev.slice(0, prev.length - 1), updatedMessage];
+      }
+      return prev;
+    });
+    appendMessageContent_aRS(id, chunk);
+  };
 
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
     onSuccess: (res) => {
-      setMessages((prev) => [...prev, res]);
-      addMessage_aRS({ content: res.content, role: res.role });
       setTimeout(() => {
         scrollToBottom();
       }, 0);
@@ -120,12 +131,24 @@ export function ChatMessages() {
     };
 
     setMessages((prev) => [...prev, tmpMessage]);
-    addMessage_aRS({ content: tmpMessage.content, role: tmpMessage.role });
+    await addMessage_aRS({ content: tmpMessage.content, role: tmpMessage.role });
     scrollToBottom();
+    
+    const chatbotMessage: Message = {
+      content: "",
+      role: "assistant",
+      chatId: 1,
+      createdAt: new Date().toString(),
+      updatedAt: new Date().toString()
+    };
+    setMessages((prev) => [...prev, chatbotMessage]);
+    const _id = await appendMessageContent_aRS(-1, chatbotMessage.content);
 
     await sendMessageMutation({
       message: tmpMessage,
       uId,
+      _id,
+      onChunkReceived: handleChunkReceived,
     });
     return true;
   };
@@ -152,18 +175,6 @@ export function ChatMessages() {
               {messages.map((message, i) => (
                 <MessageContainer message={message as Message} key={i} />
               ))}
-              {isPending && (
-                <MessageContainer
-                  isPending={true}
-                  message={{
-                    content: "",
-                    role: "assistant",
-                    chatId: 1,
-                    createdAt: new Date().toString(),
-                    updatedAt: new Date().toString(),
-                  }}
-                />
-              )}
             </>
           )}
         </AnimatePresence>
