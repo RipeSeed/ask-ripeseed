@@ -49,7 +49,7 @@ const components = {
 
 export const MessageContainer = ({
   message,
-  isPending = false,
+  isPending,
 }: MessageContainerProps) => {
   return (
     <div
@@ -75,13 +75,13 @@ export const MessageContainer = ({
           </div>
         )}
         <span className="max-w-[90%] overflow-x-auto rounded-md p-3 text-white sm:max-w-sm md:max-w-md">
-          {!message.content ? (
+          {isPending ? (
             <div className="flex items-center justify-center gap-2">
-              <span className="sr-only">...</span>
-              {/* <div className="h-1 w-1 animate-bounce rounded-full bg-red-200 [animation-delay:-0.4s]"></div>
+              <span className="sr-only">Thinking ...</span>
+              <div className="h-1 w-1 animate-bounce rounded-full bg-red-200 [animation-delay:-0.4s]"></div>
               <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]"></div>
               <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]"></div>
-              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]"></div> */}
+              <div className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]"></div>
             </div>
           ) : (
             <>
