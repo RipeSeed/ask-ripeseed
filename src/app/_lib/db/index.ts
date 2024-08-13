@@ -6,6 +6,7 @@ export {
   deleteMessage,
   getMessage,
   getAllMessagesByChat,
+  appendMessageContent,
   updateMessage,
 } from "./messages";
 export {
