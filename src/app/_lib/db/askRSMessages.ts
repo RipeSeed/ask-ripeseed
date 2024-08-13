@@ -19,6 +19,21 @@ export async function getAllMessages(): Promise<AskRSMessage[]> {
   return db.askRSMessages.orderBy("createdAt").toArray();
 }
 
+// appending in content of a message based on id
+export async function appendMessageContent(
+  id: number,
+  content: string
+) {
+  const message = await db.askRSMessages.get(id);
+  if (!message) {
+    // add new message instead
+    return await addMessage({ content, role: "assistant" });
+  }
+  message.content += content;
+  message.updatedAt = new Date().toISOString();
+  return await db.askRSMessages.put(message);
+}
+
 // delet all messages
 export async function deleteAllMessages(): Promise<void> {
   return db.askRSMessages.clear();

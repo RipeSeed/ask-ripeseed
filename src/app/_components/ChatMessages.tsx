@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 import {
+  appendMessageContent_aRS,
   addMessage_aRS,
   AskRSMessage,
   getAllMessages_aRS,
@@ -36,12 +37,43 @@ export function ChatMessages() {
   const { set, useSnapshot } = store;
   const { clearChat } = useSnapshot();
   const queryClient = useQueryClient();
+  const [waitingForStream, setWaitingForStream] = useState(false);
+  
+  // to handle chunks sequentially, we are using a queue
+  const chunkQueue = useRef<{ id: number, chunk: string }[]>([]);
+  const processingChunk = useRef(false);
 
+  const processNextChunk = async () => {
+    if (processingChunk.current || chunkQueue.current.length === 0) return;
+    
+    processingChunk.current = true;
+    const chunkBody = chunkQueue.current.shift();
+    if (chunkBody) {
+      await appendMessageContent_aRS(chunkBody.id, chunkBody.chunk);
+      processingChunk.current = false;
+    }
+    processNextChunk();
+  };
+  
+  const handleChunkReceived = (id: number, chunk: string) => {
+    setWaitingForStream(false);
+    setMessages((prevMessages) => {
+      const lastMessage = prevMessages[prevMessages.length - 1];
+      if (lastMessage) {
+        const updatedMessage = { ...lastMessage, content: lastMessage.content + chunk };
+        return [...prevMessages.slice(0, prevMessages.length - 1), updatedMessage];
+      }
+      return prevMessages;
+    });
+  
+    chunkQueue.current.push({ id, chunk });
+    processNextChunk(); // Start processing the queue
+  };
+  
+  // mutations needed in the component to send and load messages
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
     onSuccess: (res) => {
-      setMessages((prev) => [...prev, res]);
-      addMessage_aRS({ content: res.content, role: res.role });
       setTimeout(() => {
         scrollToBottom();
       }, 0);
@@ -107,6 +139,7 @@ export function ChatMessages() {
   }
 
   const sendMessage = async (newMessage: string) => {
+    setWaitingForStream(true);
     if (!newMessage.trim() || isPending) {
       return false;
     }
@@ -120,12 +153,24 @@ export function ChatMessages() {
     };
 
     setMessages((prev) => [...prev, tmpMessage]);
-    addMessage_aRS({ content: tmpMessage.content, role: tmpMessage.role });
+    await addMessage_aRS({ content: tmpMessage.content, role: tmpMessage.role });
     scrollToBottom();
+    
+    const chatbotMessage: Message = {
+      content: "",
+      role: "assistant",
+      chatId: 1,
+      createdAt: new Date().toString(),
+      updatedAt: new Date().toString()
+    };
+    setMessages((prev) => [...prev, chatbotMessage]);
+    const _id = await appendMessageContent_aRS(-1, chatbotMessage.content);
 
     await sendMessageMutation({
       message: tmpMessage,
       uId,
+      _id,
+      onChunkReceived: handleChunkReceived,
     });
     return true;
   };
@@ -149,10 +194,13 @@ export function ChatMessages() {
             />
           ) : (
             <>
-              {messages.map((message, i) => (
-                <MessageContainer message={message as Message} key={i} />
-              ))}
-              {isPending && (
+              {messages.map(
+                (message, i) =>
+                  message.content && (
+                    <MessageContainer message={message as Message} key={i} />
+                  ),
+              )}
+              {waitingForStream && (
                 <MessageContainer
                   isPending={true}
                   message={{
@@ -168,7 +216,7 @@ export function ChatMessages() {
           )}
         </AnimatePresence>
       </div>
-      <div className="  w-full px-4 pb-4 lg:px-20">
+      <div className="w-full px-4 pb-4 lg:px-20">
         <ChatMessageInput
           sendMessage={sendMessage}
           isReplyPending={isPending}
