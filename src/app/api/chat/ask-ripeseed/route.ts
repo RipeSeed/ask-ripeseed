@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   const indexId = process.env.RIPESEED_DOC_INDEX_ID!;
   const apiKey = process.env.RIPESEED_OPENAI_API_KEY!;
 
-  const { result, sourceDocuments } = await converse(
+  const streamedResponse = converse(
     messages[messages.length - 1].content,
     messages,
     [indexId],
@@ -17,40 +17,42 @@ export async function POST(request: Request) {
     true,
   );
 
-  const resObject: Message = {
-    content: result,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    chatId: 0,
-    role: "assistant",
-  };
+  return new Response(streamedResponse, {
+    headers: { "Content-Type": "text/plain; charset=utf-8" }
+  });
+  
+  // const resObject: Message = {
+  //   content: result,
+  //   createdAt: new Date().toISOString(),
+  //   updatedAt: new Date().toISOString(),
+  //   chatId: 0,
+  //   role: "assistant",
+  // };
 
-  const userMsg: MessageModel = {
-    content: messages[messages.length - 1].content,
-    role: "user",
-  };
-  const assistantMsg: MessageModel = {
-    content: result,
-    role: "assistant",
-  };
+  // const userMsg: MessageModel = {
+  //   content: messages[messages.length - 1].content,
+  //   role: "user",
+  // };
+  // const assistantMsg: MessageModel = {
+  //   content: result,
+  //   role: "assistant",
+  // };
 
-  // upsert based in uId
-  try {
-    AskRipeseedChat.updateOne(
-      {
-        uId,
-      },
-      {
-        $push: { messages: { $each: [userMsg, assistantMsg] } },
-        $set: { indexId },
-      },
-      {
-        upsert: true,
-      },
-    );
-  } catch (err) {
-    console.error(err)
-  }
-
-  return Response.json({ data: resObject, sourceDocuments });
+  // // upsert based in uId
+  // try {
+  //   AskRipeseedChat.updateOne(
+  //     {
+  //       uId,
+  //     },
+  //     {
+  //       $push: { messages: { $each: [userMsg, assistantMsg] } },
+  //       $set: { indexId },
+  //     },
+  //     {
+  //       upsert: true,
+  //     },
+  //   );
+  // } catch (err) {
+  //   console.error(err)
+  // }
 }

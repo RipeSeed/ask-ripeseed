@@ -196,29 +196,27 @@ export function ChatMessages() {
         ref={messagesContainerRef}
         className={`flex w-full flex-auto ${!messages.length ? "justify-center" : ""} flex-col overflow-y-auto overflow-x-hidden md:h-[80%]`}
       >
-        <AnimatePresence>
-          {!messages.length ? (
-            <WelcomeCards sendMessage={sendMessage} cards={cards} />
-          ) : (
-            <>
-              {messages.map((message, i) => (
-                <MessageContainer message={message} key={i} />
-              ))}
-              {isPending && (
-                <MessageContainer
-                  isPending={true}
-                  message={{
-                    content: "",
-                    role: "assistant",
-                    chatId: selectedChatId,
-                    createdAt: new Date().toString(),
-                    updatedAt: new Date().toString(),
-                  }}
-                />
-              )}
-            </>
-          )}
-        </AnimatePresence>
+        {!messages.length ? (
+          <WelcomeCards sendMessage={sendMessage} cards={cards} />
+        ) : (
+          <>
+            {messages.map((message, i) => (
+              <MessageContainer message={message} key={i} />
+            ))}
+            {isPending && (
+              <MessageContainer
+                isPending={true}
+                message={{
+                  content: "",
+                  role: "assistant",
+                  chatId: selectedChatId,
+                  createdAt: new Date().toString(),
+                  updatedAt: new Date().toString(),
+                }}
+              />
+            )}
+          </>
+        )}
       </div>
       <div className="w-full px-4 pb-4 md:px-20">
         <ChatMessageInput
