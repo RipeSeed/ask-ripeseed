@@ -5,6 +5,12 @@ import { formatDocumentsAsString } from "langchain/util/document";
 import "server-only";
 import { pineconeIndex } from "./config";
 import { HttpResponseOutputParser } from "langchain/output_parsers";
+import {
+  CacheClient,
+  Configurations,
+  CredentialProvider,
+} from "@gomomento/sdk";
+import { MomentoCache } from "@langchain/community/caches/momento";
 
 export interface Context {
   role: "user" | "assistant" | "system";
@@ -39,9 +45,28 @@ QUESTION: {question}
 Helpful Answer:`,
 );
 
+async function initializeCache() {
+  const client = new CacheClient({
+    configuration: Configurations.Laptop.v1(),
+    credentialProvider: CredentialProvider.fromEnvironmentVariable({
+      environmentVariableName: "MOMENTO_API_KEY"
+    }),
+    defaultTtlSeconds: 60 * 60 * 24,
+  });
+
+  const cache = await MomentoCache.fromProps({
+    client,
+    cacheName: "ask-ripeseed",
+  });
+
+  return cache;
+}
+
 const getChain = (apiKey: string) => {
   const parser = new HttpResponseOutputParser();
+  const cache = await initializeCache();
   const chatModel = new ChatOpenAI({
+    cache,
     apiKey,
     model: "gpt-4o-mini",
     streaming: true,
