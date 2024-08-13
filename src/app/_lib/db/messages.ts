@@ -46,6 +46,22 @@ export async function updateMessage({
   return db.messages.update(id, { content, updatedAt });
 }
 
+// appending in content of a message based on id
+export async function appendMessageContent(
+  id: number,
+  chatId: number,
+  content: string
+) {
+  const message = await db.messages.get(id);
+  if (!message) {
+    // add new message instead
+    return await addMessage({ content, chatId, role: "assistant" });
+  }
+  message.content += content;
+  message.updatedAt = new Date().toISOString();
+  return await db.messages.put(message);
+}
+
 // Delete a message by ID
 export async function deleteMessage({ id }: { id: number }): Promise<void> {
   return db.messages.delete(id);
