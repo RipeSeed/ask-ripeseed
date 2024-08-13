@@ -6,6 +6,7 @@ export {
   deleteMessage,
   getMessage,
   getAllMessagesByChat,
+  appendMessageContent,
   updateMessage,
 } from "./messages";
 export {
@@ -13,6 +14,7 @@ export {
   getAllMessages as getAllMessages_aRS,
   deleteAllMessages as deleteAllMessages_aRS,
   getContext as getContext_aRS,
+  appendMessageContent as appendMessageContent_aRS,
 } from "./askRSMessages";
 
 export type { Chat, Message, AskRSMessage } from "./types";

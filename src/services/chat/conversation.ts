@@ -1,11 +1,10 @@
 import { PromptTemplate } from "@langchain/core/prompts";
-import { RunnableSequence } from "@langchain/core/runnables";
-import {  OpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import { LLMChain } from "langchain/chains";
+import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { Document } from "langchain/document";
 import { formatDocumentsAsString } from "langchain/util/document";
 import "server-only";
 import { pineconeIndex } from "./config";
+import { HttpResponseOutputParser } from "langchain/output_parsers";
 import {
   CacheClient,
   Configurations,
@@ -46,17 +45,6 @@ QUESTION: {question}
 Helpful Answer:`,
 );
 
-const questionGeneratorTemplate = PromptTemplate.fromTemplate(
-  `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
-----------
-CHAT HISTORY: {chatHistory}
-----------
-FOLLOWUP QUESTION: {question}
-----------
-Standalone question:`,
-);
-
-
 async function initializeCache() {
   const client = new CacheClient({
     configuration: Configurations.Laptop.v1(),
@@ -74,66 +62,20 @@ async function initializeCache() {
   return cache;
 }
 
-async function getChain(
-  promptType: "questionGenerator" | "question",
-  apiKey: string,
-) {
-  const cache = await initializeCache(); // Wait for the cache to be ready
-
-  const chatModel = new OpenAI({
+const getChain = (apiKey: string) => {
+  const parser = new HttpResponseOutputParser();
+  const cache = await initializeCache();
+  const chatModel = new ChatOpenAI({
     cache,
     apiKey,
     model: "gpt-4o-mini",
+    streaming: true,
   });
 
-  const chain = new LLMChain({
-    llm: chatModel,
-    prompt:
-      promptType === "questionGenerator"
-        ? questionGeneratorTemplate
-        : questionPrompt,
-  });
+  const prompt = questionPrompt;
+  const chain = prompt.pipe(chatModel).pipe(parser);
 
   return chain;
-}
-
-const performQuestionAnswering = async (input: {
-  question: string;
-  chatHistory: string;
-  context: Array<Document>;
-  apiKey: string;
-  isAskRipeseedChat: boolean;
-}): Promise<{ result: string; sourceDocuments: Array<Document> }> => {
-  const docs = input.context.map(
-    (doc) =>
-      new Document({
-        metadata: doc.metadata,
-        pageContent: doc.metadata.text as string,
-      }),
-  );
-  const serializedDocs = formatDocumentsAsString(docs);
-
-  const questionGeneratorInput: {
-    chatHistory: string;
-    context: string;
-    question: string;
-    instructions?: string;
-  } = {
-    chatHistory: input.chatHistory,
-    context: serializedDocs,
-    question: input.question,
-  };
-  input.isAskRipeseedChat
-    ? (questionGeneratorInput["instructions"] = instructions)
-    : (questionGeneratorInput["instructions"] = "");
-  const { text } = await (await getChain("question", input.apiKey)).invoke(
-    questionGeneratorInput,
-  );
-
-  return {
-    result: text as string,
-    sourceDocuments: input.context,
-  };
 };
 
 const serializeChatHistory = (chatHistory: Context[]): string => {
@@ -150,41 +92,60 @@ const serializeChatHistory = (chatHistory: Context[]): string => {
     .join("\n");
 };
 
-export const converse = async (
+export function converse(
   message: string,
   context: Context[],
   idArray: string[],
   openAIApiKey: string,
   isAskRipeseedChat: boolean = false,
-) => {
-  const chain = RunnableSequence.from([
-    {
-      question: (input: { question: string }) => input.question,
-      chatHistory: async () => {
-        return serializeChatHistory(context);
-      },
-      context: async (input: { question: string }) => {
-        const embeddings = new OpenAIEmbeddings({
-          openAIApiKey,
-        });
-        const vector = await embeddings.embedQuery(input.question);
+) {
+  return new ReadableStream({
+    async start(controller) {
+      const question = message;
+
+      const chatHistory = await serializeChatHistory(context);
+
+      const embeddings = new OpenAIEmbeddings({ openAIApiKey });
+      const vector = await embeddings.embedQuery(question);
+
+      let serializedDocs = "";
+
+      if (idArray[0] !== null) {
         const docs = await pineconeIndex.query({
           vector,
           topK: 5,
           filter: { id: { $in: idArray } },
           includeMetadata: true,
         });
-        return docs.matches;
-      },
-      apiKey: () => openAIApiKey,
-      isAskRipeseedChat: () => isAskRipeseedChat,
+
+        serializedDocs = formatDocumentsAsString(
+          docs.matches.map(
+            (doc) =>
+              new Document({
+                metadata: doc.metadata,
+                pageContent: doc.metadata?.text?.toString() || "",
+              }),
+          ),
+        );
+      }
+
+      const questionGeneratorInput = {
+        chatHistory,
+        context: serializedDocs,
+        question,
+        instructions: isAskRipeseedChat ? instructions : "",
+      };
+
+      const stream = await getChain(openAIApiKey).stream(
+        questionGeneratorInput,
+      );
+
+      for await (const chunk of stream) {
+        const data = new TextDecoder().decode(chunk);
+        controller.enqueue(data);
+      }
+
+      controller.close();
     },
-    performQuestionAnswering,
-  ]);
-
-  const response = await chain.invoke({
-    question: message,
   });
-
-  return response;
-};
+}
