@@ -34,7 +34,7 @@ const client = new Infisical({
       });
 
       // Append to the .env.dev file instead of overwriting it
-      fs.appendFileSync(".env", `${env}=${val.secretValue}\n`);
+      fs.appendFileSync(".env", `\n${env}=${val.secretValue}`);
     } catch (error) {
       console.error(`Failed to retrieve or write secret for ${env}:`, error);
     }
