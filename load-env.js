@@ -27,7 +27,7 @@ const client = new Infisical({
     try {
       const val = await client.getSecret({
         environment: enviroment,
-        projectId: INFISICAL_PROJECT_ID,
+        projectId: process.env.INFISICAL_PROJECT_ID,
         path: "/",
         type: "shared",
         secretName: env,
