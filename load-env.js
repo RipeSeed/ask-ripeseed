@@ -20,7 +20,7 @@ const client = new Infisical({
   );
   const keysArray = filteredLines.map((line) => line.split("=")[0].trim());
 
-  const enviroment = process.env.NODE_ENV ?? "dev"
+  const enviroment = process.env.NODE_ENV ? process.env.NODE_ENV : "dev"
 
   // Use a for...of loop to await each async operation
   for (const env of keysArray) {
