@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@gomomento/sdk": "^1.93.0",
+    "@infisical/sdk": "^2.3.1",
     "@langchain/community": "^0.2.4",
     "@langchain/core": "^0.2.6",
     "@langchain/openai": "^0.0.34",
