@@ -62,7 +62,7 @@ async function initializeCache() {
   return cache;
 }
 
-const getChain = (apiKey: string) => {
+const getChain = async (apiKey: string) => {
   const parser = new HttpResponseOutputParser();
   const cache = await initializeCache();
   const chatModel = new ChatOpenAI({
@@ -136,7 +136,7 @@ export function converse(
         instructions: isAskRipeseedChat ? instructions : "",
       };
 
-      const stream = await getChain(openAIApiKey).stream(
+      const stream = await (await getChain(openAIApiKey)).stream(
         questionGeneratorInput,
       );
 
