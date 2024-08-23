@@ -1,10 +1,12 @@
 import { store } from "@/app/_utils/store";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { configPaths, isPath } from "../../../../components/common/Header/constants";
 import { usePathname } from "next/navigation";
+import { addChat, getChat, getAllChats } from "@/app/_lib/db";
+import { useRouter } from "next/navigation";
 const clock = "/clock.png";
 const config = "/config.png";
 
@@ -15,7 +17,6 @@ export interface Cardset {
 }
 
 interface Props {
-  sendMessage: (newMessage: string) => Promise<boolean>;
   cards: Cardset;
   hideSetupKey?: boolean;
 }
@@ -24,25 +25,51 @@ const handleOpenConfig = () => {
   set("isConfigOpen", true);
 };
 export const WelcomeCards = ({
-  sendMessage,
   cards,
   hideSetupKey = false,
 }: Props) => {
   const { set, useSnapshot } = store;
-  const pathname = usePathname();
+  let pathname = usePathname();
+  pathname = useMemo(() => {
+    return pathname.search("ask-anything") === -1 ? "-1" : pathname.split("/")[2] ?? "0";
+  }, [pathname]);
+  // pathname will always be "-1" or "0" or "{id}" indicating ask-ripeseed or ask-anything or chatId
   const { openAIKey } = useSnapshot();
   const [key, setKey] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     set("openAIKey", localStorage.getItem("openai:key") ?? "");
     setKey(openAIKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openAIKey]);
-  const messageHandler = (message: string) => {
+  
+  const messageHandler = async (message: string) => {
     if (isPath(configPaths, pathname) && !key) {
       handleOpenConfig();
     } else {
-      sendMessage(message);
+      let chatId = Number(pathname);
+      if (chatId === 0) {
+        // make new chat
+        chatId = await addChat({});
+        const selectedChat = await getChat({ id: chatId });
+        const chats = await getAllChats();
+        set("selectedChat", selectedChat);
+        set("chats", chats);
+        set("stateMetadata", {
+          chatId,
+          message,
+          indexId: "",
+        });
+        router.push(`/ask-anything/${chatId}`);
+      } else {
+        // for ask-ripeseed i.e. chatId = -1
+        set("stateMetadata", {
+          chatId,
+          message,
+          indexId: "",
+        });
+      }
     }
   };
   return (

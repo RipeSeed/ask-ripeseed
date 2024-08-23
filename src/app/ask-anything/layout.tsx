@@ -1,6 +1,4 @@
 import { Metadata } from "next";
-import SidebarView from "./_components/SidebarView";
-import { ChatList } from "./_components/ChatList";
 import { ChatHeader } from "./[chatId]/_components/ChatHeader";
 export const metadata: Metadata = {
   title: "Chatbot showcase | RipeSeed",

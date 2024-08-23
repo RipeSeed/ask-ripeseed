@@ -13,6 +13,7 @@ export const initialState: {
     chatId: number;
     message: string;
     indexId: string;
+    inProgress?: boolean;
   };
 } = {
   chats: [],
@@ -26,6 +27,7 @@ export const initialState: {
     chatId: 0,
     message: "",
     indexId: "",
+    inProgress: false,
   },
 };
 

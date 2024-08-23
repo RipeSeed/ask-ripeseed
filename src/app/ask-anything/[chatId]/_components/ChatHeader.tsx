@@ -27,10 +27,8 @@ export function ChatHeader() {
   useEffect(()=>{
     const getChatId = async() => {
       const id = Number(pathname.split("/")[2]);
-      console.log('getCh id : ',id);
       
       const chatId = isNaN(id) ? null : id;
-      console.log('getCh chatid : ',id);
     
     if(chatId){
       const updatedChat = await getChat({ id });
