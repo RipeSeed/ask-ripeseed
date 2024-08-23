@@ -35,17 +35,17 @@ export function ChatMessages() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<AskRSMessage[]>([]);
   const { set, useSnapshot } = store;
-  const { clearChat } = useSnapshot();
+  const { clearChat, stateMetadata } = useSnapshot();
   const queryClient = useQueryClient();
   const [waitingForStream, setWaitingForStream] = useState(false);
-  
+
   // to handle chunks sequentially, we are using a queue
-  const chunkQueue = useRef<{ id: number, chunk: string }[]>([]);
+  const chunkQueue = useRef<{ id: number; chunk: string }[]>([]);
   const processingChunk = useRef(false);
 
   const processNextChunk = async () => {
     if (processingChunk.current || chunkQueue.current.length === 0) return;
-    
+
     processingChunk.current = true;
     const chunkBody = chunkQueue.current.shift();
     if (chunkBody) {
@@ -54,22 +54,28 @@ export function ChatMessages() {
     }
     processNextChunk();
   };
-  
+
   const handleChunkReceived = (id: number, chunk: string) => {
     setWaitingForStream(false);
     setMessages((prevMessages) => {
       const lastMessage = prevMessages[prevMessages.length - 1];
       if (lastMessage) {
-        const updatedMessage = { ...lastMessage, content: lastMessage.content + chunk };
-        return [...prevMessages.slice(0, prevMessages.length - 1), updatedMessage];
+        const updatedMessage = {
+          ...lastMessage,
+          content: lastMessage.content + chunk,
+        };
+        return [
+          ...prevMessages.slice(0, prevMessages.length - 1),
+          updatedMessage,
+        ];
       }
       return prevMessages;
     });
-  
+
     chunkQueue.current.push({ id, chunk });
     processNextChunk(); // Start processing the queue
   };
-  
+
   // mutations needed in the component to send and load messages
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
@@ -91,7 +97,7 @@ export function ChatMessages() {
       return await getAllMessages_aRS();
     },
     enabled: !!uId,
-    staleTime: 0
+    staleTime: 0,
   });
 
   useEffect(() => {
@@ -105,7 +111,7 @@ export function ChatMessages() {
       setMessages([]);
       set("clearChat", false);
     }
-    queryClient.invalidateQueries({ queryKey: ['messages', 'askRS'] });
+    queryClient.invalidateQueries({ queryKey: ["messages", "askRS"] });
   }, [clearChat]);
 
   useEffect(() => {
@@ -117,6 +123,28 @@ export function ChatMessages() {
   useEffect(() => {
     setUId(getUId());
   }, []);
+
+  useEffect(() => {
+    const sendStateMessage = async () => {
+      if (stateMetadata.chatId === -1) {
+        if (stateMetadata.message.length && !stateMetadata.inProgress) {
+          set("stateMetadata", {
+            ...stateMetadata,
+            inProgress: true,
+          });
+          await sendMessage();
+          set("stateMetadata", {
+            chatId: 0,
+            message: "",
+            indexId: "",
+          });
+        }
+      }
+    };
+
+    void sendStateMessage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stateMetadata]);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -138,12 +166,13 @@ export function ChatMessages() {
     return uId;
   }
 
-  const sendMessage = async (newMessage: string) => {
-    setWaitingForStream(true);
-    if (!newMessage.trim() || isPending) {
+  const sendMessage = async () => {
+    const newMessage = stateMetadata?.message.trim();
+    if (!newMessage.trim() || isPending || stateMetadata.chatId !== -1) {
       return false;
     }
 
+    setWaitingForStream(true);
     const tmpMessage: Message = {
       content: newMessage,
       role: "user",
@@ -153,15 +182,18 @@ export function ChatMessages() {
     };
 
     setMessages((prev) => [...prev, tmpMessage]);
-    await addMessage_aRS({ content: tmpMessage.content, role: tmpMessage.role });
+    await addMessage_aRS({
+      content: tmpMessage.content,
+      role: tmpMessage.role,
+    });
     scrollToBottom();
-    
+
     const chatbotMessage: Message = {
       content: "",
       role: "assistant",
       chatId: 1,
       createdAt: new Date().toString(),
-      updatedAt: new Date().toString()
+      updatedAt: new Date().toString(),
     };
     setMessages((prev) => [...prev, chatbotMessage]);
     const _id = await appendMessageContent_aRS(-1, chatbotMessage.content);
@@ -187,11 +219,7 @@ export function ChatMessages() {
       >
         <AnimatePresence>
           {!messages.length ? (
-            <WelcomeCards
-              sendMessage={sendMessage}
-              cards={cards}
-              hideSetupKey={true}
-            />
+            <WelcomeCards cards={cards} hideSetupKey={true} />
           ) : (
             <>
               {messages.map(
@@ -217,10 +245,7 @@ export function ChatMessages() {
         </AnimatePresence>
       </div>
       <div className="w-full px-4 pb-4 lg:px-20">
-        <ChatMessageInput
-          sendMessage={sendMessage}
-          isReplyPending={isPending}
-        />
+        <ChatMessageInput />
       </div>
     </div>
   );
