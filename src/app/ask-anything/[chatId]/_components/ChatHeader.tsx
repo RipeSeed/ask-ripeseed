@@ -76,10 +76,7 @@ export function ChatHeader() {
     });
 
     const updated = await getAllChats();
-    const sorted = updated.sort((a, b) => {
-      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-    });
-    set("chats", sorted);
+    set("chats", updated);
 
     const updatedChat = await getChat({ id });
 
