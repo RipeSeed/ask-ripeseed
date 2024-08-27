@@ -2,10 +2,8 @@
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  addChat,
   addMessage,
   appendMessageContent,
-  getAllChats,
   getAllMessagesByChat,
   getChat,
   Message,
@@ -39,14 +37,14 @@ export function ChatMessages() {
   const { set, useSnapshot } = store;
   const { stateMetadata } = useSnapshot();
   const [waitingForStream, setWaitingForStream] = useState(false);
-  
+
   // to handle chunks sequentially, we are using a queue
-  const chunkQueue = useRef<{ id: number, chunk: string }[]>([]);
+  const chunkQueue = useRef<{ id: number; chunk: string }[]>([]);
   const processingChunk = useRef(false);
 
   const processNextChunk = async () => {
     if (processingChunk.current || chunkQueue.current.length === 0) return;
-    
+
     processingChunk.current = true;
     const chunkBody = chunkQueue.current.shift();
     if (chunkBody) {
@@ -55,22 +53,28 @@ export function ChatMessages() {
     }
     processNextChunk();
   };
-  
+
   const handleChunkReceived = (id: number, chunk: string) => {
     setWaitingForStream(false);
     setMessages((prevMessages) => {
       const lastMessage = prevMessages[prevMessages.length - 1];
       if (lastMessage) {
-        const updatedMessage = { ...lastMessage, content: lastMessage.content + chunk };
-        return [...prevMessages.slice(0, prevMessages.length - 1), updatedMessage];
+        const updatedMessage = {
+          ...lastMessage,
+          content: lastMessage.content + chunk,
+        };
+        return [
+          ...prevMessages.slice(0, prevMessages.length - 1),
+          updatedMessage,
+        ];
       }
       return prevMessages;
     });
-  
+
     chunkQueue.current.push({ id, chunk });
     processNextChunk(); // Start processing the queue
   };
-  
+
   // mutations needed in the component to send and load messages
   const { mutateAsync: sendMessageMutation, isPending } = useMutation({
     mutationFn: apiSendMessage,
@@ -113,21 +117,25 @@ export function ChatMessages() {
   useEffect(() => {
     const sendStateMessage = async () => {
       if (stateMetadata.chatId === selectedChatId) {
-        if (stateMetadata.message.length) {
-          await sendMessage(stateMetadata.message);
+        if (stateMetadata.message.length && !stateMetadata.inProgress) {
+          set("stateMetadata", {
+            ...stateMetadata,
+            inProgress: true,
+          });
+          await sendMessage();
+          set("stateMetadata", {
+            chatId: 0,
+            message: "",
+            indexId: "",
+            inProgress: false,
+          });
         }
-
-        set("stateMetadata", {
-          chatId: 0,
-          message: "",
-          indexId: "",
-        });
       }
     };
 
     void sendStateMessage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [stateMetadata]);
 
   useEffect(() => {
     if (messages.length) {
@@ -149,12 +157,12 @@ export function ChatMessages() {
       }
     }, 0);
   };
-
-  const sendMessage = async (newMessage: string) => {
-    setWaitingForStream(true);
-    if (!newMessage.trim() || isPending) {
+  
+  const sendMessage = async () => {
+    const newMessage = stateMetadata?.message.trim();
+    if (!newMessage || isPending || !selectedChatId) {
       return false;
-    }
+    }  
     const apiKey = localStorage.getItem("openai:key");
     if (!apiKey?.length) {
       toast.info(
@@ -169,20 +177,8 @@ export function ChatMessages() {
       );
       return false;
     }
-    if (!selectedChatId || isNaN(selectedChatId)) {
-      // create a new chat , redirect user to that chat and also send this messge agaist that chat
-      const _newChatId = await addChat({});
-      set("selectedChat", await getChat({ id: _newChatId }));
-      set("chats", await getAllChats());
-      set("stateMetadata", {
-        chatId: _newChatId,
-        message: newMessage,
-        indexId: "",
-      });
-      router.push(`/ask-anything/${_newChatId}`);
-      return true;
-    }
-
+    
+    setWaitingForStream(true);
     const tmpMessage: Message = {
       content: newMessage,
       role: "user",
@@ -201,19 +197,23 @@ export function ChatMessages() {
       content: newMessage,
       role: "user",
     });
-    
+
     const chatbotMessage: Message = {
       content: "",
       role: "assistant",
       chatId: selectedChatId,
       createdAt: new Date().toString(),
-      updatedAt: new Date().toString()
+      updatedAt: new Date().toString(),
     };
     setMessages((prev) => [...prev, chatbotMessage]);
-    
+
     // -1 so that it always creates a new message for the first time
-    const _id = await appendMessageContent(-1, selectedChatId, chatbotMessage.content);
-    
+    const _id = await appendMessageContent(
+      -1,
+      selectedChatId,
+      chatbotMessage.content,
+    );
+
     await sendMessageMutation({
       message: tmpMessage,
       apiKey,
@@ -242,7 +242,7 @@ export function ChatMessages() {
       >
         <AnimatePresence>
           {!messages.length ? (
-            <WelcomeCards sendMessage={sendMessage} cards={cards} />
+            <WelcomeCards cards={cards} />
           ) : (
             <>
               {messages.map(
@@ -268,10 +268,7 @@ export function ChatMessages() {
         </AnimatePresence>
       </div>
       <div className="w-full px-4 pb-4 md:px-20">
-        <ChatMessageInput
-          sendMessage={sendMessage}
-          isReplyPending={isPending}
-        />
+        <ChatMessageInput />
       </div>
     </div>
   );

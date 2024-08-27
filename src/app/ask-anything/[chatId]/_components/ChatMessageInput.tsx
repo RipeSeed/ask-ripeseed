@@ -1,29 +1,53 @@
+"use client"
 import { AnimatePresence, motion } from "framer-motion";
 import { LoaderCircle } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { store } from "@/app/_utils/store";
+import { usePathname, useRouter } from "next/navigation";
+import { addChat, getChat, getAllChats } from "@/app/_lib/db";
 const queryIcon = "/query.png";
 
-interface ChatFooterProps {
-  sendMessage: (newMessage: string) => Promise<boolean>;
-  isReplyPending: boolean;
-}
-
-export function ChatMessageInput({
-  sendMessage,
-  isReplyPending: isDisabled,
-}: ChatFooterProps) {
+export function ChatMessageInput() {
   const [message, setMessage] = useState("");
   const [textareaHeight, setTextareaHeight] = useState<number | null>(null);
+  const [isPending, setIsPending] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const parentDivRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const { set, useSnapshot } = store;
+  const { stateMetadata } = useSnapshot();
+  
+  let pathname = usePathname();
+  pathname = useMemo(() => {
+    const path = pathname.search("ask-anything") === -1 ? "-1" : pathname.split("/")[2] ?? "0";
+    if (stateMetadata.chatId !== Number(path)) {
+      setIsPending(false);
+    }
+    return path;
+  }, [pathname]);
+  // pathname will always be "-1" or "0" or "{id}" indicating ask-ripeseed or ask-anything or chatId
 
   useEffect(() => {
     if (inputRef.current) {
       adjustTextareaHeight(inputRef.current);
     }
   }, [message]);
+  
+  useEffect(() => {
+    if(stateMetadata && !stateMetadata.message.trim()) {
+      setIsPending(false);
+      if (inputRef.current) {
+        inputRef.current.focus();
+        inputRef.current.style.height = "auto";
+        setTextareaHeight(null);
+      }
+      if (parentDivRef.current) {
+        parentDivRef.current.style.removeProperty("border-radius");
+      }
+    }
+  }, [stateMetadata]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value);
@@ -43,25 +67,38 @@ export function ChatMessageInput({
   };
 
   const handleSendMessage = async () => {
-    setMessage('');
     if (message.trim().length) {
-      const proceed = await sendMessage(message.trim());
-      if (proceed) {
-        
-        if (inputRef.current) {
-          inputRef.current.focus();
-          inputRef.current.style.height = "auto";
-          setTextareaHeight(null);
-        }
-        if (parentDivRef.current) {
-          parentDivRef.current.style.removeProperty("border-radius");
-        }
+      let chatId = Number(pathname);
+      if (chatId === 0) {
+        // make new chat
+        chatId = await addChat({});
+        const selectedChat = await getChat({ id: chatId });
+        const chats = await getAllChats();
+        set("selectedChat", selectedChat);
+        set("chats", chats);
+        set("stateMetadata", {
+          chatId,
+          message,
+          indexId: "",
+          inProgress: false,
+        });
+        setMessage('');
+        router.push(`/ask-anything/${chatId}`);
+      } else {
+        setIsPending(true);
+        set("stateMetadata", {
+          chatId,
+          message,
+          indexId: "",
+          inProgress: false,
+        });
+        setMessage('');
       }
     }
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (isDisabled) return;
+    if (isPending) return;
 
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
@@ -99,7 +136,7 @@ export function ChatMessageInput({
               autoComplete="off"
               value={message}
               ref={inputRef}
-              disabled={isDisabled}
+              disabled={isPending}
               onKeyDown={handleKeyPress}
               onChange={handleInputChange}
               name="message"
@@ -117,11 +154,11 @@ export function ChatMessageInput({
         </motion.div>
       </AnimatePresence>
       <Button
-        disabled={isDisabled}
+        disabled={isPending}
         className="h-10 rounded-3xl bg-crayola hover:border hover:border-primary dark:hover:text-white md:h-12"
         onClick={handleSendMessage}
       >
-        {isDisabled ? (
+        {isPending ? (
           <LoaderCircle className="animate-spin text-primary" />
         ) : (
           <Image alt="query arrow" src={queryIcon} width={30} height={23} />
