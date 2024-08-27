@@ -76,14 +76,7 @@ export default function GeneralSideBar() {
       set("selectedChat", allChats[len - 1]);
       router.push(`/ask-anything/${allChats[len - 1].id}`);
     }
-    set(
-      "chats",
-      allChats.sort((a, b) => {
-        return (
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-        );
-      }),
-    );
+    set("chats", allChats);
 
     closeRef.current?.click();
   };
