@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { configPaths, isPath } from "../../../../components/common/Header/constants";
 import { usePathname } from "next/navigation";
-import { addChat, getChat, getAllChats } from "@/app/_lib/db";
+import { addAndSelectChat } from "../utils/creatNewChat";
 import { useRouter } from "next/navigation";
 const clock = "/clock.png";
 const config = "/config.png";
@@ -50,21 +50,13 @@ export const WelcomeCards = ({
     } else {
       let chatId = Number(pathname);
       if (chatId === 0) {
-        const apiKey = localStorage.getItem("openai:key");
-        if (apiKey?.length) {
-        // make new chat
-          chatId = await addChat({});
-          const selectedChat = await getChat({ id: chatId });
-          const chats = await getAllChats();
-          set("selectedChat", selectedChat);
-          set("chats", chats);
-        }
+        chatId = await addAndSelectChat();
         set("stateMetadata", {
           chatId,
           message,
           indexId: "",
         });
-        if (apiKey?.length) router.push(`/ask-anything/${chatId}`);
+        if (chatId) router.push(`/ask-anything/${chatId}`);
       } else {
         // for ask-ripeseed i.e. chatId = -1
         set("stateMetadata", {
