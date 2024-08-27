@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { store } from "@/app/_utils/store";
 import { usePathname, useRouter } from "next/navigation";
-import { addChat, getChat, getAllChats } from "@/app/_lib/db";
+import { addAndSelectChat } from "../utils/creatNewChat";
 const queryIcon = "/query.png";
 
 export function ChatMessageInput() {
@@ -70,12 +70,7 @@ export function ChatMessageInput() {
     if (message.trim().length) {
       let chatId = Number(pathname);
       if (chatId === 0) {
-        // make new chat
-        chatId = await addChat({});
-        const selectedChat = await getChat({ id: chatId });
-        const chats = await getAllChats();
-        set("selectedChat", selectedChat);
-        set("chats", chats);
+        chatId = await addAndSelectChat();
         set("stateMetadata", {
           chatId,
           message,
@@ -83,7 +78,7 @@ export function ChatMessageInput() {
           inProgress: false,
         });
         setMessage('');
-        router.push(`/ask-anything/${chatId}`);
+        if (chatId) router.push(`/ask-anything/${chatId}`);
       } else {
         setIsPending(true);
         set("stateMetadata", {
