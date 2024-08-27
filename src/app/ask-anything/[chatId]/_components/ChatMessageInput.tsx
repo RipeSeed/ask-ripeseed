@@ -70,12 +70,15 @@ export function ChatMessageInput() {
     if (message.trim().length) {
       let chatId = Number(pathname);
       if (chatId === 0) {
-        // make new chat
-        chatId = await addChat({});
-        const selectedChat = await getChat({ id: chatId });
-        const chats = await getAllChats();
-        set("selectedChat", selectedChat);
-        set("chats", chats);
+        const apiKey = localStorage.getItem("openai:key");
+        if (apiKey?.length) {
+          // make new chat
+          chatId = await addChat({});
+          const selectedChat = await getChat({ id: chatId });
+          const chats = await getAllChats();
+          set("selectedChat", selectedChat);
+          set("chats", chats);
+        }
         set("stateMetadata", {
           chatId,
           message,
@@ -83,7 +86,7 @@ export function ChatMessageInput() {
           inProgress: false,
         });
         setMessage('');
-        router.push(`/ask-anything/${chatId}`);
+        if (apiKey?.length) router.push(`/ask-anything/${chatId}`);
       } else {
         setIsPending(true);
         set("stateMetadata", {
