@@ -116,7 +116,7 @@ export function ChatMessages() {
 
   useEffect(() => {
     const sendStateMessage = async () => {
-      if (stateMetadata.chatId === selectedChatId) {
+      if (stateMetadata.chatId === selectedChatId || stateMetadata.chatId === 0) {
         if (stateMetadata.message.length && !stateMetadata.inProgress) {
           set("stateMetadata", {
             ...stateMetadata,
@@ -160,9 +160,9 @@ export function ChatMessages() {
   
   const sendMessage = async () => {
     const newMessage = stateMetadata?.message.trim();
-    if (!newMessage || isPending || !selectedChatId) {
+    if (!newMessage || isPending || selectedChatId === null) {
       return false;
-    }  
+    }
     const apiKey = localStorage.getItem("openai:key");
     if (!apiKey?.length) {
       toast.info(
