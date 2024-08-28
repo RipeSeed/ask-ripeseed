@@ -1,5 +1,5 @@
 'use client';
-import { Chat, getAllChats, getChat, updateChat } from "@/app/_lib/db";
+import { getAllChats, getChat, updateChat } from "@/app/_lib/db";
 import { truncateString } from "@/app/_utils";
 import { store } from "@/app/_utils/store";
 import { PencilLine } from "lucide-react";
@@ -21,36 +21,28 @@ export function ChatHeader() {
     }
   };
 
-
   const pathname = usePathname();
 
-  useEffect(()=>{
-    const getChatId = async() => {
+  useEffect(() => {
+    const getChatId = async () => {
       const id = Number(pathname.split("/")[2]);
-      
       const chatId = isNaN(id) ? null : id;
-    
-    if(chatId){
-      const updatedChat = await getChat({ id });
-    
+      if (chatId) {
+        const updatedChat = await getChat({ id });
         set("selectedChat", updatedChat);
-    }
-    }
-  
-    getChatId()
-  },[pathname])
+      }
+    };
+    getChatId();
+  }, [pathname]);
 
   useEffect(() => {
     const checkScreenSize = () => {
       setIsSmScreen(window.innerWidth < 768);
     };
-
     // Set initial value
     checkScreenSize();
-
     // Add event listener
     window.addEventListener('resize', checkScreenSize);
-
     // Clean up the event listener on component unmount
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
