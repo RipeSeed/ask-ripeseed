@@ -1,13 +1,13 @@
-import { Message } from "@/app/_lib/db";
-import { AskRipeseedChat } from "@/models";
-import type { Message as MessageModel } from "@/models/AskRipeseedChat.model";
-import { converse } from "@/services/chat/conversation";
+import { Message } from '@/app/_lib/db'
+import { AskRipeseedChat } from '@/models'
+import type { Message as MessageModel } from '@/models/AskRipeseedChat.model'
+import { converse } from '@/services/chat/conversation'
 
 // this is chat with ripeseed's own document. so users can ask questions
 export async function POST(request: Request) {
-  const { messages, uId } = await request.json();
-  const indexId = process.env.RIPESEED_DOC_INDEX_ID!;
-  const apiKey = process.env.RIPESEED_OPENAI_API_KEY!;
+  const { messages, uId } = await request.json()
+  const indexId = process.env.RIPESEED_DOC_INDEX_ID!
+  const apiKey = process.env.RIPESEED_OPENAI_API_KEY!
 
   const streamedResponse = converse(
     messages[messages.length - 1].content,
@@ -15,14 +15,14 @@ export async function POST(request: Request) {
     [indexId],
     apiKey,
     true,
-  );
+  )
 
   return new Response(streamedResponse, {
-    headers: { "Content-Type": "text/plain; charset=utf-8" }
-  });
-  
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  })
+
   // TODO: Saving the response in mongodb (the folllowing code is not removed intentionally)
-  
+
   // const resObject: Message = {
   //   content: result,
   //   createdAt: new Date().toISOString(),

@@ -1,6 +1,6 @@
-import { get, set } from "lodash";
+import { get, set } from 'lodash'
 
-import type { GetFieldType } from "./types";
+import type { GetFieldType } from './types'
 
 export function getValue<
   TData,
@@ -11,9 +11,9 @@ export function getValue<
   path: TPath,
   defaultValue?: TDefault,
 ): GetFieldType<TData, TPath> | TDefault {
-  const value = get(data, path) as unknown as GetFieldType<TData, TPath>;
+  const value = get(data, path) as unknown as GetFieldType<TData, TPath>
 
-  return value ?? (defaultValue as TDefault);
+  return value ?? (defaultValue as TDefault)
 }
 
 export function setValue<TData extends object, TPath extends string>(
@@ -21,5 +21,5 @@ export function setValue<TData extends object, TPath extends string>(
   path: TPath,
   value: GetFieldType<TData, TPath>,
 ) {
-  set(data, path, value);
+  set(data, path, value)
 }
