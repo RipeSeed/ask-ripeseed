@@ -1,1 +1,1 @@
-export { truncateString } from "./helpers";
+export { truncateString } from './helpers'

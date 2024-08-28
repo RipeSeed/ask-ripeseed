@@ -1,20 +1,19 @@
-import { PromptTemplate } from "@langchain/core/prompts";
-import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import { Document } from "langchain/document";
-import { formatDocumentsAsString } from "langchain/util/document";
-import "server-only";
-import { pineconeIndex } from "./config";
-import { HttpResponseOutputParser } from "langchain/output_parsers";
-import {
-  CacheClient,
-  Configurations,
-  CredentialProvider,
-} from "@gomomento/sdk";
-import { MomentoCache } from "@langchain/community/caches/momento";
+import { PromptTemplate } from '@langchain/core/prompts'
+import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
+import { Document } from 'langchain/document'
+import { formatDocumentsAsString } from 'langchain/util/document'
+
+import 'server-only'
+
+import { CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk'
+import { MomentoCache } from '@langchain/community/caches/momento'
+import { HttpResponseOutputParser } from 'langchain/output_parsers'
+
+import { pineconeIndex } from './config'
 
 export interface Context {
-  role: "user" | "assistant" | "system";
-  content: string;
+  role: 'user' | 'assistant' | 'system'
+  content: string
 }
 
 const instructions = `
@@ -29,7 +28,7 @@ const instructions = `
   Make sure assistant response is ALWAYS in markdown format.
   Provide a paragraph where necessary, List where necessary, and code block with code language for syntax highlighting where code is needed.
   Note: If user asks something NOT related to ripeseed, excuse them politely and ask them to ask the relevant questions.
-`;
+`
 
 const questionPrompt = PromptTemplate.fromTemplate(
   `Use the following pieces of context to answer the question at the end.
@@ -43,54 +42,54 @@ CHAT HISTORY: {chatHistory}
 QUESTION: {question}
 ----------
 Helpful Answer:`,
-);
+)
 
 async function initializeCache() {
   const client = new CacheClient({
     configuration: Configurations.Laptop.v1(),
     credentialProvider: CredentialProvider.fromEnvironmentVariable({
-      environmentVariableName: "MOMENTO_API_KEY"
+      environmentVariableName: 'MOMENTO_API_KEY',
     }),
     defaultTtlSeconds: 60 * 60 * 24,
-  });
+  })
 
   const cache = await MomentoCache.fromProps({
     client,
-    cacheName: "ask-ripeseed",
-  });
+    cacheName: 'ask-ripeseed',
+  })
 
-  return cache;
+  return cache
 }
 
 const getChain = async (apiKey: string) => {
-  const parser = new HttpResponseOutputParser();
-  const cache = await initializeCache();
+  const parser = new HttpResponseOutputParser()
+  const cache = await initializeCache()
   const chatModel = new ChatOpenAI({
     cache,
     apiKey,
-    model: "gpt-4o-mini",
+    model: 'gpt-4o-mini',
     streaming: true,
-  });
+  })
 
-  const prompt = questionPrompt;
-  const chain = prompt.pipe(chatModel).pipe(parser);
+  const prompt = questionPrompt
+  const chain = prompt.pipe(chatModel).pipe(parser)
 
-  return chain;
-};
+  return chain
+}
 
 const serializeChatHistory = (chatHistory: Context[]): string => {
   return chatHistory
     .map((chatMessage) => {
-      if (chatMessage.role === "user") {
-        return `Human: ${chatMessage.content}`;
-      } else if (chatMessage.role === "assistant") {
-        return `Assistant: ${chatMessage.content}`;
+      if (chatMessage.role === 'user') {
+        return `Human: ${chatMessage.content}`
+      } else if (chatMessage.role === 'assistant') {
+        return `Assistant: ${chatMessage.content}`
       } else {
-        return `${chatMessage.content}`;
+        return `${chatMessage.content}`
       }
     })
-    .join("\n");
-};
+    .join('\n')
+}
 
 export function converse(
   message: string,
@@ -101,14 +100,14 @@ export function converse(
 ) {
   return new ReadableStream({
     async start(controller) {
-      const question = message;
+      const question = message
 
-      const chatHistory = await serializeChatHistory(context);
+      const chatHistory = await serializeChatHistory(context)
 
-      const embeddings = new OpenAIEmbeddings({ openAIApiKey });
-      const vector = await embeddings.embedQuery(question);
+      const embeddings = new OpenAIEmbeddings({ openAIApiKey })
+      const vector = await embeddings.embedQuery(question)
 
-      let serializedDocs = "";
+      let serializedDocs = ''
 
       if (idArray[0] !== null) {
         const docs = await pineconeIndex.query({
@@ -116,36 +115,36 @@ export function converse(
           topK: 5,
           filter: { id: { $in: idArray } },
           includeMetadata: true,
-        });
+        })
 
         serializedDocs = formatDocumentsAsString(
           docs.matches.map(
             (doc) =>
               new Document({
                 metadata: doc.metadata,
-                pageContent: doc.metadata?.text?.toString() || "",
+                pageContent: doc.metadata?.text?.toString() || '',
               }),
           ),
-        );
+        )
       }
 
       const questionGeneratorInput = {
         chatHistory,
         context: serializedDocs,
         question,
-        instructions: isAskRipeseedChat ? instructions : "",
-      };
-
-      const stream = await (await getChain(openAIApiKey)).stream(
-        questionGeneratorInput,
-      );
-
-      for await (const chunk of stream) {
-        const data = new TextDecoder().decode(chunk);
-        controller.enqueue(data);
+        instructions: isAskRipeseedChat ? instructions : '',
       }
 
-      controller.close();
+      const stream = await (
+        await getChain(openAIApiKey)
+      ).stream(questionGeneratorInput)
+
+      for await (const chunk of stream) {
+        const data = new TextDecoder().decode(chunk)
+        controller.enqueue(data)
+      }
+
+      controller.close()
     },
-  });
+  })
 }
