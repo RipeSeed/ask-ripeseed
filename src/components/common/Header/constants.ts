@@ -1,17 +1,16 @@
 export const menuItems = [
   {
-    title: "Ask Anything",
-    href: "/ask-anything",
-    pathMatch: ["/ask-anything", "/ask-anything/*"],
+    title: 'Ask Anything',
+    href: '/ask-anything',
+    pathMatch: ['/ask-anything', '/ask-anything/*'],
   },
   {
-    title: "Ask RipeSeed",
-    href: "/",
-    pathMatch: ["/"],
+    title: 'Ask RipeSeed',
+    href: '/',
+    pathMatch: ['/'],
   },
-];
-export const configPaths = ["/ask-anything", "/ask-anything/*"];
-
+]
+export const configPaths = ['/ask-anything', '/ask-anything/*']
 
 /**
  * Checks if the given pathname matches any of the paths in the provided array.
@@ -20,17 +19,17 @@ export const configPaths = ["/ask-anything", "/ask-anything/*"];
  * @returns A boolean indicating whether the pathname matches any of the paths.
  */
 export const isPath = (path: string[], pathname: string) => {
-  const regexPattern = [];
+  const regexPattern = []
 
   for (const p of path) {
     regexPattern.push(
       new RegExp(
-        "^" + p.replace(/:\w+/g, "\\w+").replace(/\/\*$/, "(/.*)?") + "$",
+        '^' + p.replace(/:\w+/g, '\\w+').replace(/\/\*$/, '(/.*)?') + '$',
       ),
-    );
+    )
   }
   for (const r of regexPattern) {
-    if (r.test(pathname)) return true;
+    if (r.test(pathname)) return true
   }
-  return false;
-};
+  return false
+}
