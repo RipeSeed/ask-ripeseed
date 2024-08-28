@@ -1,6 +1,5 @@
 "use client";
 import {
-  addChat,
   Chat,
   clearMessagesByChat,
   deleteChat,
@@ -9,7 +8,7 @@ import {
 import { store } from "@/app/_utils/store";
 import { useRouter } from "next/navigation";
 import { truncateString } from "@/app/_utils";
-
+import { useQuery } from "@tanstack/react-query";
 import { useState, useRef, useEffect } from "react";
 import { EllipsisVertical, MessageSquare, Trash2 } from "lucide-react";
 import {
@@ -27,22 +26,19 @@ export default function GeneralSideBar() {
   const chatId = isNaN(id) ? null : id;
   const { useSnapshot, set } = store;
   const { selectedChat, chats } = useSnapshot();
-  const [allChats, setAllChats] = useState<Chat[]>([]);
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    const _getChat = async () => {
-      const allChats = await getAllChats();
-      set("chats", allChats);
-    };
-
-    if (!chats.length) {
-      void _getChat();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
+  const { data: allChats, refetch } = useQuery({
+    queryKey: ["allChats"],
+    queryFn: async () => {
+      const result = await getAllChats();
+      set("chats", result);
+      return result;
+    },
+    enabled: !chats.length,
+  });
   
+  useEffect(() => {
     if (pathname === "/ask-anything") {
       set("selectedChat", undefined);
     }
@@ -60,26 +56,30 @@ export default function GeneralSideBar() {
 
   const onDelete = async (event: React.MouseEvent, chat: Chat) => {
     event.stopPropagation();
+
     await deleteChat({ id: chat.id! });
     await clearMessagesByChat({ chatId: chat.id! });
-    const allChats = await getAllChats();
-    const len = allChats.length;
-    if (selectedChat?.id === chat.id) {
-      if (allChats[0]) {
-        set("selectedChat", allChats[len - 1]);
-        router.push(`/ask-anything/${allChats[len - 1].id}`);
-      } else {
-        set("selectedChat", undefined);
-        router.push(`/ask-anything`);
-      }
+
+    const { data: updatedChats } = await refetch();
+    const len = updatedChats?.length ?? 0;
+    if (!updatedChats || !updatedChats[0]) {
+      set("selectedChat", undefined);
+      router.push(`/ask-anything`);
+      set("chats", []);
     } else {
-      set("selectedChat", allChats[len - 1]);
-      router.push(`/ask-anything/${allChats[len - 1].id}`);
+      if (selectedChat?.id === chat.id) {
+        set("selectedChat", updatedChats[len - 1]);
+        router.push(`/ask-anything/${updatedChats[len - 1].id}`);
+      } else {
+        set("selectedChat", updatedChats[len - 1]);
+        router.push(`/ask-anything/${updatedChats[len - 1].id}`);
+      }
+      set("chats", updatedChats);
     }
-    set("chats", allChats);
 
     closeRef.current?.click();
   };
+  
 
   return (
     <div className="h-screen bg-[#EBEBEB] text-white dark:bg-black">
