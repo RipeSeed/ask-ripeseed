@@ -8,6 +8,7 @@ import 'server-only'
 import { CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk'
 import { MomentoCache } from '@langchain/community/caches/momento'
 import { HttpResponseOutputParser } from 'langchain/output_parsers'
+import { tool } from '@langchain/core/tools'
 
 import { pineconeIndex } from './config'
 
@@ -61,6 +62,16 @@ async function initializeCache() {
   return cache
 }
 
+const getMeetingTool = tool(
+  async () => {
+    return "BOOK_MEETING";
+  },
+  {
+    name: "book_meeting_call_appointment",
+    description: "Books calls, meetings, appointments, or any meet-up with RipeSeed",
+  }
+);
+
 const getChain = async (apiKey: string) => {
   const parser = new HttpResponseOutputParser()
   const cache = await initializeCache()
@@ -71,8 +82,10 @@ const getChain = async (apiKey: string) => {
     streaming: true,
   })
 
+  const func_chatModel =  chatModel.bindTools([getMeetingTool]);
+
   const prompt = questionPrompt
-  const chain = prompt.pipe(chatModel).pipe(parser)
+  const chain = prompt.pipe(func_chatModel).pipe(parser)
 
   return chain
 }
@@ -135,13 +148,25 @@ export function converse(
         instructions: isAskRipeseedChat ? instructions : '',
       }
 
-      const stream = await (
-        await getChain(openAIApiKey)
-      ).stream(questionGeneratorInput)
+      const stream = (await getChain(openAIApiKey)).streamEvents(questionGeneratorInput, { version: 'v1' })
 
       for await (const chunk of stream) {
-        const data = new TextDecoder().decode(chunk)
-        controller.enqueue(data)
+        if (chunk?.event === 'on_parser_stream') {
+          const data = chunk?.data.chunk
+          controller.enqueue(data)
+        }
+        else if (chunk.event === 'on_llm_end') {
+          const data = chunk?.data?.output?.generations[0]
+          console.log('Tool end:', chunk?.data?.output?.generations[0])
+          if (
+            Array.isArray(data) &&
+            data[0]?.message?.tool_calls &&
+            data[0].message.tool_calls[0]?.name === "book_meeting_call_appointment"
+          ) {
+            controller.enqueue("BOOK_MEETING")
+          }
+        }
+
       }
 
       controller.close()

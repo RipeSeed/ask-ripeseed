@@ -3,11 +3,9 @@ import { Message } from "@/app/_lib/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import remarkGfm from "remark-gfm";
-import { MessageMarkdownMemoized } from "./MessageMarkdownMemoized";
+import ShowMessage from '@/app/ask-anything/[chatId]/_components/ShowMessage'
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
+
 import "katex/dist/katex.min.css";
 
 interface MessageContainerProps {
@@ -89,16 +87,7 @@ export const MessageContainer = ({
                 <div className="prose rounded-xl bg-[#EBEBEB] p-3 text-black dark:bg-[#404043] dark:text-white">
                   {message.content}
                 </div>
-              ) : (
-                <MessageMarkdownMemoized
-                  className="rounded-xl p-3 prose dark:prose-invert bg-white dark:bg-black prose-p:leading-relaxed prose-pre:p-0 min-w-full space-y-6"
-                  remarkPlugins={[remarkGfm, remarkMath]}
-                  rehypePlugins={[rehypeKatex]}
-                  components={components}
-                >
-                  {message.content}
-                </MessageMarkdownMemoized>
-              )}
+              ) : (<ShowMessage message={String(message?.content)} components={components} />)}
             </>
           )}
         </span>
