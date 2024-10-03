@@ -95,6 +95,7 @@ To run Ask RipeSeed locally, follow these steps:
    - `PINECONE_INDEX`: Your Pinecone index name.
    - `RIPESEED_DOC_INDEX_ID`: The hardcoded ID for your indexed document in Pinecone.
    - `RIPESEED_OPENAI_API_KEY`: OpenAI key for querying the knowledge base.
+   - `NEXT_PUBLIC_CALENDLY`: Your calendly link.
 
 3. **Install Dependencies**:
 
