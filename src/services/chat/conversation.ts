@@ -68,7 +68,7 @@ const getMeetingTool = tool(
   },
   {
     name: "book_meeting_call_appointment",
-    description: "Books calls, meetings, appointments, or any meet-up with RipeSeed",
+    description: "If someone want to talk, books calls, meetings, appointments, or any meet-up with RipeSeed",
   }
 );
 

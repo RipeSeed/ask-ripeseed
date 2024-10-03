@@ -25,9 +25,9 @@ const ShowMessage: React.FC<ShowMessageProps> = ({ message, components }) => {
 
   if (message === "BOOK_MEETING") {
     return (
-      <div className="calendly-container">
+      <div className="w-full max-w-[1000px] mx-auto overflow-hidden rounded-xl min-w-full">
         <div
-          className="calendly-inline-widget"
+          className="calendly-inline-widget relative h-[500px] pb-[100%] sm:pb-[75%] w-[285px] sm:w-[300px] md:w-[420px]"
           data-url={process.env.NEXT_PUBLIC_CALENDLY}
         />
       </div>

@@ -72,37 +72,6 @@ pre > pre {
   display: block;
 }
 
-.calendly-container {
-  width: 100%;
-  max-width: 1000px; /* Adjust this value as needed */
-  margin: 0 auto;
-  overflow: hidden;
-  border-radius: 12px;
-  min-width: 100%;
-}
-
-.calendly-inline-widget {
-  position: relative;
-  width: 420px;
-  height: 500px;
-  padding-bottom: 100%; /* This creates a square aspect ratio */
-}
-
-
-@media screen and (max-width: 768px) {
-  .calendly-inline-widget {
-    padding-bottom: 75%; /* 4:3 aspect ratio for larger screens */
-    width: 300px;
-  }
-}
-
-@media screen and (max-width: 420px) {
-  .calendly-inline-widget {
-    width: 285px;
-  }
-}
-
-
 .calendly-inline-widget iframe {
   position: absolute;
   top: 0;
