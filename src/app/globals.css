@@ -78,20 +78,30 @@ pre > pre {
   margin: 0 auto;
   overflow: hidden;
   border-radius: 12px;
+  min-width: 100%;
 }
 
 .calendly-inline-widget {
   position: relative;
-  min-width: 420px;
+  width: 420px;
   height: 500px;
   padding-bottom: 100%; /* This creates a square aspect ratio */
 }
 
-@media (min-width: 768px) {
+
+@media screen and (max-width: 768px) {
   .calendly-inline-widget {
     padding-bottom: 75%; /* 4:3 aspect ratio for larger screens */
+    width: 300px;
   }
 }
+
+@media screen and (max-width: 420px) {
+  .calendly-inline-widget {
+    width: 285px;
+  }
+}
+
 
 .calendly-inline-widget iframe {
   position: absolute;
