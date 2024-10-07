@@ -13,6 +13,9 @@
 <a href="https://www.langchain.com/">
     <img src="https://img.shields.io/badge/langchain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white" height="20" />
 </a>
+<a href="https://github.com/RipeSeed/ask-ripeseed">
+    <img src="https://img.shields.io/github/stars/RipeSeed/ask-ripeseed" height="20" />
+</a>
 </div>
 
 Ask RipeSeed was originally developed to help potential customers see if our team (at [RipeSeed](https://www.linkedin.com/company/ripeseed)) has the required capabilities to help them with their projects. Any customer can ask about what they are looking for, and the AI assistant will respond back with relevant portfolios <i>(if any)</i> to showcase our capabilities to deliver that project.
@@ -25,6 +28,14 @@ Ask RipeSeed consists of two main sections:
 
 - **Ask RipeSeed**: Ask any questions related to RipeSeed, drawing from our knowledge base for accurate and specific answers.
 - **Ask Anything**: Upload your OpenAI API key (which will be stored locally on browser) to ask general questions. This section also allows you to upload and attach your own documents, enabling the chatbot to answer based on the content of the provided documents.
+
+## Features
+
+- 🌗 Dark/Light Mode Support 
+- 📝 Markdown support  
+- 💬 Chat history 
+- 📚 Attach custom knowledgebase 
+- 📅 Function calling support to book meetings 
 
 ## Demo
 
