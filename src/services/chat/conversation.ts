@@ -1,16 +1,13 @@
 import { PromptTemplate } from '@langchain/core/prompts'
-import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
+import {  OpenAIEmbeddings } from '@langchain/openai'
 import { Document } from 'langchain/document'
 import { formatDocumentsAsString } from 'langchain/util/document'
+import { CacheGet, CacheSet, CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk';
 
 import 'server-only'
 
-import { CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk'
-import { MomentoCache } from '@langchain/community/caches/momento'
-import { HttpResponseOutputParser } from 'langchain/output_parsers'
-import { tool } from '@langchain/core/tools'
-
 import { pineconeIndex } from './config'
+import { OpenAI } from 'openai'
 
 export interface Context {
   role: 'user' | 'assistant' | 'system'
@@ -45,49 +42,85 @@ QUESTION: {question}
 Helpful Answer:`,
 )
 
-async function initializeCache() {
+const tools = [
+  {
+    "type": "function",
+    "function": {
+      "name": "book_meeting_call_appointment",
+      "description": "If someone wants to talk, books calls, meetings, appointments, or any meet-up with RipeSeed",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
+  }
+]
+
+interface QuestionGeneratorInput {
+  instructions: string;
+  context: string;
+  chatHistory?: string;
+  question: string;
+}
+
+const initializeCache = async () => {
   const client = new CacheClient({
     configuration: Configurations.Laptop.v1(),
     credentialProvider: CredentialProvider.fromEnvironmentVariable({
       environmentVariableName: 'MOMENTO_API_KEY',
     }),
     defaultTtlSeconds: 60 * 60 * 24,
-  })
+  });
 
-  const cache = await MomentoCache.fromProps({
-    client,
-    cacheName: 'ask-ripeseed',
-  })
+  return client
+  // ('no-ask-ripeseed');
+};
 
-  return cache
-}
+const getChain = async (questionGeneratorInput: QuestionGeneratorInput) => {
+  const cache = await initializeCache();
+  const cacheKey = `openai:${questionGeneratorInput}`;
 
-const getMeetingTool = tool(
-  async () => {
-    return "BOOK_MEETING";
-  },
-  {
-    name: "book_meeting_call_appointment",
-    description: "If someone want to talk, books calls, meetings, appointments, or any meet-up with RipeSeed",
+  // Try to get the response from cache
+  const cacheResult = await cache.get('no-ask-ripeseed', cacheKey);
+  console.log("cacheResult", cacheResult);
+
+  if (cacheResult instanceof CacheGet.Hit) {
+    console.log('Cache hit!');
+    return cacheResult.valueString();
   }
-);
 
-const getChain = async (apiKey: string) => {
-  const parser = new HttpResponseOutputParser()
-  const cache = await initializeCache()
-  const chatModel = new ChatOpenAI({
-    cache,
-    apiKey,
+  const openai = new OpenAI();
+
+  const finalPrompt =
+    `Use the following pieces of context to answer the question at the end.
+    ----------
+    CONTEXT: ${questionGeneratorInput.context}
+    ----------
+    CHAT HISTORY: ${questionGeneratorInput?.chatHistory}
+    ----------
+    QUESTION: ${questionGeneratorInput.question}
+    ----------
+    Helpful Answer:`
+
+  const messages = [
+    {
+      role: "system",
+      content: instructions
+    },
+    { role: "user", content: finalPrompt }
+  ];
+
+  const stream: any = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
-    streaming: true,
-  })
+    messages: messages,
+    stream: true,
+    temperature: 0,
+    tools: tools,
+    tool_choice: "auto"
+  });
 
-  const func_chatModel =  chatModel.bindTools([getMeetingTool]);
-
-  const prompt = questionPrompt
-  const chain = prompt.pipe(func_chatModel).pipe(parser)
-
-  return chain
+  return stream
 }
 
 const serializeChatHistory = (chatHistory: Context[]): string => {
@@ -141,31 +174,33 @@ export function converse(
         )
       }
 
-      const questionGeneratorInput = {
+      const questionGeneratorInput: QuestionGeneratorInput = {
         chatHistory,
         context: serializedDocs,
         question,
         instructions: isAskRipeseedChat ? instructions : '',
       }
 
-      const stream = (await getChain(openAIApiKey)).streamEvents(questionGeneratorInput, { version: 'v1' })
-
+      const stream = await getChain(questionGeneratorInput)
+      let completeMessage = '';
       for await (const chunk of stream) {
-        if (chunk?.event === 'on_parser_stream') {
-          const data = chunk?.data.chunk
-          controller.enqueue(data)
+        if (chunk.choices[0]?.delta?.content) {
+          const content = chunk.choices[0].delta.content;
+          controller.enqueue(content);
+          completeMessage += content;
         }
-        else if (chunk.event === 'on_llm_end') {
-          const data = chunk?.data?.output?.generations[0]
-          console.log('Tool end:', chunk?.data?.output?.generations[0])
-          if (
-            Array.isArray(data) &&
-            data[0]?.message?.tool_calls &&
-            data[0].message.tool_calls[0]?.name === "book_meeting_call_appointment"
-          ) {
-            controller.enqueue("BOOK_MEETING")
+
+        if (chunk.choices[0]?.delta?.tool_calls) {
+          const toolCalls = chunk.choices[0].delta.tool_calls;
+          if (Array.isArray(toolCalls) && toolCalls.length > 0) {
+            if (toolCalls[0].function?.name === "book_meeting_call_appointment") {
+              controller.enqueue("BOOK_MEETING");
+            }
           }
         }
+        const cache = await initializeCache();
+        const result = await cache.set('no-ask-ripeseed', `openai:${questionGeneratorInput.question}`, completeMessage);
+        console.log(`result`, result)
 
       }
 
