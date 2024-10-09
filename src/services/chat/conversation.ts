@@ -48,16 +48,16 @@ Helpful Answer:`,
 )
 
 async function initializeCache() {
-  const redisUrl = process.env.REDIS_URL;
-  var cache;
-  var client;
-  if(redisUrl){
+  const redisUrl = process.env.REDIS_URL; //accessing the redis url from env variables.
+  var cache;  //this variable is declared in the outer scope to use it according to the presence or absence of redis-url env variable
+
+  if(redisUrl){ //if the REDIS_URL field is provided then cache variable will use the redis configuration
     
     cache = new RedisCache(new Redis(redisUrl), { ttl: 60 * 60 * 24 });
     console.log("this is the redis cache")
-  }else{
+  }else{  //if the REDIS_URL is not provided then the momento cache will be used
     console.log("momento cache is being used")
-    client = new CacheClient({
+    const client = new CacheClient({
     configuration: Configurations.Laptop.v1(),
     credentialProvider: CredentialProvider.fromEnvironmentVariable({
       environmentVariableName: 'MOMENTO_API_KEY',
@@ -70,7 +70,7 @@ async function initializeCache() {
     cacheName: 'ask-ripeseed',
     })
   }
-
+  //the function loads the value of the variable and returns it.
   return cache
 }
 
