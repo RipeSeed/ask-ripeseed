@@ -40,6 +40,7 @@
     "clsx": "^2.1.1",
     "dexie": "^4.0.7",
     "framer-motion": "^11.2.6",
+    "ioredis": "^5.4.1",
     "katex": "^0.16.11",
     "langchain": "^0.2.3",
     "lodash": "^4.17.21",

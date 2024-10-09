@@ -6,6 +6,8 @@ import { formatDocumentsAsString } from 'langchain/util/document'
 import 'server-only'
 
 import { CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk'
+import { Redis } from "ioredis";
+import {RedisCache} from "@langchain/community/caches/ioredis"
 import { MomentoCache } from '@langchain/community/caches/momento'
 import { HttpResponseOutputParser } from 'langchain/output_parsers'
 import { tool } from '@langchain/core/tools'
@@ -46,18 +48,28 @@ Helpful Answer:`,
 )
 
 async function initializeCache() {
-  const client = new CacheClient({
+  const redisUrl = process.env.REDIS_URL;
+  var cache;
+  var client;
+  if(redisUrl){
+    
+    cache = new RedisCache(new Redis(redisUrl), { ttl: 60 * 60 * 24 });
+    console.log("this is the redis cache")
+  }else{
+    console.log("momento cache is being used")
+    client = new CacheClient({
     configuration: Configurations.Laptop.v1(),
     credentialProvider: CredentialProvider.fromEnvironmentVariable({
       environmentVariableName: 'MOMENTO_API_KEY',
     }),
     defaultTtlSeconds: 60 * 60 * 24,
-  })
+    })
 
-  const cache = await MomentoCache.fromProps({
+    cache = await MomentoCache.fromProps({
     client,
     cacheName: 'ask-ripeseed',
-  })
+    })
+  }
 
   return cache
 }

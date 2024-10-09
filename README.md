@@ -99,6 +99,7 @@ To run Ask RipeSeed locally, follow these steps:
 2. **Set Up Environment Variables**: Add the following environment variables to your `.env` file:
 
    - `MOMENTO_API_KEY`: Your Momento API key for caching (free).
+   - `REDIS_URL`: Your redis server url.(optional. If not provided momento will be used for caching)
    - `MONGO_CONNECTION_STRING`: Your MongoDB connection string.
    - `NEXT_PUBLIC_GA_ID`: Google Analytics ID.
    - `OPENAI_KEY`: Your OpenAI API key.
