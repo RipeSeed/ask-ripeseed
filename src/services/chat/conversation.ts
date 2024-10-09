@@ -6,6 +6,8 @@ import { formatDocumentsAsString } from 'langchain/util/document'
 import 'server-only'
 
 import { CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk'
+import { Redis } from "ioredis";
+import {RedisCache} from "@langchain/community/caches/ioredis"
 import { MomentoCache } from '@langchain/community/caches/momento'
 import { HttpResponseOutputParser } from 'langchain/output_parsers'
 import { tool } from '@langchain/core/tools'
@@ -46,19 +48,29 @@ Helpful Answer:`,
 )
 
 async function initializeCache() {
-  const client = new CacheClient({
+  const redisUrl = process.env.REDIS_URL; //accessing the redis url from env variables.
+  var cache;  //this variable is declared in the outer scope to use it according to the presence or absence of redis-url env variable
+
+  if(redisUrl){ //if the REDIS_URL field is provided then cache variable will use the redis configuration
+    
+    cache = new RedisCache(new Redis(redisUrl), { ttl: 60 * 60 * 24 });
+    console.log("this is the redis cache")
+  }else{  //if the REDIS_URL is not provided then the momento cache will be used
+    console.log("momento cache is being used")
+    const client = new CacheClient({
     configuration: Configurations.Laptop.v1(),
     credentialProvider: CredentialProvider.fromEnvironmentVariable({
       environmentVariableName: 'MOMENTO_API_KEY',
     }),
     defaultTtlSeconds: 60 * 60 * 24,
-  })
+    })
 
-  const cache = await MomentoCache.fromProps({
+    cache = await MomentoCache.fromProps({
     client,
     cacheName: 'ask-ripeseed',
-  })
-
+    })
+  }
+  //the function loads the value of the variable and returns it.
   return cache
 }
 
