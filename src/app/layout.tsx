@@ -11,6 +11,7 @@ import type { Viewport } from 'next'
 import Image from 'next/image'
 
 import ChatHeader from '@/components/common/_components/ChatButtonsHeader'
+import Sidebar from '@/components/Sidebar'
 
 export const viewport: Viewport = {
   themeColor: 'black',
@@ -27,10 +28,8 @@ const fontSans = Poppins({
 
 export default function RootLayout({
   children,
-  sidebar,
 }: Readonly<{
   children: React.ReactNode
-  sidebar?: React.ReactNode
 }>) {
   return (
     <html lang='en'>
@@ -53,7 +52,7 @@ export default function RootLayout({
                     width={160}
                   />
                 </div>
-                {sidebar}
+                <Sidebar />
               </div>
             </div>
             <div className='flex h-full flex-col'>
