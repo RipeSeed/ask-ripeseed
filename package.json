@@ -2,6 +2,7 @@
   "name": "ask-ripeseed",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbo",
     "infisical:fetch": "node load-env.js",
@@ -13,7 +14,7 @@
   },
   "dependencies": {
     "@gomomento/sdk": "^1.93.0",
-    "@infisical/sdk": "^2.3.1",
+    "@infisical/sdk": "^3.0.2",
     "@langchain/community": "^0.2.4",
     "@langchain/core": "^0.2.6",
     "@langchain/openai": "^0.0.34",
