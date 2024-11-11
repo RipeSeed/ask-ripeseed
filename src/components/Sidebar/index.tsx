@@ -10,7 +10,7 @@ import {
   UsersRound,
 } from 'lucide-react'
 
-import GeneralSidebar from '@/app/@sidebar/_components/GeneralSidebar'
+import GeneralSidebar from '@/app/_components/GeneralSidebar'
 
 export default function Sidebar() {
   const pathname = usePathname()

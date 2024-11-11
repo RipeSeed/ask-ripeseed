@@ -1,6 +1,6 @@
 import { MouseEvent } from "react";
 import { Menu, X } from "lucide-react";
-import GeneralSideBar from "@/app/@sidebar/_components/GeneralSidebar";
+import GeneralSideBar from "@/app/_components/GeneralSidebar";
 
 interface MobileSideBarProps {
   toggle: boolean;
