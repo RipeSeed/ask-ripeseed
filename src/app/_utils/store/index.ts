@@ -1,5 +1,5 @@
 import { Chat } from '@/app/_lib/db'
-import { ValtioWrapper } from './classes'
+import { ZustandWrapper } from './classes'
 
 export const initialState: {
   chats: Chat[]
@@ -31,4 +31,4 @@ export const initialState: {
   },
 }
 
-export const store = new ValtioWrapper(initialState)
+export const store = new ZustandWrapper(initialState)

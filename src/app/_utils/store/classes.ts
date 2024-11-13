@@ -1,44 +1,47 @@
-import { useEffect } from 'react'
 import { cloneDeep } from 'lodash'
-import { proxy, useSnapshot } from 'valtio'
+import { create } from 'zustand'
 
 import { getValue, setValue } from './functions'
 import type { FlattenObjectKeys, GetFieldType } from './types'
 
-// A class that wraps valtio and has functions for setting and getting state
-// This is used in the admin app
-
-export class ValtioWrapper<T extends Record<string, unknown>> {
+export class ZustandWrapper<T extends Record<string, unknown>> {
   private initialValues: T
-  private values: T
+  private useStore: ReturnType<typeof create<T>>
+
   constructor(store: T) {
     this.initialValues = cloneDeep(store)
-    this.values = proxy(store)
+
+    this.useStore = create<T>((set) => ({
+      ...store,
+      set: (key: string, value: unknown) => {
+        const pathArray = key.split('.') as Array<keyof T>
+        const updatedState = { ...this.useStore.getState() }
+        setValue(updatedState, pathArray.join('.'), value)
+        set(updatedState)
+      },
+      reset: () => set(cloneDeep(store)),
+    }))
   }
 
   set = <U extends FlattenObjectKeys<T>, V extends GetFieldType<T, U>>(
     key: U,
     newValue: V,
   ) => {
-    setValue(this.values, key, newValue)
+    this.useStore.getState().set(key as string, newValue)
   }
 
-  update = (state: Partial<T>) => Object.assign(this.values, state)
+  update = (state: Partial<T>) => {
+    this.useStore.setState((s) => ({ ...s, ...state }))
+  }
 
-  get = <U extends FlattenObjectKeys<T>>(key: U) => getValue(this.values, key)
+  get = <U extends FlattenObjectKeys<T>>(key: U) => {
+    const state = this.useStore.getState()
+    return getValue(state, key)
+  }
 
-  useSnapshot = () => useSnapshot(this.values)
-
-  useWatch = <U extends FlattenObjectKeys<T>, V extends GetFieldType<T, U>>(
-    key: U,
-    value: V,
-  ) => useEffect(() => this.set(key, value), [key, value])
+  useSnapshot = () => this.useStore()
 
   clear = () => {
-    const clonedInitialValues = cloneDeep(this.initialValues)
-    Object.keys(clonedInitialValues).forEach((k) => {
-      const key = k as FlattenObjectKeys<T>
-      this.set(key, getValue(clonedInitialValues, key))
-    })
+    this.useStore.setState(cloneDeep(this.initialValues))
   }
 }
