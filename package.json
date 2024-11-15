@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "infisical:fetch": "node load-env.js",
-    "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
+    "format": "prettier --write \"**/*.{mjs,ts,md,json}\" --config .prettierrc",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
