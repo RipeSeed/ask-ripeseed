@@ -41,7 +41,7 @@
     "dexie": "^4.0.7",
     "framer-motion": "^11.2.6",
     "katex": "^0.16.11",
-    "langchain": "^0.2.3",
+    "langchain": "^0.2.19",
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.379.0",
