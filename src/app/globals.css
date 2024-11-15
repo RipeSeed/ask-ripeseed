@@ -56,7 +56,6 @@
   body {
     @apply bg-background text-foreground;
   }
-
 }
 
 pre {
@@ -80,5 +79,3 @@ pre > pre {
   height: 100%;
   border: 0;
 }
-
-

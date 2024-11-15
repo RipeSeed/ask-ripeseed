@@ -31,11 +31,11 @@ Ask RipeSeed consists of two main sections:
 
 ## Features
 
-- 🌗 Dark/Light Mode Support 
-- 📝 Markdown support  
-- 💬 Chat history 
-- 📚 Attach custom knowledgebase 
-- 📅 Function calling support to book meetings 
+- 🌗 Dark/Light Mode Support
+- 📝 Markdown support
+- 💬 Chat history
+- 📚 Attach custom knowledgebase
+- 📅 Function calling support to book meetings
 
 ## Demo
 
