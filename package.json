@@ -64,7 +64,6 @@
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "valtio": "^1.13.2",
     "zustand": "^5.0.1"
   },
   "devDependencies": {
