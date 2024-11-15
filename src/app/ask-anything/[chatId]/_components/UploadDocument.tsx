@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 import { addChat, getAllChats, getChat, updateChat } from '@/app/_lib/db'
-import { store } from '@/app/_utils/store'
+import useStore from '@/app/_utils/store/store'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -35,8 +35,8 @@ export interface UploadedFile {
 
 export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
   const [isPending, startTransition] = useTransition()
-  const { set, useSnapshot } = store
-  const { selectedChat } = useSnapshot()
+  const { selectedChat, setSelectedChat, setChats, updateStateMetadata } =
+    useStore()
   const router = useRouter()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -72,9 +72,9 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
               const newChat = await getChat({ id: _newChatId })
               const allChats = await getAllChats()
 
-              set('selectedChat', newChat)
-              set('chats', allChats)
-              set('stateMetadata', {
+              setSelectedChat(newChat)
+              setChats(allChats)
+              updateStateMetadata({
                 chatId: _newChatId,
                 message: '',
                 indexId,
@@ -95,7 +95,7 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
                   lastModified: file.lastModified,
                 },
               })
-              set('selectedChat', {
+              setSelectedChat({
                 ...selectedChat,
                 indexId,
                 doc: {

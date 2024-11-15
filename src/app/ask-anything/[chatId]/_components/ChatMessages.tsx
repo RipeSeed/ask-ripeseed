@@ -13,7 +13,7 @@ import {
   getChat,
   Message,
 } from '@/app/_lib/db'
-import { store } from '@/app/_utils/store'
+import useStore from '@/app/_utils/store/store'
 import Loading from '@/app/loading'
 import { sendMessage as apiSendMessage } from '@/dal/message'
 import { ChatMessageInput } from './ChatMessageInput'
@@ -35,8 +35,7 @@ export function ChatMessages() {
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const router = useRouter()
-  const { set, useSnapshot } = store
-  const { stateMetadata } = useSnapshot()
+  const { stateMetadata, updateStateMetadata, resetStateMetadata } = useStore()
   const [waitingForStream, setWaitingForStream] = useState(false)
 
   // to handle chunks sequentially, we are using a queue
@@ -122,17 +121,9 @@ export function ChatMessages() {
         stateMetadata.chatId === 0
       ) {
         if (stateMetadata.message.length && !stateMetadata.inProgress) {
-          set('stateMetadata', {
-            ...stateMetadata,
-            inProgress: true,
-          })
+          updateStateMetadata({ inProgress: true })
           await sendMessage()
-          set('stateMetadata', {
-            chatId: 0,
-            message: '',
-            indexId: '',
-            inProgress: false,
-          })
+          resetStateMetadata()
         }
       }
     }

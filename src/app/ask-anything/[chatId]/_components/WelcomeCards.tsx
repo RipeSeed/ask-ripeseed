@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
 import { store } from '@/app/_utils/store'
+import useStore from '@/app/_utils/store/store'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Card } from '@/components/ui/card'
 import {
@@ -24,12 +25,13 @@ interface Props {
   cards: Cardset
   hideSetupKey?: boolean
 }
-const { set } = store
-const handleOpenConfig = () => {
-  set('isConfigOpen', true)
-}
+
 export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
-  const { set, useSnapshot } = store
+  const { toggleConfigOpen, setOpenAIKey, updateStateMetadata, openAIKey } =
+    useStore()
+  const handleOpenConfig = () => {
+    toggleConfigOpen()
+  }
   let pathname = usePathname()
   pathname = useMemo(() => {
     return pathname.search('ask-anything') === -1
@@ -37,12 +39,11 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
       : (pathname.split('/')[2] ?? '0')
   }, [pathname])
   // pathname will always be "-1" or "0" or "{id}" indicating ask-ripeseed or ask-anything or chatId
-  const { openAIKey } = useSnapshot()
   const [key, setKey] = useState<string>('')
   const router = useRouter()
 
   useEffect(() => {
-    set('openAIKey', localStorage.getItem('openai:key') ?? '')
+    setOpenAIKey(localStorage.getItem('openai:key') ?? '')
     setKey(openAIKey)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openAIKey])
@@ -54,7 +55,7 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
       let chatId = Number(pathname)
       if (chatId === 0) {
         chatId = await addAndSelectChat()
-        set('stateMetadata', {
+        updateStateMetadata({
           chatId,
           message,
           indexId: '',
@@ -62,7 +63,7 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
         if (chatId) router.push(`/ask-anything/${chatId}`)
       } else {
         // for ask-ripeseed i.e. chatId = -1
-        set('stateMetadata', {
+        updateStateMetadata({
           chatId,
           message,
           indexId: '',
@@ -75,7 +76,10 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
       {/* // div controlls chat cards */}
       <div className='flex w-full flex-col gap-4 md:max-w-[500px]'>
         {!hideSetupKey && !key.length ? (
-          <Note className='w-full cursor-pointer' />
+          <Note
+            className='w-full cursor-pointer'
+            handleOpenConfig={handleOpenConfig}
+          />
         ) : null}
         <div className='flex w-full flex-col items-center justify-center gap-2'>
           <Card
@@ -133,7 +137,13 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
   )
 }
 
-const Note = ({ className }: { className?: string }) => {
+const Note = ({
+  className,
+  handleOpenConfig,
+}: {
+  className?: string
+  handleOpenConfig: () => void
+}) => {
   return (
     <Alert
       variant='info'

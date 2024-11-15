@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 
 import { deleteAllMessages_aRS } from '@/app/_lib/db'
 import { store } from '@/app/_utils/store'
+import useStore from '@/app/_utils/store/store'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -58,8 +59,13 @@ export default function ChatHeader() {
 const DeleteConfirmationDialog = () => {
   const closeRef = useRef<HTMLButtonElement>(null)
   const openRef = useRef<HTMLButtonElement>(null)
-  const { set, useSnapshot } = store
-  const { isDeleteDialogOpen } = useSnapshot()
+  const {
+    isDeleteDialogOpen,
+    toggleDeleteDialogOpen,
+    setClearChat,
+    toggleConfigOpen,
+    setOpenAIKey,
+  } = useStore()
 
   useEffect(() => {
     if (isDeleteDialogOpen) {
@@ -67,14 +73,13 @@ const DeleteConfirmationDialog = () => {
     }
     const closeBtn = closeRef.current
     return () => {
-      set('isDeleteDialogOpen', false)
       closeBtn?.click()
     }
-  }, [isDeleteDialogOpen, set])
+  }, [isDeleteDialogOpen])
 
   const confirmDelete = async () => {
     await deleteAllMessages_aRS()
-    set('clearChat', true)
+    setClearChat(true)
     closeRef.current?.click()
   }
 
@@ -130,8 +135,7 @@ const DeleteConfirmationDialog = () => {
 const ConfigDialogue = () => {
   const closeRef = useRef<HTMLButtonElement>(null)
   const openRef = useRef<HTMLButtonElement>(null)
-  const { set, useSnapshot } = store
-  const { isConfigOpen } = useSnapshot()
+  const { isConfigOpen, setOpenAIKey, toggleConfigOpen } = useStore()
   const [formValues, setFormValues] = useState({
     openaiKey: '',
   })
@@ -143,7 +147,7 @@ const ConfigDialogue = () => {
         ...formValues,
         openaiKey: _key,
       })
-      set('openAIKey', _key)
+      setOpenAIKey(_key)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -152,14 +156,13 @@ const ConfigDialogue = () => {
     if (isConfigOpen) {
       openRef.current?.click()
     }
-    // Store the current value of closeRef
+
     const closeBtn = closeRef.current
+
     return () => {
-      set('isConfigOpen', false)
-      // Use the stored value in the cleanup function
       closeBtn?.click()
     }
-  }, [isConfigOpen, set])
+  }, [isConfigOpen])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({
@@ -169,7 +172,7 @@ const ConfigDialogue = () => {
   }
 
   const saveConfig = () => {
-    set('openAIKey', formValues.openaiKey)
+    setOpenAIKey(formValues.openaiKey)
     localStorage.setItem('openai:key', formValues.openaiKey)
     toast.success('Your OpenAI has been updated in your Local Storage.')
     closeRef.current?.click()
