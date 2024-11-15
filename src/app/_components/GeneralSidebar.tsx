@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import useStore from '../_utils/store/store'
 
 export default function GeneralSideBar() {
   const router = useRouter()
@@ -26,14 +27,14 @@ export default function GeneralSideBar() {
   const id = Number(pathname.split('/')[2])
   const chatId = isNaN(id) ? null : id
   const { useSnapshot, set } = store
-  const { selectedChat, chats } = useSnapshot()
+  const { selectedChat, chats, setChats, setSelectedChat } = useStore()
   const closeRef = useRef<HTMLButtonElement>(null)
 
   const { data: allChats, refetch } = useQuery({
     queryKey: ['allChats'],
     queryFn: async () => {
       const result = await getAllChats()
-      set('chats', result)
+      setChats(result)
       return result
     },
     enabled: !chats.length,
@@ -41,17 +42,17 @@ export default function GeneralSideBar() {
 
   useEffect(() => {
     if (pathname === '/ask-anything') {
-      set('selectedChat', undefined)
+      setSelectedChat(undefined)
     }
   }, [useRouter])
 
   const handleCreateNewChat = async () => {
-    set('selectedChat', undefined)
+    setSelectedChat(undefined)
     router.push('/ask-anything/')
   }
 
   const handleSelectedChatChange = (chat: Chat) => {
-    set('selectedChat', chat)
+    setSelectedChat(chat)
     router.push(`/ask-anything/${chat.id}`)
   }
 
@@ -64,18 +65,13 @@ export default function GeneralSideBar() {
     const { data: updatedChats } = await refetch()
     const len = updatedChats?.length ?? 0
     if (!updatedChats || !updatedChats[0]) {
-      set('selectedChat', undefined)
+      setSelectedChat(undefined)
       router.push(`/ask-anything`)
-      set('chats', [])
+      setChats([])
     } else {
-      if (selectedChat?.id === chat.id) {
-        set('selectedChat', updatedChats[len - 1])
-        router.push(`/ask-anything/${updatedChats[len - 1].id}`)
-      } else {
-        set('selectedChat', updatedChats[len - 1])
-        router.push(`/ask-anything/${updatedChats[len - 1].id}`)
-      }
-      set('chats', updatedChats)
+      setSelectedChat(updatedChats[len - 1])
+      router.push(`/ask-anything/${updatedChats[len - 1].id}`)
+      setChats(updatedChats)
     }
 
     closeRef.current?.click()

@@ -22,6 +22,7 @@ import {
 } from '@/app/ask-anything/[chatId]/_components/WelcomeCards'
 import Loading from '@/app/loading'
 import { askRS_sendMessage as apiSendMessage } from '@/dal/message'
+import useStore from '../_utils/store/store'
 
 const cards: Cardset = {
   top: 'Can you tell me about some of your projects?',
@@ -33,8 +34,15 @@ export function ChatMessages() {
   const [uId, setUId] = useState<string>('')
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<AskRSMessage[]>([])
-  const { set, useSnapshot } = store
-  const { clearChat, stateMetadata } = useSnapshot()
+  // const { clearChat, stateMetadata } = useSnapshot()
+  const {
+    clearChat,
+    stateMetadata,
+    setClearChat,
+    updateStateMetadata,
+    resetStateMetadata,
+  } = useStore()
+
   const queryClient = useQueryClient()
   const [waitingForStream, setWaitingForStream] = useState(false)
 
@@ -108,7 +116,7 @@ export function ChatMessages() {
   useEffect(() => {
     if (clearChat) {
       setMessages([])
-      set('clearChat', false)
+      setClearChat(false)
     }
     queryClient.invalidateQueries({ queryKey: ['messages', 'askRS'] })
   }, [clearChat])
@@ -127,16 +135,9 @@ export function ChatMessages() {
     const sendStateMessage = async () => {
       if (stateMetadata.chatId === -1) {
         if (stateMetadata.message.length && !stateMetadata.inProgress) {
-          set('stateMetadata', {
-            ...stateMetadata,
-            inProgress: true,
-          })
+          updateStateMetadata({ inProgress: true })
           await sendMessage()
-          set('stateMetadata', {
-            chatId: 0,
-            message: '',
-            indexId: '',
-          })
+          resetStateMetadata()
         }
       }
     }
