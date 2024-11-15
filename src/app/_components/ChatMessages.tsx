@@ -39,6 +39,7 @@ export function ChatMessages() {
     setClearChat,
     updateStateMetadata,
     resetStateMetadata,
+    toggleAskRSmsg,
   } = useStore()
 
   const queryClient = useQueryClient()
@@ -165,6 +166,7 @@ export function ChatMessages() {
   }
 
   const sendMessage = async () => {
+    toggleAskRSmsg()
     const newMessage = stateMetadata?.message.trim()
     if (!newMessage.trim() || isPending || stateMetadata.chatId !== -1) {
       return false

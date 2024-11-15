@@ -7,6 +7,7 @@ import { ExternalLink, Settings, Trash } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { deleteAllMessages_aRS } from '@/app/_lib/db'
+import { getAllMessages } from '@/app/_lib/db/askRSMessages'
 import { store } from '@/app/_utils/store'
 import useStore from '@/app/_utils/store/store'
 import { Button } from '@/components/ui/button'
@@ -28,6 +29,21 @@ export default function ChatHeader() {
   const router = useRouter()
   const generalPaths = ['/ask-anything', '/ask-anything/*']
   const askRSPaths = ['/']
+  const [hasMessages, setHasMessages] = useState(false)
+  const askRSmsg = useStore((state) => state.askRSmsg)
+
+  const fetchMessages = async () => {
+    try {
+      const messages = await getAllMessages()
+      setHasMessages(messages.length > 0)
+    } catch (error) {
+      console.error('Failed to fetch messages:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchMessages()
+  }, [askRSmsg])
 
   return (
     <div className='top-0 flex items-center justify-center border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:py-6'>
@@ -47,7 +63,9 @@ export default function ChatHeader() {
       </div>
       <div className='absolute right-0 mr-[14px]'>
         {isPath(askRSPaths, pathname) ? (
-          <DeleteConfirmationDialog />
+          hasMessages ? (
+            <DeleteConfirmationDialog />
+          ) : null
         ) : (
           <ConfigDialogue />
         )}
@@ -65,6 +83,7 @@ const DeleteConfirmationDialog = () => {
     setClearChat,
     toggleConfigOpen,
     setOpenAIKey,
+    toggleAskRSmsg,
   } = useStore()
 
   useEffect(() => {
@@ -81,6 +100,7 @@ const DeleteConfirmationDialog = () => {
     await deleteAllMessages_aRS()
     setClearChat(true)
     closeRef.current?.click()
+    toggleAskRSmsg()
   }
 
   return (
