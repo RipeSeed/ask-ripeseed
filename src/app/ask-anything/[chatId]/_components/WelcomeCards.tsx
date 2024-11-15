@@ -27,8 +27,14 @@ interface Props {
 }
 
 export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
-  const { toggleConfigOpen, setOpenAIKey, updateStateMetadata, openAIKey } =
-    useStore()
+  const {
+    toggleConfigOpen,
+    setOpenAIKey,
+    updateStateMetadata,
+    openAIKey,
+    setSelectedChat,
+    setChats,
+  } = useStore()
   const handleOpenConfig = () => {
     toggleConfigOpen()
   }
@@ -54,7 +60,7 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
     } else {
       let chatId = Number(pathname)
       if (chatId === 0) {
-        chatId = await addAndSelectChat()
+        chatId = await addAndSelectChat(setSelectedChat, setChats)
         updateStateMetadata({
           chatId,
           message,

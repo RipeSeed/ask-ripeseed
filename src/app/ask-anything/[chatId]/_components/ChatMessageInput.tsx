@@ -19,7 +19,8 @@ export function ChatMessageInput() {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const parentDivRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
-  const { stateMetadata, updateStateMetadata } = useStore()
+  const { stateMetadata, updateStateMetadata, setSelectedChat, setChats } =
+    useStore()
 
   let pathname = usePathname()
   pathname = useMemo(() => {
@@ -75,7 +76,7 @@ export function ChatMessageInput() {
     if (message.trim().length) {
       let chatId = Number(pathname)
       if (chatId === 0) {
-        chatId = await addAndSelectChat()
+        chatId = await addAndSelectChat(setSelectedChat, setChats)
         updateStateMetadata({
           chatId,
           message,
