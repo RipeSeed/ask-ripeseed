@@ -13,7 +13,6 @@ import {
   getAllMessages_aRS,
   Message,
 } from '@/app/_lib/db'
-import { store } from '@/app/_utils/store'
 import { ChatMessageInput } from '@/app/ask-anything/[chatId]/_components/ChatMessageInput'
 import { MessageContainer } from '@/app/ask-anything/[chatId]/_components/MessageContainer'
 import {
@@ -34,7 +33,6 @@ export function ChatMessages() {
   const [uId, setUId] = useState<string>('')
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<AskRSMessage[]>([])
-  // const { clearChat, stateMetadata } = useSnapshot()
   const {
     clearChat,
     stateMetadata,

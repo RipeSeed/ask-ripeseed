@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LoaderCircle } from 'lucide-react'
 
-import { store } from '@/app/_utils/store'
+import useStore from '@/app/_utils/store/store'
 import { Button } from '@/components/ui/button'
 import { addAndSelectChat } from '../utils/creatNewChat'
 
@@ -19,8 +19,7 @@ export function ChatMessageInput() {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const parentDivRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
-  const { set, useSnapshot } = store
-  const { stateMetadata } = useSnapshot()
+  const { stateMetadata, updateStateMetadata } = useStore()
 
   let pathname = usePathname()
   pathname = useMemo(() => {
@@ -77,7 +76,7 @@ export function ChatMessageInput() {
       let chatId = Number(pathname)
       if (chatId === 0) {
         chatId = await addAndSelectChat()
-        set('stateMetadata', {
+        updateStateMetadata({
           chatId,
           message,
           indexId: '',
@@ -87,7 +86,7 @@ export function ChatMessageInput() {
         if (chatId) router.push(`/ask-anything/${chatId}`)
       } else {
         setIsPending(true)
-        set('stateMetadata', {
+        updateStateMetadata({
           chatId,
           message,
           indexId: '',

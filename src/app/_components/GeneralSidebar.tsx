@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { EllipsisVertical, MessageSquare, Trash2 } from 'lucide-react'
@@ -12,7 +12,6 @@ import {
   getAllChats,
 } from '@/app/_lib/db'
 import { truncateString } from '@/app/_utils'
-import { store } from '@/app/_utils/store'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,7 +25,6 @@ export default function GeneralSideBar() {
   const pathname = usePathname()
   const id = Number(pathname.split('/')[2])
   const chatId = isNaN(id) ? null : id
-  const { useSnapshot, set } = store
   const { selectedChat, chats, setChats, setSelectedChat } = useStore()
   const closeRef = useRef<HTMLButtonElement>(null)
 
