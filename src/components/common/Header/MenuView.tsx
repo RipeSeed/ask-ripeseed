@@ -1,32 +1,33 @@
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import {
   NavigationMenuLink,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-
-import { cn } from "@/lib/utils";
-import { isPath } from "./constants";
-import type { Menu } from "./types";
+} from '@/components/ui/navigation-menu'
+import { cn } from '@/lib/utils'
+import { isPath } from './constants'
+import type { Menu } from './types'
 
 const MenuView = ({ menuItem }: { menuItem: Menu }) => {
-  const pathname = usePathname();
+  const pathname = usePathname()
   return (
     <NavigationMenuLink
-      className={cn(navigationMenuTriggerStyle(), "rounded-full")}
-      asChild>
+      className={cn(navigationMenuTriggerStyle(), 'rounded-full')}
+      asChild
+    >
       <Link
         href={menuItem.href}
-        className={` hover:text-primary focus:text-primary bg-white focus:bg-white ${
+        className={`bg-white hover:text-primary focus:bg-white focus:text-primary ${
           isPath(menuItem.pathMatch, pathname)
-            ? "!text-white border  border-primary !bg-crayola"
-            : "text-muted-foreground"
-        }`}>
+            ? 'border border-primary !bg-crayola !text-white'
+            : 'text-muted-foreground'
+        }`}
+      >
         {menuItem.title}
       </Link>
     </NavigationMenuLink>
-  );
-};
+  )
+}
 
-export default MenuView;
+export default MenuView
