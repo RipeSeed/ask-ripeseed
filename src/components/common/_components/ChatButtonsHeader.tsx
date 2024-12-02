@@ -28,6 +28,7 @@ export default function ChatHeader() {
   const router = useRouter()
   const generalPaths = ['/ask-anything', '/ask-anything/*']
   const askRSPaths = ['/']
+  const askRSmsg = useStore((state) => state.askRSmsg)
 
   return (
     <div className='top-0 flex items-center justify-center border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:py-6'>
@@ -47,7 +48,9 @@ export default function ChatHeader() {
       </div>
       <div className='absolute right-0 mr-[14px]'>
         {isPath(askRSPaths, pathname) ? (
-          <DeleteConfirmationDialog />
+          askRSmsg ? (
+            <DeleteConfirmationDialog />
+          ) : null
         ) : (
           <ConfigDialogue />
         )}
@@ -65,6 +68,7 @@ const DeleteConfirmationDialog = () => {
     setClearChat,
     toggleConfigOpen,
     setOpenAIKey,
+    clearAskRSmsg,
   } = useStore()
 
   useEffect(() => {
@@ -81,6 +85,7 @@ const DeleteConfirmationDialog = () => {
     await deleteAllMessages_aRS()
     setClearChat(true)
     closeRef.current?.click()
+    clearAskRSmsg()
   }
 
   return (
