@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
-import { store } from '@/app/_utils/store'
 import useStore from '@/app/_utils/store/store'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Card } from '@/components/ui/card'
