@@ -6,14 +6,13 @@ import { PencilLine } from 'lucide-react'
 
 import { getAllChats, getChat, updateChat } from '@/app/_lib/db'
 import { truncateString } from '@/app/_utils'
-import { store } from '@/app/_utils/store'
+import useStore from '@/app/_utils/store/store'
 import { Input } from '@/components/ui/input'
 import { UploadDocumentWrapper } from './UploadDocumentWrapper'
 
 export function ChatHeader() {
   const [isSmScreen, setIsSmScreen] = useState(false)
-  const { set, useSnapshot } = store
-  const { selectedChat } = useSnapshot()
+  const { selectedChat, setSelectedChat, setChats } = useStore()
   const [title, setTitle] = useState('')
   const [isEditing, setIsEditing] = useState(false)
   const handleEditClick = () => {
@@ -31,7 +30,7 @@ export function ChatHeader() {
       const chatId = isNaN(id) ? null : id
       if (chatId) {
         const updatedChat = await getChat({ id })
-        set('selectedChat', updatedChat)
+        setSelectedChat(updatedChat)
       }
     }
     getChatId()
@@ -70,11 +69,11 @@ export function ChatHeader() {
     })
 
     const updated = await getAllChats()
-    set('chats', updated)
+    setChats(updated)
 
     const updatedChat = await getChat({ id })
 
-    set('selectedChat', updatedChat)
+    setSelectedChat(updatedChat)
 
     setIsEditing(false)
     setTitle('')

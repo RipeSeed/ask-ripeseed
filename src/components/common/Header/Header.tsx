@@ -8,6 +8,7 @@ import { Bolt, ExternalLink, Settings } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { store } from '@/app/_utils/store'
+import useStore from '@/app/_utils/store/store'
 import { ModeToggle } from '@/components/Providers/ThemeProvider'
 import { Button } from '@/components/ui/button'
 import {
@@ -69,8 +70,7 @@ export const Header = () => {
 export const ConfigDialogue = () => {
   const closeRef = useRef<HTMLButtonElement>(null)
   const openRef = useRef<HTMLButtonElement>(null)
-  const { set, useSnapshot } = store
-  const { isConfigOpen } = useSnapshot()
+  const { isConfigOpen, setOpenAIKey, toggleConfigOpen } = useStore()
   const [formValues, setFormValues] = useState({
     openaiKey: '',
   })
@@ -82,7 +82,7 @@ export const ConfigDialogue = () => {
         ...formValues,
         openaiKey: _key,
       })
-      set('openAIKey', _key)
+      setOpenAIKey(_key)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -94,7 +94,7 @@ export const ConfigDialogue = () => {
     // Store the current value of closeRef
     const closeBtn = closeRef.current
     return () => {
-      set('isConfigOpen', false)
+      toggleConfigOpen()
       // Use the stored value in the cleanup function
       closeBtn?.click()
     }
@@ -108,7 +108,7 @@ export const ConfigDialogue = () => {
   }
 
   const saveConfig = () => {
-    set('openAIKey', formValues.openaiKey)
+    setOpenAIKey(formValues.openaiKey)
     localStorage.setItem('openai:key', formValues.openaiKey)
     toast.success('Your OpenAI has been updated in your Local Storage.')
     closeRef.current?.click()

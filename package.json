@@ -1,6 +1,6 @@
 {
   "name": "ask-ripeseed",
-  "version": "0.1.0",
+  "version": "1.0.4",
   "private": true,
   "type": "module",
   "scripts": {
@@ -15,7 +15,7 @@
   "dependencies": {
     "@gomomento/sdk": "^1.93.0",
     "@infisical/sdk": "^3.0.2",
-    "@langchain/community": "^0.2.4",
+    "@langchain/community": "^0.3.3",
     "@langchain/core": "^0.2.6",
     "@langchain/openai": "^0.0.34",
     "@langchain/pinecone": "^0.0.7",
@@ -64,7 +64,7 @@
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "valtio": "^1.13.2"
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.11.3",

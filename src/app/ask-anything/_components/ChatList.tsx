@@ -12,8 +12,7 @@ import {
   deleteChat,
   getAllChats,
 } from '@/app/_lib/db'
-import { truncateString } from '@/app/_utils'
-import { store } from '@/app/_utils/store'
+import useStore from '@/app/_utils/store/store'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Dialog,
@@ -29,8 +28,7 @@ import { cn } from '@/lib/utils'
 import chatICon from '../../../../public/chat.png'
 
 export const ChatList = () => {
-  const { useSnapshot, set } = store
-  const { selectedChat, chats } = useSnapshot()
+  const { selectedChat, chats, setSelectedChat, setChats } = useStore()
   const [allChats, setAllChats] = useState<Chat[]>([])
 
   getAllChats().then((chats) => {
@@ -41,12 +39,12 @@ export const ChatList = () => {
   })
 
   if (!selectedChat?.id) {
-    set('selectedChat', allChats[0] ?? undefined)
+    setSelectedChat(allChats[0] ?? undefined)
   }
 
   useEffect(() => {
-    set('chats', allChats)
-  }, [allChats, set])
+    setAllChats(allChats)
+  }, [allChats])
 
   return (
     <div className='flex flex-col gap-4'>
@@ -64,13 +62,12 @@ export const ChatList = () => {
 
 const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
   const router = useRouter()
-  const { useSnapshot, set } = store
-  const { selectedChat } = useSnapshot()
+  const { selectedChat, setSelectedChat, setChats } = useStore()
   const variant = selectedChat?.id === chat.id ? true : false
   const closeRef = useRef<HTMLButtonElement>(null)
 
   const handleSelectedChatChange = (chat: Chat) => {
-    set('selectedChat', chat)
+    setSelectedChat(chat)
     router.push(`/ask-anything/${chat.id}`)
   }
 
@@ -86,18 +83,17 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
 
     if (selectedChat?.id === chat.id) {
       if (allChats[0]) {
-        set('selectedChat', allChats[len - 1])
+        setSelectedChat(allChats[len - 1])
         router.push(`/ask-anything/${allChats[len - 1].id}`)
       } else {
-        set('selectedChat', undefined)
+        setSelectedChat(undefined)
         router.push(`/ask-anything`)
       }
     } else {
-      set('selectedChat', allChats[len - 1])
+      setSelectedChat(allChats[len - 1])
       router.push(`/ask-anything/${allChats[len - 1].id}`)
     }
-    set(
-      'chats',
+    setChats(
       allChats.sort((a, b) => {
         return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
       }),
@@ -167,25 +163,22 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
 
 const CreateNewChat = () => {
   const router = useRouter()
-  const { set } = store
+  const { setChats, setSelectedChat } = useStore()
 
   const handleCreateNewChat = async () => {
     const newChatId = await addChat({})
     const allChats = await getAllChats()
 
     if (allChats.length === 1) {
-      set('chats', allChats)
+      setChats(allChats)
     } else {
       const descSorted = allChats.sort((a, b) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       })
-      set('chats', descSorted)
+      setChats(descSorted)
     }
 
-    set(
-      'selectedChat',
-      allChats.find((c) => c.id === newChatId),
-    )
+    setSelectedChat(allChats.find((c) => c.id === newChatId))
     router.push(`/ask-anything/${newChatId}`)
   }
 
