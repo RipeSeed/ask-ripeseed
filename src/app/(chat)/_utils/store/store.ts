@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { Chat } from '@/app/_lib/db'
+import { Chat } from '@/app/(chat)/_lib/db'
 
 interface State {
   chats: Chat[]

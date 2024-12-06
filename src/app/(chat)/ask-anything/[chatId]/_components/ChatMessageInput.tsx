@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LoaderCircle } from 'lucide-react'
 
-import useStore from '@/app/_utils/store/store'
+import useStore from '@/app/(chat)/_utils/store/store'
 import { Button } from '@/components/ui/button'
 import { addAndSelectChat } from '../utils/creatNewChat'
 

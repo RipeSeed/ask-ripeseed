@@ -1,4 +1,4 @@
-import { addChat, Chat, getAllChats, getChat } from '@/app/_lib/db'
+import { addChat, Chat, getAllChats, getChat } from '@/app/(chat)/_lib/db'
 
 export async function addAndSelectChat(
   setSelectedChat: (chat: Chat | undefined) => void,

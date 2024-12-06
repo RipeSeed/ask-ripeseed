@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 import { ExternalLink, Settings } from 'lucide-react'
 import { toast } from 'sonner'
 
-import useStore from '@/app/_utils/store/store'
+import useStore from '@/app/(chat)/_utils/store/store'
 import { ModeToggle } from '@/components/Providers/ThemeProvider'
 import { Button } from '@/components/ui/button'
 import {

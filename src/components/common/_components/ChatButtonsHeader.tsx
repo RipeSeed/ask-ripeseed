@@ -6,8 +6,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { ExternalLink, Settings, Trash } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { deleteAllMessages_aRS } from '@/app/_lib/db'
-import useStore from '@/app/_utils/store/store'
+import { deleteAllMessages_aRS } from '@/app/(chat)/_lib/db'
+import useStore from '@/app/(chat)/_utils/store/store'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

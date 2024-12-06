@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { PencilLine } from 'lucide-react'
 
-import { getAllChats, getChat, updateChat } from '@/app/_lib/db'
-import { truncateString } from '@/app/_utils'
-import useStore from '@/app/_utils/store/store'
+import { getAllChats, getChat, updateChat } from '@/app/(chat)/_lib/db'
+import { truncateString } from '@/app/(chat)/_utils'
+import useStore from '@/app/(chat)/_utils/store/store'
 import { Input } from '@/components/ui/input'
 import { UploadDocumentWrapper } from './UploadDocumentWrapper'
 

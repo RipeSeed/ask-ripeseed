@@ -2,13 +2,13 @@ import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
-import useStore from '@/app/_utils/store/store'
+import useStore from '@/app/(chat)/_utils/store/store'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Card } from '@/components/ui/card'
 import {
   configPaths,
   isPath,
-} from '../../../../components/common/Header/constants'
+} from '../../../../../components/common/Header/constants'
 import { addAndSelectChat } from '../utils/creatNewChat'
 
 const clock = '/clock.png'
