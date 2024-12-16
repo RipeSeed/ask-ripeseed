@@ -33,7 +33,7 @@ export default function BrandAccordion() {
                   </span>
                 </div>
 
-                <Button className='bg-transparent text-xs text-black'>
+                <Button className='border-[2px] bg-transparent p-3 text-xs text-black shadow-none'>
                   Upload
                 </Button>
               </div>

@@ -15,15 +15,16 @@ export default function SingleMessage({ text }: SingleMessageProps) {
   const { id, role, message } = text
   return (
     <div
-      className={`flex space-x-1 ${role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+      className={`flex space-x-1 ${role === 'user' ? 'flex-row-reverse items-end' : 'flex-row'}`}
     >
-      <Image
-        className='rounded-[50%]'
-        src={`${role === 'system' ? `/user.png` : `/logo/logo.svg`}`}
-        alt=''
-        width={35}
-        height={35}
-      />
+      <div className='avatar flex h-9 w-9 items-center justify-center'>
+        <img
+          src={`${role === 'system' ? `/assets/Avatar.png` : `/logo/logo.svg`}`}
+          alt='avatar'
+          className={`h-full w-full rounded-[50%] ${role === 'system' ? `object-cover` : `object-fill`}`}
+        />
+      </div>
+
       <div
         className={`w-[80%] rounded-lg px-2 py-[1px] ${role === 'user' ? 'bg-gray-200 text-black' : 'bg-[#00a986] text-white'}`}
       >

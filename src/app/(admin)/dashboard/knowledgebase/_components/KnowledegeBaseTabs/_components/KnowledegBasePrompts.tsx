@@ -22,10 +22,10 @@ export default function KnowledegBasePrompts() {
     pressurePenalty: 0,
   })
   return (
-    <div className='flex h-full w-full'>
+    <div className='flex h-full w-full px-5'>
       {/* left side of the prompt component */}
       <div className='left flex-[7] space-y-5 border-r-2 border-solid border-gray-200 px-2'>
-        <div className='text flex flex-col'>
+        <div className='text flex flex-col py-4'>
           <span className='heading font-base text-lg'>Prompt Settings</span>
           <span className='desc text-sm font-light'>
             Give prompts to your bot on how it should act with the user
@@ -39,7 +39,7 @@ export default function KnowledegBasePrompts() {
         </div>
       </div>
       {/*------------------------ right side of the prompt component----------------------- */}
-      <div className='right flex flex-[3] flex-col space-y-3 px-5'>
+      <div className='right flex flex-[3] flex-col space-y-3 p-5'>
         {/* text section of the right */}
         <div className='text flex flex-col space-y-2'>
           <span className='heading text-lg'>Presets</span>

@@ -40,7 +40,7 @@ export default function DashboardSideBar() {
                   onClick={() => {
                     setActiveTab(item.id)
                   }}
-                  className={`listItem flex w-full cursor-pointer space-x-2 p-3 ${item.id === activeTab ? 'bg-gray-100' : ''}`}
+                  className={`listItem flex w-full cursor-pointer space-x-2 rounded-lg p-3 ${item.id === activeTab ? 'bg-gray-100' : ''}`}
                 >
                   <img src={item.icon} alt='' />
                   <span className='itemtext'>{item.title}</span>

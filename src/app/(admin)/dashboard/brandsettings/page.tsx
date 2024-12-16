@@ -24,7 +24,7 @@ export default function BrandSettings() {
       {/* bottom section of the page */}
       <div className='main flex h-[85%] rounded-lg'>
         {/* left section */}
-        <div className='left flex flex-[1] flex-col rounded-l-lg border-r-2 border-solid border-gray-300 bg-white p-4'>
+        <div className='left flex flex-[1] flex-col rounded-l-lg border-r-2 border-solid border-gray-100 bg-white p-4'>
           <div className='text flex-[1]'>
             <h1 className='heading text-lg font-semibold'>Channels</h1>
             <p className='text-sm font-light'>
