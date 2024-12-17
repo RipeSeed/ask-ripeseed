@@ -50,7 +50,6 @@ const Chart = () => {
 
         <XAxis dataKey='month' />
         <YAxis />
-        {/* <CartesianGrid /> */}
         <Tooltip />
         <Area
           type='monotone'
