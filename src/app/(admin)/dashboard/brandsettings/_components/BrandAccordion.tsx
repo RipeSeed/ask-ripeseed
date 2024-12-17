@@ -285,7 +285,7 @@ export default function BrandAccordion() {
                 </div>
               </div>
             </div>
-            <div className='justify-cente mt-3 flex cursor-pointer items-center space-x-4 p-1 text-base'>
+            <div className='justify-cente mt-3 flex cursor-pointer items-center space-x-4 p-1 text-sm text-gray-500'>
               <Plus />
               Add another link
             </div>

@@ -99,9 +99,7 @@ export default function Summary() {
           </div>
           {/* center component of the bottom Left */}
           <div className='mt-2 flex-[5] space-y-3'>
-            <span className='text-sm font-light text-gray-400'>
-              Total Users
-            </span>
+            <span className='text-lg font-semibold'>Total Users</span>
             <Separator />
             <div className='h-[80%]'>
               <Chart />
