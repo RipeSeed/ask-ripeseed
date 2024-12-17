@@ -4,7 +4,7 @@ import { AskRipeseedChat } from './AskRipeseedChat.model'
 
 export { AskRipeseedChat }
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     const connectionInstance = await mongoose.connect(
       `${process.env.MONGO_CONNECTION_STRING}`,
