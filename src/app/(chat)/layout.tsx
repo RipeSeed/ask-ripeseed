@@ -1,3 +1,5 @@
+'use client'
+
 import { Poppins } from 'next/font/google'
 import Script from 'next/script'
 import { Toaster } from 'sonner'
@@ -7,6 +9,7 @@ import { cn } from '@/lib/utils'
 
 import '../globals.css'
 
+import { useEffect, useState } from 'react'
 import type { Viewport } from 'next'
 import Image from 'next/image'
 
@@ -24,6 +27,7 @@ const fontSans = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700'],
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap', // Ensures font is loaded before content
 })
 
 export default function RootLayout({
@@ -31,6 +35,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return null // Prevents rendering on the server side to avoid mismatch
+  }
+
   return (
     <html lang='en'>
       <body
