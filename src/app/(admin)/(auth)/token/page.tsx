@@ -28,17 +28,15 @@ export default function Token() {
   function onSubmit(values: z.infer<typeof formSchema>) {}
 
   return (
-    <div className='left flex flex-[1] flex-col'>
-      <div className='leftTop flex flex-[2.5] flex-col items-center justify-center space-y-2'>
-        <h1 className='heading text-2xl font-medium'>
-          Enter Your OpenAI Token
-        </h1>
-        <p className='description text-lg font-light'>
+    <div className='flex flex-[1] flex-col'>
+      <div className='flex flex-[2.5] flex-col items-center justify-center space-y-2'>
+        <h1 className='text-2xl font-medium'>Enter Your OpenAI Token</h1>
+        <p className='text-lg font-light'>
           This will allow you to make knowledge base related settings
         </p>
       </div>
       <Separator />
-      <div className='leftBottom m-auto w-[60%] flex-[5] pt-16'>
+      <div className='m-auto w-[60%] flex-[5] pt-16'>
         <Form {...form}>
           <form className='space-y-8'>
             <FormField
@@ -58,7 +56,7 @@ export default function Token() {
                 </FormItem>
               )}
             />
-            <div className='btns flex items-center justify-between space-x-3'>
+            <div className='flex items-center justify-between space-x-3'>
               <Button
                 type='submit'
                 className='border-1 w-1/2 border-solid border-black bg-transparent text-black'
