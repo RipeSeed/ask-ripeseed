@@ -41,9 +41,9 @@ export default function ChatSection() {
   return (
     <div className='flex flex-[8] flex-col rounded-r-lg bg-gray-100'>
       {/* top buttons Section */}
-      <div className='top flex flex-[1.1] items-center justify-between px-2'>
+      <div className='flex flex-[1.1] items-center justify-between px-2'>
         <div></div>
-        <div className='btns flex space-x-1'>
+        <div className='flex space-x-1'>
           <Button className='h-7 w-28 rounded-xl bg-[#00a986] p-1 text-xs'>
             Ask Ripeseed
           </Button>
@@ -55,14 +55,14 @@ export default function ChatSection() {
       </div>
       <Separator />
       {/* Messages Chat Section */}
-      <div className='center flex flex-[8] flex-col space-y-2 px-3 pt-3'>
+      <div className='flex flex-[8] flex-col space-y-2 px-3 pt-3'>
         {messages.map((item, i) => (
           <SingleMessage key={i} text={item} />
         ))}
       </div>
       {/* Message Input Section */}
-      <div className='bottom flex flex-[2] items-center justify-center'>
-        <div className='messageInput mx-auto flex w-[90%] items-center space-x-1 rounded-3xl bg-gray-200 p-2'>
+      <div className='flex flex-[2] items-center justify-center'>
+        <div className='mx-auto flex w-[90%] items-center space-x-1 rounded-3xl bg-gray-200 p-2'>
           <input
             placeholder='Ask anything...'
             type='text'
@@ -70,7 +70,7 @@ export default function ChatSection() {
             id=''
             className='w-[90%] rounded-2xl bg-gray-100 p-1 text-xs outline-none'
           />
-          <div className='sendIcon flex w-[10%] items-center justify-center rounded-2xl bg-[#00a986] p-1 text-white'>
+          <div className='flex w-[10%] items-center justify-center rounded-2xl bg-[#00a986] p-1 text-white'>
             <SendHorizonal />
           </div>
         </div>
