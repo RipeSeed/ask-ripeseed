@@ -74,16 +74,18 @@ const BrandSettingSchema = new mongoose.Schema(
         },
       },
     },
-    externalLinks: {
-      linkLabel: {
-        type: [String],
-        required: true,
+    externalLinks: [
+      {
+        linkLabel: {
+          type: [String],
+          required: true,
+        },
+        linkUrl: {
+          type: String,
+          required: true,
+        },
       },
-      linkUrl: {
-        type: String,
-        required: true,
-      },
-    },
+    ],
   },
   { timestamps: true },
 )
