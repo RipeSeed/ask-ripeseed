@@ -1,25 +1,18 @@
-import { Inter } from "next/font/google";
-import DashboardSideBar from "./_components/DashboardSideBar/DashboardSideBar";
+import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ["latin"] });
+import DashboardSideBar from './_components/DashboardSideBar/DashboardSideBar'
 
-
+const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-    return (
-        <html lang="en">
-            <body className={inter.className}>
-                <div className="flex w-screen h-screen">
-                    <DashboardSideBar />
-                    <div className="flex-[8]">
-                        {children}
-                    </div>
-                </div>
-            </body>
-        </html>
-    );
+  return (
+    <div className='flex h-screen w-screen'>
+      <DashboardSideBar />
+      <div className='flex-[8] bg-[#F9F9F9]'>{children}</div>
+    </div>
+  )
 }

@@ -67,7 +67,7 @@ export default function Token() {
                 Continue
               </Button>
             </div>
-            <FormDescription className='text-base font-light'>
+            <FormDescription className='text-[14px] font-light'>
               You skip for now and can enter the link later by accessing it in
               knowledege base panel
             </FormDescription>

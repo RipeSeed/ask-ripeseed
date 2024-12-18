@@ -84,3 +84,7 @@ pre > pre {
   padding: 0;
   margin: 0;
 }
+
+.accordion::-webkit-scrollbar {
+  width: 2px;
+}
