@@ -63,7 +63,7 @@ export default function Summary() {
                   <span className='text-sm font-light text-gray-400'>
                     Total Users
                   </span>
-                  <span className='users text-lg font-medium'>193.8K</span>
+                  <span className='text-lg font-medium'>193.8K</span>
                 </div>
                 <div className='flex items-end justify-center'>
                   <span className='rounded-lg bg-orange-100 p-1 text-xs font-light text-orange-400'>
@@ -163,7 +163,7 @@ export default function Summary() {
               </span>
             </div>
             <div className='flex items-center justify-between'>
-              <div className='box flex w-1/2 space-x-2 rounded-l-lg border-r-2 border-solid border-gray-200 bg-white px-6 py-2'>
+              <div className='flex w-1/2 space-x-2 rounded-l-lg border-r-2 border-solid border-gray-200 bg-white px-6 py-2'>
                 <Image
                   src={`/assets/summary/m4.svg`}
                   alt=''

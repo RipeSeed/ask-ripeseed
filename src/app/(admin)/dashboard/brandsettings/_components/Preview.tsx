@@ -13,12 +13,12 @@ import MainPreview from './MainPreview/MainPreview'
 
 export default function Preview() {
   return (
-    <div className='flex- flex h-full w-full flex-col space-y-3 px-6 py-4'>
+    <div className='flex h-full w-full flex-col space-y-3 px-6 py-4'>
       {/* top section of the preview */}
-      <div className='top flex flex-[1] justify-between'>
-        <div className='text flex flex-col'>
-          <span className='heading text-lg'>Preview</span>
-          <span className='desc text-sm text-gray-400'>
+      <div className='flex flex-[1] justify-between'>
+        <div className='flex flex-col'>
+          <span className='text-lg'>Preview</span>
+          <span className='text-sm text-gray-400'>
             Below is the preview against the changes done from different
             channels
           </span>
@@ -35,13 +35,13 @@ export default function Preview() {
         </Select>
       </div>
       {/* center of the preview */}
-      <div className='center flex-[8.5]'>
+      <div className='flex-[8.5]'>
         {/* this is the MainPreview component where changes reflectl */}
         <MainPreview />
       </div>
       {/* bottom of the preview */}
-      <div className='bottom flex flex-[1.5] items-center justify-between'>
-        <Button className='leftBtn flex cursor-pointer items-center justify-center space-x-2 rounded-lg border-[2px] border-solid border-gray-200 bg-transparent text-gray-400 shadow-none'>
+      <div className='flex flex-[1.5] items-center justify-between'>
+        <Button className='flex cursor-pointer items-center justify-center space-x-2 rounded-lg border-[2px] border-solid border-gray-200 bg-transparent text-gray-400 shadow-none'>
           <Image
             src={`/assets/brandSettings/refresh.svg`}
             alt=''
@@ -50,7 +50,7 @@ export default function Preview() {
           />
           <span>Undo action</span>
         </Button>
-        <div className='righBtns flex space-x-2'>
+        <div className='flex space-x-2'>
           <Button className='border-[2px] bg-transparent text-black shadow-none'>
             Cancel
           </Button>

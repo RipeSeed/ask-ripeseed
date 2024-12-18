@@ -14,10 +14,10 @@ export default function KnowledegBaseQuestions() {
     <div className='h-full w-full px-5'>
       <Tabs defaultValue='account' className='h-full w-full px-3'>
         {/* top section of the tabs */}
-        <div className='tabList flex items-center justify-between'>
-          <div className='text flex flex-col pt-3'>
-            <span className='heading text-lg'>Questions</span>
-            <span className='desc text-sm'>
+        <div className='flex items-center justify-between'>
+          <div className='flex flex-col pt-3'>
+            <span className='text-lg'>Questions</span>
+            <span className='text-sm'>
               Quick Questions to help Users start using product
             </span>
           </div>
@@ -31,7 +31,7 @@ export default function KnowledegBaseQuestions() {
           </TabsList>
         </div>
         {/* bottom section of the Tabs */}
-        <div className='tabContent mt-4 h-[70%] px-3'>
+        <div className='mt-4 h-[70%] px-3'>
           <TabsContent value='askmainefest'>
             <QuestionAccordion />
           </TabsContent>
