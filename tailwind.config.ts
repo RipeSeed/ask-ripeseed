@@ -66,6 +66,11 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        dashboardPrimary: 'var(--dashboard-bg-primary)',
+        dashboardSecondary: 'var(--dashboard-bg-secondary)',
+        dashboardActive: 'var(--dashboard-active)',
+        dashboardBorder: 'var(--dashboard-border)',
+        dashboardButtonBg: 'var(--dashboard-buttons-bg)',
       },
       borderRadius: {
         lg: 'var(--radius)',

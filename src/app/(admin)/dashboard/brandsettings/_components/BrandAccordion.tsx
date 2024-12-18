@@ -21,7 +21,7 @@ export default function BrandAccordion() {
             {/* top section of the first question */}
             <div className='flex flex-col space-y-2'>
               <h1 className='py-3 text-[14px] text-gray-400'>Upload Logo</h1>
-              <div className='flex items-center justify-between rounded border-2 border-dashed border-gray-200 p-2'>
+              <div className='border-dashboardBorder flex items-center justify-between rounded border-2 border-dashed p-2'>
                 <div className='flex flex-col space-y-1'>
                   <span className='font-base text-xs'>
                     Click to select or drag and drop
@@ -42,7 +42,7 @@ export default function BrandAccordion() {
                 Add Description (Metadata)
               </h1>
               <input
-                className='w-full rounded border-2 border-solid border-gray-200 p-2 outline-none'
+                className='border-dashboardBorder w-full rounded border-2 border-solid p-2 outline-none'
                 type='text'
                 name=''
                 placeholder='SurgeAI - Generative, Powerful, No. 1'
@@ -55,7 +55,7 @@ export default function BrandAccordion() {
               <h1 className='py-3 text-[14px] text-gray-400'>
                 Color Adjustments
               </h1>
-              <div className='flex items-center justify-between rounded border-2 border-solid border-gray-200 p-2'>
+              <div className='border-dashboardBorder flex items-center justify-between rounded border-2 border-solid p-2'>
                 <span className='text-xs'>History Pannel Background</span>
                 <div className='flex items-center space-x-2'>
                   <span className='text-xs font-light'>#FFFFF</span>

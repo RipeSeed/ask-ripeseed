@@ -27,12 +27,12 @@ export default function DashboardSideBar() {
     },
   ]
   return (
-    <div className='h-full w-full flex-[2]'>
+    <div className='bg-dashboardSecondary h-full w-full flex-[2]'>
       <div className='m-auto h-full w-[90%] pt-5'>
         <div className='h-[5%]'>
           <Image src={`/logo/logo.svg`} width={150} height={150} alt='' />
         </div>
-        <div className='mt-3 flex h-[93%] w-full flex-col justify-between'>
+        <div className='mt-3 flex h-[93%] w-full flex-col justify-between pt-5'>
           <ul className='flex flex-col space-y-4'>
             {links.map((item, i) => (
               <Link href={`/dashboard/${item.url}`} key={i}>
@@ -40,7 +40,7 @@ export default function DashboardSideBar() {
                   onClick={() => {
                     setActiveTab(item.id)
                   }}
-                  className={`listItem flex w-full cursor-pointer space-x-2 rounded-lg p-3 ${item.id === activeTab ? 'bg-gray-100' : ''}`}
+                  className={`listItem flex w-full cursor-pointer space-x-2 rounded-lg p-3 ${item.id === activeTab ? 'bg-dashboardActive' : ''}`}
                 >
                   <img src={item.icon} alt='' />
                   <span>{item.title}</span>
@@ -48,7 +48,7 @@ export default function DashboardSideBar() {
               </Link>
             ))}
           </ul>
-          <div className='flex items-center justify-between space-x-2 border-t-2 border-solid border-gray-300 p-3'>
+          <div className='border-dashboardBorder flex items-center justify-between space-x-2 border-t-2 border-solid p-3'>
             <div className='h-11 w-11'>
               <img
                 src={`/assets/Avatar.png`}

@@ -30,7 +30,7 @@ export default function KnowledegeBaseDocuments() {
         <DocuementDataTable />
       </div>
       {/* Save Button Section */}
-      <div className='mt-2 flex w-full flex-[1] items-center justify-end'>
+      <div className='my-4 flex w-full flex-[1] items-center justify-end'>
         <Button className='bg-black text-white'>Save changes</Button>
       </div>
     </div>

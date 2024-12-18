@@ -9,7 +9,7 @@ export default function BrandSettings() {
   return (
     <div className='mx-auto h-full w-[95%]'>
       {/* buttons of the page */}
-      <div className='flex h-[15%] items-center justify-between'>
+      <div className='flex h-[10%] items-center justify-between'>
         <h1 className='text-3xl'>Brand Settings</h1>
         <Button className='flex items-center justify-center space-x-1 bg-[#EBEBEB] text-sm text-black'>
           <Image
@@ -31,7 +31,7 @@ export default function BrandSettings() {
               The channels related to brand-able settings
             </p>
           </div>
-          <div className='mt-3 flex-[9] overflow-y-auto'>
+          <div className='accordion mt-3 flex-[9] overflow-y-auto'>
             <BrandAccordion />
           </div>
         </div>
@@ -40,6 +40,7 @@ export default function BrandSettings() {
           <Preview />
         </div>
       </div>
+      z
     </div>
   )
 }

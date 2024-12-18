@@ -12,7 +12,7 @@ export default function RootLayout({
   return (
     <div className='flex h-screen w-screen'>
       <DashboardSideBar />
-      <div className='flex-[8] bg-[#F9F9F9]'>{children}</div>
+      <div className='bg-dashboardPrimary flex-[8]'>{children}</div>
     </div>
   )
 }

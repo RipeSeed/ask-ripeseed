@@ -24,6 +24,12 @@
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
     --radius: 0.5rem;
+    --dashboard-bg-primary: #f9f9f9;
+    --dashboard-bg-secondary: #ffffff;
+    --dashboard-active: #f9fafb;
+    --dashboard-border: #ededed;
+    --dashboard-buttons-bg: #eaeaea;
+    --dashboard-preview-bg: #e8e8e8;
   }
 
   .dark {

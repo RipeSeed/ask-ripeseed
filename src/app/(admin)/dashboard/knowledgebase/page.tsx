@@ -10,9 +10,9 @@ export default function KnowledgeBase() {
   return (
     <div className='mx-auto h-full w-[95%]'>
       {/* buttons of the page */}
-      <div className='flex h-[15%] items-center justify-between'>
-        <h1 className='text-3xl'>Knowledge Base Settings</h1>
-        <Button className='flex items-center justify-center space-x-1 bg-[#EBEBEB] text-sm text-black'>
+      <div className='flex h-[10%] items-center justify-between'>
+        <h1 className='text-3xl font-medium'>Knowledge Base Settings</h1>
+        <Button className='bg-dashboardButtonBg flex items-center justify-center space-x-1 text-sm text-black'>
           <Image
             src={`/assets/brandSettings/global.svg`}
             width={20}
