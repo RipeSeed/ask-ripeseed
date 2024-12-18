@@ -11,13 +11,13 @@ const FileSchema = new mongoose.Schema(
       required: true,
     },
     chunks: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
   { timestamps: true },
 )
 
-const File = mongoose.models.File || mongoose.model('File', FileSchema)
+const FileModel = mongoose.models.File || mongoose.model('File', FileSchema)
 
-export default File
+export default FileModel

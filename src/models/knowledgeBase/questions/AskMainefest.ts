@@ -8,7 +8,6 @@ const AskMainefestSchema = new mongoose.Schema(
     },
     icon: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true },

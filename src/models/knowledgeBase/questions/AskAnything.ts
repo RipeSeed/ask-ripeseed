@@ -8,12 +8,10 @@ const AskAnythingSchema = new mongoose.Schema(
     },
     icon: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true },
 )
-
 const AskAnything =
   mongoose.models.AskAnything ||
   mongoose.model('AskAnything', AskAnythingSchema)

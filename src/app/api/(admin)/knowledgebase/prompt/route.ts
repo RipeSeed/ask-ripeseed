@@ -7,7 +7,6 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
   try {
     let reqBody = await request.json()
     await connectDB()
-    console.log(reqBody)
     const { prompt, preset, modelConfiguration } = reqBody
 
     const newPrompt = await Prompt.create({
