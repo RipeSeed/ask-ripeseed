@@ -28,16 +28,16 @@ export default function Auth() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {}
   return (
-    <div className='left flex flex-[1] flex-col'>
-      <div className='leftTop flex flex-[1] items-center justify-center text-2xl font-medium'>
-        <h1 className='heading'>Setup your admin account</h1>
+    <div className='flex flex-[1] flex-col'>
+      <div className='flex flex-[1] items-center justify-center text-2xl font-medium'>
+        <h1>Setup your admin account</h1>
       </div>
       <Separator />
-      <div className='leftBottom m-auto w-[70%] flex-[4] pt-16'>
+      <div className='m-auto w-[70%] flex-[4] pt-16'>
         <Form {...form}>
           <form className='space-y-8'>
             {/* name Section */}
-            <div className='nameSection flex justify-between space-x-2'>
+            <div className='flex justify-between space-x-2'>
               <FormField
                 control={form.control}
                 name='username'

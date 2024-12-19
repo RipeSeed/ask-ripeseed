@@ -28,7 +28,7 @@ export default function KnowledegeBaseTabs() {
               width={20}
               height={20}
             />
-            <span className='text-sm'> Prompt Settings</span>
+            <span className='text-sm'> Prompts Settings</span>
           </TabsTrigger>
           <TabsTrigger value='questions' className='space-x-1'>
             <Image

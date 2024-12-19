@@ -17,7 +17,7 @@ export default function SingleMessage({ text }: SingleMessageProps) {
     <div
       className={`flex space-x-1 ${role === 'user' ? 'flex-row-reverse items-end' : 'flex-row'}`}
     >
-      <div className='avatar flex h-9 w-9 items-center justify-center'>
+      <div className='flex h-9 w-9 items-center justify-center'>
         <img
           src={`${role === 'system' ? `/assets/Avatar.png` : `/logo/logo.svg`}`}
           alt='avatar'
