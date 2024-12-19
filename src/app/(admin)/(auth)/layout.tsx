@@ -13,7 +13,7 @@ export default function RootLayout({
     <div className={`h-screen w-screen ${inter.className}`}>
       <div className='flex h-full w-full justify-between'>
         {children}
-        <div className='right relative h-full w-full flex-[1] bg-[#EFEAE0]'>
+        <div className='bg-dashboardBg relative h-full w-full flex-[1]'>
           <AuthCarousel />
         </div>
       </div>
