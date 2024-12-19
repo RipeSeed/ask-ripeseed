@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-import { Role } from '@/app/_lib/db/types'
+import { Role } from '@/app/(chat)/_lib/db/types'
 
 const Message = new Schema(
   {

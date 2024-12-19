@@ -6,9 +6,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { ExternalLink, Settings, Trash } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { deleteAllMessages_aRS } from '@/app/_lib/db'
-import { store } from '@/app/_utils/store'
-import useStore from '@/app/_utils/store/store'
+import { deleteAllMessages_aRS } from '@/app/(chat)/_lib/db'
+import useStore from '@/app/(chat)/_utils/store/store'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -21,7 +20,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { configPaths, isPath } from '../Header/constants'
+import { isPath } from '../Header/constants'
 
 export default function ChatHeader() {
   const pathname = usePathname()

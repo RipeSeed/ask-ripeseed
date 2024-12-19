@@ -1,4 +1,4 @@
-import { getContext_aRS, type Message } from '@/app/_lib/db'
+import { getContext_aRS, type Message } from '@/app/(chat)/_lib/db'
 
 type APIRequest = {
   message: Message
