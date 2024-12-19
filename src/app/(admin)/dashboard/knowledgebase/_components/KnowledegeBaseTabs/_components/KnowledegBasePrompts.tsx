@@ -24,9 +24,9 @@ export default function KnowledegBasePrompts() {
   return (
     <div className='flex h-full w-full px-5'>
       {/* left side of the prompt component */}
-      <div className='flex-[7] space-y-5 border-r-2 border-solid border-gray-200 px-2'>
+      <div className='flex-[7] space-y-5 border-r-2 border-solid border-dashboardBorder px-2'>
         <div className='flex flex-col py-4'>
-          <span className='font-base text-lg'>Prompt Settings</span>
+          <span className='text-lg font-medium'>Prompt Settings</span>
           <span className='text-sm font-light'>
             Give prompts to your bot on how it should act with the user
           </span>
@@ -35,15 +35,19 @@ export default function KnowledegBasePrompts() {
           <Textarea placeholder='Type here.' rows={10} />
         </div>
         <div className='mt-5 flex items-center justify-end'>
-          <Button className='bg-black text-white'>Save changes</Button>
+          <Button className='bg-black text-dashboardSecondary'>
+            Save changes
+          </Button>
         </div>
       </div>
       {/*------------------------ right side of the prompt component----------------------- */}
       <div className='flex flex-[3] flex-col space-y-3 p-5'>
         {/* text section of the right */}
         <div className='flex flex-col space-y-2'>
-          <span className='text-lg'>Presets</span>
-          <span className='text-sm'>Adjust your preferences here.</span>
+          <span className='text-lg font-medium'>Presets</span>
+          <span className='text-sm font-light'>
+            Adjust your preferences here.
+          </span>
         </div>
         {/* select box of the right */}
         <div>
@@ -61,7 +65,7 @@ export default function KnowledegBasePrompts() {
 
         {/* sliders section of the right */}
         <div className='flex flex-col space-y-2'>
-          <span className='text-sm'>Model Configuration</span>
+          <span className='text-sm font-medium'>Model Configuration</span>
           {/* slider Item temperature */}
           <div className='flex flex-col space-y-3'>
             <div className='flex justify-between'>
@@ -136,7 +140,9 @@ export default function KnowledegBasePrompts() {
           </div>
         </div>
         {/* button which is located at the last of the right */}
-        <Button className='mt-2 bg-gray-100 text-black'>Save as preset</Button>
+        <Button className='mt-2 bg-dashboardBorder text-black'>
+          Save as preset
+        </Button>
       </div>
     </div>
   )

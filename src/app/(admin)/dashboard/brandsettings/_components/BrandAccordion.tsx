@@ -20,13 +20,15 @@ export default function BrandAccordion() {
           <AccordionContent className='flex flex-col space-y-2'>
             {/* top section of the first question */}
             <div className='flex flex-col space-y-2'>
-              <h1 className='py-3 text-[14px] text-gray-400'>Upload Logo</h1>
-              <div className='border-dashboardBorder flex items-center justify-between rounded border-2 border-dashed p-2'>
+              <h1 className='text-dashboardSecondaryText py-3 text-[14px]'>
+                Upload Logo
+              </h1>
+              <div className='flex items-center justify-between rounded border-2 border-dashed border-dashboardBorder p-2'>
                 <div className='flex flex-col space-y-1'>
                   <span className='font-base text-xs'>
                     Click to select or drag and drop
                   </span>
-                  <span className='text-[10px] font-light text-gray-400'>
+                  <span className='text-dashboardSecondaryText text-[10px] font-light'>
                     SVG,JPG or PNG (max15 MB)
                   </span>
                 </div>
@@ -38,11 +40,11 @@ export default function BrandAccordion() {
             </div>
             {/* center section of the second question */}
             <div className='flex flex-col space-y-2'>
-              <h1 className='text-xs text-gray-400'>
+              <h1 className='text-dashboardSecondaryText text-xs'>
                 Add Description (Metadata)
               </h1>
               <input
-                className='border-dashboardBorder w-full rounded border-2 border-solid p-2 outline-none'
+                className='w-full rounded-lg border-2 border-solid border-dashboardBorder p-2 outline-none'
                 type='text'
                 name=''
                 placeholder='SurgeAI - Generative, Powerful, No. 1'
@@ -52,10 +54,10 @@ export default function BrandAccordion() {
             {/* bottom section of the third question */}
             {/* one */}
             <div className='flex flex-col space-y-2'>
-              <h1 className='py-3 text-[14px] text-gray-400'>
+              <h1 className='text-dashboardSecondaryText py-3 text-[14px]'>
                 Color Adjustments
               </h1>
-              <div className='border-dashboardBorder flex items-center justify-between rounded border-2 border-solid p-2'>
+              <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
                 <span className='text-xs'>History Pannel Background</span>
                 <div className='flex items-center space-x-2'>
                   <span className='text-xs font-light'>#FFFFF</span>
@@ -63,7 +65,7 @@ export default function BrandAccordion() {
                 </div>
               </div>
               {/* two */}
-              <div className='flex items-center justify-between rounded border-2 border-solid border-gray-200 p-2'>
+              <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
                 <span className='text-xs'>Chat Background</span>
                 <div className='flex items-center space-x-2'>
                   <span className='text-xs font-light'>#FFFFF</span>
@@ -71,7 +73,7 @@ export default function BrandAccordion() {
                 </div>
               </div>
               {/* three */}
-              <div className='flex items-center justify-between rounded border-2 border-solid border-gray-200 p-2'>
+              <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
                 <span className='text-xs'>Chat User Bubble</span>
                 <div className='flex items-center space-x-2'>
                   <span className='colortext text-xs font-light'>#FFFFF</span>
@@ -80,7 +82,7 @@ export default function BrandAccordion() {
               </div>
 
               {/* four */}
-              <div className='flex items-center justify-between rounded border-2 border-solid border-gray-200 p-2'>
+              <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
                 <span className='text-xs'>Chat Bot Bubble</span>
                 <div className='flex items-center space-x-2'>
                   <span className='text-xs font-light'>#FFFFF</span>
@@ -103,7 +105,7 @@ export default function BrandAccordion() {
                 <select
                   name=''
                   id=''
-                  className='h-8 w-[48%] rounded bg-gray-100 p-1 text-xs outline-none'
+                  className='h-8 w-[48%] rounded-lg bg-dashboardPrimary p-1 text-xs outline-none'
                 >
                   <option value=''>Poppins</option>
                   <option value=''>Arial </option>
@@ -118,7 +120,7 @@ export default function BrandAccordion() {
                 <select
                   name=''
                   id=''
-                  className='h-8 w-[48%] rounded bg-gray-100 p-1 outline-none'
+                  className='h-8 w-[48%] rounded-lg bg-dashboardPrimary p-1 outline-none'
                 >
                   <option value=''>Regular</option>
                   <option value=''>Regular </option>
@@ -129,7 +131,7 @@ export default function BrandAccordion() {
                 <select
                   name=''
                   id=''
-                  className='mt-3 h-8 w-[48%] rounded bg-gray-100 p-2 outline-none'
+                  className='mt-3 h-8 w-[48%] rounded-lg bg-dashboardPrimary p-2 outline-none'
                 >
                   <option value=''>10</option>
                   <option value=''>20 </option>
@@ -151,7 +153,7 @@ export default function BrandAccordion() {
                 <select
                   name=''
                   id=''
-                  className='h-8 w-[48%] rounded bg-gray-100 p-1 outline-none'
+                  className='h-8 w-[48%] rounded-lg bg-dashboardPrimary p-1 outline-none'
                 >
                   <option value=''>Poppins</option>
                   <option value=''>Arial </option>
@@ -166,7 +168,7 @@ export default function BrandAccordion() {
                 <select
                   name=''
                   id=''
-                  className='h-8 w-[48%] rounded bg-gray-100 p-1 outline-none'
+                  className='h-8 w-[48%] rounded-lg bg-dashboardPrimary p-1 outline-none'
                 >
                   <option value=''>Regular</option>
                   <option value=''>Regular </option>
@@ -177,7 +179,7 @@ export default function BrandAccordion() {
                 <select
                   name=''
                   id=''
-                  className='mt-3 h-8 w-[48%] rounded bg-gray-100 p-2 outline-none'
+                  className='mt-3 h-8 w-[48%] rounded-lg bg-dashboardPrimary p-2 outline-none'
                 >
                   <option value=''>10</option>
                   <option value=''>20 </option>
@@ -199,7 +201,7 @@ export default function BrandAccordion() {
                 <select
                   name=''
                   id=''
-                  className='h-8 w-[48%] rounded bg-gray-100 p-1 outline-none'
+                  className='h-8 w-[48%] rounded-lg bg-dashboardPrimary p-1 outline-none'
                 >
                   <option value=''>Poppins</option>
                   <option value=''>Arial </option>
@@ -214,7 +216,7 @@ export default function BrandAccordion() {
                 <select
                   name=''
                   id=''
-                  className='h-8 w-[48%] rounded bg-gray-100 p-1 outline-none'
+                  className='h-8 w-[48%] rounded-lg bg-dashboardPrimary p-1 outline-none'
                 >
                   <option value=''>Regular</option>
                   <option value=''>Regular </option>
@@ -225,7 +227,7 @@ export default function BrandAccordion() {
                 <select
                   name=''
                   id=''
-                  className='mt-3 h-8 w-[48%] rounded bg-gray-100 p-2 outline-none'
+                  className='bg-dashboardPrimaryp-2 mt-3 h-8 w-[48%] rounded-lg outline-none'
                 >
                   <option value=''>10</option>
                   <option value=''>20 </option>
@@ -240,11 +242,11 @@ export default function BrandAccordion() {
         <AccordionItem value='item-3'>
           <AccordionTrigger>External Links</AccordionTrigger>
           <AccordionContent className='flex flex-col items-center'>
-            <div className='w-full space-y-3 rounded bg-gray-100 px-3 py-3'>
+            <div className='w-full space-y-3 rounded-lg bg-dashboardPrimary px-3 py-3'>
               <div className='flex justify-between pt-2'>
                 <div className='flex flex-col space-y-1'>
                   <span className='text-xs'>Link1</span>
-                  <span className='text-[10px] text-gray-400'>
+                  <span className='text-[10px] text-dashboardBorder'>
                     This will be displayed in left navigation panel
                   </span>
                 </div>
@@ -279,7 +281,7 @@ export default function BrandAccordion() {
                 </div>
               </div>
             </div>
-            <div className='mt-3 flex cursor-pointer items-center justify-center space-x-4 p-1 text-sm text-gray-500'>
+            <div className='text-dashboardPreviewText mt-3 flex cursor-pointer items-center justify-center space-x-4 p-1 text-sm'>
               <Plus />
               Add another link
             </div>

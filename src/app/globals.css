@@ -29,7 +29,9 @@
     --dashboard-active: #f9fafb;
     --dashboard-border: #ededed;
     --dashboard-buttons-bg: #eaeaea;
-    --dashboard-preview-bg: #e8e8e8;
+    --dashboard-preview-bg: #eaeaea;
+    --dashboard-preview-text: #637085;
+    --dashboard-gray-text: #555555;
   }
 
   .dark {

@@ -12,7 +12,7 @@ import QuestionAccordion from './QuestionAccordion'
 export default function KnowledegBaseQuestions() {
   return (
     <div className='h-full w-full px-5'>
-      <Tabs defaultValue='account' className='h-full w-full px-3'>
+      <Tabs defaultValue='askmainefest' className='h-full w-full px-3'>
         {/* top section of the tabs */}
         <div className='flex items-center justify-between'>
           <div className='flex flex-col pt-3'>
@@ -40,7 +40,7 @@ export default function KnowledegBaseQuestions() {
           </TabsContent>
         </div>
         <div className='flex items-center justify-end'>
-          <Button className='bg-black text-white'>Update</Button>
+          <Button className='bg-black text-dashboardSecondary'>Update</Button>
         </div>
       </Tabs>
     </div>

@@ -73,7 +73,7 @@ export default function DocumentDataTable() {
 
   return (
     // This table is associated with KnowledgeBase Documents
-    <div className='mt-2 h-full rounded-md border border-gray-200 shadow-sm'>
+    <div className='mt-2 h-full rounded-md border border-dashboardBorder shadow-sm'>
       <Table>
         <TableHeader>
           <TableRow>
@@ -92,7 +92,7 @@ export default function DocumentDataTable() {
               <TableCell className='text-center'>{file.chunks}</TableCell>
               <TableCell className='text-center'>{file.embeddings}</TableCell>
               <TableCell className='text-center'>
-                <button className='text-red-500 hover:text-red-700'>
+                <button className='text-dashboardPreviewText hover:text-red-700'>
                   <Trash size={16} />
                 </button>
               </TableCell>

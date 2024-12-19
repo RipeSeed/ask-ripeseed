@@ -71,6 +71,9 @@ const config = {
         dashboardActive: 'var(--dashboard-active)',
         dashboardBorder: 'var(--dashboard-border)',
         dashboardButtonBg: 'var(--dashboard-buttons-bg)',
+        dashboardPreviewBg: 'var(--dashboard-preview-bg)',
+        dashboardPreviewText: 'var(--dashboard-preview-text)',
+        dashboardSecondaryText: 'var(--dashboard-gray-text)',
       },
       borderRadius: {
         lg: 'var(--radius)',
