@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import { BriefcaseBusiness, Headset, MessageSquare, User } from 'lucide-react'
 
 import { Separator } from '@/components/ui/separator'
 
@@ -9,13 +8,18 @@ export default function SideBar() {
     <div className='flex flex-[2] flex-col rounded-l-lg bg-[#ebebeb]'>
       {/* top */}
       <div className='flex flex-[1.2] items-center justify-center'>
-        <Image src={`/ripeseed.png`} alt='' width={100} height={100} />
+        <Image src={`/logo/logo.svg`} alt='' width={100} height={100} />
       </div>
       <Separator />
       {/* center */}
       <div className='flex-[7.5] px-2 pt-3'>
-        <div className='flex items-center space-x-1 rounded bg-gray-300 pl-1'>
-          <MessageSquare style={{ fontSize: '5px' }} />
+        <div className='flex items-center space-x-1 rounded bg-gray-300 p-1'>
+          <Image
+            src={`/assets/preview/Chat Add.svg`}
+            alt=''
+            width={15}
+            height={15}
+          />
           <span className='text-[8px]'>Ask Ripeseed</span>
         </div>
       </div>
@@ -23,16 +27,31 @@ export default function SideBar() {
       <div className='flex flex-[3] flex-col justify-center space-y-2 pl-2'>
         <div className='flex items-center space-x-1 text-xs'>
           <div className='text-sm'>
-            <BriefcaseBusiness />
+            <Image
+              src={`/assets/preview/Our Work.svg`}
+              alt=''
+              width={15}
+              height={15}
+            />
           </div>
           <span className='text-gray-600'>Our Work</span>
         </div>
         <div className='flex items-center space-x-1 text-xs'>
-          <User style={{ fontSize: '5px' }} />
+          <Image
+            src={`/assets/preview/Our Team.svg`}
+            alt=''
+            width={15}
+            height={15}
+          />
           <span className='text-gray-600'>Our Team</span>
         </div>
         <div className='flex items-center space-x-1 text-xs'>
-          <Headset />
+          <Image
+            src={`/assets/preview/Contact.svg`}
+            alt=''
+            width={15}
+            height={15}
+          />
           <span className='text-gray-600'>Contact Us</span>
         </div>
       </div>

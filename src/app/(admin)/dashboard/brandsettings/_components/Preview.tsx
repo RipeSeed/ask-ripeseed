@@ -2,25 +2,37 @@ import React from 'react'
 import Image from 'next/image'
 
 import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import MainPreview from './MainPreview/MainPreview'
 
 export default function Preview() {
   return (
-    <div className='flex h-full w-full flex-col space-y-3 px-2 py-4'>
+    <div className='flex h-full w-full flex-col space-y-3 px-6 py-4'>
       {/* top section of the preview */}
       <div className='flex flex-[1] justify-between'>
         <div className='flex flex-col'>
           <span className='text-lg'>Preview</span>
-          <span className='text-sm text-gray-400'>
+          <span className='text-dashboardSecondaryText text-sm font-extralight'>
             Below is the preview against the changes done from different
             channels
           </span>
         </div>
-        <select className='cursor-pointer rounded-lg border-2 border-solid border-gray-200 p-1 outline-none'>
-          <option value=''>Version 1.0</option>
-          <option value=''>Version 2.0</option>
-          <option value=''>Version 3.0</option>
-        </select>
+        <Select>
+          <SelectTrigger className='w-[180px]'>
+            <SelectValue placeholder='Theme' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value='light'>Light</SelectItem>
+            <SelectItem value='dark'>Dark</SelectItem>
+            <SelectItem value='system'>System</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       {/* center of the preview */}
       <div className='flex-[8.5]'>
@@ -29,7 +41,7 @@ export default function Preview() {
       </div>
       {/* bottom of the preview */}
       <div className='flex flex-[1.5] items-center justify-between'>
-        <div className='flex cursor-pointer items-center justify-center space-x-2 rounded-lg border-2 border-solid border-gray-200 p-2 text-gray-400'>
+        <Button className='text-dashboardSecondaryText border-dashboardBorder flex cursor-pointer items-center justify-center space-x-2 rounded-lg border-[2px] border-solid bg-transparent shadow-none'>
           <Image
             src={`/assets/brandSettings/refresh.svg`}
             alt=''
@@ -37,10 +49,14 @@ export default function Preview() {
             height={20}
           />
           <span>Undo action</span>
-        </div>
-        <div className='backdrop: flex space-x-2'>
-          <Button className='bg-transparent text-black'>Cancel</Button>
-          <Button className='bg-black text-white'>Save this version</Button>
+        </Button>
+        <div className='flex space-x-2'>
+          <Button className='border-[2px] bg-transparent text-black shadow-none'>
+            Cancel
+          </Button>
+          <Button className='text-dashboardSecondary bg-black'>
+            Save this version
+          </Button>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import { SendHorizonal, Settings } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -51,7 +52,12 @@ export default function ChatSection() {
             Ask Anything
           </Button>
         </div>
-        <Settings />
+        <Image
+          src={`/assets/preview/Settings.svg`}
+          alt=''
+          width={15}
+          height={15}
+        />{' '}
       </div>
       <Separator />
       {/* Messages Chat Section */}
