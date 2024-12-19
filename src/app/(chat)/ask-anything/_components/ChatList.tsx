@@ -11,8 +11,8 @@ import {
   clearMessagesByChat,
   deleteChat,
   getAllChats,
-} from '@/app/_lib/db'
-import useStore from '@/app/_utils/store/store'
+} from '@/app/(chat)/_lib/db'
+import useStore from '@/app/(chat)/_utils/store/store'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Dialog,
@@ -107,8 +107,7 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
       <Button
         className={cn(
           buttonVariants({ variant: 'default', size: 'lg' }),
-          `shrink bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#ECECEC] ${
-            variant && 'bg-[#ECECEC] text-primary'
+          `shrink bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#ECECEC] ${variant && 'bg-[#ECECEC] text-primary'
           }`,
         )}
         onClick={() => handleSelectedChatChange(chat)}

@@ -1,41 +1,48 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { createId } from '@paralleldrive/cuid2'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 
 import {
-  addMessage,
-  appendMessageContent,
-  getAllMessagesByChat,
-  getChat,
+  addMessage_aRS,
+  appendMessageContent_aRS,
+  AskRSMessage,
+  getAllMessages_aRS,
   Message,
-} from '@/app/_lib/db'
-import useStore from '@/app/_utils/store/store'
+} from '@/app/(chat)/_lib/db'
+import { ChatMessageInput } from '@/app/(chat)/ask-anything/[chatId]/_components/ChatMessageInput'
+import { MessageContainer } from '@/app/(chat)/ask-anything/[chatId]/_components/MessageContainer'
+import {
+  Cardset,
+  WelcomeCards,
+} from '@/app/(chat)/ask-anything/[chatId]/_components/WelcomeCards'
 import Loading from '@/app/loading'
-import { sendMessage as apiSendMessage } from '@/dal/message'
-import { ChatMessageInput } from './ChatMessageInput'
-import { MessageContainer } from './MessageContainer'
-import { Cardset, WelcomeCards } from './WelcomeCards'
+import { askRS_sendMessage as apiSendMessage } from '@/dal/message'
+import useStore from '../_utils/store/store'
 
 const cards: Cardset = {
-  top: "What are Ḥasan Ibn al-Haytham's contributions?",
-  bottomLeft: 'Tell me a fun fact.',
-  bottomRight: 'Explain Algebra.',
+  top: 'Can you tell me about some of your projects?',
+  bottomLeft: 'What is RipeSeed known for?',
+  bottomRight: 'Do you guys work on AI?',
 }
 
 export function ChatMessages() {
-  const pathname = usePathname()
-  const selectedChatId = useMemo(() => {
-    const id = Number(pathname.split('/')[2])
-    return isNaN(id) ? 0 : id
-  }, [pathname])
+  const [uId, setUId] = useState<string>('')
   const messagesContainerRef = useRef<HTMLDivElement>(null)
-  const [messages, setMessages] = useState<Message[]>([])
-  const router = useRouter()
-  const { stateMetadata, updateStateMetadata, resetStateMetadata } = useStore()
+  const [messages, setMessages] = useState<AskRSMessage[]>([])
+  const {
+    clearChat,
+    stateMetadata,
+    setClearChat,
+    updateStateMetadata,
+    resetStateMetadata,
+    addedAskRSmsg,
+  } = useStore()
+
+  const queryClient = useQueryClient()
   const [waitingForStream, setWaitingForStream] = useState(false)
 
   // to handle chunks sequentially, we are using a queue
@@ -48,7 +55,7 @@ export function ChatMessages() {
     processingChunk.current = true
     const chunkBody = chunkQueue.current.shift()
     if (chunkBody) {
-      await appendMessageContent(chunkBody.id, selectedChatId, chunkBody.chunk)
+      await appendMessageContent_aRS(chunkBody.id, chunkBody.chunk)
       processingChunk.current = false
     }
     processNextChunk()
@@ -88,38 +95,44 @@ export function ChatMessages() {
     },
   })
 
-  const { data: messagesRes, isLoading } = useQuery({
-    queryKey: ['messages', selectedChatId],
+  const { data: messagesRes, isPending: isLoading } = useQuery({
+    queryKey: ['messages', 'askRS'],
     queryFn: async () => {
-      const chatId = selectedChatId
-      if (isNaN(chatId)) return []
+      if (!uId) return []
 
-      const result = await getAllMessagesByChat({
-        chatId,
-      })
-      return result
+      return await getAllMessages_aRS()
     },
-    enabled: !isNaN(selectedChatId) && selectedChatId > 0,
+    enabled: !!uId,
+    staleTime: 0,
   })
 
   useEffect(() => {
-    ;(async () => {
-      if (selectedChatId) {
-        const chatData = await getChat({ id: selectedChatId })
-        if (!chatData) {
-          router.push('/ask-anything')
-          return
-        }
-      }
-    })()
-  }, [selectedChatId])
+    if (messages.length) {
+      scrollToBottom()
+    }
+  }, [messages])
+
+  useEffect(() => {
+    if (clearChat) {
+      setMessages([])
+      setClearChat(false)
+    }
+    queryClient.invalidateQueries({ queryKey: ['messages', 'askRS'] })
+  }, [clearChat])
+
+  useEffect(() => {
+    if (messagesRes?.length) {
+      setMessages(messagesRes)
+    }
+  }, [messagesRes])
+
+  useEffect(() => {
+    setUId(getUId())
+  }, [])
 
   useEffect(() => {
     const sendStateMessage = async () => {
-      if (
-        stateMetadata.chatId === selectedChatId ||
-        stateMetadata.chatId === 0
-      ) {
+      if (stateMetadata.chatId === -1) {
         if (stateMetadata.message.length && !stateMetadata.inProgress) {
           updateStateMetadata({ inProgress: true })
           await sendMessage()
@@ -132,18 +145,6 @@ export function ChatMessages() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateMetadata])
 
-  useEffect(() => {
-    if (messages.length) {
-      scrollToBottom()
-    }
-  }, [messages])
-
-  useEffect(() => {
-    if (messagesRes?.length) {
-      setMessages(messagesRes)
-    }
-  }, [messagesRes])
-
   const scrollToBottom = () => {
     setTimeout(() => {
       if (messagesContainerRef.current) {
@@ -153,23 +154,21 @@ export function ChatMessages() {
     }, 0)
   }
 
-  const sendMessage = async () => {
-    const newMessage = stateMetadata?.message.trim()
-    if (!newMessage || isPending || selectedChatId === null) {
-      return false
+  function getUId() {
+    // get uId from local storage, if it does not exist create one
+    let uId = localStorage.getItem('uId')
+    if (!uId) {
+      const _uId = createId()
+      uId = _uId
+      localStorage.setItem('uId', _uId)
     }
-    const apiKey = localStorage.getItem('openai:key')
-    if (!apiKey?.length) {
-      toast.info(
-        'Need OpenAI key. You can enter your key from gear icon - top-right',
-        {
-          style: {
-            background: '#13A682',
-            color: '#fff',
-          },
-          closeButton: false,
-        },
-      )
+    return uId
+  }
+
+  const sendMessage = async () => {
+    addedAskRSmsg()
+    const newMessage = stateMetadata?.message.trim()
+    if (!newMessage.trim() || isPending || stateMetadata.chatId !== -1) {
       return false
     }
 
@@ -177,73 +176,56 @@ export function ChatMessages() {
     const tmpMessage: Message = {
       content: newMessage,
       role: 'user',
-      chatId: selectedChatId,
+      chatId: 1,
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
     }
 
-    const indexId = (await getChat({ id: selectedChatId }))?.indexId
-
     setMessages((prev) => [...prev, tmpMessage])
-    scrollToBottom()
-
-    await addMessage({
-      chatId: selectedChatId,
-      content: newMessage,
-      role: 'user',
+    await addMessage_aRS({
+      content: tmpMessage.content,
+      role: tmpMessage.role,
     })
+    scrollToBottom()
 
     const chatbotMessage: Message = {
       content: '',
       role: 'assistant',
-      chatId: selectedChatId,
+      chatId: 1,
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
     }
     setMessages((prev) => [...prev, chatbotMessage])
-
-    // -1 so that it always creates a new message for the first time
-    const _id = await appendMessageContent(
-      -1,
-      selectedChatId,
-      chatbotMessage.content,
-    )
+    const _id = await appendMessageContent_aRS(-1, chatbotMessage.content)
 
     await sendMessageMutation({
       message: tmpMessage,
-      apiKey,
-      indexId,
+      uId,
       _id,
       onChunkReceived: handleChunkReceived,
-      chatId: selectedChatId,
     })
     return true
   }
 
   if (isLoading) {
-    return (
-      <div className='flex items-center'>
-        <Loading />
-      </div>
-    )
+    return <Loading />
   }
 
   return (
-    <div className='flex h-[calc(100svh-57px-85px)] w-full flex-col overflow-x-hidden md:h-[calc(100svh-93px-85px)]'>
-      {/* cards div */}
+    <div className='flex h-[calc(100svh-57px)] w-full flex-col overflow-y-auto overflow-x-hidden md:h-[calc(100svh-93px)]'>
       <div
         ref={messagesContainerRef}
-        className={`flex w-full flex-auto ${!messages.length ? 'justify-center' : ''} flex-col overflow-y-auto overflow-x-hidden md:h-[80%]`}
+        className={`flex w-full flex-auto flex-col ${!messages.length ? 'justify-center' : 'none'} grow overflow-y-auto overflow-x-hidden md:h-[85%]`}
       >
         <AnimatePresence>
           {!messages.length ? (
-            <WelcomeCards cards={cards} />
+            <WelcomeCards cards={cards} hideSetupKey={true} />
           ) : (
             <>
               {messages.map(
                 (message, i) =>
                   message.content && (
-                    <MessageContainer message={message} key={i} />
+                    <MessageContainer message={message as Message} key={i} />
                   ),
               )}
               {waitingForStream && (
@@ -252,7 +234,7 @@ export function ChatMessages() {
                   message={{
                     content: '',
                     role: 'assistant',
-                    chatId: selectedChatId,
+                    chatId: 1,
                     createdAt: new Date().toString(),
                     updatedAt: new Date().toString(),
                   }}
@@ -262,7 +244,7 @@ export function ChatMessages() {
           )}
         </AnimatePresence>
       </div>
-      <div className='w-full px-4 pb-4 md:px-20'>
+      <div className='w-full px-4 pb-4 lg:px-20'>
         <ChatMessageInput />
       </div>
     </div>

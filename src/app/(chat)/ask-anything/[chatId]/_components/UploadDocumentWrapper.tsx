@@ -4,10 +4,10 @@ import React, { useState } from 'react'
 import { Tooltip } from '@nextui-org/tooltip'
 import { FileBarChart2, Paperclip } from 'lucide-react'
 
+import { Chat } from '@/app/(chat)/_lib/db'
+import { truncateString } from '@/app/(chat)/_utils'
 import { Button } from '@/components/ui/button'
-import { Chat } from '../../../../app/_lib/db'
-import { truncateString } from '../../../../app/_utils'
-import { Badge } from '../../../../components/ui/badge'
+import { Badge } from '../../../../../components/ui/badge'
 import { UploadDocument } from './UploadDocument'
 
 const UploadDocumentWrapper = ({

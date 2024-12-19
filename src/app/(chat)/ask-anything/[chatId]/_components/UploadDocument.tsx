@@ -4,8 +4,8 @@ import { useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
-import { addChat, getAllChats, getChat, updateChat } from '@/app/_lib/db'
-import useStore from '@/app/_utils/store/store'
+import { addChat, getAllChats, getChat, updateChat } from '@/app/(chat)/_lib/db'
+import useStore from '@/app/(chat)/_utils/store/store'
 import {
   AlertDialog,
   AlertDialogCancel,
