@@ -30,7 +30,7 @@ export default function Auth() {
   return (
     <div className='flex flex-[1] flex-col'>
       <div className='flex flex-[1] items-center justify-center text-2xl font-medium'>
-        <h1>Setup your admin account</h1>
+        <h1 className='text-2xl font-semibold'>Setup your admin account</h1>
       </div>
       <Separator />
       <div className='m-auto w-[70%] flex-[4] pt-16'>
@@ -43,7 +43,9 @@ export default function Auth() {
                 name='username'
                 render={({ field }) => (
                   <FormItem className='w-1/2'>
-                    <FormLabel className='font-light'>First Name</FormLabel>
+                    <FormLabel className='text-sm font-medium'>
+                      First Name
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder='Type here...' {...field} />
                     </FormControl>
@@ -57,7 +59,9 @@ export default function Auth() {
                 name='username'
                 render={({ field }) => (
                   <FormItem className='w-1/2'>
-                    <FormLabel className='font-light'>Last Name</FormLabel>
+                    <FormLabel className='text-sm font-medium'>
+                      Last Name
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder='Type here...' {...field} />
                     </FormControl>
@@ -72,7 +76,7 @@ export default function Auth() {
               name='username'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='font-light'>Email</FormLabel>
+                  <FormLabel className='text-sm font-medium'>Email</FormLabel>
                   <FormControl>
                     <Input placeholder='Type here...' {...field} />
                   </FormControl>
@@ -86,7 +90,9 @@ export default function Auth() {
               name='username'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='font-light'>Set Password</FormLabel>
+                  <FormLabel className='text-sm font-medium'>
+                    Set Password
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder='Type new password here...' {...field} />
                   </FormControl>
@@ -99,7 +105,9 @@ export default function Auth() {
               name='username'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='font-light'>Confirm Password</FormLabel>
+                  <FormLabel className='text-sm font-medium'>
+                    Confirm Password
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Re-type new password here...'

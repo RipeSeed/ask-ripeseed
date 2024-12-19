@@ -30,8 +30,8 @@ export default function Token() {
   return (
     <div className='flex flex-[1] flex-col'>
       <div className='flex flex-[2.5] flex-col items-center justify-center space-y-2'>
-        <h1 className='text-2xl font-medium'>Enter Your OpenAI Token</h1>
-        <p className='text-lg font-light'>
+        <h1 className='text-2xl font-semibold'>Enter Your OpenAI Token</h1>
+        <p className='text-base font-light'>
           This will allow you to make knowledge base related settings
         </p>
       </div>
@@ -44,7 +44,9 @@ export default function Token() {
               name='username'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>OpenAI Token</FormLabel>
+                  <FormLabel className='text-base font-medium'>
+                    OpenAI Token
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder='paste link here' {...field} />
                   </FormControl>
@@ -63,7 +65,10 @@ export default function Token() {
               >
                 Skip
               </Button>
-              <Button type='submit' className='w-1/2 bg-black text-white'>
+              <Button
+                type='submit'
+                className='bg-dashboardBtn w-1/2 text-white'
+              >
                 Continue
               </Button>
             </div>
