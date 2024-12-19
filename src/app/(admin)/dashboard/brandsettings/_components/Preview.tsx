@@ -18,7 +18,7 @@ export default function Preview() {
       <div className='flex flex-[1] justify-between'>
         <div className='flex flex-col'>
           <span className='text-lg'>Preview</span>
-          <span className='text-sm text-gray-400'>
+          <span className='text-dashboardSecondaryText text-sm font-extralight'>
             Below is the preview against the changes done from different
             channels
           </span>
@@ -41,7 +41,7 @@ export default function Preview() {
       </div>
       {/* bottom of the preview */}
       <div className='flex flex-[1.5] items-center justify-between'>
-        <Button className='flex cursor-pointer items-center justify-center space-x-2 rounded-lg border-[2px] border-solid border-gray-200 bg-transparent text-gray-400 shadow-none'>
+        <Button className='text-dashboardSecondaryText border-dashboardBorder flex cursor-pointer items-center justify-center space-x-2 rounded-lg border-[2px] border-solid bg-transparent shadow-none'>
           <Image
             src={`/assets/brandSettings/refresh.svg`}
             alt=''
@@ -54,7 +54,9 @@ export default function Preview() {
           <Button className='border-[2px] bg-transparent text-black shadow-none'>
             Cancel
           </Button>
-          <Button className='bg-black text-white'>Save this version</Button>
+          <Button className='text-dashboardSecondary bg-black'>
+            Save this version
+          </Button>
         </div>
       </div>
     </div>

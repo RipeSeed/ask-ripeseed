@@ -31,24 +31,6 @@ const dummyData = [
     chunks: 15,
     embeddings: 15,
   },
-  //   {
-  //     id: '86062296-f981-4848-811e-aaaa',
-  //     name: 'Main-DEF-Report.pdf',
-  //     chunks: 18,
-  //     embeddings: 18,
-  //   },
-  //   {
-  //     id: '86062296-f981-4848-811e-bbbb',
-  //     name: 'Main-GHI-Report.pdf',
-  //     chunks: 22,
-  //     embeddings: 22,
-  //   },
-  //   {
-  //     id: '86062296-f981-4848-811e-cccc',
-  //     name: 'Main-JKL-Report.pdf',
-  //     chunks: 25,
-  //     embeddings: 25,
-  //   },
 ]
 
 export default function DocumentDataTable() {
@@ -73,7 +55,7 @@ export default function DocumentDataTable() {
 
   return (
     // This table is associated with KnowledgeBase Documents
-    <div className='mt-2 h-full rounded-md border border-gray-200 shadow-sm'>
+    <div className='border-dashboardBorder mt-2 h-full rounded-md border shadow-sm'>
       <Table>
         <TableHeader>
           <TableRow>
@@ -92,7 +74,7 @@ export default function DocumentDataTable() {
               <TableCell className='text-center'>{file.chunks}</TableCell>
               <TableCell className='text-center'>{file.embeddings}</TableCell>
               <TableCell className='text-center'>
-                <button className='text-red-500 hover:text-red-700'>
+                <button className='text-dashboardPreviewText hover:text-red-700'>
                   <Trash size={16} />
                 </button>
               </TableCell>

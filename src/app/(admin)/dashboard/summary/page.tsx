@@ -16,11 +16,11 @@ export default function Summary() {
   return (
     <div className='mx-auto h-full w-[95%]'>
       {/* buttons of the page */}
-      <div className='flex h-[15%] items-center justify-between'>
-        <h1 className='text-3xl'>Summary</h1>
+      <div className='flex h-[10%] items-center justify-between'>
+        <h1 className='text-3xl font-medium'>Summary</h1>
       </div>
       {/* bottom section of the page */}
-      <div className='flex h-[85%] w-full rounded-lg'>
+      <div className='flex h-[85%] w-full space-x-3 rounded-lg'>
         <div className='flex flex-[7] flex-col'>
           {/* top component of the bottomLeft */}
           <div className='flex flex-[3] items-center justify-between space-x-5 px-2'>
@@ -99,7 +99,7 @@ export default function Summary() {
           </div>
           {/* center component of the bottom Left */}
           <div className='mt-2 flex-[5] space-y-3'>
-            <span className='text-lg font-semibold'>Total Users</span>
+            <span className='text-lg font-semibold'>Total customers</span>
             <Separator />
             <div className='h-[80%]'>
               <Chart />
@@ -163,7 +163,7 @@ export default function Summary() {
               </span>
             </div>
             <div className='flex items-center justify-between'>
-              <div className='flex w-1/2 space-x-2 rounded-l-lg border-r-2 border-solid border-gray-200 bg-white px-6 py-2'>
+              <div className='border-dashboardBorder bg-dashboardSecondary flex w-1/2 space-x-2 rounded-l-lg border-r-2 border-solid px-6 py-2'>
                 <Image
                   src={`/assets/summary/m4.svg`}
                   alt=''
@@ -175,7 +175,7 @@ export default function Summary() {
                   <span className='text-sm font-light'>Web</span>
                 </div>
               </div>
-              <div className='flex w-1/2 space-x-2 rounded-r-lg bg-white px-6 py-2'>
+              <div className='bg-dashboardSecondary flex w-1/2 space-x-2 rounded-r-lg px-6 py-2'>
                 <Image
                   src={`/assets/summary/m5.svg`}
                   alt=''
@@ -189,7 +189,7 @@ export default function Summary() {
               </div>
             </div>
           </div>
-          <div className='flex flex-[4] flex-col rounded-lg bg-white px-3 pt-3'>
+          <div className='bg-dashboardSecondary flex flex-[4] flex-col rounded-lg px-3 pt-3'>
             {/* topRightBottom */}
             <div className='flex flex-[1] items-center justify-between'>
               <span className='text-base'>New Users</span>
@@ -210,7 +210,7 @@ export default function Summary() {
             </div>
             {/* bottomRightBottom */}
             <div className='flex flex-[2] items-center justify-center'>
-              <div className='flex items-center justify-between rounded-lg bg-gray-100'>
+              <div className='bg-dashboardPrimary flex w-[95%] items-center justify-between rounded-lg'>
                 <div className='flex w-1/2 space-x-2 rounded-l-lg border-r-2 border-solid border-gray-200 px-6 py-2'>
                   <Image
                     src={`/assets/summary/m4.svg`}

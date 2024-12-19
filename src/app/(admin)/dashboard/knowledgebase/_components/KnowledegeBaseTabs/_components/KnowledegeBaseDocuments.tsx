@@ -10,7 +10,7 @@ export default function KnowledegeBaseDocuments() {
       {/* document upload button section */}
       <div className='flex flex-[1] items-center justify-between py-4'>
         <div className='flex flex-col space-y-1'>
-          <span className='text-lg'>Documents</span>
+          <span className='text-lg font-medium'>Documents</span>
           <span className='text-sm font-light'>
             Your PDFs that will be searched and update the knowledege base
           </span>
@@ -30,8 +30,10 @@ export default function KnowledegeBaseDocuments() {
         <DocuementDataTable />
       </div>
       {/* Save Button Section */}
-      <div className='mt-2 flex w-full flex-[1] items-center justify-end'>
-        <Button className='bg-black text-white'>Save changes</Button>
+      <div className='my-4 flex w-full flex-[1] items-center justify-end'>
+        <Button className='text-dashboardSecondary bg-black'>
+          Save changes
+        </Button>
       </div>
     </div>
   )

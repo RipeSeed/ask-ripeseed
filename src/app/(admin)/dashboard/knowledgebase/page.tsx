@@ -10,9 +10,9 @@ export default function KnowledgeBase() {
   return (
     <div className='mx-auto h-full w-[95%]'>
       {/* buttons of the page */}
-      <div className='flex h-[15%] items-center justify-between'>
-        <h1 className='text-3xl'>Knowledge Base Settings</h1>
-        <Button className='flex items-center justify-center space-x-1 bg-[#EBEBEB] text-sm text-black'>
+      <div className='flex h-[10%] items-center justify-between'>
+        <h1 className='text-3xl font-medium'>Knowledge Base Settings</h1>
+        <Button className='flex items-center justify-center space-x-1 bg-[#EAEAEA] text-sm text-black'>
           <Image
             src={`/assets/brandSettings/global.svg`}
             width={20}
@@ -24,7 +24,7 @@ export default function KnowledgeBase() {
       </div>
       {/* bottom section of the page */}
       <div className='flex h-[85%] rounded-lg'>
-        <div className='flex h-full w-full flex-col rounded-lg bg-white'>
+        <div className='bg-dashboardSecondary flex h-full w-full flex-col rounded-lg'>
           {/* top section where we update the token and bot name */}
           <div className='flex flex-[2] items-center justify-between space-x-2 px-4'>
             <div className='flex flex-[2] flex-col space-y-2'>
@@ -33,7 +33,7 @@ export default function KnowledgeBase() {
                 type='text'
                 name=''
                 id=''
-                className='rounded border-2 border-solid border-gray-200 p-1 outline-none'
+                className='border-dashboardBorder rounded-lg border-2 border-solid p-1 outline-none'
                 placeholder='Paster link here...'
               />
             </div>
@@ -44,11 +44,13 @@ export default function KnowledgeBase() {
                 name=''
                 id=''
                 placeholder='Enter bot name'
-                className='rounded border-2 border-solid border-gray-200 p-1 outline-none'
+                className='border-dashboardBorder rounded-lg border-2 border-solid p-1 outline-none'
               />
             </div>
             <div className='mt-5 flex flex-[.2] items-center justify-center'>
-              <Button className='bg-gray-400 p-3 text-white'>Update</Button>
+              <Button className='text-dashboardSecondary bg-gray-500 p-3'>
+                Update
+              </Button>
             </div>
           </div>
           <Separator />
