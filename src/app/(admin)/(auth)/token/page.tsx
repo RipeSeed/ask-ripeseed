@@ -28,17 +28,15 @@ export default function Token() {
   function onSubmit(values: z.infer<typeof formSchema>) {}
 
   return (
-    <div className='left flex flex-[1] flex-col'>
-      <div className='leftTop flex flex-[2.5] flex-col items-center justify-center space-y-2'>
-        <h1 className='heading text-2xl font-medium'>
-          Enter Your OpenAI Token
-        </h1>
-        <p className='description text-lg font-light'>
+    <div className='flex flex-[1] flex-col'>
+      <div className='flex flex-[2.5] flex-col items-center justify-center space-y-2'>
+        <h1 className='text-2xl font-semibold'>Enter Your OpenAI Token</h1>
+        <p className='text-base font-light'>
           This will allow you to make knowledge base related settings
         </p>
       </div>
       <Separator />
-      <div className='leftBottom m-auto w-[60%] flex-[5] pt-16'>
+      <div className='m-auto w-[60%] flex-[5] pt-16'>
         <Form {...form}>
           <form className='space-y-8'>
             <FormField
@@ -46,32 +44,37 @@ export default function Token() {
               name='username'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>OpenAI Token</FormLabel>
+                  <FormLabel className='text-base font-medium'>
+                    OpenAI Token
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder='paste link here' {...field} />
                   </FormControl>
                   <FormDescription>
-                    Don't know where to generate the token?{' '}
+                    Don&apos;t know where to generate the token?{' '}
                     <span className='cursor-pointer font-bold'>Click here</span>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className='btns flex items-center justify-between space-x-3'>
+            <div className='flex items-center justify-between space-x-3'>
               <Button
                 type='submit'
                 className='border-1 w-1/2 border-solid border-black bg-transparent text-black'
               >
                 Skip
               </Button>
-              <Button type='submit' className='w-1/2 bg-black text-white'>
+              <Button
+                type='submit'
+                className='w-1/2 bg-dashboardBtn text-white'
+              >
                 Continue
               </Button>
             </div>
-            <FormDescription className='text-[14px] font-light'>
-              You skip for now and can enter the link later by accessing it in
-              knowledege base panel
+            <FormDescription className='text-base font-light'>
+              You can skip for now and enter the link later by accessing it in
+              the knowledge base panel
             </FormDescription>
           </form>
         </Form>

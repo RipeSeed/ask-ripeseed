@@ -8,11 +8,11 @@ import KnowledegeBaseTabs from './_components/KnowledegeBaseTabs/KnowledegeBaseT
 
 export default function KnowledgeBase() {
   return (
-    <div className='brand mx-auto h-full w-[95%]'>
+    <div className='mx-auto h-full w-[95%]'>
       {/* buttons of the page */}
-      <div className='top flex h-[15%] items-center justify-between'>
-        <h1 className='heading text-3xl'>Knowledge Base Settings</h1>
-        <Button className='flex items-center justify-center space-x-1 bg-[#EBEBEB] text-sm text-black'>
+      <div className='flex h-[10%] items-center justify-between'>
+        <h1 className='text-3xl font-medium'>Knowledge Base Settings</h1>
+        <Button className='flex items-center justify-center space-x-1 bg-[#EAEAEA] text-sm text-black'>
           <Image
             src={`/assets/brandSettings/global.svg`}
             width={20}
@@ -23,32 +23,34 @@ export default function KnowledgeBase() {
         </Button>
       </div>
       {/* bottom section of the page */}
-      <div className='main flex h-[85%] rounded-lg'>
-        <div className='flex h-full w-full flex-col rounded-lg bg-white'>
+      <div className='flex h-[85%] rounded-lg'>
+        <div className='flex h-full w-full flex-col rounded-lg bg-dashboardSecondary'>
           {/* top section where we update the token and bot name */}
-          <div className='topKnowledge flex flex-[2] items-center justify-between space-x-2 px-4'>
-            <div className='formItem flex flex-[2] flex-col space-y-2'>
+          <div className='flex flex-[2] items-center justify-between space-x-2 px-4'>
+            <div className='flex flex-[2] flex-col space-y-2'>
               <Label>OpenAI token</Label>
               <input
                 type='text'
                 name=''
                 id=''
-                className='rounded border-2 border-solid border-gray-200 p-1 outline-none'
+                className='h-9 rounded-lg border-2 border-solid border-dashboardBorder p-1 text-sm outline-none'
                 placeholder='Paster link here...'
               />
             </div>
-            <div className='formItem flex flex-[2] flex-col space-y-2'>
+            <div className='flex flex-[2] flex-col space-y-2'>
               <Label>Bot Name</Label>
               <input
                 type='text'
                 name=''
                 id=''
                 placeholder='Enter bot name'
-                className='rounded border-2 border-solid border-gray-200 p-1 outline-none'
+                className='h-9 rounded-lg border-2 border-solid border-dashboardBorder p-1 text-sm outline-none'
               />
             </div>
-            <div className='button mt-5 flex flex-[.2] items-center justify-center'>
-              <Button className='bg-gray-400 p-3 text-white'>Update</Button>
+            <div className='mt-5 flex flex-[.2] items-center justify-center'>
+              <Button className='h-9 w-20 bg-gray-500 p-1 text-dashboardSecondary'>
+                Update
+              </Button>
             </div>
           </div>
           <Separator />

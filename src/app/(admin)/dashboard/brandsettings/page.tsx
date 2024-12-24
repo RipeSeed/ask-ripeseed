@@ -7,11 +7,11 @@ import Preview from './_components/Preview'
 
 export default function BrandSettings() {
   return (
-    <div className='brand mx-auto h-full w-[95%]'>
+    <div className='mx-auto h-full w-[95%]'>
       {/* buttons of the page */}
-      <div className='top flex h-[15%] items-center justify-between'>
-        <h1 className='heading text-3xl'>Brand Settings</h1>
-        <Button className='flex items-center justify-center space-x-1 bg-[#EBEBEB] text-sm text-black'>
+      <div className='flex h-[10%] items-center justify-between'>
+        <h1 className='text-3xl font-medium'>Brand Settings</h1>
+        <Button className='flex items-center justify-center space-x-1 bg-[#EAEAEA] text-sm text-black'>
           <Image
             src={`/assets/brandSettings/global.svg`}
             width={20}
@@ -22,12 +22,12 @@ export default function BrandSettings() {
         </Button>
       </div>
       {/* bottom section of the page */}
-      <div className='main flex h-[85%] rounded-lg'>
+      <div className='flex h-[85%] rounded-lg'>
         {/* left section */}
-        <div className='left flex flex-[1] flex-col rounded-l-lg border-r-2 border-solid border-gray-100 bg-white p-4'>
-          <div className='text flex-[1]'>
-            <h1 className='heading text-lg font-semibold'>Channels</h1>
-            <p className='text-sm font-light'>
+        <div className='flex flex-[1] flex-col rounded-l-lg border-r-2 border-solid border-dashboardBorder bg-dashboardSecondary p-4'>
+          <div className='flex-[1]'>
+            <h1 className='text-lg font-medium'>Channels</h1>
+            <p className='text-sm font-extralight text-dashboardSecondaryText'>
               The channels related to brand-able settings
             </p>
           </div>
@@ -36,7 +36,7 @@ export default function BrandSettings() {
           </div>
         </div>
         {/* right section */}
-        <div className='right flex-[2] rounded-r-lg bg-white'>
+        <div className='flex-[2] rounded-r-lg bg-dashboardSecondary'>
           <Preview />
         </div>
       </div>

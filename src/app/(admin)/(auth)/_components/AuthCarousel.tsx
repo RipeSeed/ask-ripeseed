@@ -20,7 +20,7 @@ export default function AuthCarousel() {
     Autoplay({ delay: 2000, stopOnInteraction: true }),
   )
   return (
-    <div className='carousel absolute bottom-0 right-0 h-[80%] w-[80%] overflow-hidden'>
+    <div className='absolute bottom-0 right-0 h-[80%] w-[80%] overflow-hidden'>
       <Carousel
         plugins={[plugin.current]}
         className='h-full w-full'

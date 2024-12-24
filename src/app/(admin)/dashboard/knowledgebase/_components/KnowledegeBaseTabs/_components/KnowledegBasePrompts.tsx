@@ -24,29 +24,33 @@ export default function KnowledegBasePrompts() {
   return (
     <div className='flex h-full w-full px-5'>
       {/* left side of the prompt component */}
-      <div className='left flex-[7] space-y-5 border-r-2 border-solid border-gray-200 px-2'>
-        <div className='text flex flex-col py-4'>
-          <span className='heading font-base text-lg'>Prompt Settings</span>
-          <span className='desc text-sm font-light'>
+      <div className='flex-[7] space-y-5 border-r-2 border-solid border-dashboardBorder px-2'>
+        <div className='flex flex-col py-4'>
+          <span className='text-lg font-medium'>Prompt Settings</span>
+          <span className='text-sm font-light text-gray-500'>
             Give prompts to your bot on how it should act with the user
           </span>
         </div>
-        <div className='textArea'>
+        <div>
           <Textarea placeholder='Type here.' rows={10} />
         </div>
-        <div className='saveBtn mt-5 flex items-center justify-end'>
-          <Button className='bg-black text-white'>Save changes</Button>
+        <div className='mt-5 flex items-center justify-end'>
+          <Button className='bg-black text-dashboardSecondary'>
+            Save changes
+          </Button>
         </div>
       </div>
       {/*------------------------ right side of the prompt component----------------------- */}
-      <div className='right flex flex-[3] flex-col space-y-3 p-5'>
+      <div className='flex flex-[3] flex-col space-y-3 p-5'>
         {/* text section of the right */}
-        <div className='text flex flex-col space-y-2'>
-          <span className='heading text-lg'>Presets</span>
-          <span className='desc text-sm'>Adjust your preferences here.</span>
+        <div className='flex flex-col space-y-2'>
+          <span className='text-lg font-medium'>Presets</span>
+          <span className='text-sm font-light'>
+            Adjust your preferences here.
+          </span>
         </div>
         {/* select box of the right */}
-        <div className='select'>
+        <div>
           <Select>
             <SelectTrigger className='w-full'>
               <SelectValue placeholder='Your Presets' />
@@ -60,13 +64,13 @@ export default function KnowledegBasePrompts() {
         </div>
 
         {/* sliders section of the right */}
-        <div className='configure flex flex-col space-y-2'>
-          <span className='heading text-sm'>Model Configuration</span>
+        <div className='flex flex-col space-y-2'>
+          <span className='text-sm font-medium'>Model Configuration</span>
           {/* slider Item temperature */}
-          <div className='slideItem flex flex-col space-y-3'>
-            <div className='sliderText flex justify-between'>
-              <span className='sliderValue text-sm'>Temperature</span>
-              <span className='sliderValue text-sm'> {sliderValues.topP}</span>
+          <div className='flex flex-col space-y-3'>
+            <div className='flex justify-between'>
+              <span className='text-sm'>Temperature</span>
+              <span className='text-sm'> {sliderValues.topP}</span>
             </div>
             <Slider
               defaultValue={[sliderValues.topP]}
@@ -81,13 +85,10 @@ export default function KnowledegBasePrompts() {
             />
           </div>
           {/* topP */}
-          <div className='slideItem flex flex-col space-y-3'>
-            <div className='sliderText flex justify-between'>
-              <span className='sliderValue text-sm'>Top P</span>
-              <span className='sliderValue text-sm'>
-                {' '}
-                {sliderValues.temperature}
-              </span>
+          <div className='flex flex-col space-y-3'>
+            <div className='flex justify-between'>
+              <span className='text-sm'>Top P</span>
+              <span className='text-sm'> {sliderValues.temperature}</span>
             </div>
             <Slider
               defaultValue={[sliderValues.temperature]}
@@ -102,13 +103,10 @@ export default function KnowledegBasePrompts() {
             />
           </div>
           {/* frequenceyPenalty */}
-          <div className='slideItem flex flex-col space-y-3'>
-            <div className='sliderText flex justify-between'>
-              <span className='sliderValue text-sm'>Frequencey Penalty</span>
-              <span className='sliderValue text-sm'>
-                {' '}
-                {sliderValues.frequenceyPenalty}
-              </span>
+          <div className='flex flex-col space-y-3'>
+            <div className='flex justify-between'>
+              <span className='text-sm'>Frequencey Penalty</span>
+              <span className='text-sm'> {sliderValues.frequenceyPenalty}</span>
             </div>
             <Slider
               defaultValue={[sliderValues.frequenceyPenalty]}
@@ -123,13 +121,10 @@ export default function KnowledegBasePrompts() {
             />
           </div>
           {/* pressurePenalty */}
-          <div className='slideItem flex flex-col space-y-3'>
-            <div className='sliderText flex justify-between'>
-              <span className='sliderValue text-sm'>Pressure Penalty</span>
-              <span className='sliderValue text-sm'>
-                {' '}
-                {sliderValues.pressurePenalty}
-              </span>
+          <div className='flex flex-col space-y-3'>
+            <div className='flex justify-between'>
+              <span className='text-sm'>Pressure Penalty</span>
+              <span className='text-sm'> {sliderValues.pressurePenalty}</span>
             </div>
             <Slider
               defaultValue={[sliderValues.pressurePenalty]}
@@ -145,7 +140,9 @@ export default function KnowledegBasePrompts() {
           </div>
         </div>
         {/* button which is located at the last of the right */}
-        <Button className='mt-2 bg-gray-100 text-black'>Save as preset</Button>
+        <Button className='mt-2 bg-dashboardBorder text-black'>
+          Save as preset
+        </Button>
       </div>
     </div>
   )
