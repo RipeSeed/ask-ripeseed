@@ -55,25 +55,31 @@ export default function DocumentDataTable() {
 
   return (
     // This table is associated with KnowledgeBase Documents
-    <div className='border-dashboardBorder mt-2 h-full rounded-md border shadow-sm'>
+    <div className='mt-2 h-full rounded-md border border-dashboardBorder shadow-sm'>
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead className='w-[25%]'>File ID</TableHead>
             <TableHead>Name</TableHead>
-            <TableHead className='text-center'>File Chunks</TableHead>
-            <TableHead className='text-center'>Embeddings</TableHead>
-            <TableHead className='text-center'>Actions</TableHead>
+            <TableHead className='text-left'>File Chunks</TableHead>
+            <TableHead className='text-left'>Embeddings</TableHead>
+            <TableHead className='text-left'>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {currentItems.map((file) => (
             <TableRow key={file.id}>
-              <TableCell className='truncate'>{file.id}</TableCell>
+              <TableCell className='truncate text-sm font-normal'>
+                {file.id}
+              </TableCell>
               <TableCell>{file.name}</TableCell>
-              <TableCell className='text-center'>{file.chunks}</TableCell>
-              <TableCell className='text-center'>{file.embeddings}</TableCell>
-              <TableCell className='text-center'>
+              <TableCell className='text-left text-sm font-normal'>
+                {file.chunks}
+              </TableCell>
+              <TableCell className='text-left text-sm font-normal'>
+                {file.embeddings}
+              </TableCell>
+              <TableCell className='text-left text-sm font-normal'>
                 <button className='text-dashboardPreviewText hover:text-red-700'>
                   <Trash size={16} />
                 </button>

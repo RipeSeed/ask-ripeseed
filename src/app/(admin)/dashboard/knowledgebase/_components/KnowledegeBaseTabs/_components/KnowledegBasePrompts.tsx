@@ -24,10 +24,10 @@ export default function KnowledegBasePrompts() {
   return (
     <div className='flex h-full w-full px-5'>
       {/* left side of the prompt component */}
-      <div className='border-dashboardBorder flex-[7] space-y-5 border-r-2 border-solid px-2'>
+      <div className='flex-[7] space-y-5 border-r-2 border-solid border-dashboardBorder px-2'>
         <div className='flex flex-col py-4'>
           <span className='text-lg font-medium'>Prompt Settings</span>
-          <span className='text-sm font-light'>
+          <span className='text-sm font-light text-gray-500'>
             Give prompts to your bot on how it should act with the user
           </span>
         </div>
@@ -35,7 +35,7 @@ export default function KnowledegBasePrompts() {
           <Textarea placeholder='Type here.' rows={10} />
         </div>
         <div className='mt-5 flex items-center justify-end'>
-          <Button className='text-dashboardSecondary bg-black'>
+          <Button className='bg-black text-dashboardSecondary'>
             Save changes
           </Button>
         </div>
@@ -140,7 +140,7 @@ export default function KnowledegBasePrompts() {
           </div>
         </div>
         {/* button which is located at the last of the right */}
-        <Button className='bg-dashboardBorder mt-2 text-black'>
+        <Button className='mt-2 bg-dashboardBorder text-black'>
           Save as preset
         </Button>
       </div>
