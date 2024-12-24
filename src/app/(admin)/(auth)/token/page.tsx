@@ -51,7 +51,7 @@ export default function Token() {
                     <Input placeholder='paste link here' {...field} />
                   </FormControl>
                   <FormDescription>
-                    Don't know where to generate the token?{' '}
+                    Don&apos;t know where to generate the token?{' '}
                     <span className='cursor-pointer font-bold'>Click here</span>
                   </FormDescription>
                   <FormMessage />
@@ -67,14 +67,14 @@ export default function Token() {
               </Button>
               <Button
                 type='submit'
-                className='bg-dashboardBtn w-1/2 text-white'
+                className='w-1/2 bg-dashboardBtn text-white'
               >
                 Continue
               </Button>
             </div>
             <FormDescription className='text-base font-light'>
-              You skip for now and can enter the link later by accessing it in
-              knowledege base panel
+              You can skip for now and enter the link later by accessing it in
+              the knowledge base panel
             </FormDescription>
           </form>
         </Form>
