@@ -132,13 +132,13 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       react:
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1
       react-color:
         specifier: ^2.19.3
         version: 2.19.3(react@18.3.1)
       react-dom:
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       react-hook-form:
         specifier: ^7.53.2
