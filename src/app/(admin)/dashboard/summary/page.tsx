@@ -163,7 +163,7 @@ export default function Summary() {
               </span>
             </div>
             <div className='flex items-center justify-between'>
-              <div className='border-dashboardBorder bg-dashboardSecondary flex w-1/2 space-x-2 rounded-l-lg border-r-2 border-solid px-6 py-2'>
+              <div className='flex w-1/2 space-x-2 rounded-l-lg border-r-2 border-solid border-dashboardBorder bg-dashboardSecondary px-6 py-2'>
                 <Image
                   src={`/assets/summary/m4.svg`}
                   alt=''
@@ -175,7 +175,7 @@ export default function Summary() {
                   <span className='text-sm font-light'>Web</span>
                 </div>
               </div>
-              <div className='bg-dashboardSecondary flex w-1/2 space-x-2 rounded-r-lg px-6 py-2'>
+              <div className='flex w-1/2 space-x-2 rounded-r-lg bg-dashboardSecondary px-6 py-2'>
                 <Image
                   src={`/assets/summary/m5.svg`}
                   alt=''
@@ -189,10 +189,10 @@ export default function Summary() {
               </div>
             </div>
           </div>
-          <div className='bg-dashboardSecondary flex flex-[4] flex-col rounded-lg px-3 pt-3'>
+          <div className='flex flex-[4] flex-col rounded-lg bg-dashboardSecondary px-3 pt-3'>
             {/* topRightBottom */}
             <div className='flex flex-[1] items-center justify-between'>
-              <span className='text-base'>New Users</span>
+              <span className='text-base font-medium'>New Users</span>
               <Select>
                 <SelectTrigger className='w-[180px]'>
                   <SelectValue placeholder='Theme' />
@@ -210,7 +210,7 @@ export default function Summary() {
             </div>
             {/* bottomRightBottom */}
             <div className='flex flex-[2] items-center justify-center'>
-              <div className='bg-dashboardPrimary flex w-[95%] items-center justify-between rounded-lg'>
+              <div className='flex w-[95%] items-center justify-between rounded-lg bg-dashboardPrimary'>
                 <div className='flex w-1/2 space-x-2 rounded-l-lg border-r-2 border-solid border-gray-200 px-6 py-2'>
                   <Image
                     src={`/assets/summary/m4.svg`}

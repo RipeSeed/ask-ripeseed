@@ -11,7 +11,7 @@ export default function KnowledegeBaseDocuments() {
       <div className='flex flex-[1] items-center justify-between py-4'>
         <div className='flex flex-col space-y-1'>
           <span className='text-lg font-medium'>Documents</span>
-          <span className='text-sm font-light'>
+          <span className='text-sm font-light text-gray-500'>
             Your PDFs that will be searched and update the knowledege base
           </span>
         </div>
@@ -31,7 +31,7 @@ export default function KnowledegeBaseDocuments() {
       </div>
       {/* Save Button Section */}
       <div className='my-4 flex w-full flex-[1] items-center justify-end'>
-        <Button className='text-dashboardSecondary bg-black'>
+        <Button className='bg-black text-dashboardSecondary'>
           Save changes
         </Button>
       </div>

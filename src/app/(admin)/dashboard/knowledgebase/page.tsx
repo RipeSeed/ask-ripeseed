@@ -24,7 +24,7 @@ export default function KnowledgeBase() {
       </div>
       {/* bottom section of the page */}
       <div className='flex h-[85%] rounded-lg'>
-        <div className='bg-dashboardSecondary flex h-full w-full flex-col rounded-lg'>
+        <div className='flex h-full w-full flex-col rounded-lg bg-dashboardSecondary'>
           {/* top section where we update the token and bot name */}
           <div className='flex flex-[2] items-center justify-between space-x-2 px-4'>
             <div className='flex flex-[2] flex-col space-y-2'>
@@ -33,7 +33,7 @@ export default function KnowledgeBase() {
                 type='text'
                 name=''
                 id=''
-                className='border-dashboardBorder rounded-lg border-2 border-solid p-1 outline-none'
+                className='h-9 rounded-lg border-2 border-solid border-dashboardBorder p-1 text-sm outline-none'
                 placeholder='Paster link here...'
               />
             </div>
@@ -44,11 +44,11 @@ export default function KnowledgeBase() {
                 name=''
                 id=''
                 placeholder='Enter bot name'
-                className='border-dashboardBorder rounded-lg border-2 border-solid p-1 outline-none'
+                className='h-9 rounded-lg border-2 border-solid border-dashboardBorder p-1 text-sm outline-none'
               />
             </div>
             <div className='mt-5 flex flex-[.2] items-center justify-center'>
-              <Button className='text-dashboardSecondary bg-gray-500 p-3'>
+              <Button className='h-9 w-20 bg-gray-500 p-1 text-dashboardSecondary'>
                 Update
               </Button>
             </div>
