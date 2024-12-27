@@ -10,11 +10,11 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel'
-import Image1 from '../../../../../public/image 123.svg'
-import Image2 from '../../../../../public/image 124.svg'
-import Image3 from '../../../../../public/image 126.svg'
+import AuthFirst from '../../../../../public/carousel-auth-first.svg'
+import AuthSecond from '../../../../../public/carousel-auth-second.svg'
+import AuthThird from '../../../../../public/carousel-auth-third.svg'
 
-const images = [Image1, Image2, Image3]
+const images = [AuthFirst, AuthSecond, AuthThird]
 export default function AuthCarousel() {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true }),
