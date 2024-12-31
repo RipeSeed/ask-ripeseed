@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -30,7 +31,7 @@ export default function Token() {
   return (
     <div className='flex flex-[1] flex-col'>
       <div className='flex flex-[2.5] flex-col items-center justify-center space-y-2'>
-        <h1 className='text-2xl font-semibold'>Enter Your OpenAI Token</h1>
+        <h1 className='text-2xl font-semibold'>Enter Your OpenAI API Key</h1>
         <p className='text-base font-light'>
           This will allow you to make knowledge base related settings
         </p>
@@ -45,14 +46,23 @@ export default function Token() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className='text-base font-medium'>
-                    OpenAI Token
+                    OpenAI API Key
                   </FormLabel>
                   <FormControl>
                     <Input placeholder='paste link here' {...field} />
                   </FormControl>
                   <FormDescription>
                     Don&apos;t know where to generate the token?{' '}
-                    <span className='cursor-pointer font-bold'>Click here</span>
+                    <Link
+                      href={
+                        'https://platform.openai.com/docs/quickstart#create-and-export-an-api-key'
+                      }
+                      target='_blank'
+                    >
+                      <span className='cursor-pointer font-bold'>
+                        Click here
+                      </span>
+                    </Link>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -73,8 +83,8 @@ export default function Token() {
               </Button>
             </div>
             <FormDescription className='text-base font-light'>
-              You can skip for now and enter the link later by accessing it in
-              the knowledge base panel
+              You can skip this step for now and add your OpenAI API key later
+              in the Knowledge Base settings.
             </FormDescription>
           </form>
         </Form>
