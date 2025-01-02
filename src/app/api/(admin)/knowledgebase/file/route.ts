@@ -109,3 +109,19 @@ const uploadChunksToPineCone = async (
     throw new Error('error in upload data to PineCone')
   }
 }
+
+
+
+export const GET=async(request:NextRequest,response:NextResponse)=>{
+  try {
+    await connectDB()
+    let knowledgeBaseFiles=await FileModel.find()
+
+    return NextResponse.json({files:knowledgeBaseFiles},{status:200})
+
+    
+  } catch (error) {
+    return NextResponse.json({error:"Internal Server Error"},{status:200})
+    
+  }
+}

@@ -1,20 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { connectDB } from '@/models'
 import Bot from '@/models/botCredentials/Bot.model'
 
-export const POST = async (request: NextRequest, response: NextResponse) => {
+export const PUT = async (
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) => {
   try {
     const reqBody = await request.json()
-    const { botName, openAIKey } = reqBody
-    await connectDB()
+    const { id } = params
 
-    const newBot = await Bot.create({
-      botName,
-      openAIKey,
-    })
+    await Bot.findByIdAndUpdate(id, reqBody, { new: true })
+
     return NextResponse.json(
-      { message: 'Credentials Saved Successfully' },
+      { message: 'Credentials Updated' },
       { status: 200 },
     )
   } catch (error) {

@@ -36,7 +36,10 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
 
       await writeFile(filePath, buffer as unknown as string | Uint8Array)
 
-      let newQuestion = await AskAnything.create({ title, icon: filePath })
+      let newQuestion = await AskAnything.create({
+        title,
+        icon: `public/knowledgebase/questions/ask-anything${icon.name}`,
+      })
       questions.push(newQuestion)
       await newQuestion.save()
     }

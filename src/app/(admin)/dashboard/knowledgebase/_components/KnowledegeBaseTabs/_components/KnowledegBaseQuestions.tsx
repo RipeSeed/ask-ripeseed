@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -10,9 +12,11 @@ import {
 import QuestionAccordion from './QuestionAccordion'
 
 export default function KnowledegBaseQuestions() {
+  const [askAnything, setAskAnything] = useState<boolean>(true)
+
   return (
     <div className='h-full w-full px-5'>
-      <Tabs defaultValue='askmainefest' className='h-full w-full px-3'>
+      <Tabs defaultValue='askanything' className='h-full w-full px-3'>
         {/* top section of the tabs */}
         <div className='flex items-center justify-between'>
           <div className='flex flex-col pt-3'>
@@ -22,10 +26,20 @@ export default function KnowledegBaseQuestions() {
             </span>
           </div>
           <TabsList className='h-[20%] space-x-3'>
-            <Button className='w-full rounded-lg border-none bg-transparent px-0 text-black shadow-none'>
+            <Button
+              onClick={() => {
+                setAskAnything(!askAnything)
+              }}
+              className='w-full rounded-lg border-none bg-transparent px-0 text-black shadow-none'
+            >
               <TabsTrigger value='askmainefest'>Ask Mainefest AI</TabsTrigger>
             </Button>
-            <Button className='w-full rounded-lg border-none bg-transparent px-0 text-black shadow-none'>
+            <Button
+              onClick={() => {
+                setAskAnything(true)
+              }}
+              className='w-full rounded-lg border-none bg-transparent px-0 text-black shadow-none'
+            >
               <TabsTrigger value='askanything'> Ask Anything</TabsTrigger>
             </Button>
           </TabsList>
@@ -33,14 +47,11 @@ export default function KnowledegBaseQuestions() {
         {/* bottom section of the Tabs */}
         <div className='mt-4 h-[70%] px-3'>
           <TabsContent value='askmainefest'>
-            <QuestionAccordion />
+            <QuestionAccordion askAnything={askAnything} />
           </TabsContent>
           <TabsContent value='askanything'>
-            <QuestionAccordion />
+            <QuestionAccordion askAnything={askAnything} />
           </TabsContent>
-        </div>
-        <div className='flex items-center justify-end'>
-          <Button className='bg-black text-dashboardSecondary'>Update</Button>
         </div>
       </Tabs>
     </div>

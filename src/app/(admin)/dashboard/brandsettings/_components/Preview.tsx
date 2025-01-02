@@ -1,6 +1,11 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
+import { useMutation } from '@tanstack/react-query'
 
+import { AddBrandSettings } from '@/apis/admin/brandSettings'
+import { useBrandStore } from '@/app/(chat)/_utils/store/brand-store'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -12,13 +17,33 @@ import {
 import MainPreview from './MainPreview/MainPreview'
 
 export default function Preview() {
+  const { theme, fontSetting, externalLinks, logoFile } = useBrandStore()
+
+  const handleBrandSetting = () => {
+    const form = new FormData()
+    if (logoFile) {
+      form.append('logo', logoFile)
+    }
+    form.append('data', JSON.stringify({ theme, fontSetting, externalLinks }))
+    return form
+  }
+
+  const { mutate } = useMutation({
+    mutationFn: async (data: FormData) => {
+      await AddBrandSettings(data)
+    },
+    onSuccess(data, variables, context) {
+      console.log(data)
+    },
+  })
+
   return (
     <div className='flex h-full w-full flex-col space-y-3 px-6 py-4'>
       {/* top section of the preview */}
       <div className='flex flex-[1] justify-between'>
         <div className='flex flex-col'>
           <span className='text-lg'>Preview</span>
-          <span className='text-dashboardSecondaryText text-sm font-extralight'>
+          <span className='text-sm font-extralight text-dashboardSecondaryText'>
             Below is the preview against the changes done from different
             channels
           </span>
@@ -36,12 +61,12 @@ export default function Preview() {
       </div>
       {/* center of the preview */}
       <div className='flex-[8.5]'>
-        {/* this is the MainPreview component where changes reflectl */}
+        {/* this is the MainPreview component where changes reflect */}
         <MainPreview />
       </div>
       {/* bottom of the preview */}
       <div className='flex flex-[1.5] items-center justify-between'>
-        <Button className='text-dashboardSecondaryText border-dashboardBorder flex cursor-pointer items-center justify-center space-x-2 rounded-lg border-[2px] border-solid bg-transparent shadow-none'>
+        <Button className='flex cursor-pointer items-center justify-center space-x-2 rounded-lg border-[2px] border-solid border-dashboardBorder bg-transparent text-dashboardSecondaryText shadow-none'>
           <Image
             src={`/assets/brandSettings/refresh.svg`}
             alt=''
@@ -54,7 +79,13 @@ export default function Preview() {
           <Button className='border-[2px] bg-transparent text-black shadow-none'>
             Cancel
           </Button>
-          <Button className='text-dashboardSecondary bg-black'>
+          <Button
+            onClick={() => {
+              const formData = handleBrandSetting()
+              mutate(formData) // Pass the formData to mutate
+            }}
+            className='bg-black text-dashboardSecondary'
+          >
             Save this version
           </Button>
         </div>
