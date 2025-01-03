@@ -30,6 +30,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
       email,
       password: hash,
     })
+    const createdUser = await User.findById(newUser.id).select('-password')
     const data = {
       user: {
         id: newUser.id,
@@ -38,7 +39,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     let secret: string = process.env.JWT_SEC!!
     const token = jwt.sign(data, secret)
 
-    return NextResponse.json({ token }, { status: 200 })
+    return NextResponse.json({ user: createdUser, token }, { status: 200 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },

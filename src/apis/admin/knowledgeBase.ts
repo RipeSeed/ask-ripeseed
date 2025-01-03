@@ -66,6 +66,7 @@ export const AddPrompt = async (data: PromptData) => {
 // Question related Stuff
 
 interface Data {
+  user: string | null
   title: string
   icon: string
 }
@@ -87,5 +88,21 @@ export const AddQuestions = async (askAnything: boolean, data: Data) => {
       { error: 'Internal Server Error' },
       { status: 500 },
     )
+  }
+}
+
+// OpenAI KEY related STUFF
+
+interface OPENAIDATA {
+  user: string | null
+  botName: string
+  openAIKey: string
+}
+export const AddOpenAIKey = async (data: OPENAIDATA) => {
+  try {
+    const response = await axiosInstance.post(`/api/bot`, data)
+    return response.data
+  } catch (error) {
+    throw new Error('Error in Updation of the OpenAIKEY')
   }
 }

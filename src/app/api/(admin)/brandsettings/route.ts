@@ -5,17 +5,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import { connectDB } from '@/models'
 import BrandSetting from '@/models/brandSettings/BrandSettings.model'
 
-export const POST = async (request: NextRequest, response: NextResponse) => {
+export const POST = async (request: NextRequest) => {
   try {
     await connectDB()
+
     const form = await request.formData()
     const logo = form.get('logo')
     const data = JSON.parse(form.get('data') as string)
 
     if (!logo || !(logo instanceof File)) {
       return NextResponse.json(
-        { error: 'Error in logo Upload' },
-        { status: 500 },
+        { error: 'Logo upload failed. Please upload a valid file.' },
+        { status: 400 },
       )
     }
 
@@ -25,12 +26,18 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     const uploadDir = path.join(process.cwd(), 'public/brandSettings/logo')
     await mkdir(uploadDir, { recursive: true })
 
-    const filePath = path.join(uploadDir, logo.name)
+    const uniqueFileName = `${Date.now()}-${logo.name}`
+    const filePath = path.join(uploadDir, uniqueFileName)
+    const logoUrl = `public/brandSettings/logo/${uniqueFileName}`
+
     await writeFile(filePath, buffer as unknown as string | Uint8Array)
 
-    const newBrandSettings = await BrandSetting.create({
+    const existingSettings = await BrandSetting.findOne({ user: data.user })
+
+    const brandSettingsData = {
+      user: data.user,
       theme: {
-        logoUrl: `public/brandSettings/logo/${logo.name}`,
+        logoUrl,
         description: data.theme.description,
         colorAdjustments: {
           historyPannelBackground:
@@ -58,12 +65,28 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
         },
       },
       externalLinks: data.externalLinks,
-    })
+    }
 
-    return NextResponse.json({ message: 'Brand settings saved successfully' })
-  } catch (error) {
+    if (existingSettings) {
+      await BrandSetting.updateOne(
+        { user: data.user },
+        { $set: brandSettingsData },
+      )
+
+      return NextResponse.json({
+        message: 'Brand settings updated successfully',
+      })
+    } else {
+      await BrandSetting.create(brandSettingsData)
+
+      return NextResponse.json({
+        message: 'Brand settings created successfully',
+      })
+    }
+  } catch (error: any) {
+    console.error('Error saving brand settings:', error.message)
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'An error occurred while saving brand settings.' },
       { status: 500 },
     )
   }

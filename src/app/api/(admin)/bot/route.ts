@@ -6,17 +6,32 @@ import Bot from '@/models/botCredentials/Bot.model'
 export const POST = async (request: NextRequest, response: NextResponse) => {
   try {
     const reqBody = await request.json()
-    const { botName, openAIKey } = reqBody
+    const { user, botName, openAIKey } = reqBody
     await connectDB()
 
-    const newBot = await Bot.create({
-      botName,
-      openAIKey,
-    })
-    return NextResponse.json(
-      { message: 'Credentials Saved Successfully' },
-      { status: 200 },
-    )
+    const existingUser = await Bot.findOne({ user })
+
+    if (existingUser) {
+      const updatedBot = await Bot.findOneAndUpdate(
+        { user },
+        { $set: reqBody },
+        { new: true },
+      )
+      return NextResponse.json(
+        { message: 'Updated Credentials', bot: updatedBot },
+        { status: 200 },
+      )
+    } else {
+      const newBot = await Bot.create({
+        user,
+        botName,
+        openAIKey,
+      })
+      return NextResponse.json(
+        { message: 'Credentials Saved Successfully', bot: newBot },
+        { status: 200 },
+      )
+    }
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },

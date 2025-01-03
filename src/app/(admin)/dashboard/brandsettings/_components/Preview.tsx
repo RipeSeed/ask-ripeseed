@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 
 import { AddBrandSettings } from '@/apis/admin/brandSettings'
 import { useBrandStore } from '@/app/(chat)/_utils/store/brand-store'
+import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -17,6 +18,7 @@ import {
 import MainPreview from './MainPreview/MainPreview'
 
 export default function Preview() {
+  const { user } = useTokenStore()
   const { theme, fontSetting, externalLinks, logoFile } = useBrandStore()
 
   const handleBrandSetting = () => {
@@ -24,7 +26,10 @@ export default function Preview() {
     if (logoFile) {
       form.append('logo', logoFile)
     }
-    form.append('data', JSON.stringify({ theme, fontSetting, externalLinks }))
+    form.append(
+      'data',
+      JSON.stringify({ user, theme, fontSetting, externalLinks }),
+    )
     return form
   }
 
@@ -82,7 +87,7 @@ export default function Preview() {
           <Button
             onClick={() => {
               const formData = handleBrandSetting()
-              mutate(formData) // Pass the formData to mutate
+              mutate(formData)
             }}
             className='bg-black text-dashboardSecondary'
           >

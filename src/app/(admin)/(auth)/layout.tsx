@@ -4,7 +4,7 @@ import AuthCarousel from './_components/AuthCarousel'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode

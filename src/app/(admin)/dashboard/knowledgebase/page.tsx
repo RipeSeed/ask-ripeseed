@@ -1,12 +1,42 @@
-import React from 'react'
-import Image from 'next/image'
+'use client'
 
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import { useMutation } from '@tanstack/react-query'
+
+import { AddOpenAIKey } from '@/apis/admin/knowledgeBase'
+import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import KnowledegeBaseTabs from './_components/KnowledegeBaseTabs/KnowledegeBaseTabs'
 
+interface OPENAIDATA {
+  user: string | null
+  botName: string
+  openAIKey: string
+}
 export default function KnowledgeBase() {
+  const { mutate } = useMutation({
+    mutationFn: async (data: OPENAIDATA) => {
+      await AddOpenAIKey(data)
+    },
+  })
+  const [credentials, setCredentials] = useState({ botName: '', openAIKey: '' })
+  const { user } = useTokenStore()
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value })
+  }
+
+  const handleClick = () => {
+    mutate({
+      user,
+      botName: credentials.botName,
+      openAIKey: credentials.openAIKey,
+    })
+  }
+
   return (
     <div className='mx-auto h-full w-[95%]'>
       {/* buttons of the page */}
@@ -30,31 +60,36 @@ export default function KnowledgeBase() {
             <div className='flex flex-[2] flex-col space-y-2'>
               <Label>OpenAI token</Label>
               <input
+                value={credentials.openAIKey}
+                onChange={handleChange}
                 type='text'
-                name=''
-                id=''
+                name='openAIKey'
                 className='h-9 rounded-lg border-2 border-solid border-dashboardBorder p-1 text-sm outline-none'
-                placeholder='Paster link here...'
+                placeholder='Paste link here...'
               />
             </div>
             <div className='flex flex-[2] flex-col space-y-2'>
               <Label>Bot Name</Label>
               <input
+                value={credentials.botName}
+                onChange={handleChange}
                 type='text'
-                name=''
-                id=''
+                name='botName'
                 placeholder='Enter bot name'
                 className='h-9 rounded-lg border-2 border-solid border-dashboardBorder p-1 text-sm outline-none'
               />
             </div>
             <div className='mt-5 flex flex-[.2] items-center justify-center'>
-              <Button className='h-9 w-20 bg-gray-500 p-1 text-dashboardSecondary'>
+              <Button
+                className='h-9 w-20 bg-gray-500 p-1 text-dashboardSecondary'
+                onClick={handleClick}
+              >
                 Update
               </Button>
             </div>
           </div>
           <Separator />
-          {/* bottom section of the knowledgebase where knowledege tabs exists */}
+          {/* bottom section of the knowledgebase where knowledge tabs exist */}
           <div className='flex-[8]'>
             <KnowledegeBaseTabs />
           </div>

@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -42,6 +43,7 @@ type FormSchema = z.infer<typeof formSchema>
 
 export default function Auth() {
   const router = useRouter()
+  const { user, setUser } = useTokenStore()
   const form = useForm<FormSchema>({ resolver: zodResolver(formSchema) })
   const { handleSubmit, control, reset } = form
 
@@ -60,6 +62,11 @@ export default function Auth() {
         return
       }
 
+      const data = await response.json()
+      setUser(data.user._id)
+      localStorage.setItem('user', JSON.stringify(data.user._id))
+
+      console.log(data)
       reset()
       router.push('/token')
     } catch (error) {}

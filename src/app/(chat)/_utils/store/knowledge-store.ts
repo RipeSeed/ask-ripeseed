@@ -42,3 +42,13 @@ export const useKnowledgeStore = create<State>((set) => ({
       modelConfiguration: { ...state.modelConfiguration, ...newModel },
     })),
 }))
+
+interface Token {
+  user: string | null
+  setUser: (user: string) => void
+}
+
+export const useTokenStore = create<Token>((set) => ({
+  user: null,
+  setUser: (user) => set({ user }),
+}))

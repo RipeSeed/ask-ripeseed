@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 
 import { AddQuestions } from '@/apis/admin/knowledgeBase'
+import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -19,8 +20,18 @@ export default function QuestionAccordion({
 }: {
   askAnything: boolean
 }) {
-  console.log(askAnything)
   const iconRefs = useRef<(HTMLInputElement | null)[]>([])
+  const { user, setUser } = useTokenStore()
+
+  useEffect(() => {
+    if (!user) {
+      const savedUser = localStorage.getItem('user')
+      if (savedUser) {
+        setUser(JSON.parse(savedUser))
+      }
+    }
+  }, [user, setUser])
+
   const [questions, setQuestions] = useState<
     { title: string; icon: File | null }[]
   >([
@@ -73,6 +84,12 @@ export default function QuestionAccordion({
     })
   }
 
+  interface QuestionData {
+    user: string
+    title: string
+    icon: File
+  }
+
   const { mutate } = useMutation({
     mutationFn: async ({
       askAnything,
@@ -85,23 +102,28 @@ export default function QuestionAccordion({
     },
   })
 
-  const handleClick = () => {
-    const form = new FormData()
+  const handleClick = async () => {
+    try {
+      const form = new FormData()
 
-    questions.forEach((question, index) => {
-      if (!question.title.trim()) {
-        throw new Error('Please Add Question title')
-      }
+      questions.forEach((question, index) => {
+        if (!question.title.trim()) {
+          throw new Error(`Please add Question title for Question ${index + 1}`)
+        }
 
-      if (!question.icon) {
-        throw new Error('Please Add Icon')
-      }
+        if (!question.icon) {
+          throw new Error(`Please add Icon for Question ${index + 1}`)
+        }
 
-      form.append('title', question.title)
-      form.append('icon', question.icon)
-    })
+        form.append('user', user || '')
+        form.append('title', question.title)
+        form.append('icon', question.icon)
+      })
 
-    mutate({ askAnything, data: form })
+      mutate({ askAnything, data: form })
+    } catch (error: any) {
+      alert(error.message)
+    }
   }
 
   return (

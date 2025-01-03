@@ -53,6 +53,7 @@
     "embla-carousel-react": "^8.5.1",
     "framer-motion": "^11.2.6",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "katex": "^0.16.11",
     "langchain": "^0.2.3",
     "lodash": "^4.17.21",

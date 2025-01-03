@@ -2,9 +2,12 @@ import mongoose from 'mongoose'
 
 const BotSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+    },
     botName: {
       type: String,
-      required: true,
     },
     openAIKey: {
       type: String,

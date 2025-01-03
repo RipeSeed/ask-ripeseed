@@ -9,6 +9,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
   try {
     await connectDB()
     const form = await request.formData()
+    const user = form.get('user')
     const titles = form.getAll('title')
     const icons = form.getAll('icon')
 
@@ -37,6 +38,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
       await writeFile(filePath, buffer as unknown as string | Uint8Array)
 
       let newQuestion = await AskAnything.create({
+        user,
         title,
         icon: `public/knowledgebase/questions/ask-anything${icon.name}`,
       })

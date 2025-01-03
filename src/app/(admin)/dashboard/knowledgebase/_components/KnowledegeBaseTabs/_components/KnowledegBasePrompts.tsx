@@ -4,7 +4,10 @@ import React from 'react'
 import { useMutation } from '@tanstack/react-query'
 
 import { AddPrompt } from '@/apis/admin/knowledgeBase'
-import { useKnowledgeStore } from '@/app/(chat)/_utils/store/knowledge-store'
+import {
+  useKnowledgeStore,
+  useTokenStore,
+} from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -26,7 +29,10 @@ export default function KnowledgeBasePrompts() {
     setModelConfiguration,
   } = useKnowledgeStore()
 
+  const { user } = useTokenStore()
+
   interface Data {
+    user: string | null
     prompt: string
     preset: number
     modelConfiguration: {
@@ -167,7 +173,7 @@ export default function KnowledgeBasePrompts() {
 
         <Button
           onClick={() => {
-            mutate({ prompt, preset, modelConfiguration })
+            mutate({ user, prompt, preset, modelConfiguration })
           }}
           className='mt-2 bg-dashboardBorder text-black'
         >
