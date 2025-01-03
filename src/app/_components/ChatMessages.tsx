@@ -13,12 +13,12 @@ import {
   getAllMessages_aRS,
   Message,
 } from '@/app/_lib/db'
-import { ChatMessageInput } from '@/app/ask-anything/[chatId]/_components/ChatMessageInput'
-import { MessageContainer } from '@/app/ask-anything/[chatId]/_components/MessageContainer'
+import { ChatMessageInput } from '@/app/(chat)/ask-anything/[chatId]/_components/ChatMessageInput'
+import { MessageContainer } from '@/app/(chat)/ask-anything/[chatId]/_components/MessageContainer'
 import {
   Cardset,
   WelcomeCards,
-} from '@/app/ask-anything/[chatId]/_components/WelcomeCards'
+} from '@/app/(chat)/ask-anything/[chatId]/_components/WelcomeCards'
 import Loading from '@/app/loading'
 import { askRS_sendMessage as apiSendMessage } from '@/dal/message'
 import useStore from '../_utils/store/store'

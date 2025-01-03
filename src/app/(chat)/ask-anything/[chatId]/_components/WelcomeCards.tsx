@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card'
 import {
   configPaths,
   isPath,
-} from '../../../../components/common/Header/constants'
+} from '../../../../../components/common/Header/constants'
 import { addAndSelectChat } from '../utils/creatNewChat'
 
 const clock = '/clock.png'
