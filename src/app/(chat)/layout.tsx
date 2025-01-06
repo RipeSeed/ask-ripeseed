@@ -53,24 +53,24 @@ export default function RootLayout({
     setIsClient(true)
     fetchThemeConfig()
   }, [])
-
   useEffect(() => {
     if (clientTheme?.theme?.colorAdjustments) {
       document.documentElement.style.setProperty(
         '--historyPannelBackground',
-        clientTheme?.theme.colorAdjustments.historyPannelBackground,
+        clientTheme?.theme.colorAdjustments.historyPannelBackground ||
+          '#1B1B21',
       )
       document.documentElement.style.setProperty(
         '--chatBackground',
-        clientTheme?.theme.colorAdjustments.chatBackground,
+        clientTheme?.theme.colorAdjustments.chatBackground || '#363639',
       )
       document.documentElement.style.setProperty(
         '--chatBotBubble',
-        clientTheme?.theme.colorAdjustments.chatBotBubble,
+        clientTheme?.theme.colorAdjustments.chatBotBubble || '#1B1B21',
       )
       document.documentElement.style.setProperty(
         '--chatUserBubble',
-        clientTheme?.theme.colorAdjustments.chatUserBubble,
+        clientTheme?.theme.colorAdjustments.chatUserBubble || '#404043',
       )
     }
   }, [clientTheme])
