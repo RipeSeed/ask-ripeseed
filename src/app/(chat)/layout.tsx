@@ -89,7 +89,7 @@ export default function RootLayout({
         <Providers>
           <main className='fixed m-auto grid h-[100svh] w-full md:grid-cols-[260px_1fr] lg:grid-cols-[300px_1fr]'>
             <div className='hidden h-full md:block'>
-              <div className='h-screen bg-[#EBEBEB] px-8 text-white dark:bg-black'>
+              <div className='dark:bg-historyPannelBackground h-screen bg-[#EBEBEB] px-8 text-white'>
                 <div className='sticky flex h-24 items-center justify-center border-b border-[#ACACAC] dark:border-[#34343B]'>
                   <Image
                     src='/ripeseed.png'
