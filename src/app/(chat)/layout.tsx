@@ -13,8 +13,10 @@ import { useEffect, useState } from 'react'
 import type { Viewport } from 'next'
 import Image from 'next/image'
 
+import { ThemeConfig } from '@/apis/admin/config'
 import ChatHeader from '@/components/common/_components/ChatButtonsHeader'
 import Sidebar from '@/components/Sidebar'
+import { useClientThemeStore } from './_utils/store/client-themeStore'
 
 export const viewport: Viewport = {
   themeColor: 'black',
@@ -27,7 +29,7 @@ const fontSans = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700'],
   subsets: ['latin'],
   variable: '--font-sans',
-  display: 'swap', // Ensures font is loaded before content
+  display: 'swap',
 })
 
 export default function RootLayout({
@@ -36,14 +38,44 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   const [isClient, setIsClient] = useState(false)
+  const { clientTheme, setClientTheme } = useClientThemeStore()
+
+  const fetchThemeConfig = async () => {
+    try {
+      const results = await ThemeConfig()
+      setClientTheme(results?.themeCredentials[0] || null)
+    } catch (error) {
+      console.error('Error fetching theme config:', error)
+    }
+  }
 
   useEffect(() => {
     setIsClient(true)
+    fetchThemeConfig()
   }, [])
 
-  if (!isClient) {
-    return null // Prevents rendering on the server side to avoid mismatch
-  }
+  useEffect(() => {
+    if (clientTheme?.theme?.colorAdjustments) {
+      document.documentElement.style.setProperty(
+        '--historyPannelBackground',
+        clientTheme?.theme.colorAdjustments.historyPannelBackground,
+      )
+      document.documentElement.style.setProperty(
+        '--chatBackground',
+        clientTheme?.theme.colorAdjustments.chatBackground,
+      )
+      document.documentElement.style.setProperty(
+        '--chatBotBubble',
+        clientTheme?.theme.colorAdjustments.chatBotBubble,
+      )
+      document.documentElement.style.setProperty(
+        '--chatUserBubble',
+        clientTheme?.theme.colorAdjustments.chatUserBubble,
+      )
+    }
+  }, [clientTheme])
+
+  if (!isClient) return null
 
   return (
     <html lang='en'>

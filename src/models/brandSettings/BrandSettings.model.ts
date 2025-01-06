@@ -10,7 +10,6 @@ const BrandSettingSchema = new mongoose.Schema(
     theme: {
       logoUrl: {
         type: String,
-        required: true,
       },
       description: {
         type: String,
@@ -83,7 +82,6 @@ const BrandSettingSchema = new mongoose.Schema(
       {
         linkLabel: {
           type: String,
-          required: true,
         },
         linkUrl: {
           type: String,

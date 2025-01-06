@@ -16,8 +16,9 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+  email: z.string().email('Email must be a Valid email'),
+  password: z.string().min(4, {
+    message: 'Password must be a valid password',
   }),
 })
 
@@ -28,6 +29,7 @@ export default function Login() {
 
   const onSubmit = (data: any) => {
     console.log('Form submitted with:', data)
+    form.reset()
   }
 
   return (
@@ -46,7 +48,7 @@ export default function Login() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='shadcn' {...field} />
+                    <Input placeholder='Enter Your Email' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -59,7 +61,7 @@ export default function Login() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder='shadcn' {...field} />
+                    <Input placeholder='Enter Your Password' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

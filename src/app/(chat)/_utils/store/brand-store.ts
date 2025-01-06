@@ -42,28 +42,28 @@ interface State {
 export const useBrandStore = create<State>((set) => ({
   logoFile: null,
   theme: {
-    description: '',
+    description: 'AI Chat Assistance',
     colorAdjustments: {
-      historyPannelBackground: '',
-      chatBackground: '',
-      chatUserBubble: '',
-      chatBotBubble: '',
+      historyPannelBackground: '#171717',
+      chatBackground: '#303030',
+      chatUserBubble: '#212121',
+      chatBotBubble: '#303030',
     },
   },
   fontSetting: {
     primaryFont: {
-      fontSize: 18,
-      fontFamily: 'Poppins',
+      fontSize: 14,
+      fontFamily: 'system-ui',
       fontWeight: 400,
     },
     secondaryFont: {
-      fontSize: 18,
-      fontFamily: 'Poppins',
+      fontSize: 12,
+      fontFamily: 'system-ui',
       fontWeight: 400,
     },
     chatFont: {
-      fontSize: 18,
-      fontFamily: 'Popins',
+      fontSize: 16,
+      fontFamily: 'system-ui',
       fontWeight: 400,
     },
   },

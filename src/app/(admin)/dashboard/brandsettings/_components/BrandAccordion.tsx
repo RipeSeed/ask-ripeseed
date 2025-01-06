@@ -13,6 +13,13 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export default function BrandAccordion() {
   const {
@@ -22,6 +29,7 @@ export default function BrandAccordion() {
     externalLinks,
     setFontSetting,
     setExternalLinks,
+    logoFile,
     setLogoFile,
   } = useBrandStore()
   console.log(theme)
@@ -29,6 +37,8 @@ export default function BrandAccordion() {
   console.log(externalLinks)
 
   const logoRef = useRef<HTMLInputElement | null>(null)
+  const [logoPreview, setLogoPreview] = useState<string | null>(null)
+
   // code related to external Links
 
   const handleInputChange = (
@@ -56,6 +66,20 @@ export default function BrandAccordion() {
       logoRef.current.click()
     }
   }
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      const file = e.target.files[0]
+      setLogoFile(file)
+
+      if (file.type.startsWith('image/')) {
+        const previewUrl = URL.createObjectURL(file)
+        setLogoPreview(previewUrl)
+      } else {
+        setLogoPreview(null)
+      }
+    }
+  }
+  console.log(logoFile)
 
   return (
     <div>
@@ -81,15 +105,11 @@ export default function BrandAccordion() {
                   ref={logoRef}
                   type='file'
                   name='logoUrl'
-                  accept='.svg , .png, .jpg . jpeg'
+                  accept='.svg, .png, .jpg, .jpeg'
                   className='hidden'
-                  id=''
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    if (e.target.files?.[0]) {
-                      setLogoFile(e.target.files[0])
-                    }
-                  }}
+                  onChange={handleFileChange}
                 />
+
                 <Button
                   onClick={handleLogo}
                   className='border-[2px] bg-transparent p-3 text-xs text-black shadow-none'
@@ -97,6 +117,16 @@ export default function BrandAccordion() {
                   Upload
                 </Button>
               </div>
+
+              {logoPreview && (
+                <div className='mt-4'>
+                  <img
+                    src={logoPreview}
+                    alt='Logo Preview'
+                    className='mt-2 h-20 w-20 border object-contain'
+                  />
+                </div>
+              )}
             </div>
             {/* center section of the second question */}
             <div className='flex flex-col space-y-2'>
@@ -106,7 +136,7 @@ export default function BrandAccordion() {
               <input
                 className='w-full rounded-lg border-2 border-solid border-dashboardBorder p-2 outline-none'
                 type='text'
-                name=''
+                name='description'
                 placeholder='SurgeAI - Generative, Powerful, No. 1'
                 value={theme.description}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,7 +156,7 @@ export default function BrandAccordion() {
               <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
                 <span className='text-xs'>History Pannel Background</span>
                 <div className='flex items-center space-x-2'>
-                  <span className='text-xs font-light'>
+                  <span className='text-xs font-normal'>
                     {theme.colorAdjustments.historyPannelBackground}
                   </span>
                   <input
@@ -149,7 +179,7 @@ export default function BrandAccordion() {
               <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
                 <span className='text-xs'>Chat Background</span>
                 <div className='flex items-center space-x-2'>
-                  <span className='text-xs font-light'>
+                  <span className='text-xs font-normal'>
                     {theme.colorAdjustments.chatBackground}
                   </span>
                   <input
@@ -172,7 +202,7 @@ export default function BrandAccordion() {
               <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
                 <span className='text-xs'>Chat User Bubble</span>
                 <div className='flex items-center space-x-2'>
-                  <span className='colortext text-xs font-light'>
+                  <span className='text-xs font-normal'>
                     {theme.colorAdjustments.chatUserBubble}
                   </span>
                   <input
@@ -196,7 +226,7 @@ export default function BrandAccordion() {
               <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
                 <span className='text-xs'>Chat Bot Bubble</span>
                 <div className='flex items-center space-x-2'>
-                  <span className='text-xs font-light'>
+                  <span className='text-xs font-normal'>
                     {theme.colorAdjustments.chatBotBubble}
                   </span>
                   <input
@@ -269,6 +299,7 @@ export default function BrandAccordion() {
                   <option value='Overpass'>Overpass</option>
                   <option value='Source Sans Pro'>Source Sans Pro</option>
                 </select>
+
                 <select
                   name='fontWeight'
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -600,19 +631,14 @@ export default function BrandAccordion() {
                 </div>
               </div>
             ))}
-            {externalLinks.length < 3 ? (
-              <div
-                className='mt-3 flex cursor-pointer items-center justify-center space-x-2 p-1 text-sm text-dashboardPreviewText'
-                onClick={addNewLink}
-              >
-                <Plus style={{ width: '20px', height: '20px' }} />
-                <span>Add another link</span>
-              </div>
-            ) : (
-              <button className='mt-3 rounded-lg bg-green-500 px-4 py-2 text-white'>
-                Save Links
-              </button>
-            )}
+
+            <div
+              className='mt-3 flex cursor-pointer items-center justify-center space-x-2 p-1 text-sm text-dashboardPreviewText'
+              onClick={addNewLink}
+            >
+              <Plus style={{ width: '20px', height: '20px' }} />
+              <span>Add another link</span>
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

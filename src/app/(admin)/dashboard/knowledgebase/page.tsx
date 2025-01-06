@@ -22,6 +22,7 @@ export default function KnowledgeBase() {
       await AddOpenAIKey(data)
     },
   })
+
   const [credentials, setCredentials] = useState({ botName: '', openAIKey: '' })
   const { user } = useTokenStore()
 

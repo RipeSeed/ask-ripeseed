@@ -91,3 +91,16 @@ export const POST = async (request: NextRequest) => {
     )
   }
 }
+
+export const GET = async () => {
+  try {
+    const themeCredentials = await BrandSetting.find()
+
+    return NextResponse.json({ themeCredentials }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 },
+    )
+  }
+}

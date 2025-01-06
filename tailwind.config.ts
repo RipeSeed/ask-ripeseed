@@ -77,6 +77,12 @@ const config = {
         dashboardBg: 'var(--dashboard-carousel-bg)',
         dashboardBtn: 'var(--dashboard-buttons-bg)',
         white: 'var(--white)',
+
+        honey: 'var(--historyPannelBackground)',
+        chatBackground: 'var(--chatBackground)',
+        chatBotBubble: 'var(--chatBotBubble)',
+        chatUserBubble: 'var(--chatUserBubble)',
+        historyPannelBackground: 'var(--historyPannelBackground)',
       },
       borderRadius: {
         lg: 'var(--radius)',

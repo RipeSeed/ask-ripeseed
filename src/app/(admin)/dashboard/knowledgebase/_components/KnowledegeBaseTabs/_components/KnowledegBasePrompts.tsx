@@ -65,6 +65,7 @@ export default function KnowledgeBasePrompts() {
         <div>
           <Textarea
             placeholder='Type here.'
+            required
             rows={10}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
