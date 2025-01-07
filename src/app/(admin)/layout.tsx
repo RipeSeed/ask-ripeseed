@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { Inter } from 'next/font/google'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { SessionProvider, useSession } from 'next-auth/react'
 
 import { useTokenStore } from '../(chat)/_utils/store/knowledge-store'
 
@@ -32,7 +33,11 @@ export default function AdminLayout({
 
   return (
     <div className={`h-screen w-screen ${inter.className}`}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <SessionProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </SessionProvider>
     </div>
   )
 }

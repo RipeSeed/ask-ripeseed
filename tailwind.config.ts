@@ -11,99 +11,123 @@ const config = {
   ],
   prefix: '',
   theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-        sm: { max: '768px' },
-        xs: { max: '420px' },
-      },
-    },
-    extend: {
-      screens: {
-        xs: '400px', // Add custom screen size
-      },
-      fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-      },
-      colors: {
-        crayola: '#13A682',
-        darkCard: '#B5B5B5',
-        darkText: '#C6C2C2',
-        lightText: '#676767',
-        black: '#1B1B21',
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        dashboardPrimary: 'var(--dashboard-bg-primary)',
-        dashboardSecondary: 'var(--dashboard-bg-secondary)',
-        dashboardActive: 'var(--dashboard-active)',
-        dashboardBorder: 'var(--dashboard-border)',
-        dashboardButtonBg: 'var(--dashboard-buttons-bg)',
-        dashboardPreviewBg: 'var(--dashboard-preview-bg)',
-        dashboardPreviewText: 'var(--dashboard-preview-text)',
-        dashboardSecondaryText: 'var(--dashboard-gray-text)',
-        dashboardBg: 'var(--dashboard-carousel-bg)',
-        dashboardBtn: 'var(--dashboard-buttons-bg)',
-        white: 'var(--white)',
-
-        honey: 'var(--historyPannelBackground)',
-        chatBackground: 'var(--chatBackground)',
-        chatBotBubble: 'var(--chatBotBubble)',
-        chatUserBubble: 'var(--chatUserBubble)',
-        historyPannelBackground: 'var(--historyPannelBackground)',
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-      },
-    },
+  	container: {
+  		center: true,
+  		padding: '2rem',
+  		screens: {
+  			'2xl': '1400px',
+  			sm: {
+  				max: '768px'
+  			},
+  			xs: {
+  				max: '420px'
+  			}
+  		}
+  	},
+  	extend: {
+  		screens: {
+  			xs: '400px'
+  		},
+  		fontFamily: {
+  			sans: [
+  				'var(--font-sans)',
+                    ...fontFamily.sans
+                ]
+  		},
+  		colors: {
+  			crayola: '#13A682',
+  			darkCard: '#B5B5B5',
+  			darkText: '#C6C2C2',
+  			lightText: '#676767',
+  			black: '#1B1B21',
+  			border: 'hsl(var(--border))',
+  			input: 'hsl(var(--input))',
+  			ring: 'hsl(var(--ring))',
+  			background: 'hsl(var(--background))',
+  			foreground: 'hsl(var(--foreground))',
+  			primary: {
+  				DEFAULT: 'hsl(var(--primary))',
+  				foreground: 'hsl(var(--primary-foreground))'
+  			},
+  			secondary: {
+  				DEFAULT: 'hsl(var(--secondary))',
+  				foreground: 'hsl(var(--secondary-foreground))'
+  			},
+  			destructive: {
+  				DEFAULT: 'hsl(var(--destructive))',
+  				foreground: 'hsl(var(--destructive-foreground))'
+  			},
+  			muted: {
+  				DEFAULT: 'hsl(var(--muted))',
+  				foreground: 'hsl(var(--muted-foreground))'
+  			},
+  			accent: {
+  				DEFAULT: 'hsl(var(--accent))',
+  				foreground: 'hsl(var(--accent-foreground))'
+  			},
+  			popover: {
+  				DEFAULT: 'hsl(var(--popover))',
+  				foreground: 'hsl(var(--popover-foreground))'
+  			},
+  			card: {
+  				DEFAULT: 'hsl(var(--card))',
+  				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			dashboardPrimary: 'var(--dashboard-bg-primary)',
+  			dashboardSecondary: 'var(--dashboard-bg-secondary)',
+  			dashboardActive: 'var(--dashboard-active)',
+  			dashboardBorder: 'var(--dashboard-border)',
+  			dashboardButtonBg: 'var(--dashboard-buttons-bg)',
+  			dashboardPreviewBg: 'var(--dashboard-preview-bg)',
+  			dashboardPreviewText: 'var(--dashboard-preview-text)',
+  			dashboardSecondaryText: 'var(--dashboard-gray-text)',
+  			dashboardBg: 'var(--dashboard-carousel-bg)',
+  			dashboardBtn: 'var(--dashboard-buttons-bg)',
+  			white: 'var(--white)',
+  			honey: 'var(--historyPannelBackground)',
+  			chatBackground: 'var(--chatBackground)',
+  			chatBotBubble: 'var(--chatBotBubble)',
+  			chatUserBubble: 'var(--chatUserBubble)',
+  			historyPannelBackground: 'var(--historyPannelBackground)',
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
+  			}
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		keyframes: {
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
+  		}
+  	}
   },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 } satisfies Config
