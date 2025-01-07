@@ -85,6 +85,7 @@ export default function Preview() {
             Cancel
           </Button>
           <Button
+            disabled={!logoFile}
             onClick={() => {
               const formData = handleBrandSetting()
               mutate(formData)

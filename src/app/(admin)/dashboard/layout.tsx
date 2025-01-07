@@ -1,4 +1,7 @@
+'use client'
+
 import { Inter } from 'next/font/google'
+import { useSession } from 'next-auth/react'
 
 import DashboardSideBar from './_components/DashboardSideBar/DashboardSideBar'
 
@@ -9,6 +12,8 @@ export default function DashBoardLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { data } = useSession()
+  console.log(data)
   return (
     <div className='flex h-screen w-screen'>
       <DashboardSideBar />

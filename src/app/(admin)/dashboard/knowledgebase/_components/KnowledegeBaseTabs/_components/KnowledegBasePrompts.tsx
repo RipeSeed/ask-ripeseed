@@ -1,7 +1,10 @@
 'use client'
 
 import React from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { AddPrompt } from '@/apis/admin/knowledgeBase'
 import {
@@ -43,11 +46,30 @@ export default function KnowledgeBasePrompts() {
     }
   }
 
+  const PromptSchema = z.object({
+    prompt: z.string().min(10, {
+      message: 'Prompt is Required',
+    }),
+  })
+  type TPromptSchema = z.infer<typeof PromptSchema>
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<TPromptSchema>({
+    resolver: zodResolver(PromptSchema),
+  })
   const { mutate } = useMutation({
     mutationFn: async (data: Data) => {
       return await AddPrompt(data)
     },
   })
+
+  const handleClick = () => {
+    mutate({ user, prompt, preset, modelConfiguration })
+    reset()
+  }
   console.log(prompt)
   console.log(preset)
   console.log(modelConfiguration)
@@ -64,12 +86,14 @@ export default function KnowledgeBasePrompts() {
         </div>
         <div>
           <Textarea
+            {...register('prompt')}
             placeholder='Type here.'
             required
             rows={10}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
+          {errors.prompt && <>{errors.prompt.message}</>}
         </div>
         <div className='mt-5 flex items-center justify-end'>
           <Button className='bg-black text-dashboardSecondary'>
@@ -173,9 +197,7 @@ export default function KnowledgeBasePrompts() {
         </div>
 
         <Button
-          onClick={() => {
-            mutate({ user, prompt, preset, modelConfiguration })
-          }}
+          onClick={handleSubmit(handleClick)}
           className='mt-2 bg-dashboardBorder text-black'
         >
           Save as preset

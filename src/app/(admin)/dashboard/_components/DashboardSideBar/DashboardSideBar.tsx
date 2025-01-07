@@ -3,9 +3,11 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 
 export default function DashboardSideBar() {
   const [activeTab, setActiveTab] = useState(0)
+
   const links = [
     {
       id: 1,
@@ -26,8 +28,12 @@ export default function DashboardSideBar() {
       url: 'knowledgebase',
     },
   ]
+
+  const handleClick = async () => {
+    await signOut()
+  }
   return (
-    <div className='bg-dashboardSecondary h-full w-full flex-[2]'>
+    <div className='h-full w-full flex-[2] bg-dashboardSecondary'>
       <div className='m-auto h-full w-[90%] pt-5'>
         <div className='h-[5%]'>
           <Image src={`/logo/logo.svg`} width={150} height={150} alt='' />
@@ -48,7 +54,7 @@ export default function DashboardSideBar() {
               </Link>
             ))}
           </ul>
-          <div className='border-dashboardBorder flex items-center justify-between space-x-2 border-t-2 border-solid p-3'>
+          <div className='relative flex items-center justify-between space-x-2 border-t-2 border-solid border-dashboardBorder p-3'>
             <div className='h-11 w-11'>
               <img
                 src={`/assets/Avatar.png`}
@@ -60,8 +66,13 @@ export default function DashboardSideBar() {
               <span className='font-semibold'>Admin</span>
               <span className='text-base text-gray-600'>admin@ripeseed.io</span>
             </div>
-            <div>
-              <Image src={`/assets/icon.svg`} width={30} height={30} alt='' />
+            <div onClick={handleClick}>
+              <Image
+                src={`/assets/icon.svg`}
+                width={30}
+                height={30}
+                alt='LogOut'
+              />
             </div>
           </div>
         </div>

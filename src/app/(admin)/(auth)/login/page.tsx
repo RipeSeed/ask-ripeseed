@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { signIn, useSession } from 'next-auth/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -27,7 +28,12 @@ export default function Login() {
     resolver: zodResolver(formSchema),
   })
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirectTo: '/dashboard/summary',
+    })
     console.log('Form submitted with:', data)
     form.reset()
   }
