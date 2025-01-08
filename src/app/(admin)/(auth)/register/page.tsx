@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import axiosInstance from '@/utils/axios'
 
 const formSchema = z
   .object({
@@ -49,27 +50,16 @@ export default function Auth() {
 
   async function onSubmit(values: FormSchema) {
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      })
+      const response = await axiosInstance.post(`/api/auth/register`, values)
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        return
-      }
-
-      const data = await response.json()
-      setUser(data.user._id)
-      localStorage.setItem('user', JSON.stringify(data.user._id))
-
+      const data = await response.data
       console.log(data)
+
       reset()
-      router.push('/token')
-    } catch (error) {}
+      router.push('/login')
+    } catch (error) {
+      throw new Error('Error in the Registeration of the User')
+    }
   }
 
   return (

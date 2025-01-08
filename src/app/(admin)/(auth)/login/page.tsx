@@ -5,6 +5,7 @@ import { signIn, useSession } from 'next-auth/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import {
   FormControl,
   FormDescription,
@@ -28,14 +29,19 @@ export default function Login() {
     resolver: zodResolver(formSchema),
   })
 
+  const { setUser } = useTokenStore()
   const onSubmit = async (data: any) => {
-    await signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      redirectTo: '/dashboard/summary',
-    })
-    console.log('Form submitted with:', data)
-    form.reset()
+    try {
+      await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirectTo: '/dashboard/summary',
+      })
+
+      form.reset()
+    } catch (error) {
+      throw new Error('Error in The Login')
+    }
   }
 
   return (

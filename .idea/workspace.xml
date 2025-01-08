@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="16a45de2-77b2-4b99-9b25-c77d35aac4f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/app/_components/ChatMessages.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(chat)/_components/ChatMessages.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/_components/ExternalLink.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(chat)/_components/ExternalLink.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/_components/GeneralSidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(chat)/_components/GeneralSidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(admin)/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(admin)/dashboard/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/auth.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,9 +16,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2pphANFJzpM6sBMHwfSo8EZInQp" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -26,12 +28,15 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Dashboard__Authentication",
+    "git-widget-placeholder": "color__implementation",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "pnpm",
     "prettierjs.PrettierConfiguration.Package": "D:\\ask-ripeseed\\node_modules\\prettier",
+    "ts.external.directory.path": "D:\\ask-ripeseed\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -56,6 +61,7 @@
       <option name="presentableId" value="Default" />
       <updated>1733468781814</updated>
       <workItem from="1733468784355" duration="431000" />
+      <workItem from="1736253644025" duration="1440000" />
     </task>
     <servers />
   </component>

@@ -5,8 +5,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
 
+import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
+
 export default function DashboardSideBar() {
   const [activeTab, setActiveTab] = useState(0)
+  const { setUser } = useTokenStore()
 
   const links = [
     {
@@ -31,6 +34,8 @@ export default function DashboardSideBar() {
 
   const handleClick = async () => {
     await signOut()
+    localStorage.removeItem('user')
+    setUser('')
   }
   return (
     <div className='h-full w-full flex-[2] bg-dashboardSecondary'>

@@ -22,10 +22,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!email || !password) {
           throw new Error('Email and password are required')
         }
+
         await connectDB()
 
         const user = await User.findOne({ email })
-        console.log(user)
         if (!user) {
           console.error('No user found with the given email')
           throw new Error('Invalid email or password')
@@ -37,8 +37,30 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error('Invalid email or password')
         }
 
-        return user
+        return {
+          id: user._id.toString(),
+          email: user.email,
+          emailVerified: user.emailVerified || null,
+        }
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id
+        token.email = user.email
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user = {
+          id: token.id as string,
+          email: token.email as string,
+        }
+      }
+      return session
+    },
+  },
 })
