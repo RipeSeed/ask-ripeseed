@@ -28,8 +28,8 @@ export default function Auth() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {}
   return (
-    <div className='flex flex-[1] flex-col'>
-      <div className='flex flex-[1] items-center justify-center text-2xl font-medium'>
+    <div className='flex flex-1 flex-col'>
+      <div className='flex flex-1 items-center justify-center text-2xl font-medium'>
         <h1 className='text-2xl font-semibold'>Setup your admin account</h1>
       </div>
       <Separator />
@@ -47,7 +47,7 @@ export default function Auth() {
                       First Name
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder='Type here...' {...field} />
+                      <Input placeholder='John' {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -63,7 +63,7 @@ export default function Auth() {
                       Last Name
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder='Type here...' {...field} />
+                      <Input placeholder='Doe' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -78,7 +78,7 @@ export default function Auth() {
                 <FormItem>
                   <FormLabel className='text-sm font-medium'>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='Type here...' {...field} />
+                    <Input placeholder='johndoe@xyz.com' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,7 +94,7 @@ export default function Auth() {
                     Set Password
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder='Type new password here...' {...field} />
+                    <Input placeholder='123@321' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -109,10 +109,7 @@ export default function Auth() {
                     Confirm Password
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder='Re-type new password here...'
-                      {...field}
-                    />
+                    <Input placeholder='123@321' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

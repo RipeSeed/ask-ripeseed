@@ -1,8 +1,8 @@
-import { Inter } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 
 import DashboardSideBar from './_components/DashboardSideBar/DashboardSideBar'
 
-const inter = Inter({ subsets: ['latin'] })
+const manrope = Manrope({ subsets: ['latin'] })
 
 export default function RootLayout({
   children,
@@ -10,7 +10,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className='flex h-screen w-screen'>
+    <div className={`${manrope.className} flex h-screen w-screen`}>
       <DashboardSideBar />
       <div className='flex-[8] bg-[#F9F9F9]'>{children}</div>
     </div>
