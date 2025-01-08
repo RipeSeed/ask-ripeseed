@@ -24,8 +24,8 @@ export default function BrandSettings() {
       {/* bottom section of the page */}
       <div className='flex h-[85%] rounded-lg'>
         {/* left section */}
-        <div className='flex flex-[1] flex-col rounded-l-lg border-r-2 border-solid border-dashboardBorder bg-dashboardSecondary p-4'>
-          <div className='flex-[1]'>
+        <div className='flex flex-1 flex-col rounded-l-lg border-r-2 border-solid border-dashboardBorder bg-dashboardSecondary p-4'>
+          <div className='flex-1'>
             <h1 className='text-lg font-medium'>Channels</h1>
             <p className='text-sm font-light text-dashboardSecondaryText'>
               The channels related to brand-able settings

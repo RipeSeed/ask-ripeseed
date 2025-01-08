@@ -15,7 +15,7 @@ export default function Preview() {
   return (
     <div className='flex h-full w-full flex-col space-y-3 px-6 py-4'>
       {/* top section of the preview */}
-      <div className='flex flex-[1] justify-between'>
+      <div className='flex flex-1 justify-between'>
         <div className='flex flex-col'>
           <span className='text-lg font-medium'>Preview</span>
           <span className='text-sm font-light text-dashboardSecondaryText'>
