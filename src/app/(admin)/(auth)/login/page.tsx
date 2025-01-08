@@ -5,7 +5,6 @@ import { signIn, useSession } from 'next-auth/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import {
   FormControl,
   FormDescription,
@@ -29,7 +28,6 @@ export default function Login() {
     resolver: zodResolver(formSchema),
   })
 
-  const { setUser } = useTokenStore()
   const onSubmit = async (data: any) => {
     try {
       await signIn('credentials', {
@@ -73,7 +71,11 @@ export default function Login() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder='Enter Your Password' {...field} />
+                    <Input
+                      type='password'
+                      placeholder='Enter Your Password'
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -82,7 +84,7 @@ export default function Login() {
             <div className='mt-4'>
               <button
                 type='submit'
-                className='rounded bg-blue-500 px-4 py-2 text-white'
+                className='rounded bg-black px-4 py-2 text-white'
               >
                 Submit
               </button>
