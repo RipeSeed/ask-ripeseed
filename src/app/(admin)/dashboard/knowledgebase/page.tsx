@@ -33,6 +33,7 @@ export default function KnowledgeBase() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<TUpdateSchema>({
     resolver: zodResolver(UpdateSchema),
   })
@@ -41,13 +42,13 @@ export default function KnowledgeBase() {
 
   const handleClick = (data: TUpdateSchema) => {
     mutate({ user, ...data })
+    reset()
   }
   const { data } = useSession()
   console.log(data)
 
   return (
     <div className='mx-auto h-full w-[95%]'>
-      {data && <>{data?.user?.email}</>}
       <div className='flex h-[10%] items-center justify-between'>
         <h1 className='text-3xl font-medium'>Knowledge Base Settings</h1>
         <Button className='flex items-center justify-center space-x-1 bg-[#EAEAEA] text-sm text-black'>

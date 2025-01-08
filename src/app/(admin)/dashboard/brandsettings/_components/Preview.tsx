@@ -33,7 +33,7 @@ export default function Preview() {
     return form
   }
 
-  const { mutate } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: async (data: FormData) => {
       await AddBrandSettings(data)
     },
@@ -85,7 +85,7 @@ export default function Preview() {
             Cancel
           </Button>
           <Button
-            disabled={!logoFile}
+            disabled={!logoFile || isPending}
             onClick={() => {
               const formData = handleBrandSetting()
               mutate(formData)

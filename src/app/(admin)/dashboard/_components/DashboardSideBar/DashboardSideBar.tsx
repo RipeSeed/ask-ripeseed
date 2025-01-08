@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 
 import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 
@@ -37,6 +37,8 @@ export default function DashboardSideBar() {
     localStorage.removeItem('user')
     setUser('')
   }
+  const { data } = useSession()
+  console.log(data)
   return (
     <div className='h-full w-full flex-[2] bg-dashboardSecondary'>
       <div className='m-auto h-full w-[90%] pt-5'>
@@ -68,10 +70,13 @@ export default function DashboardSideBar() {
               />
             </div>
             <div className='flex-cl flex flex-col text-base'>
-              <span className='font-semibold'>Admin</span>
-              <span className='text-base text-gray-600'>admin@ripeseed.io</span>
+              <span className='font-semibold'>user</span>
+              <span className='text-base text-gray-600'>
+                {' '}
+                {data && <>{data?.user?.email}</>}
+              </span>
             </div>
-            <div onClick={handleClick}>
+            <div onClick={handleClick} className='cursor-pointer'>
               <Image
                 src={`/assets/icon.svg`}
                 width={30}
