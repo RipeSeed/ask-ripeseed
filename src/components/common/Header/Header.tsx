@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Bolt, ExternalLink, Settings } from 'lucide-react'
+import { ExternalLink, Settings } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { store } from '@/app/_utils/store'
-import useStore from '@/app/_utils/store/store'
+import useStore from '@/app/(chat)/_utils/store/store'
 import { ModeToggle } from '@/components/Providers/ThemeProvider'
 import { Button } from '@/components/ui/button'
 import {
@@ -98,7 +97,7 @@ export const ConfigDialogue = () => {
       // Use the stored value in the cleanup function
       closeBtn?.click()
     }
-  }, [isConfigOpen, set])
+  }, [isConfigOpen, toggleConfigOpen])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({

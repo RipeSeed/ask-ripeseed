@@ -24,6 +24,10 @@
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
     --radius: 0.5rem;
+    --dashboard-carousel-bg: #f7f4ee;
+    --dashboard-buttons-bg: #222222;
+    --white: #ffffff;
+    --black: #1b1b21;
   }
 
   .dark {
@@ -78,4 +82,9 @@ pre > pre {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+* {
+  padding: 0;
+  margin: 0;
 }

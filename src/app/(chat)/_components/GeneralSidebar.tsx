@@ -10,8 +10,8 @@ import {
   clearMessagesByChat,
   deleteChat,
   getAllChats,
-} from '@/app/_lib/db'
-import { truncateString } from '@/app/_utils'
+} from '@/app/(chat)/_lib/db'
+import { truncateString } from '@/app/(chat)/_utils'
 import {
   DropdownMenu,
   DropdownMenuContent,

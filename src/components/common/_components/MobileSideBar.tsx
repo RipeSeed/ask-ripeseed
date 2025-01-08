@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react'
 import { Menu, X } from 'lucide-react'
 
-import GeneralSideBar from '@/app/_components/GeneralSidebar'
+import GeneralSideBar from '@/app/(chat)/_components/GeneralSidebar'
 
 interface MobileSideBarProps {
   toggle: boolean
@@ -28,9 +28,8 @@ const MobileSideBar: React.FC<MobileSideBarProps> = ({ toggle, setToggle }) => {
         />
       )}
       <div
-        className={`absolute top-11 z-40 mt-3 flex h-full w-[200px] transform flex-col bg-[rgb(235,235,235)] p-4 transition-transform duration-200 ease-in-out dark:bg-black md:hidden ${
-          toggle ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`absolute top-11 z-40 mt-3 flex h-full w-[200px] transform flex-col bg-[rgb(235,235,235)] p-4 transition-transform duration-200 ease-in-out dark:bg-black md:hidden ${toggle ? 'translate-x-0' : '-translate-x-full'
+          }`}
         onClick={(e) => e.stopPropagation()}
       >
         <GeneralSideBar />

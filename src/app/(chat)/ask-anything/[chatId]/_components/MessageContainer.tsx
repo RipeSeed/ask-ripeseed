@@ -2,8 +2,8 @@ import { motion } from 'framer-motion'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
-import { Message } from '@/app/_lib/db'
-import ShowMessage from '@/app/ask-anything/[chatId]/_components/ShowMessage'
+import { Message } from '@/app/(chat)/_lib/db'
+import ShowMessage from '@/app/(chat)/ask-anything/[chatId]/_components/ShowMessage'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 
