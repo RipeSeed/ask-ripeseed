@@ -4,30 +4,26 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
 export default function DashboardSideBar() {
   const [activeTab, setActiveTab] = useState(0)
   const links = [
     {
       id: 1,
-      icon: '/assets/brandSettings/chart.svg',
-      title: 'Summary',
-      url: 'summary',
-    },
-    {
-      id: 2,
-      icon: '/assets/brandSettings/bucket.svg',
-      title: 'Brand settings',
+      icon: '/assets/brand-settings/bucket.svg',
+      title: 'Brand',
       url: 'brandsettings',
     },
     {
-      id: 3,
-      icon: '/assets/brandSettings/book.svg',
+      id: 2,
+      icon: '/assets/brand-settings/book.svg',
       title: 'Knowledge base settings',
       url: 'knowledgebase',
     },
   ]
   return (
-    <div className='bg-dashboardSecondary h-full w-full flex-[2]'>
+    <div className='h-full w-full flex-[2] bg-dashboardSecondary'>
       <div className='m-auto h-full w-[90%] pt-5'>
         <div className='h-[5%]'>
           <Image src={`/logo/logo.svg`} width={150} height={150} alt='' />
@@ -48,13 +44,12 @@ export default function DashboardSideBar() {
               </Link>
             ))}
           </ul>
-          <div className='border-dashboardBorder flex items-center justify-between space-x-2 border-t-2 border-solid p-3'>
+          <div className='flex items-center justify-between space-x-2 border-t-2 border-solid border-dashboardBorder p-3'>
             <div className='h-11 w-11'>
-              <img
-                src={`/assets/Avatar.png`}
-                alt='avatar'
-                className='h-full w-full rounded-[50%] border-2 border-solid border-black object-cover'
-              />
+              <Avatar>
+                <AvatarImage src='/assets/Avatar.png' />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
             </div>
             <div className='flex-cl flex flex-col text-base'>
               <span className='font-semibold'>Admin</span>
