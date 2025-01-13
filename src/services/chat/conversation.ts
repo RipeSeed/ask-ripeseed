@@ -48,12 +48,9 @@ interface QuestionGeneratorInput {
   question: string;
 }
 
-const getChain = async (questionGeneratorInput: QuestionGeneratorInput, isOpenAi: Boolean) => {
+const getChain = async (questionGeneratorInput: QuestionGeneratorInput) => {
 
-  const openai = isOpenAi ? new OpenAI() : new OpenAI({
-    baseURL: process.env.DEEPSEEK_BASE_URL,
-    apiKey: process.env.DEEPSEEK_API_KEY
-  });
+  const openai = new OpenAI()
 
   const finalPrompt =
     `Use the following pieces of context to answer the question at the end.
@@ -75,7 +72,7 @@ const getChain = async (questionGeneratorInput: QuestionGeneratorInput, isOpenAi
   ];
 
   const stream: any = await openai.chat.completions.create({
-    model: isOpenAi ? 'gpt-4o-mini' : 'deepseek-chat',
+    model: 'gpt-4o-mini',
     messages: messages,
     stream: true,
     temperature: 0,
@@ -106,7 +103,6 @@ export function converse(
   idArray: string[],
   openAIApiKey: string,
   isAskRipeseedChat: boolean = false,
-  isOpenAi: boolean = true,
 ) {
   return new ReadableStream({
     async start(controller) {
@@ -145,7 +141,7 @@ export function converse(
         instructions: isAskRipeseedChat ? instructions : '',
       }
 
-      const stream = await getChain(questionGeneratorInput, isOpenAi)
+      const stream = await getChain(questionGeneratorInput)
       let completeMessage = '';
       for await (const chunk of stream) {
         if (chunk.choices[0]?.delta?.content) {

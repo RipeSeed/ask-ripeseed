@@ -32,7 +32,6 @@ export const askRS_sendMessage = async ({
           content: message.content,
         },
       ],
-      isOpenAi: false // True : OpenAi, False: DeepSeek
     })
 
     const requestOptions = {
