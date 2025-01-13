@@ -1,12 +1,12 @@
 {
   "name": "ask-ripeseed",
-  "version": "0.1.0",
+  "version": "1.0.4",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "next dev --turbo",
     "infisical:fetch": "node load-env.js",
-    "format": "prettier --check \"**/*.{mjs,ts,md,json}\"",
+    "format": "prettier --write \"**/*.{mjs,ts,md,json}\" --config .prettierrc",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -15,7 +15,7 @@
   "dependencies": {
     "@gomomento/sdk": "^1.93.0",
     "@infisical/sdk": "^3.0.2",
-    "@langchain/community": "^0.2.4",
+    "@langchain/community": "^0.3.3",
     "@langchain/core": "^0.2.6",
     "@langchain/openai": "^0.0.34",
     "@langchain/pinecone": "^0.0.7",
@@ -46,7 +46,7 @@
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.379.0",
     "mongoose": "^8.4.1",
-    "next": "14.2.3",
+    "next": "14.2.10",
     "next-themes": "^0.3.0",
     "openai": "^4.47.1",
     "pdf-parse": "^1.1.1",
@@ -64,7 +64,7 @@
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "valtio": "^1.13.2"
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.11.3",

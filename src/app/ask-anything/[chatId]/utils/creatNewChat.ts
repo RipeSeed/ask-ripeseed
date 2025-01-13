@@ -1,15 +1,16 @@
-import { addChat, getAllChats, getChat } from '@/app/_lib/db'
-import { store } from '@/app/_utils/store'
+import { addChat, Chat, getAllChats, getChat } from '@/app/_lib/db'
 
-export async function addAndSelectChat() {
-  const { set } = store
+export async function addAndSelectChat(
+  setSelectedChat: (chat: Chat | undefined) => void,
+  setChats: (newChats: Chat[]) => void,
+) {
   const apiKey = localStorage.getItem('openai:key')
   if (apiKey?.length) {
     let chatId = await addChat({})
     const selectedChat = await getChat({ id: chatId })
     const chats = await getAllChats()
-    set('selectedChat', selectedChat)
-    set('chats', chats)
+    setSelectedChat(selectedChat)
+    setChats(chats)
     return chatId
   }
   return 0
