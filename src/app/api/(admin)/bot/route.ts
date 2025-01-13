@@ -39,3 +39,16 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     )
   }
 }
+
+export const GET = async () => {
+  try {
+    await connectDB()
+    const bot = await Bot.find()
+    return NextResponse.json({ bot: bot[0] }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 },
+    )
+  }
+}

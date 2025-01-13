@@ -46,9 +46,13 @@ export const useKnowledgeStore = create<State>((set) => ({
 interface Token {
   user: string | null
   setUser: (user: string) => void
+  key: boolean
+  setKey: (key: boolean) => void
 }
 
 export const useTokenStore = create<Token>((set) => ({
+  key: false,
+  setKey: (key) => set({ key }),
   user: null,
   setUser: (user) => set({ user }),
 }))

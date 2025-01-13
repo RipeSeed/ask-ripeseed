@@ -29,6 +29,7 @@ export default function AdminLayout({
       }
     }
   }, [])
+
   console.log(user)
 
   return (
