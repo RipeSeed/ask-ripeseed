@@ -13,7 +13,7 @@ export default function AdminLayout({
     <div className={`h-screen w-screen ${manrope.className}`}>
       <div className='flex h-full w-full justify-between'>
         {children}
-        <div className='relative h-full w-full flex-[1] bg-dashboardBg'>
+        <div className='relative h-full w-full flex-1 bg-dashboardBg'>
           <AuthCarousel />
         </div>
       </div>
