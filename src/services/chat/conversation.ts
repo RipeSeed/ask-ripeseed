@@ -1,8 +1,6 @@
-import { PromptTemplate } from '@langchain/core/prompts'
 import {  OpenAIEmbeddings } from '@langchain/openai'
 import { Document } from 'langchain/document'
 import { formatDocumentsAsString } from 'langchain/util/document'
-import { CacheGet, CacheSet, CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk';
 
 import 'server-only'
 
@@ -25,22 +23,8 @@ const instructions = `
   If you are mentioning multiple projects, mention them as a numbered list ONLY IF there are multiple projects.
   Make sure assistant response is ALWAYS in markdown format.
   Provide a paragraph where necessary, List where necessary, and code block with code language for syntax highlighting where code is needed.
-  Note: If user asks something NOT related to ripeseed, excuse them politely and ask them to ask the relevant questions.
+  Note: If user asks something NOT related to ripeseed, like any code snippet any other general question excuse them politely and ask them to ask the relevant questions regarding ripeseed.
 `
-
-const questionPrompt = PromptTemplate.fromTemplate(
-  `Use the following pieces of context to answer the question at the end.
-----------
-INSTRUCTIONS: {instructions}
-----------
-CONTEXT: {context}
-----------
-CHAT HISTORY: {chatHistory}
-----------
-QUESTION: {question}
-----------
-Helpful Answer:`,
-)
 
 const tools = [
   {
@@ -64,33 +48,12 @@ interface QuestionGeneratorInput {
   question: string;
 }
 
-const initializeCache = async () => {
-  const client = new CacheClient({
-    configuration: Configurations.Laptop.v1(),
-    credentialProvider: CredentialProvider.fromEnvironmentVariable({
-      environmentVariableName: 'MOMENTO_API_KEY',
-    }),
-    defaultTtlSeconds: 60 * 60 * 24,
+const getChain = async (questionGeneratorInput: QuestionGeneratorInput, isOpenAi: Boolean) => {
+
+  const openai = isOpenAi ? new OpenAI() : new OpenAI({
+    baseURL: process.env.DEEPSEEK_BASE_URL,
+    apiKey: process.env.DEEPSEEK_API_KEY
   });
-
-  return client
-  // ('no-ask-ripeseed');
-};
-
-const getChain = async (questionGeneratorInput: QuestionGeneratorInput) => {
-  const cache = await initializeCache();
-  const cacheKey = `openai:${questionGeneratorInput}`;
-
-  // Try to get the response from cache
-  const cacheResult = await cache.get('no-ask-ripeseed', cacheKey);
-  console.log("cacheResult", cacheResult);
-
-  if (cacheResult instanceof CacheGet.Hit) {
-    console.log('Cache hit!');
-    return cacheResult.valueString();
-  }
-
-  const openai = new OpenAI();
 
   const finalPrompt =
     `Use the following pieces of context to answer the question at the end.
@@ -112,7 +75,7 @@ const getChain = async (questionGeneratorInput: QuestionGeneratorInput) => {
   ];
 
   const stream: any = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
+    model: isOpenAi ? 'gpt-4o-mini' : 'deepseek-chat',
     messages: messages,
     stream: true,
     temperature: 0,
@@ -143,6 +106,7 @@ export function converse(
   idArray: string[],
   openAIApiKey: string,
   isAskRipeseedChat: boolean = false,
+  isOpenAi: boolean = true,
 ) {
   return new ReadableStream({
     async start(controller) {
@@ -181,7 +145,7 @@ export function converse(
         instructions: isAskRipeseedChat ? instructions : '',
       }
 
-      const stream = await getChain(questionGeneratorInput)
+      const stream = await getChain(questionGeneratorInput, isOpenAi)
       let completeMessage = '';
       for await (const chunk of stream) {
         if (chunk.choices[0]?.delta?.content) {
@@ -198,10 +162,6 @@ export function converse(
             }
           }
         }
-        const cache = await initializeCache();
-        const result = await cache.set('no-ask-ripeseed', `openai:${questionGeneratorInput.question}`, completeMessage);
-        console.log(`result`, result)
-
       }
 
       controller.close()
