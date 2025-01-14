@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Plus } from 'lucide-react'
+import { useDropzone } from 'react-dropzone'
 
 import {
   Accordion,
@@ -9,9 +10,27 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function BrandAccordion() {
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null)
+
+  const onDrop = (acceptedFiles: File[]) => {
+    if (acceptedFiles.length > 0) {
+      setUploadedFile(acceptedFiles[0])
+    }
+  }
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: {
+      'image/jpeg': ['.jpg', '.jpeg'],
+      'image/png': ['.png'],
+      'image/svg+xml': ['.svg'],
+    },
+    maxSize: 15 * 1024 * 1024,
+  })
+
   return (
     <div>
       <Accordion type='single' collapsible>
@@ -19,76 +38,135 @@ export default function BrandAccordion() {
           <AccordionTrigger>Theme</AccordionTrigger>
           <AccordionContent className='flex flex-col space-y-2'>
             {/* top section of the first question */}
-            <div className='flex flex-col space-y-2'>
-              <h1 className='py-3 text-[14px] font-medium text-dashboardSecondaryText'>
+            <div id='topSection' className='space-y-2' {...getRootProps()}>
+              <span id='title' className='text-sm font-medium text-[#797979]'>
                 Upload Logo
-              </h1>
-              <div className='flex items-center justify-between rounded border-2 border-dashed border-dashboardBorder p-2'>
-                <div className='flex flex-col space-y-1'>
-                  <span className='font-base text-xs'>
-                    Click to select or drag and drop
-                  </span>
-                  <span className='text-[10px] font-light text-dashboardSecondaryText'>
-                    SVG,JPG or PNG (max15 MB)
-                  </span>
-                </div>
-
-                <Button className='border-[2px] bg-transparent p-3 text-xs text-black shadow-none'>
+              </span>
+              <div
+                id='inputSection'
+                className='flex flex-col items-center space-y-1 rounded border-[1px] border-dashed border-gray-200 py-3'
+              >
+                <Avatar>
+                  <AvatarImage
+                    src={
+                      uploadedFile
+                        ? URL.createObjectURL(uploadedFile)
+                        : 'https://github.com/shadcn.png'
+                    }
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <span id='heading' className='text-sm font-medium'>
+                  Click to Update or drag and drop here
+                </span>
+                <span id='description' className='text-[10px] font-light'>
+                  SVG, JPG, or PNG (max 15MB)
+                </span>
+                <input {...getInputProps()} className='hidden' />
+                <button
+                  type='button'
+                  className='h-8 w-16 rounded-[8px] border-[1px] border-solid border-gray-300 text-xs font-medium'
+                >
                   Upload
-                </Button>
+                </button>
               </div>
             </div>
             {/* center section of the second question */}
-            <div className='flex flex-col space-y-2'>
-              <h1 className='text-xs text-dashboardSecondaryText'>
+            <div id='secondSection' className='flex flex-col space-y-2'>
+              <span id='title' className='text-xs font-normal text-[#797979]'>
                 Add Description (Metadata)
-              </h1>
+              </span>
               <input
-                className='w-full rounded-lg border-2 border-solid border-dashboardBorder p-2 outline-none'
                 type='text'
-                name=''
-                placeholder='SurgeAI - Generative, Powerful, No. 1'
-                id=''
+                placeholder='Surge AI - Generative, Powerful, No. 1'
+                className='rounded-[8px] border-[1px] border-solid border-gray-200 px-3 py-2 focus:outline-none'
+                id='desc'
               />
             </div>
-            {/* bottom section of the third question */}
-            {/* one */}
-            <div className='flex flex-col space-y-2'>
-              <h1 className='py-3 text-[14px] text-dashboardSecondaryText'>
-                Color Adjustments
-              </h1>
-              <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
-                <span className='text-xs font-medium'>
-                  History Pannel Background
-                </span>
-                <div className='flex items-center space-x-2'>
-                  <span className='font-font-medium text-xs'>#FFFFF</span>
-                  <input type='color' name='' id='' />
-                </div>
-              </div>
-              {/* two */}
-              <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
-                <span className='text-xs font-medium'>Chat Background</span>
-                <div className='flex items-center space-x-2'>
-                  <span className='font-font-medium text-xs'>#FFFFF</span>
-                  <input type='color' name='' id='' />
-                </div>
-              </div>
-              {/* three */}
-              <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
-                <span className='text-xs font-medium'>Chat User Bubble</span>
-                <div className='flex items-center space-x-2'>
-                  <span className='colortext text-xs font-medium'>#FFFFF</span>
-                  <input type='color' name='' id='' />
-                </div>
-              </div>
 
-              {/* four */}
-              <div className='flex items-center justify-between rounded-lg border-2 border-solid border-dashboardBorder p-2'>
-                <span className='text-xs font-medium'>Chat Bot Bubble</span>
-                <div className='flex items-center space-x-2'>
-                  <span className='font-font-medium text-xs'>#FFFFF</span>
-                  <input type='color' name='' id='' />
+            {/* bottom section of the third question */}
+            <div id='thirdSection' className='space-y-3'>
+              <span id='title' className='text-sm font-medium text-[#797979]'>
+                Color Adjustments
+              </span>
+              <div id='colorPickers' className='flex gap-3'>
+                {/* first Color Box */}
+                <div
+                  id='colorBox'
+                  className='flex h-20 w-64 flex-col justify-between rounded border-[1px] border-solid border-gray-300 p-3'
+                >
+                  <span className='text-sm font-medium'>
+                    History Pannel Background
+                  </span>
+                  <div
+                    id='colorhexa'
+                    className='flex items-end justify-between'
+                  >
+                    <span className='text-sm font-medium'>#ffff</span>
+                    <input
+                      type='color'
+                      name=''
+                      className='size-9 rounded-3xl'
+                      id=''
+                    />
+                  </div>
+                </div>
+                {/* second Box */}
+                <div
+                  id='colorBox'
+                  className='flex h-20 w-64 flex-col justify-between rounded border-[1px] border-solid border-gray-300 p-3'
+                >
+                  <span className='text-sm font-medium'>Chat Background</span>
+                  <div
+                    id='colorhexa'
+                    className='flex items-end justify-between'
+                  >
+                    <span className='text-sm font-medium'>#ffff</span>
+                    <input
+                      type='color'
+                      name=''
+                      className='size-9 rounded-3xl'
+                      id=''
+                    />
+                  </div>
+                </div>
+                {/* thirdBox */}
+                <div
+                  id='colorBox'
+                  className='flex h-20 w-64 flex-col justify-between rounded border-[1px] border-solid border-gray-300 p-3'
+                >
+                  <span className='text-sm font-medium'>Chat User Bubble</span>
+                  <div
+                    id='colorhexa'
+                    className='flex items-end justify-between'
+                  >
+                    <span className='text-sm font-medium'>#ffff</span>
+                    <input
+                      type='color'
+                      name=''
+                      className='size-9 rounded-3xl'
+                      id=''
+                    />
+                  </div>
+                </div>
+                {/* fourBox */}
+                <div
+                  id='colorBox'
+                  className='flex h-20 w-64 flex-col justify-between rounded border-[1px] border-solid border-gray-300 p-3'
+                >
+                  <span className='text-sm font-medium'>Chat Bot Bubble</span>
+                  <div
+                    id='colorhexa'
+                    className='flex items-end justify-between'
+                  >
+                    <span className='text-sm font-medium'>#ffff</span>
+                    <input
+                      type='color'
+                      name=''
+                      className='size-9 rounded-3xl'
+                      id=''
+                    />
+                  </div>
                 </div>
               </div>
             </div>
