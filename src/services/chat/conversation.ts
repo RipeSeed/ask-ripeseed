@@ -8,8 +8,8 @@ import { pineconeIndex } from './config'
 import { OpenAI } from 'openai'
 
 export interface Context {
-  role: 'user' | 'assistant' | 'system'
-  content: string
+  role: 'system' | 'user' | 'assistant' | 'tool' | 'function';
+  content: string;
 }
 
 const instructions = `
@@ -26,7 +26,7 @@ const instructions = `
   Note: If user asks something NOT related to ripeseed, like any code snippet any other general question excuse them politely and ask them to ask the relevant questions regarding ripeseed.
 `
 
-const tools = [
+const tools:  OpenAI.Chat.ChatCompletionTool[] = [
   {
     "type": "function",
     "function": {
@@ -48,9 +48,12 @@ interface QuestionGeneratorInput {
   question: string;
 }
 
-const getChain = async (questionGeneratorInput: QuestionGeneratorInput) => {
+const getChain = async (questionGeneratorInput: QuestionGeneratorInput, isOpenAi: boolean) => {
 
-  const openai = new OpenAI()
+  const openai = isOpenAi ? new OpenAI() : new OpenAI({
+    baseURL: process.env.DEEPSEEK_BASE_URL,
+    apiKey: process.env.DEEPSEEK_API_KEY
+  });
 
   const finalPrompt =
     `Use the following pieces of context to answer the question at the end.
@@ -65,14 +68,14 @@ const getChain = async (questionGeneratorInput: QuestionGeneratorInput) => {
 
   const messages = [
     {
-      role: "system",
+      role: "system" as const,
       content: instructions
     },
-    { role: "user", content: finalPrompt }
+    { role: "user" as const, content: finalPrompt }
   ];
 
   const stream: any = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
+    model: isOpenAi ? 'gpt-4o-mini' : 'deepseek-chat',
     messages: messages,
     stream: true,
     temperature: 0,
@@ -103,6 +106,7 @@ export function converse(
   idArray: string[],
   openAIApiKey: string,
   isAskRipeseedChat: boolean = false,
+  isOpenAi: boolean = true,
 ) {
   return new ReadableStream({
     async start(controller) {
@@ -141,7 +145,7 @@ export function converse(
         instructions: isAskRipeseedChat ? instructions : '',
       }
 
-      const stream = await getChain(questionGeneratorInput)
+      const stream = await getChain(questionGeneratorInput, isOpenAi)
       let completeMessage = '';
       for await (const chunk of stream) {
         if (chunk.choices[0]?.delta?.content) {

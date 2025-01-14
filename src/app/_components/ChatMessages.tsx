@@ -40,6 +40,7 @@ export function ChatMessages() {
     updateStateMetadata,
     resetStateMetadata,
     addedAskRSmsg,
+    isOpenAI
   } = useStore()
 
   const queryClient = useQueryClient()
@@ -203,6 +204,7 @@ export function ChatMessages() {
       uId,
       _id,
       onChunkReceived: handleChunkReceived,
+      isOpenAI,
     })
     return true
   }
