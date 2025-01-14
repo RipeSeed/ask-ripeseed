@@ -30,11 +30,25 @@ export default function BrandSettings() {
       {/* bottom section of the page */}
       <div className='flex h-[85%] rounded-lg'>
         <div className='flex w-full flex-col rounded-l-lg border-r-2 border-solid border-dashboardBorder bg-dashboardSecondary p-4'>
-          <div className='flex-1'>
-            <h1 className='text-lg font-medium'>Channels</h1>
-            <p className='text-sm font-light text-dashboardSecondaryText'>
-              The channels related to brand-able settings
-            </p>
+          <div className='flex flex-1 justify-between'>
+            <div id='left_side'>
+              <h1 className='text-lg font-medium'>Channels</h1>
+              <p className='text-sm font-light text-dashboardSecondaryText'>
+                The channels related to brand-able settings
+              </p>
+            </div>
+            <div id='right_side'>
+              <Select>
+                <SelectTrigger className='w-[150px]'>
+                  <SelectValue placeholder='Select Version' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='light'>Light</SelectItem>
+                  <SelectItem value='dark'>Dark</SelectItem>
+                  <SelectItem value='system'>System</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <div className='accordion mt-3 flex-[9] overflow-y-auto'>
             <BrandAccordion />

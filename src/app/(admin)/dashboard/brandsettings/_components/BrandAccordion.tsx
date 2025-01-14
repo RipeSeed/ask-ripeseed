@@ -51,7 +51,7 @@ export default function BrandAccordion() {
                     src={
                       uploadedFile
                         ? URL.createObjectURL(uploadedFile)
-                        : 'https://github.com/shadcn.png'
+                        : '/assets/brand-settings/brand.png'
                     }
                   />
                   <AvatarFallback>CN</AvatarFallback>
