@@ -1,20 +1,15 @@
-import { PromptTemplate } from '@langchain/core/prompts'
-import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
+import {  OpenAIEmbeddings } from '@langchain/openai'
 import { Document } from 'langchain/document'
 import { formatDocumentsAsString } from 'langchain/util/document'
 
 import 'server-only'
 
-import { CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk'
-import { MomentoCache } from '@langchain/community/caches/momento'
-import { tool } from '@langchain/core/tools'
-import { HttpResponseOutputParser } from 'langchain/output_parsers'
-
 import { pineconeIndex } from './config'
+import { OpenAI } from 'openai'
 
 export interface Context {
-  role: 'user' | 'assistant' | 'system'
-  content: string
+  role: 'system' | 'user' | 'assistant' | 'tool' | 'function';
+  content: string;
 }
 
 const instructions = `
@@ -28,73 +23,67 @@ const instructions = `
   If you are mentioning multiple projects, mention them as a numbered list ONLY IF there are multiple projects.
   Make sure assistant response is ALWAYS in markdown format.
   Provide a paragraph where necessary, List where necessary, and code block with code language for syntax highlighting where code is needed.
-  Note: If user asks something NOT related to ripeseed, excuse them politely and ask them to ask the relevant questions.
+  Note: If user asks something NOT related to ripeseed, like any code snippet any other general question excuse them politely and ask them to ask the relevant questions regarding ripeseed.
 `
 
-const questionPrompt = PromptTemplate.fromTemplate(
-  `Use the following pieces of context to answer the question at the end.
-----------
-INSTRUCTIONS: {instructions}
-----------
-CONTEXT: {context}
-----------
-CHAT HISTORY: {chatHistory}
-----------
-QUESTION: {question}
-----------
-Helpful Answer:`,
-)
-
-async function initializeCache() {
-  try {
-    const client = new CacheClient({
-      configuration: Configurations.Laptop.v1(),
-      credentialProvider: CredentialProvider.fromEnvironmentVariable({
-        environmentVariableName: 'MOMENTO_API_KEY',
-      }),
-      defaultTtlSeconds: 60 * 60 * 24,
-    })
-
-    const cache = await MomentoCache.fromProps({
-      client,
-      cacheName: 'ask-ripeseed',
-    })
-
-    return cache
-  } catch (error) {
-    console.warn('Failed to initialize cache:', error)
-    return null
+const tools:  OpenAI.Chat.ChatCompletionTool[] = [
+  {
+    "type": "function",
+    "function": {
+      "name": "book_meeting_call_appointment",
+      "description": "If someone wants to talk, books calls, meetings, appointments, or any meet-up with RipeSeed",
+      "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    }
   }
+]
+
+interface QuestionGeneratorInput {
+  instructions: string;
+  context: string;
+  chatHistory?: string;
+  question: string;
 }
 
-const getMeetingTool = tool(
-  async () => {
-    return 'BOOK_MEETING'
-  },
-  {
-    name: 'book_meeting_call_appointment',
-    description:
-      'If someone want to talk, books calls, meetings, appointments, or any meet-up with RipeSeed',
-  },
-)
+const getChain = async (questionGeneratorInput: QuestionGeneratorInput, isOpenAi: boolean) => {
 
-const getChain = async (apiKey: string) => {
-  const parser = new HttpResponseOutputParser()
+  const openai = isOpenAi ? new OpenAI() : new OpenAI({
+    baseURL: process.env.DEEPSEEK_BASE_URL,
+    apiKey: process.env.DEEPSEEK_API_KEY
+  });
 
-  // Try to initialize cache, but continue without it if it fails
-  const cache = await initializeCache().catch(() => null)
+  const finalPrompt =
+    `Use the following pieces of context to answer the question at the end.
+    ----------
+    CONTEXT: ${questionGeneratorInput.context}
+    ----------
+    CHAT HISTORY: ${questionGeneratorInput?.chatHistory}
+    ----------
+    QUESTION: ${questionGeneratorInput.question}
+    ----------
+    Helpful Answer:`
 
-  const chatModel = new ChatOpenAI({
-    ...(cache && { cache }), // Only include cache if initialization succeeded
-    apiKey,
-    model: 'gpt-4o-mini',
-    streaming: true,
-  })
+  const messages = [
+    {
+      role: "system" as const,
+      content: instructions
+    },
+    { role: "user" as const, content: finalPrompt }
+  ];
 
-  const func_chatModel = chatModel.bindTools([getMeetingTool])
-  const chain = questionPrompt.pipe(func_chatModel).pipe(parser)
+  const stream: any = await openai.chat.completions.create({
+    model: isOpenAi ? 'gpt-4o-mini' : 'deepseek-chat',
+    messages: messages,
+    stream: true,
+    temperature: 0,
+    tools: tools,
+    tool_choice: "auto"
+  });
 
-  return chain
+  return stream
 }
 
 const serializeChatHistory = (chatHistory: Context[]): string => {
@@ -117,6 +106,7 @@ export function converse(
   idArray: string[],
   openAIApiKey: string,
   isAskRipeseedChat: boolean = false,
+  isOpenAi: boolean = true,
 ) {
   return new ReadableStream({
     async start(controller) {
@@ -148,32 +138,28 @@ export function converse(
         )
       }
 
-      const questionGeneratorInput = {
+      const questionGeneratorInput: QuestionGeneratorInput = {
         chatHistory,
         context: serializedDocs,
         question,
         instructions: isAskRipeseedChat ? instructions : '',
       }
 
-      const stream = (await getChain(openAIApiKey)).streamEvents(
-        questionGeneratorInput,
-        { version: 'v1' },
-      )
-
+      const stream = await getChain(questionGeneratorInput, isOpenAi)
+      let completeMessage = '';
       for await (const chunk of stream) {
-        if (chunk?.event === 'on_parser_stream') {
-          const data = chunk?.data.chunk
-          controller.enqueue(data)
-        } else if (chunk.event === 'on_llm_end') {
-          const data = chunk?.data?.output?.generations[0]
-          console.log('Tool end:', chunk?.data?.output?.generations[0])
-          if (
-            Array.isArray(data) &&
-            data[0]?.message?.tool_calls &&
-            data[0].message.tool_calls[0]?.name ===
-              'book_meeting_call_appointment'
-          ) {
-            controller.enqueue('BOOK_MEETING')
+        if (chunk.choices[0]?.delta?.content) {
+          const content = chunk.choices[0].delta.content;
+          controller.enqueue(content);
+          completeMessage += content;
+        }
+
+        if (chunk.choices[0]?.delta?.tool_calls) {
+          const toolCalls = chunk.choices[0].delta.tool_calls;
+          if (Array.isArray(toolCalls) && toolCalls.length > 0) {
+            if (toolCalls[0].function?.name === "book_meeting_call_appointment") {
+              controller.enqueue("BOOK_MEETING");
+            }
           }
         }
       }

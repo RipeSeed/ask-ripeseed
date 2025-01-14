@@ -4,6 +4,7 @@ type APIRequest = {
   message: Message
   uId: string
   _id: number // this id is key of the last message added. Ensuring that the streamed content is added to the correct position
+  isOpenAI: boolean
 }
 
 export const askRS_sendMessage = async ({
@@ -11,6 +12,7 @@ export const askRS_sendMessage = async ({
   uId,
   onChunkReceived,
   _id,
+  isOpenAI = true,
 }: APIRequest & {
   onChunkReceived?: (id: number, chunk: string) => void
 }): Promise<void> => {
@@ -32,6 +34,7 @@ export const askRS_sendMessage = async ({
           content: message.content,
         },
       ],
+      isOpenAI
     })
 
     const requestOptions = {
