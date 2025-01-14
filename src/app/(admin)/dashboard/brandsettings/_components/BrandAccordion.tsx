@@ -33,14 +33,14 @@ export default function BrandAccordion() {
 
   return (
     <div>
-      <Accordion type='single' collapsible>
+      <Accordion type='single' collapsible defaultValue='item-1'>
         <AccordionItem value='item-1'>
-          <AccordionTrigger>Theme</AccordionTrigger>
+          <AccordionTrigger>Brand Appearance and Theme</AccordionTrigger>
           <AccordionContent className='flex flex-col space-y-2'>
             {/* top section of the first question */}
             <div id='topSection' className='space-y-2' {...getRootProps()}>
               <span id='title' className='text-sm font-medium text-[#797979]'>
-                Upload Logo
+                Add Brand Logo
               </span>
               <div
                 id='inputSection'
@@ -96,7 +96,7 @@ export default function BrandAccordion() {
                   className='flex h-20 w-64 flex-col justify-between rounded border-[1px] border-solid border-gray-300 p-3'
                 >
                   <span className='text-sm font-medium'>
-                    History Pannel Background
+                    History Background Color
                   </span>
                   <div
                     id='colorhexa'
@@ -116,7 +116,9 @@ export default function BrandAccordion() {
                   id='colorBox'
                   className='flex h-20 w-64 flex-col justify-between rounded border-[1px] border-solid border-gray-300 p-3'
                 >
-                  <span className='text-sm font-medium'>Chat Background</span>
+                  <span className='text-sm font-medium'>
+                    Main Chat Background Color
+                  </span>
                   <div
                     id='colorhexa'
                     className='flex items-end justify-between'
@@ -135,7 +137,9 @@ export default function BrandAccordion() {
                   id='colorBox'
                   className='flex h-20 w-64 flex-col justify-between rounded border-[1px] border-solid border-gray-300 p-3'
                 >
-                  <span className='text-sm font-medium'>Chat User Bubble</span>
+                  <span className='text-sm font-medium'>
+                    User Message Bubble Color
+                  </span>
                   <div
                     id='colorhexa'
                     className='flex items-end justify-between'
@@ -154,7 +158,9 @@ export default function BrandAccordion() {
                   id='colorBox'
                   className='flex h-20 w-64 flex-col justify-between rounded border-[1px] border-solid border-gray-300 p-3'
                 >
-                  <span className='text-sm font-medium'>Chat Bot Bubble</span>
+                  <span className='text-sm font-medium'>
+                    Bot Message Bubble Color
+                  </span>
                   <div
                     id='colorhexa'
                     className='flex items-end justify-between'
@@ -173,7 +179,7 @@ export default function BrandAccordion() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value='item-2'>
-          <AccordionTrigger>Font Setting</AccordionTrigger>
+          <AccordionTrigger>Customize Fonts</AccordionTrigger>
           <AccordionContent>
             {/* font setting first sectionl */}
             <div className='space-y-2'>

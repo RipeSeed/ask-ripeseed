@@ -16,7 +16,7 @@ export default function BrandSettings() {
     <div className='mx-auto h-full w-[95%]'>
       {/* buttons of the page */}
       <div className='flex h-[10%] items-center justify-between'>
-        <h1 className='text-3xl font-medium'>Brand Settings</h1>
+        <h1 className='text-3xl font-medium'>Customize Your Brand Setting</h1>
         <Button className='flex items-center justify-center space-x-1 bg-[#EAEAEA] text-sm text-black'>
           <Image
             src={`/assets/brandSettings/global.svg`}

@@ -3,11 +3,14 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function DashboardSideBar() {
-  const [activeTab, setActiveTab] = useState(0)
+  const pathname = usePathname()
+  const url = pathname?.split('/')[2] || ''
+
   const links = [
     {
       id: 1,
@@ -33,10 +36,7 @@ export default function DashboardSideBar() {
             {links.map((item, i) => (
               <Link href={`/dashboard/${item.url}`} key={i}>
                 <li
-                  onClick={() => {
-                    setActiveTab(item.id)
-                  }}
-                  className={`flex w-full cursor-pointer space-x-2 rounded-lg p-3 ${item.id === activeTab ? 'bg-dashboardActive' : ''}`}
+                  className={`flex w-full cursor-pointer space-x-2 rounded-lg p-3 ${item.url === url ? 'bg-dashboardActive' : ''}`}
                 >
                   <img src={item.icon} alt='' />
                   <span>{item.title}</span>
