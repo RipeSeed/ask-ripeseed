@@ -2,8 +2,14 @@ import React from 'react'
 import Image from 'next/image'
 
 import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import BrandAccordion from './_components/BrandAccordion'
-import Preview from './_components/Preview'
 
 export default function BrandSettings() {
   return (
@@ -23,21 +29,52 @@ export default function BrandSettings() {
       </div>
       {/* bottom section of the page */}
       <div className='flex h-[85%] rounded-lg'>
-        {/* left section */}
-        <div className='flex flex-1 flex-col rounded-l-lg border-r-2 border-solid border-dashboardBorder bg-dashboardSecondary p-4'>
-          <div className='flex-1'>
-            <h1 className='text-lg font-medium'>Channels</h1>
-            <p className='text-sm font-light text-dashboardSecondaryText'>
-              The channels related to brand-able settings
-            </p>
+        <div className='flex w-full flex-col rounded-l-lg border-r-2 border-solid border-dashboardBorder bg-dashboardSecondary p-4'>
+          <div className='flex flex-1 justify-between'>
+            <div id='left_side'>
+              <h1 className='text-lg font-medium'>Channels</h1>
+              <p className='text-sm font-light text-dashboardSecondaryText'>
+                The channels related to brand-able settings
+              </p>
+            </div>
+            <div id='right_side'>
+              <Select>
+                <SelectTrigger className='w-[150px]'>
+                  <SelectValue placeholder='Select Version' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='light'>Light</SelectItem>
+                  <SelectItem value='dark'>Dark</SelectItem>
+                  <SelectItem value='system'>System</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <div className='accordion mt-3 flex-[9] overflow-y-auto'>
             <BrandAccordion />
           </div>
-        </div>
-        {/* right section */}
-        <div className='flex-[2] rounded-r-lg bg-dashboardSecondary'>
-          <Preview />
+          <div id='btns' className='flex items-center justify-between'>
+            <div id='leftBtns'>
+              <Select>
+                <SelectTrigger className='w-[180px]'>
+                  <SelectValue placeholder='Apply Light Theme' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='light'>Light</SelectItem>
+                  <SelectItem value='dark'>Dark</SelectItem>
+                  <SelectItem value='system'>System</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div id='rightBtns ' className='flex gap-3'>
+              <button className='h-10 w-[78px] rounded-[8px] border-[1px] border-solid border-gray-300 text-sm'>
+                Cancel
+              </button>
+              <button className='h-10 w-36 rounded-[8px] bg-black text-sm font-medium text-white'>
+                Save this version
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
