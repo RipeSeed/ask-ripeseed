@@ -8,8 +8,8 @@ import { toast } from 'sonner'
 
 import { deleteAllMessages_aRS } from '@/app/_lib/db'
 import useStore from '@/app/_utils/store/store'
-import { Button } from '@/components/ui/button'
 import ModelSelect from '@/components/common/_components/ModelSelect'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogClose,
@@ -46,17 +46,15 @@ export default function ChatHeader() {
           Ask Anything
         </li>
       </div>
-      <div className='flex items-center absolute right-0 mr-[14px] gap-1'>
+      <div className='absolute right-0 mr-[14px] flex items-center gap-1'>
         {isPath(askRSPaths, pathname) ? (
-            <>
-              <div className="flex items-center justify-center">
-                <ModelSelect />
-              </div>
-              {askRSmsg ? (
-                <DeleteConfirmationDialog />
-              ) : null}
-            </>
-          ) : (
+          <>
+            <div className='flex items-center justify-center'>
+              <ModelSelect />
+            </div>
+            {askRSmsg ? <DeleteConfirmationDialog /> : null}
+          </>
+        ) : (
           <ConfigDialogue />
         )}
       </div>
