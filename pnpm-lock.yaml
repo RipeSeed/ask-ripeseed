@@ -19,16 +19,16 @@ importers:
         version: 3.0.3
       '@langchain/community':
         specifier: ^0.3.3
-        version: 0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
+        version: 0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
       '@langchain/core':
         specifier: ^0.2.6
-        version: 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+        version: 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       '@langchain/openai':
         specifier: ^0.0.34
-        version: 0.0.34(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))
+        version: 0.0.34(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))
       '@langchain/pinecone':
         specifier: ^0.0.7
-        version: 0.0.7(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+        version: 0.0.7(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       '@nextui-org/tooltip':
         specifier: ^2.0.39
         version: 2.0.39(@nextui-org/system@2.2.5(@nextui-org/theme@2.2.9(tailwindcss@3.4.7(ts-node@10.9.1(@types/node@20.14.14)(typescript@5.5.4))))(framer-motion@11.3.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nextui-org/theme@2.2.9(tailwindcss@3.4.7(ts-node@10.9.1(@types/node@20.14.14)(typescript@5.5.4))))(framer-motion@11.3.22(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -106,7 +106,7 @@ importers:
         version: 0.16.11
       langchain:
         specifier: ^0.2.3
-        version: 0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
+        version: 0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -132,11 +132,14 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       react:
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1
       react-dom:
-        specifier: ^18
+        specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      react-dropzone:
+        specifier: ^14.3.5
+        version: 14.3.5(react@18.3.1)
       react-hook-form:
         specifier: ^7.53.2
         version: 7.53.2(react@18.3.1)
@@ -2399,6 +2402,10 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
+  attr-accept@2.2.5:
+    resolution: {integrity: sha512-0bDNnY/u6pPwHDMoF0FieU354oBi0a8rD9FcsLwzcGWbc8KS8KPIi7y+s13OlVY+gMWc/9xEMUgNE6Qm8ZllYQ==}
+    engines: {node: '>=4'}
+
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
@@ -3338,6 +3345,10 @@ packages:
   file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
+
+  file-selector@2.1.2:
+    resolution: {integrity: sha512-QgXo+mXTe8ljeqUFaX3QVHc5osSItJ/Km+xpocx0aSqWGMSCf6qYs/VnzZgS864Pjn5iceMRFigeAV7AfTlaig==}
+    engines: {node: '>= 12'}
 
   file-type@16.5.4:
     resolution: {integrity: sha512-/yFHK0aGjFEgDJjEKP0pWCplsPFPhwyfwevf/pVxiN0tmE4L9LmwWxWukdJSHdoCli4VgQLehjJtwQBnqmsKcw==}
@@ -5068,6 +5079,12 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
+  react-dropzone@14.3.5:
+    resolution: {integrity: sha512-9nDUaEEpqZLOz5v5SUcFA0CjM4vq8YbqO0WRls+EYT7+DvxUdzDPKNCPLqGfj3YL9MsniCLCD4RFA6M95V6KMQ==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      react: '>= 16.8 || 18.0.0'
+
   react-hook-form@7.53.2:
     resolution: {integrity: sha512-YVel6fW5sOeedd1524pltpHX+jgU2u3DSDtXEaBORNdqiNrsX/nUI/iGXONegttg0mJVnfrIkiV0cmTU6Oo2xw==}
     engines: {node: '>=18.0.0'}
@@ -5612,6 +5629,9 @@ packages:
 
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
+
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -6554,18 +6574,18 @@ snapshots:
 
   '@js-sdsl/ordered-map@4.4.2': {}
 
-  '@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)':
+  '@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)':
     dependencies:
       '@browserbasehq/stagehand': 1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8)
       '@ibm-cloud/watsonx-ai': 1.2.0
-      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
-      '@langchain/openai': 0.2.6(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/openai': 0.2.6(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       ibm-cloud-sdk-core: 5.1.0
       js-yaml: 4.1.0
-      langchain: 0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
+      langchain: 0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
       langsmith: 0.2.8(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       openai: 4.55.0(encoding@0.1.13)(zod@3.23.8)
       uuid: 10.0.0
@@ -6601,13 +6621,13 @@ snapshots:
       - node-llama-cpp
       - peggy
 
-  '@langchain/core@0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))':
+  '@langchain/core@0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.41(47jrlyp7kumkfswtvn4hyxuwqu)
+      langsmith: 0.1.41(@langchain/core@0.2.21)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -6618,9 +6638,9 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/openai@0.0.34(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))':
+  '@langchain/openai@0.0.34(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       js-tiktoken: 1.0.12
       openai: 4.55.0(encoding@0.1.13)(zod@3.23.8)
       zod: 3.23.8
@@ -6629,9 +6649,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/openai@0.2.6(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))':
+  '@langchain/openai@0.2.6(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       js-tiktoken: 1.0.12
       openai: 4.55.0(encoding@0.1.13)(zod@3.23.8)
       zod: 3.23.8
@@ -6640,9 +6660,9 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/pinecone@0.0.7(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))':
+  '@langchain/pinecone@0.0.7(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       '@pinecone-database/pinecone': 2.2.2
       flat: 5.0.2
       uuid: 9.0.1
@@ -6650,9 +6670,9 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))':
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
@@ -8070,6 +8090,8 @@ snapshots:
 
   asynckit@0.4.0: {}
 
+  attr-accept@2.2.5: {}
+
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.0.0
@@ -9089,6 +9111,10 @@ snapshots:
     dependencies:
       flat-cache: 3.2.0
 
+  file-selector@2.1.2:
+    dependencies:
+      tslib: 2.8.1
+
   file-type@16.5.4:
     dependencies:
       readable-web-to-node-stream: 3.0.2
@@ -9502,7 +9528,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.7.4(debug@4.3.6))
+      retry-axios: 2.6.0(axios@1.7.4)
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -9807,16 +9833,16 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0):
+  langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0):
     dependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
-      '@langchain/openai': 0.2.6(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/openai': 0.2.6(encoding@0.1.13)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.1.41(47jrlyp7kumkfswtvn4hyxuwqu)
+      langsmith: 0.1.41(@langchain/core@0.2.21)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -9827,7 +9853,7 @@ snapshots:
       '@browserbasehq/sdk': 2.0.0(encoding@0.1.13)
       '@gomomento/sdk': 1.93.0(encoding@0.1.13)
       '@gomomento/sdk-core': 1.93.0
-      '@langchain/community': 0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
+      '@langchain/community': 0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
       '@pinecone-database/pinecone': 2.2.2
       axios: 1.7.4(debug@4.3.6)
       ignore: 5.3.1
@@ -9839,7 +9865,7 @@ snapshots:
       - encoding
       - openai
 
-  langsmith@0.1.41(47jrlyp7kumkfswtvn4hyxuwqu):
+  langsmith@0.1.41(@langchain/core@0.2.21)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8)):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -9848,8 +9874,8 @@ snapshots:
       semver: 7.6.3
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
-      langchain: 0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4(debug@4.3.6))(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
+      '@langchain/core': 0.2.21(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))
+      langchain: 0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.4)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
       openai: 4.55.0(encoding@0.1.13)(zod@3.23.8)
 
   langsmith@0.2.8(openai@4.55.0(encoding@0.1.13)(zod@3.23.8)):
@@ -10906,6 +10932,13 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
+  react-dropzone@14.3.5(react@18.3.1):
+    dependencies:
+      attr-accept: 2.2.5
+      file-selector: 2.1.2
+      prop-types: 15.8.1
+      react: 18.3.1
+
   react-hook-form@7.53.2(react@18.3.1):
     dependencies:
       react: 18.3.1
@@ -11118,7 +11151,7 @@ snapshots:
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
-  retry-axios@2.6.0(axios@1.7.4(debug@4.3.6)):
+  retry-axios@2.6.0(axios@1.7.4):
     dependencies:
       axios: 1.7.4(debug@4.3.6)
 
@@ -11589,6 +11622,8 @@ snapshots:
       strip-bom: 3.0.0
 
   tslib@2.6.3: {}
+
+  tslib@2.8.1: {}
 
   type-check@0.4.0:
     dependencies:
