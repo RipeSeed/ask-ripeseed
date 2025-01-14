@@ -89,7 +89,7 @@ export default function BrandAccordion() {
               <span id='title' className='text-sm font-medium text-[#797979]'>
                 Color Adjustments
               </span>
-              <div id='colorPickers' className='flex gap-3'>
+              <div id='colorPickers' className='flex flex-wrap gap-3'>
                 {/* first Color Box */}
                 <div
                   id='colorBox'
