@@ -40,7 +40,7 @@ export function ChatMessages() {
     updateStateMetadata,
     resetStateMetadata,
     addedAskRSmsg,
-    isOpenAI
+    isOpenAI,
   } = useStore()
 
   const queryClient = useQueryClient()
@@ -109,9 +109,10 @@ export function ChatMessages() {
 
   useEffect(() => {
     if (messages.length) {
+      addedAskRSmsg()
       scrollToBottom()
     }
-  }, [messages])
+  }, [addedAskRSmsg, messages])
 
   useEffect(() => {
     if (clearChat) {
