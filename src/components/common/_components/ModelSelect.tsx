@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
 import useStore from '@/app/_utils/store/store';
 import {
   Select,
@@ -15,15 +15,31 @@ interface ModelSelectProps {
 const ModelSelect: React.FC<ModelSelectProps> = ({
                                                    className = '',
                                                  }) => {
-  const { isOpenAI, setIsOpenAI } = useStore();
 
+  const [selectedModel, setSelectedModel] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('selected_model') || 'openai';
+    }
+    return 'openai';
+  });
+
+  // Update localStorage when model changes
   const handleValueChange = (value: string) => {
-    setIsOpenAI(value === 'openai');
+    setSelectedModel(value);
+    localStorage.setItem('selected_model', value);
   };
+
+  // Sync with localStorage on mount
+  useEffect(() => {
+    const storedModel = localStorage.getItem('selected_model');
+    if (storedModel) {
+      setSelectedModel(storedModel);
+    }
+  }, []);
 
   return (
     <Select
-      defaultValue={isOpenAI ? 'openai' : 'deepseek'}
+      value={selectedModel}
       onValueChange={handleValueChange}
     >
       <SelectTrigger className={`w-32 ${className}`}>

@@ -1,15 +1,16 @@
-import {  OpenAIEmbeddings } from '@langchain/openai'
+import { OpenAIEmbeddings } from '@langchain/openai'
 import { Document } from 'langchain/document'
 import { formatDocumentsAsString } from 'langchain/util/document'
 
 import 'server-only'
 
-import { pineconeIndex } from './config'
 import { OpenAI } from 'openai'
 
+import { pineconeIndex } from './config'
+
 export interface Context {
-  role: 'system' | 'user' | 'assistant' | 'tool' | 'function';
-  content: string;
+  role: 'system' | 'user' | 'assistant' | 'tool' | 'function'
+  content: string
 }
 
 const instructions = `
@@ -26,37 +27,41 @@ const instructions = `
   Note: If user asks something NOT related to ripeseed, like any code snippet any other general question excuse them politely and ask them to ask the relevant questions regarding ripeseed.
 `
 
-const tools:  OpenAI.Chat.ChatCompletionTool[] = [
+const tools: OpenAI.Chat.ChatCompletionTool[] = [
   {
-    "type": "function",
-    "function": {
-      "name": "book_meeting_call_appointment",
-      "description": "If someone wants to talk, books calls, meetings, appointments, or any meet-up with RipeSeed",
-      "parameters": {
-        "type": "object",
-        "properties": {},
-        "required": []
-      }
-    }
-  }
+    type: 'function',
+    function: {
+      name: 'book_meeting_call_appointment',
+      description:
+        'If someone wants to talk, books calls, meetings, appointments, or any meet-up with RipeSeed',
+      parameters: {
+        type: 'object',
+        properties: {},
+        required: [],
+      },
+    },
+  },
 ]
 
 interface QuestionGeneratorInput {
-  instructions: string;
-  context: string;
-  chatHistory?: string;
-  question: string;
+  instructions: string
+  context: string
+  chatHistory?: string
+  question: string
 }
 
-const getChain = async (questionGeneratorInput: QuestionGeneratorInput, isOpenAi: boolean) => {
+const getChain = async (
+  questionGeneratorInput: QuestionGeneratorInput,
+  isOpenAi: boolean,
+) => {
+  const openai = isOpenAi
+    ? new OpenAI()
+    : new OpenAI({
+        baseURL: process.env.DEEPSEEK_BASE_URL,
+        apiKey: process.env.DEEPSEEK_API_KEY,
+      })
 
-  const openai = isOpenAi ? new OpenAI() : new OpenAI({
-    baseURL: process.env.DEEPSEEK_BASE_URL,
-    apiKey: process.env.DEEPSEEK_API_KEY
-  });
-
-  const finalPrompt =
-    `Use the following pieces of context to answer the question at the end.
+  const finalPrompt = `Use the following pieces of context to answer the question at the end.
     ----------
     CONTEXT: ${questionGeneratorInput.context}
     ----------
@@ -68,11 +73,11 @@ const getChain = async (questionGeneratorInput: QuestionGeneratorInput, isOpenAi
 
   const messages = [
     {
-      role: "system" as const,
-      content: instructions
+      role: 'system' as const,
+      content: instructions,
     },
-    { role: "user" as const, content: finalPrompt }
-  ];
+    { role: 'user' as const, content: finalPrompt },
+  ]
 
   const stream: any = await openai.chat.completions.create({
     model: isOpenAi ? 'gpt-4o-mini' : 'deepseek-chat',
@@ -80,8 +85,8 @@ const getChain = async (questionGeneratorInput: QuestionGeneratorInput, isOpenAi
     stream: true,
     temperature: 0,
     tools: tools,
-    tool_choice: "auto"
-  });
+    tool_choice: 'auto',
+  })
 
   return stream
 }
@@ -146,19 +151,21 @@ export function converse(
       }
 
       const stream = await getChain(questionGeneratorInput, isOpenAi)
-      let completeMessage = '';
+      let completeMessage = ''
       for await (const chunk of stream) {
         if (chunk.choices[0]?.delta?.content) {
-          const content = chunk.choices[0].delta.content;
-          controller.enqueue(content);
-          completeMessage += content;
+          const content = chunk.choices[0].delta.content
+          controller.enqueue(content)
+          completeMessage += content
         }
 
         if (chunk.choices[0]?.delta?.tool_calls) {
-          const toolCalls = chunk.choices[0].delta.tool_calls;
+          const toolCalls = chunk.choices[0].delta.tool_calls
           if (Array.isArray(toolCalls) && toolCalls.length > 0) {
-            if (toolCalls[0].function?.name === "book_meeting_call_appointment") {
-              controller.enqueue("BOOK_MEETING");
+            if (
+              toolCalls[0].function?.name === 'book_meeting_call_appointment'
+            ) {
+              controller.enqueue('BOOK_MEETING')
             }
           }
         }

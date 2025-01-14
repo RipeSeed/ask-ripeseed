@@ -10,7 +10,6 @@ interface State {
   openAIKey: string
   clearChat: boolean
   askRSmsg: boolean
-  isOpenAI: boolean
 
   stateMetadata: {
     chatId: number
@@ -27,7 +26,6 @@ interface State {
   toggleDeleteDialogOpen: () => void
   setOpenAIKey: (key: string) => void
   setClearChat: (value: boolean) => void
-  setIsOpenAI: (value: boolean) => void
   updateStateMetadata: (metadata: Partial<State['stateMetadata']>) => void
   resetStateMetadata: () => void
 }
@@ -40,7 +38,6 @@ const useStore = create<State>((set) => ({
   openAIKey: '',
   clearChat: false,
   askRSmsg: false,
-  isOpenAI: true,
 
   stateMetadata: {
     chatId: 0,
@@ -59,7 +56,6 @@ const useStore = create<State>((set) => ({
     set((state) => ({ isDeleteDialogOpen: !state.isDeleteDialogOpen })),
   setOpenAIKey: (key) => set({ openAIKey: key }),
   setClearChat: (value) => set({ clearChat: value }),
-  setIsOpenAI: (value) => set({ isOpenAI: value }),
 
   updateStateMetadata: (metadata) =>
     set((state) => ({

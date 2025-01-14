@@ -34,7 +34,7 @@ export const askRS_sendMessage = async ({
           content: message.content,
         },
       ],
-      isOpenAI
+      isOpenAI,
     })
 
     const requestOptions = {
