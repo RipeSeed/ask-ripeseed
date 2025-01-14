@@ -46,15 +46,17 @@ export default function ChatHeader() {
           Ask Anything
         </li>
       </div>
-      <div className='flex items-center absolute right-0 mr-[14px]'>
-        <div className="flex items-center justify-center">
-          <ModelSelect />
-        </div>
+      <div className='flex items-center absolute right-0 mr-[14px] gap-1'>
         {isPath(askRSPaths, pathname) ? (
-          askRSmsg ? (
-            <DeleteConfirmationDialog />
-          ) : null
-        ) : (
+            <>
+              <div className="flex items-center justify-center">
+                <ModelSelect />
+              </div>
+              {askRSmsg ? (
+                <DeleteConfirmationDialog />
+              ) : null}
+            </>
+          ) : (
           <ConfigDialogue />
         )}
       </div>
