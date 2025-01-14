@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     [indexId],
     apiKey,
     true,
-    isOpenAI
+    isOpenAI,
   )
 
   return new Response(streamedResponse, {
