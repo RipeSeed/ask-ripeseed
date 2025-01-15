@@ -12,7 +12,7 @@ import {
   X,
 } from 'lucide-react'
 
-import { ChatMessages } from './_components/ChatMessages'
+import { ChatMessages } from '../_components/ChatMessages'
 
 export default function Page() {
   const links = [
