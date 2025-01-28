@@ -35,18 +35,18 @@ export default function ChatHeader() {
       <div className='flex gap-1 rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white'>
         <li
           onClick={() => router.push('/')}
-          className={`cursor-pointer select-none list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? 'rounded-full bg-crayola text-white drop-shadow-lg' : 'rounded-full hover:bg-accent'} `}
+          className={`cursor-pointer select-none list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-2 md:py-2 text-[12px] md:text-lg ${isPath(askRSPaths, pathname) ? 'rounded-full bg-crayola text-white drop-shadow-lg' : 'rounded-full hover:bg-accent'} `}
         >
           Ask RipeSeed
         </li>
         <li
           onClick={() => router.push('/ask-anything')}
-          className={`cursor-pointer select-none list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? 'rounded-full bg-crayola text-white drop-shadow-lg' : 'rounded-full hover:bg-accent'}`}
+          className={`cursor-pointer select-none list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-2 md:py-2 text-[12px] md:text-lg ${isPath(generalPaths, pathname) ? 'rounded-full bg-crayola text-white drop-shadow-lg' : 'rounded-full hover:bg-accent'}`}
         >
           Ask Anything
         </li>
       </div>
-      <div className='absolute right-0 mr-[14px] flex items-center gap-1'>
+      <div className='absolute right-0 mr-[14px] flex items-center'>
         {isPath(askRSPaths, pathname) ? (
           <>
             <div className='flex items-center justify-center'>
