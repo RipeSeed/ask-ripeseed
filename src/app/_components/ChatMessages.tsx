@@ -40,6 +40,8 @@ export function ChatMessages() {
     updateStateMetadata,
     resetStateMetadata,
     addedAskRSmsg,
+    selectedModel,
+    setSelectedModel
   } = useStore()
 
   const queryClient = useQueryClient()
@@ -197,9 +199,7 @@ export function ChatMessages() {
     }
     setMessages((prev) => [...prev, chatbotMessage])
     const _id = await appendMessageContent_aRS(-1, chatbotMessage.content)
-
-    const storedModel = localStorage.getItem('selected_model');
-    const isOpenAI = storedModel === 'openai';
+    const isOpenAI = selectedModel === 'openai';
 
     await sendMessageMutation({
       message: tmpMessage,
