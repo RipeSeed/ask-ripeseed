@@ -10,7 +10,7 @@ interface State {
   openAIKey: string
   clearChat: boolean
   askRSmsg: boolean
-  selectedModel: string // New state
+  selectedModel: string
 
   stateMetadata: {
     chatId: number
@@ -27,7 +27,7 @@ interface State {
   toggleDeleteDialogOpen: () => void
   setOpenAIKey: (key: string) => void
   setClearChat: (value: boolean) => void
-  setSelectedModel: (model: string) => void // New action
+  setSelectedModel: (model: string) => void
   updateStateMetadata: (metadata: Partial<State['stateMetadata']>) => void
   resetStateMetadata: () => void
 }
@@ -41,7 +41,6 @@ const useStore = create<State>((set) => ({
   clearChat: false,
   askRSmsg: false,
   selectedModel: (() => {
-    // Initialize with localStorage value
     if (typeof window !== 'undefined') {
       return localStorage.getItem('selected_model') || 'openai'
     }
