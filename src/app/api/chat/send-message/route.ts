@@ -5,7 +5,7 @@ export async function POST(request: Request, response: Response) {
     // indexId is the id of the document index
     const { apiKey, messages, indexId, chatId } = await request.json()
     // Documents chat
-    const streamedResponse = await converse(
+    const streamedResponse = converse(
       messages[messages.length - 1].content,
       messages,
       [indexId],

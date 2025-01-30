@@ -199,14 +199,13 @@ export function ChatMessages() {
     }
     setMessages((prev) => [...prev, chatbotMessage])
     const _id = await appendMessageContent_aRS(-1, chatbotMessage.content)
-    const isOpenAI = selectedModel === 'openai';
 
     await sendMessageMutation({
       message: tmpMessage,
       uId,
       _id,
       onChunkReceived: handleChunkReceived,
-      isOpenAI,
+      provider: selectedModel,
     })
     return true
   }

@@ -50,16 +50,47 @@ interface QuestionGeneratorInput {
   question: string
 }
 
-const getChain = async (
-  questionGeneratorInput: QuestionGeneratorInput,
-  isOpenAi: boolean,
-) => {
-  const openai = isOpenAi
-    ? new OpenAI()
-    : new OpenAI({
+const getClientConfig = (provider: string) => {
+  switch (provider) {
+    case 'openai':
+      return {
+        apiKey: process.env.OPENAI_API_KEY,
+      }
+    case 'deepseek':
+      return {
         baseURL: process.env.DEEPSEEK_BASE_URL,
         apiKey: process.env.DEEPSEEK_API_KEY,
-      })
+      }
+    case 'xai':
+      return {
+        baseURL: process.env.XAI_BASE_URL,
+        apiKey: process.env.XAI_API_KEY,
+      }
+    default:
+      return {
+        apiKey: process.env.OPENAI_API_KEY,
+      }
+  }
+}
+
+const getClientModel = (provider: string) => {
+  switch (provider) {
+    case 'openai':
+      return 'gpt-4o-mini'
+    case 'deepseek':
+      return 'deepseek-chat'
+    case 'xai':
+      return 'grok-2-latest'
+    default:
+      return 'gpt-4o-mini'
+  }
+}
+
+const getChain = async (
+  questionGeneratorInput: QuestionGeneratorInput,
+  provider: string,
+) => {
+  const openai = new OpenAI(getClientConfig(provider))
 
   const finalPrompt = `Use the following pieces of context to answer the question at the end.
     ----------
@@ -78,9 +109,9 @@ const getChain = async (
     },
     { role: 'user' as const, content: finalPrompt },
   ]
-
+  const model = getClientModel(provider) || 'gpt-4o-mini'
   const stream: any = await openai.chat.completions.create({
-    model: isOpenAi ? 'gpt-4o-mini' : 'deepseek-chat',
+    model: model,
     messages: messages,
     stream: true,
     temperature: 0,
@@ -111,7 +142,7 @@ export function converse(
   idArray: string[],
   openAIApiKey: string,
   isAskRipeseedChat: boolean = false,
-  isOpenAi: boolean = true,
+  provider: string = 'openai',
 ) {
   return new ReadableStream({
     async start(controller) {
@@ -150,7 +181,7 @@ export function converse(
         instructions: isAskRipeseedChat ? instructions : '',
       }
 
-      const stream = await getChain(questionGeneratorInput, isOpenAi)
+      const stream = await getChain(questionGeneratorInput, provider)
       let completeMessage = ''
       for await (const chunk of stream) {
         if (chunk.choices[0]?.delta?.content) {
