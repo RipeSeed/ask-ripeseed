@@ -25,7 +25,16 @@ const ModelSelect: React.FC<ModelSelectProps> = ({
   };
 
   const getInitials = (model: string) => {
-    return model === 'openai' ? 'O' : 'D';
+    switch (model) {
+      case 'openai':
+        return 'O'
+      case 'deepseek':
+        return 'D'
+      case 'xai':
+        return 'X'
+      default:
+        return 'O'
+    }
   };
 
   return (
@@ -42,6 +51,7 @@ const ModelSelect: React.FC<ModelSelectProps> = ({
       <SelectContent>
         <SelectItem value="deepseek">DeepSeek</SelectItem>
         <SelectItem value="openai">OpenAI</SelectItem>
+        <SelectItem value="xai">X Grok</SelectItem>
       </SelectContent>
     </Select>
   );
