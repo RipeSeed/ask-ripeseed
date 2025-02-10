@@ -85,7 +85,7 @@ export const MessageContainer = ({
           ) : (
             <>
               {message.role === 'user' ? (
-                <div className='prose rounded-xl bg-[#EBEBEB] p-3 text-black dark:bg-[#404043] dark:text-white'>
+                <div className='dark:bg-chatBotBubble prose rounded-xl bg-[#EBEBEB] p-3 text-black dark:text-white'>
                   {message.content}
                 </div>
               ) : (

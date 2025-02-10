@@ -73,7 +73,7 @@ export default function TokenPage() {
                 type='submit'
                 className='w-1/2 border-[1px] border-solid border-gray-400 bg-transparent text-black shadow-none'
               >
-                Skip
+                <Link href={`/dashboard/summary`}>Skip</Link>
               </Button>
               <Button
                 type='submit'
