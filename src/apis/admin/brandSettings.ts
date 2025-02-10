@@ -1,5 +1,6 @@
 import axiosInstance from '@/utils/axios'
 
+//added some comments
 interface BrandSettingsData {
   user: string
   theme: {
