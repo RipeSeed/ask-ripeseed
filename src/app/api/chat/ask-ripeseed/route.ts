@@ -1,6 +1,7 @@
 import { Message } from '@/app/(chat)/_lib/db'
-import { AskRipeseedChat } from '@/models'
+import { AskRipeseedChat, connectDB } from '@/models'
 import type { Message as MessageModel } from '@/models/AskRipeseedChat.model'
+import Prompt from '@/models/knowledgeBase/Prompt.model'
 import { converse } from '@/services/chat/conversation'
 
 // this is chat with ripeseed's own document. so users can ask questions
@@ -12,7 +13,12 @@ export async function POST(request: Request) {
   console.log(apiKey, '..s.s.s.s.s.s.s')
   console.log(indexId, '............')
 
+  await connectDB()
+  const promptSettings = await Prompt.find()
+  console.log(promptSettings)
+
   const streamedResponse = converse(
+    promptSettings,
     messages[messages.length - 1].content,
     messages,
     [indexId],

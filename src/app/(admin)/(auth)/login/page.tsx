@@ -1,15 +1,13 @@
 'use client'
 
-import { AnyMxRecord } from 'dns'
 import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,47 +18,55 @@ import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/hooks/use-toast'
 
 const formSchema = z.object({
-  email: z.string().email('Email must be a Valid email'),
-  password: z.string().min(4, {
-    message: 'Password must be a valid password',
-  }),
+  email: z.string().email('Email must be a valid email'),
+  password: z
+    .string()
+    .min(4, { message: 'Password must be at least 4 characters' }),
 })
 
 export default function Login() {
   const { toast } = useToast()
-
   const form = useForm({
     resolver: zodResolver(formSchema),
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isError, setIsError] = useState('')
 
   const onSubmit = async (data: any) => {
+    setIsSubmitting(true)
+
     try {
-      await signIn('credentials', {
+      const result = await signIn('credentials', {
         email: data.email,
         password: data.password,
-        redirectTo: '/dashboard/knowledgebase',
+        redirect: false,
       })
-      setIsSubmitting(true)
 
-      form.reset()
-      setIsSubmitting(false)
+      if (result?.error) {
+        throw new Error(result.error)
+      }
+
+      toast({
+        title: 'Login Successful',
+        description: 'Redirecting...',
+      })
+
+      window.location.href = '/dashboard/knowledgebase'
     } catch (error: any) {
       toast({
         title: 'Login Error',
-        description: 'try To login using correct credentials',
+        description: error.message || 'Please check your credentials',
+        variant: 'destructive',
       })
-      setIsError(error.message)
-      throw new Error('Error in The Login')
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
   return (
-    <div className='flex flex-[1] flex-col'>
-      <div className='flex flex-[1] items-center justify-center text-2xl font-medium'>
-        <h1 className='text-2xl font-semibold'>Login To DashBoard</h1>
+    <div className='flex flex-1 flex-col'>
+      <div className='flex flex-1 items-center justify-center text-2xl font-medium'>
+        <h1 className='text-2xl font-semibold'>Login To Dashboard</h1>
       </div>
       <Separator />
       <div className='m-auto w-[70%] flex-[4] pt-16'>
@@ -99,9 +105,10 @@ export default function Login() {
             <div className='mt-4'>
               <button
                 type='submit'
-                className='rounded bg-black px-4 py-2 text-white'
+                className='rounded bg-black px-4 py-2 text-white disabled:opacity-50'
+                disabled={isSubmitting}
               >
-                {isSubmitting ? <>Signin In..</> : <>Submit</>}
+                {isSubmitting ? 'Signing In...' : 'Submit'}
               </button>
             </div>
           </form>

@@ -102,12 +102,15 @@ const serializeChatHistory = (chatHistory: Context[]): string => {
 }
 
 export function converse(
+  // newly added
+  promptSettings: any,
   message: string,
   context: Context[],
   idArray: string[],
   openAIApiKey: string,
   isAskRipeseedChat: boolean = false,
 ) {
+  console.log(promptSettings[0].prompt)
   return new ReadableStream({
     async start(controller) {
       const question = message
@@ -122,8 +125,8 @@ export function converse(
       if (idArray[0] !== null) {
         const docs = await pineconeIndex.query({
           vector,
-          topK: 5,
-          filter: { id: { $in: idArray } },
+          // newly added
+          topK: 2,
           includeMetadata: true,
         })
 
@@ -137,13 +140,14 @@ export function converse(
           ),
         )
       }
-
-      // let promptMessage = prompt.prompt[0].prompt
+      // newly added
+      let promptMessage = await promptSettings[0].prompt
       const questionGeneratorInput = {
         chatHistory,
         context: serializedDocs,
         question,
-        instructions: isAskRipeseedChat ? instructions : '',
+        // newly added
+        instructions: isAskRipeseedChat ? promptMessage : '',
       }
       console.log(questionGeneratorInput)
 

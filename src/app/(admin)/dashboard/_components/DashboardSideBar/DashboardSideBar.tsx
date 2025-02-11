@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function DashboardSideBar() {
   const [activeTab, setActiveTab] = useState(0)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
   const { setUser } = useTokenStore()
 
   const links = [
@@ -22,12 +23,22 @@ export default function DashboardSideBar() {
   ]
 
   const handleClick = async () => {
-    await signOut()
-    localStorage.removeItem('user')
-    setUser('')
+    if (isLoggingOut) return
+    setIsLoggingOut(true)
+
+    try {
+      await signOut()
+      localStorage.removeItem('user')
+      setUser('')
+    } catch (error) {
+      console.error('Logout failed', error)
+    } finally {
+      setIsLoggingOut(false)
+    }
   }
+
   const { data } = useSession()
-  console.log(data)
+
   return (
     <div className='h-full w-full flex-[2] bg-dashboardSecondary'>
       <div className='m-auto h-full w-[90%] pt-5'>
@@ -36,13 +47,13 @@ export default function DashboardSideBar() {
         </div>
         <div className='mt-3 flex h-[93%] w-full flex-col justify-between pt-5'>
           <ul className='mt-3 flex flex-col space-y-4'>
-            {links.map((item, i) => (
-              <Link href={`/dashboard/${item.url}`} key={i}>
+            {links.map((item) => (
+              <Link href={`/dashboard/${item.url}`} key={item.id}>
                 <li
-                  onClick={() => {
-                    setActiveTab(item.id)
-                  }}
-                  className={`flex w-full cursor-pointer space-x-2 rounded-lg p-3 ${item.id === activeTab ? 'bg-dashboardActive' : ''}`}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`flex w-full cursor-pointer space-x-2 rounded-lg p-3 ${
+                    item.id === activeTab ? 'bg-dashboardActive' : ''
+                  }`}
                 >
                   <img src={item.icon} alt='' />
                   <span>{item.title}</span>
@@ -58,20 +69,25 @@ export default function DashboardSideBar() {
               </Avatar>
             </div>
             <div className='flex-cl flex flex-col text-base'>
-              <span className='font-semibold'>user</span>
+              <span className='font-semibold'>User</span>
               <span className='text-base text-gray-600'>
-                {' '}
-                {data && <>{data?.user?.email}</>}
+                {data?.user?.email || 'N/A'}
               </span>
             </div>
-            <div onClick={handleClick} className='cursor-pointer'>
+            <button
+              onClick={handleClick}
+              className={`cursor-pointer ${
+                isLoggingOut ? 'cursor-not-allowed opacity-50' : ''
+              }`}
+              disabled={isLoggingOut}
+            >
               <Image
                 src={`/assets/icon.svg`}
                 width={30}
                 height={30}
                 alt='LogOut'
               />
-            </div>
+            </button>
           </div>
         </div>
       </div>

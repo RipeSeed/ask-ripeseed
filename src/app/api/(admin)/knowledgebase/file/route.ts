@@ -11,7 +11,7 @@ import { connectDB } from '@/models'
 import FileModel from '@/models/knowledgeBase/File.model'
 
 const pinecone = new PineconeClient()
-const pineconeIndex: Index = pinecone.Index(process.env.PINECONE_INDEX!)
+const pineconeIndex: Index = pinecone.Index(process.env.RIPESEED_DOC_INDEX_ID!)
 export const POST = async (request: NextRequest, response: NextResponse) => {
   try {
     const form = await request.formData()
@@ -79,10 +79,8 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
 
     return NextResponse.json({ uploadedFile }, { status: 200 })
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    )
+    console.log(error)
+    return NextResponse.json({ error: 'Internal Sever Error' }, { status: 500 })
   }
 }
 
@@ -105,7 +103,7 @@ const uploadChunksToPineCone = async (
         name: fileName,
         id: uuid(),
       }
-
+      console.log(metadata)
       batch.push({ id: uuid(), values: embeddings[i], metadata })
 
       if (batchSize === batch.length || i === chunks.length - 1) {
@@ -114,6 +112,7 @@ const uploadChunksToPineCone = async (
       }
     }
   } catch (error) {
+    console.log(error)
     throw new Error('error in upload data to PineCone')
   }
 }
