@@ -24,7 +24,7 @@ const formSchema = z.object({
   }),
 })
 
-export default function Token() {
+export default function TokenPage() {
   const form = useForm()
   function onSubmit(values: z.infer<typeof formSchema>) {}
 
@@ -32,7 +32,7 @@ export default function Token() {
     <div className='flex flex-[1] flex-col'>
       <div className='flex flex-[2.5] flex-col items-center justify-center space-y-2'>
         <h1 className='text-2xl font-semibold'>Enter Your OpenAI API Key</h1>
-        <p className='text-base font-light'>
+        <p className='text-base font-normal'>
           This will allow you to make knowledge base related settings
         </p>
       </div>
@@ -49,7 +49,7 @@ export default function Token() {
                     OpenAI API Key
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder='paste link here' {...field} />
+                    <Input placeholder='sk-proj-xxxxx' {...field} />
                   </FormControl>
                   <FormDescription>
                     Don&apos;t know where to generate the token?{' '}
@@ -59,7 +59,7 @@ export default function Token() {
                       }
                       target='_blank'
                     >
-                      <span className='cursor-pointer font-bold'>
+                      <span className='cursor-pointer font-bold text-black'>
                         Click here
                       </span>
                     </Link>
@@ -71,7 +71,7 @@ export default function Token() {
             <div className='flex items-center justify-between space-x-3'>
               <Button
                 type='submit'
-                className='border-1 w-1/2 border-solid border-black bg-transparent text-black'
+                className='w-1/2 border-[1px] border-solid border-gray-400 bg-transparent text-black shadow-none'
               >
                 <Link href={`/dashboard/summary`}>Skip</Link>
               </Button>
@@ -82,7 +82,7 @@ export default function Token() {
                 Continue
               </Button>
             </div>
-            <FormDescription className='text-base font-light'>
+            <FormDescription className='text-sm font-light'>
               You can skip this step for now and add your OpenAI API key later
               in the Knowledge Base settings.
             </FormDescription>

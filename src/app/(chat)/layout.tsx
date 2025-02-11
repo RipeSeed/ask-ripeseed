@@ -36,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en'>
-      <body
+    <main lang='en'>
+      <div
         className={cn(
           'm-auto bg-background font-sans antialiased',
           fontSans.variable,
@@ -73,7 +73,7 @@ export default function RootLayout({
             richColors
           />
         </Providers>
-      </body>
+      </div>
 
       <Script
         async
@@ -87,6 +87,6 @@ export default function RootLayout({
           gtag('js', new Date());
           gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');`}
       </Script>
-    </html>
+    </main>
   )
 }

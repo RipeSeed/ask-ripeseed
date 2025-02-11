@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useToast } from '@/hooks/use-toast'
 
 interface TableData {
   _id: string
@@ -22,15 +23,17 @@ interface TableData {
 }
 
 export default function DocumentDataTable() {
-  const [tableData, setTableData] = useState<TableData[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
+  const { toast } = useToast()
   const queryClient = useQueryClient()
 
+  const [tableData, setTableData] = useState<TableData[]>([])
+  const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 3
   const startIndex = (currentPage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
   const currentItems = tableData.slice(startIndex, endIndex)
 
+  // getAll files
   const { data, isLoading } = useQuery({
     queryKey: ['getAllFile'],
     queryFn: GetKnowledegeBaseFiles,
@@ -41,6 +44,7 @@ export default function DocumentDataTable() {
       setTableData(data.files)
     }
   }, [data])
+  // ....................
 
   const handleNext = () => {
     if (currentPage < Math.ceil(tableData.length / itemsPerPage)) {
@@ -54,15 +58,20 @@ export default function DocumentDataTable() {
     }
   }
 
+  // delete files
   const { mutate: handleDelete, isPending: isDeleting } = useMutation({
     mutationFn: async (id: string) => {
       await DeleteFile(id)
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['getAllFile'])
+      toast({
+        title: 'Delete',
+        description: 'Your File has Successfully Deleted',
+      })
     },
   })
-
+  // .................
   return (
     <div className='mt-2 h-full rounded-md border border-dashboardBorder shadow-sm'>
       <Table>

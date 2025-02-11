@@ -13,7 +13,7 @@ import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import Spinner from '../../_components/Spinner'
+import { useToast } from '@/hooks/use-toast'
 import KnowledegeBaseTabs from './_components/KnowledegeBaseTabs/KnowledegeBaseTabs'
 
 const UpdateSchema = z.object({
@@ -24,12 +24,25 @@ const UpdateSchema = z.object({
 type TUpdateSchema = z.infer<typeof UpdateSchema>
 
 export default function KnowledgeBase() {
-  const { mutate, isPending: botPending } = useMutation({
+  const { toast } = useToast()
+
+  // Add credentials
+  const {
+    mutate,
+    isPending: botPending,
+    isSuccess: botSuccess,
+  } = useMutation({
     mutationFn: async (data: { user: string | null } & TUpdateSchema) => {
       await AddOpenAIKey(data)
     },
+    onSuccess: () => {
+      toast({
+        title: 'Credentials Updated',
+        description: 'Your credentials have been successfully updated.',
+      })
+    },
   })
-
+  // ...............................
   const {
     register,
     handleSubmit,
@@ -43,8 +56,7 @@ export default function KnowledgeBase() {
   const { user } = useTokenStore()
   const { data } = useSession()
 
-  console.log(data)
-
+  //  get Credential
   const getData = async () => {
     let res = await GetOpenAIData()
     console.log(res.bot[0])

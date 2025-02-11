@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
 
 import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function DashboardSideBar() {
   const [activeTab, setActiveTab] = useState(0)
@@ -51,11 +52,10 @@ export default function DashboardSideBar() {
           </ul>
           <div className='relative flex items-center justify-between space-x-2 border-t-2 border-solid border-dashboardBorder p-3'>
             <div className='h-11 w-11'>
-              <img
-                src={`/assets/Avatar.png`}
-                alt='avatar'
-                className='h-full w-full rounded-[50%] border-2 border-solid border-black object-cover'
-              />
+              <Avatar>
+                <AvatarImage src='https://github.com/shadcn.png' />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
             </div>
             <div className='flex-cl flex flex-col text-base'>
               <span className='font-semibold'>user</span>

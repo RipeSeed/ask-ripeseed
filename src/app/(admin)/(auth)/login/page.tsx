@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { useToast } from '@/hooks/use-toast'
 
 const formSchema = z.object({
   email: z.string().email('Email must be a Valid email'),
@@ -26,6 +27,8 @@ const formSchema = z.object({
 })
 
 export default function Login() {
+  const { toast } = useToast()
+
   const form = useForm({
     resolver: zodResolver(formSchema),
   })
@@ -45,6 +48,10 @@ export default function Login() {
       form.reset()
       setIsSubmitting(false)
     } catch (error: any) {
+      toast({
+        title: 'Login Error',
+        description: 'try To login using correct credentials',
+      })
       setIsError(error.message)
       throw new Error('Error in The Login')
     }

@@ -3,6 +3,7 @@ import { Pinecone } from '@pinecone-database/pinecone'
 
 import { connectDB } from '@/models'
 import FileModel from '@/models/knowledgeBase/File.model'
+import { pineconeIndex } from '@/services/chat/config'
 
 export const DELETE = async (
   request: NextRequest,
@@ -16,12 +17,7 @@ export const DELETE = async (
     if (!file) {
       return NextResponse.json({ error: 'File not found' }, { status: 404 })
     }
-
-    // const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! })
-    // const index = pc.Index(process.env.PINECONE_INDEX!)
-
-    // await index.deleteMany({ filter: { fileId: id } })
-
+    // deleteFileFromPineConeasync(id)
     return NextResponse.json({ message: 'File Deleted' }, { status: 200 })
   } catch (error) {
     console.error('Error deleting file:', error)
@@ -31,3 +27,9 @@ export const DELETE = async (
     )
   }
 }
+
+// async function deleteFileFromPineConeasync(fileId: string) {
+//   await pineconeIndex.deleteMany({
+//     fileId: { $eq: fileId },
+//   })
+// }

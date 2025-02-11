@@ -12,17 +12,13 @@ import {
   useTokenStore,
 } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Slider } from '@/components/ui/slider'
 import { Textarea } from '@/components/ui/textarea'
+import { useToast } from '@/hooks/use-toast'
 
 export default function KnowledgeBasePrompts() {
+  const { toast } = useToast()
+
   const { prompt, setPrompt, modelConfiguration, setModelConfiguration } =
     useKnowledgeStore()
 
@@ -51,17 +47,27 @@ export default function KnowledgeBasePrompts() {
   } = useForm<TPromptSchema>({
     resolver: zodResolver(PromptSchema),
   })
+
+  // add prompt
   const { mutate, isPending: promptPending } = useMutation({
     mutationFn: async (data: Data) => {
       return await AddPrompt(data)
     },
+    onSuccess: () => {
+      toast({
+        title: 'Prompt Settings',
+        description: 'Prompt Settings has Successfully Updated',
+      })
+    },
   })
+  // ..........................
 
   const handleClick = () => {
     mutate({ user, prompt, modelConfiguration })
     reset()
   }
 
+  // getPrompt
   const { data: PromptData, isLoading: FileLoading } = useQuery({
     queryKey: ['getPrompt'],
     queryFn: GetPrompt,
@@ -71,7 +77,7 @@ export default function KnowledgeBasePrompts() {
       setPrompt(PromptData.prompt[0].prompt)
     }
   }, [PromptData])
-
+  // .......................
   return (
     <div className='flex h-full w-full px-5'>
       {/* Left Side */}

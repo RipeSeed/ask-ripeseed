@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 
 import axiosInstance from '@/utils/axios'
 
+// fileUpload
+
 export const fileUpload = async (formData: FormData) => {
   try {
     const response = await axiosInstance.post(
@@ -21,6 +23,7 @@ export const fileUpload = async (formData: FormData) => {
   }
 }
 
+// getAllKnowledgebase Files
 export const GetKnowledegeBaseFiles = async () => {
   try {
     const response = await axiosInstance(`/api/knowledgebase/file`)
@@ -31,6 +34,7 @@ export const GetKnowledegeBaseFiles = async () => {
   }
 }
 
+// delete knowledegebase files
 export const DeleteFile = async (fileId: string) => {
   try {
     const response = await axiosInstance.delete(
@@ -51,6 +55,7 @@ interface PromptData {
   }
 }
 
+// add or update prompt
 export const AddPrompt = async (data: PromptData) => {
   try {
     const response = await axiosInstance.post(`/api/knowledgebase/prompt`, data)
@@ -60,6 +65,7 @@ export const AddPrompt = async (data: PromptData) => {
   }
 }
 
+// get Prompt
 export const GetPrompt = async () => {
   try {
     const response = await axiosInstance(`/api/knowledgebase/prompt`)
@@ -69,59 +75,6 @@ export const GetPrompt = async () => {
   }
 }
 
-// Question related Stuff
-
-interface Data {
-  user: string | null
-  title: string
-  icon: string
-}
-
-export const AddQuestions = async (askAnything: boolean, data: Data) => {
-  try {
-    const response = await axiosInstance.post(
-      `/api/knowledgebase/questions/${askAnything ? 'ask-anything' : 'ask-mainefest'}`,
-      data,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      },
-    )
-    return response.data
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    )
-  }
-}
-
-// get ask-anything Questions
-
-export const GetAskAnythingQuestions = async () => {
-  try {
-    const response = await axiosInstance(
-      `/api/knowledgebase/questions/ask-anything`,
-    )
-    return response.data
-  } catch (error) {
-    throw new Error('Error in Getting AskAnything Questions')
-  }
-}
-
-// get ask-mainefest Questions
-
-export const GetAskMainefestQuestions = async () => {
-  try {
-    const response = await axiosInstance(
-      `/api/knowledgebase/questions/ask-mainefest`,
-    )
-    return response.data
-  } catch (error) {
-    throw new Error('Error in Getting AskAnything Questions')
-  }
-}
 // OpenAI KEY related STUFF
 
 interface OPENAIDATA {
@@ -129,6 +82,7 @@ interface OPENAIDATA {
   botName: string
   openAIKey: string
 }
+// add or update credentials
 export const AddOpenAIKey = async (data: OPENAIDATA) => {
   try {
     const response = await axiosInstance.post(`/api/bot`, data)

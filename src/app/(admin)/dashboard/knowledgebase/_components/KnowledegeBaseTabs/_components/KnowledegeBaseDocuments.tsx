@@ -5,9 +5,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { fileUpload, GetKnowledegeBaseFiles } from '@/apis/admin/knowledgeBase'
 import Spinner from '@/app/(admin)/_components/Spinner'
 import { Button } from '@/components/ui/button'
+import { useToast } from '@/hooks/use-toast'
 import DocuementDataTable from './DocuementDataTable'
 
 export default function KnowledegeBaseDocuments() {
+  const { toast } = useToast()
+
   const [file, setFile] = useState<File | null>(null)
   const fileRef = useRef<HTMLInputElement | null>(null)
   const queryClient = useQueryClient()
@@ -26,11 +29,13 @@ export default function KnowledegeBaseDocuments() {
     }
   }
 
+  // GetKnowledegeBaseFiles
   const { data: FileData, isLoading: FileLoading } = useQuery({
     queryKey: ['getAllFile'],
     queryFn: GetKnowledegeBaseFiles,
   })
 
+  // upload file
   const { mutate, isPending } = useMutation({
     mutationFn: async (form: FormData) => {
       return await fileUpload(form)
@@ -38,6 +43,10 @@ export default function KnowledegeBaseDocuments() {
     onSuccess: () => {
       setFile(null)
       queryClient.invalidateQueries(['getAllFile'])
+      toast({
+        title: 'File Upload',
+        description: 'Your File has successfully uploaded.',
+      })
     },
   })
 
