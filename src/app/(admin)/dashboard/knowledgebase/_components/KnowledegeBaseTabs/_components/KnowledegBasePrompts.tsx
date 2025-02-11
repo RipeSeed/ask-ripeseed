@@ -1,12 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { AddPrompt } from '@/apis/admin/knowledgeBase'
+import { AddPrompt, GetPrompt } from '@/apis/admin/knowledgeBase'
 import {
   useKnowledgeStore,
   useTokenStore,
@@ -23,26 +23,17 @@ import { Slider } from '@/components/ui/slider'
 import { Textarea } from '@/components/ui/textarea'
 
 export default function KnowledgeBasePrompts() {
-  const {
-    prompt,
-    setPrompt,
-    preset,
-    setPreset,
-    modelConfiguration,
-    setModelConfiguration,
-  } = useKnowledgeStore()
+  const { prompt, setPrompt, modelConfiguration, setModelConfiguration } =
+    useKnowledgeStore()
 
   const { user } = useTokenStore()
 
   interface Data {
     user: string | null
     prompt: string
-    preset: number
     modelConfiguration: {
       temperature: number
       topP: number
-      frequency: number
-      pressure: number
     }
   }
 
@@ -60,19 +51,26 @@ export default function KnowledgeBasePrompts() {
   } = useForm<TPromptSchema>({
     resolver: zodResolver(PromptSchema),
   })
-  const { mutate } = useMutation({
+  const { mutate, isPending: promptPending } = useMutation({
     mutationFn: async (data: Data) => {
       return await AddPrompt(data)
     },
   })
 
   const handleClick = () => {
-    mutate({ user, prompt, preset, modelConfiguration })
+    mutate({ user, prompt, modelConfiguration })
     reset()
   }
-  console.log(prompt)
-  console.log(preset)
-  console.log(modelConfiguration)
+
+  const { data: PromptData, isLoading: FileLoading } = useQuery({
+    queryKey: ['getPrompt'],
+    queryFn: GetPrompt,
+  })
+  useEffect(() => {
+    if (PromptData && PromptData?.prompt[0]?.prompt) {
+      setPrompt(PromptData.prompt[0].prompt)
+    }
+  }, [PromptData])
 
   return (
     <div className='flex h-full w-full px-5'>
@@ -111,21 +109,6 @@ export default function KnowledgeBasePrompts() {
             Adjust your preferences here.
           </span>
         </div>
-        <div>
-          <Select
-            onValueChange={(value) => setPreset(Number(value))}
-            value={preset.toString()}
-          >
-            <SelectTrigger className='w-full'>
-              <SelectValue placeholder='Your Presets' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='1'>Preset 1</SelectItem>
-              <SelectItem value='2'>Preset 2</SelectItem>
-              <SelectItem value='3'>Preset 3</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
 
         {/* Sliders */}
         <div className='flex flex-col space-y-2'>
@@ -135,14 +118,20 @@ export default function KnowledgeBasePrompts() {
           <div className='flex flex-col space-y-3'>
             <div className='flex justify-between'>
               <span className='text-sm'>Temperature</span>
-              <span className='text-sm'>{modelConfiguration.temperature}</span>
+              <span className='text-sm'>
+                {modelConfiguration.temperature.toFixed(1)}
+              </span>
             </div>
             <Slider
               defaultValue={[modelConfiguration.temperature]}
-              max={100}
-              step={1}
+              min={0}
+              max={2}
+              step={0.1}
               onValueChange={(value) =>
-                setModelConfiguration({ temperature: value[0] })
+                setModelConfiguration({
+                  ...modelConfiguration,
+                  temperature: value[0],
+                })
               }
             />
           </div>
@@ -151,46 +140,17 @@ export default function KnowledgeBasePrompts() {
           <div className='flex flex-col space-y-3'>
             <div className='flex justify-between'>
               <span className='text-sm'>Top P</span>
-              <span className='text-sm'>{modelConfiguration.topP}</span>
+              <span className='text-sm'>
+                {modelConfiguration.topP.toFixed(2)}
+              </span>
             </div>
             <Slider
               defaultValue={[modelConfiguration.topP]}
-              max={100}
-              step={1}
+              min={0}
+              max={1}
+              step={0.01}
               onValueChange={(value) =>
-                setModelConfiguration({ topP: value[0] })
-              }
-            />
-          </div>
-
-          {/* Frequency */}
-          <div className='flex flex-col space-y-3'>
-            <div className='flex justify-between'>
-              <span className='text-sm'>Frequency Penalty</span>
-              <span className='text-sm'>{modelConfiguration.frequency}</span>
-            </div>
-            <Slider
-              defaultValue={[modelConfiguration.frequency]}
-              max={100}
-              step={1}
-              onValueChange={(value) =>
-                setModelConfiguration({ frequency: value[0] })
-              }
-            />
-          </div>
-
-          {/* Pressure */}
-          <div className='flex flex-col space-y-3'>
-            <div className='flex justify-between'>
-              <span className='text-sm'>Pressure Penalty</span>
-              <span className='text-sm'>{modelConfiguration.pressure}</span>
-            </div>
-            <Slider
-              defaultValue={[modelConfiguration.pressure]}
-              max={100}
-              step={1}
-              onValueChange={(value) =>
-                setModelConfiguration({ pressure: value[0] })
+                setModelConfiguration({ ...modelConfiguration, topP: value[0] })
               }
             />
           </div>
@@ -198,6 +158,7 @@ export default function KnowledgeBasePrompts() {
 
         <Button
           onClick={handleSubmit(handleClick)}
+          disabled={promptPending}
           className='mt-2 bg-dashboardBorder text-black'
         >
           Save as preset

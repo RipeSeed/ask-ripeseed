@@ -6,16 +6,12 @@ interface singleQuestion {
 }
 interface State {
   prompt: string
-  preset: number
   modelConfiguration: {
     temperature: number
     topP: number
-    frequency: number
-    pressure: number
   }
 
   setPrompt: (newPrompt: string) => void
-  setPreset: (newPreset: number) => void
   setModelConfiguration: (
     newModel: Partial<State['modelConfiguration']>,
   ) => void
@@ -25,10 +21,8 @@ export const useKnowledgeStore = create<State>((set) => ({
   prompt: '',
   preset: 1,
   modelConfiguration: {
-    temperature: 10,
-    topP: 2,
-    frequency: 10,
-    pressure: 10,
+    temperature: 1.4,
+    topP: 1,
   },
   questions: [
     { title: '', icon: null },
@@ -36,7 +30,7 @@ export const useKnowledgeStore = create<State>((set) => ({
     { title: '', icon: null },
   ],
   setPrompt: (newPrompt) => set({ prompt: newPrompt }),
-  setPreset: (newPreset) => set({ preset: newPreset }),
+
   setModelConfiguration: (newModel) =>
     set((state) => ({
       modelConfiguration: { ...state.modelConfiguration, ...newModel },

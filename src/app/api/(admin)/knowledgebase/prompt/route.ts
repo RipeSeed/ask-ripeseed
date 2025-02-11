@@ -8,7 +8,7 @@ export const POST = async (request: NextRequest) => {
     const reqBody = await request.json()
     await connectDB()
 
-    const { prompt, preset, modelConfiguration, user } = reqBody
+    const { prompt, modelConfiguration, user } = reqBody
 
     const existingPrompt = await Prompt.findOne({ user })
 
@@ -18,12 +18,9 @@ export const POST = async (request: NextRequest) => {
         {
           $set: {
             prompt,
-            preset,
             modelConfiguration: {
               temperature: modelConfiguration.temperature,
               topP: modelConfiguration.topP,
-              frequency: modelConfiguration.frequency,
-              pressure: modelConfiguration.pressure,
             },
           },
         },
@@ -38,12 +35,9 @@ export const POST = async (request: NextRequest) => {
       const newPrompt = await Prompt.create({
         user,
         prompt,
-        preset,
         modelConfiguration: {
           temperature: modelConfiguration.temperature,
           topP: modelConfiguration.topP,
-          frequency: modelConfiguration.frequency,
-          pressure: modelConfiguration.pressure,
         },
       })
 
@@ -57,6 +51,20 @@ export const POST = async (request: NextRequest) => {
 
     return NextResponse.json(
       { error: 'Internal Server Error', details: error.message },
+      { status: 500 },
+    )
+  }
+}
+
+export const GET = async (request: NextRequest, response: NextResponse) => {
+  try {
+    await connectDB()
+    const newPrompt = await Prompt.find()
+
+    return NextResponse.json({ prompt: newPrompt }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
       { status: 500 },
     )
   }

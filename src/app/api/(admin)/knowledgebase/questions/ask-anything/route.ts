@@ -54,3 +54,16 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     )
   }
 }
+
+export const GET = async () => {
+  try {
+    await connectDB()
+    const anythingQuestions = await AskAnything.find()
+    return NextResponse.json({ anythingQuestions }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error ' },
+      { status: 500 },
+    )
+  }
+}

@@ -76,7 +76,7 @@ export default function GeneralSideBar() {
   }
 
   return (
-    <div className='-300 h-screen bg-[#EBEBEB] text-white'>
+    <div className='h-screen bg-[#EBEBEB] text-white dark:bg-black'>
       <div className='h-[calc(100svh-96px)]'>
         <div className='pb-8 pt-7'>
           <div

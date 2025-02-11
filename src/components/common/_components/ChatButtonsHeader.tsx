@@ -30,7 +30,7 @@ export default function ChatHeader() {
   const askRSmsg = useStore((state) => state.askRSmsg)
 
   return (
-    <div className='dark:bg-chatBackground top-0 flex items-center justify-center border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] md:py-6'>
+    <div className='top-0 flex items-center justify-center border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:py-6'>
       <div className='flex gap-1 rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white'>
         <li
           onClick={() => router.push('/')}

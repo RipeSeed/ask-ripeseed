@@ -3,9 +3,9 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 import { Message } from '@/app/(chat)/_lib/db'
-import ShowMessage from '@/app/(chat)/ask-anything/[chatId]/_components/ShowMessage'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
+import ShowMessage from './ShowMessage'
 
 import 'katex/dist/katex.min.css'
 
@@ -85,7 +85,7 @@ export const MessageContainer = ({
           ) : (
             <>
               {message.role === 'user' ? (
-                <div className='dark:bg-chatBotBubble prose rounded-xl bg-[#EBEBEB] p-3 text-black dark:text-white'>
+                <div className='prose rounded-xl bg-[#EBEBEB] p-3 text-black dark:bg-[#404043] dark:text-white'>
                   {message.content}
                 </div>
               ) : (

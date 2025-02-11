@@ -10,6 +10,8 @@ import { MomentoCache } from '@langchain/community/caches/momento'
 import { tool } from '@langchain/core/tools'
 import { HttpResponseOutputParser } from 'langchain/output_parsers'
 
+import { connectDB } from '@/models'
+import Prompt from '@/models/knowledgeBase/Prompt.model'
 import { pineconeIndex } from './config'
 
 export interface Context {
@@ -148,12 +150,14 @@ export function converse(
         )
       }
 
+      // let promptMessage = prompt.prompt[0].prompt
       const questionGeneratorInput = {
         chatHistory,
         context: serializedDocs,
         question,
         instructions: isAskRipeseedChat ? instructions : '',
       }
+      console.log(questionGeneratorInput)
 
       const stream = (await getChain(openAIApiKey)).streamEvents(
         questionGeneratorInput,

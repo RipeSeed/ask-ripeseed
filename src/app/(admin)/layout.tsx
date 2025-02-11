@@ -1,13 +1,13 @@
 'use client'
 
 import React, { useEffect, useMemo } from 'react'
-import { Inter } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SessionProvider, useSession } from 'next-auth/react'
 
 import { useTokenStore } from '../(chat)/_utils/store/knowledge-store'
 
-const inter = Inter({ subsets: ['latin'] })
+const manrope = Manrope({ subsets: ['latin'] })
 
 export default function AdminLayout({
   children,
@@ -32,7 +32,7 @@ export default function AdminLayout({
   console.log(user)
 
   return (
-    <div className={`h-screen w-screen ${inter.className}`}>
+    <div className={`h-screen w-screen ${manrope.className}`}>
       <SessionProvider>
         <QueryClientProvider client={queryClient}>
           {children}

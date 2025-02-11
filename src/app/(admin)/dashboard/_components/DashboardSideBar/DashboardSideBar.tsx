@@ -14,18 +14,6 @@ export default function DashboardSideBar() {
   const links = [
     {
       id: 1,
-      icon: '/assets/brandSettings/chart.svg',
-      title: 'Summary',
-      url: 'summary',
-    },
-    {
-      id: 2,
-      icon: '/assets/brandSettings/bucket.svg',
-      title: 'Brand settings',
-      url: 'brandsettings',
-    },
-    {
-      id: 3,
       icon: '/assets/brandSettings/book.svg',
       title: 'Knowledge base settings',
       url: 'knowledgebase',
@@ -46,7 +34,7 @@ export default function DashboardSideBar() {
           <Image src={`/logo/logo.svg`} width={150} height={150} alt='' />
         </div>
         <div className='mt-3 flex h-[93%] w-full flex-col justify-between pt-5'>
-          <ul className='flex flex-col space-y-4'>
+          <ul className='mt-3 flex flex-col space-y-4'>
             {links.map((item, i) => (
               <Link href={`/dashboard/${item.url}`} key={i}>
                 <li

@@ -1,16 +1,16 @@
-'use client'
-
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { fileUpload, GetKnowledegeBaseFiles } from '@/apis/admin/knowledgeBase'
+import Spinner from '@/app/(admin)/_components/Spinner'
 import { Button } from '@/components/ui/button'
 import DocuementDataTable from './DocuementDataTable'
 
 export default function KnowledegeBaseDocuments() {
   const [file, setFile] = useState<File | null>(null)
   const fileRef = useRef<HTMLInputElement | null>(null)
+  const queryClient = useQueryClient()
 
   const handleFileOpen = () => {
     if (fileRef.current) {
@@ -31,16 +31,16 @@ export default function KnowledegeBaseDocuments() {
     queryFn: GetKnowledegeBaseFiles,
   })
 
-  const { mutate, isPending, data } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (form: FormData) => {
       return await fileUpload(form)
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       setFile(null)
-      console.log('isPending', isPending)
-      console.log('Success', data)
+      queryClient.invalidateQueries(['getAllFile'])
     },
   })
+
   return (
     <div className='flex h-full w-full flex-col px-5'>
       {/* document upload button section */}
@@ -48,14 +48,13 @@ export default function KnowledegeBaseDocuments() {
         <div className='flex flex-col space-y-1'>
           <span className='text-lg font-medium'>Documents</span>
           <span className='text-sm font-light text-gray-500'>
-            Your PDFs that will be searched and update the knowledege base
+            Your PDFs that will be searched and update the knowledge base
           </span>
         </div>
         <input
           ref={fileRef}
           type='file'
           name='file'
-          id=''
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             if (e.target.files?.[0]) {
               setFile(e.target.files[0])
@@ -67,6 +66,7 @@ export default function KnowledegeBaseDocuments() {
         <Button
           onClick={handleFileOpen}
           className='flex items-center justify-between space-x-1 border-none bg-transparent text-black shadow-none'
+          disabled={isPending}
         >
           <Image
             src={`/assets/knowledgebase/document-upload.svg`}
@@ -84,7 +84,9 @@ export default function KnowledegeBaseDocuments() {
       {/* Save Button Section */}
       <div className='my-4 flex w-full flex-[1] items-center justify-end'>
         {isPending ? (
-          <span>File Uploading...</span>
+          <div className='mx-4 h-5 w-5'>
+            <Spinner />
+          </div>
         ) : (
           <Button
             disabled={!file}

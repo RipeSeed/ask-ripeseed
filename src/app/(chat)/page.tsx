@@ -44,7 +44,7 @@ export default function Page() {
       className='flex h-[calc(100svh-57px)] flex-col items-center justify-center gap-4 bg-[#E8E8E8] dark:bg-[#363639] md:h-[calc(100svh-93px)]'
       onClick={() => setToggle(false)}
     >
-      <div className='bg-chatBackground z-10 h-full w-full text-sm lg:flex'>
+      <div className='z-10 h-full w-full text-sm lg:flex'>
         <div className='flex h-[calc(100svh-57px)] w-full flex-col justify-between md:h-[calc(100svh-93px)]'>
           {toggle ? (
             <X

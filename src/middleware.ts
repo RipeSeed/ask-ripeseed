@@ -6,7 +6,7 @@ export function middleware(req: NextRequest) {
 
   if (nextUrl.pathname === '/dashboard') {
     const url = req.nextUrl.clone()
-    url.pathname = '/dashboard/summary'
+    url.pathname = '/dashboard/knowledgebase'
     return NextResponse.redirect(url)
   }
 

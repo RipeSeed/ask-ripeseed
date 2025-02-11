@@ -62,16 +62,22 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
 
     const fileName = file.name
 
-    await uploadChunksToPineCone(chunks, vectors, filePath, file.name)
     await connectDB()
     const newFile = await FileModel.create({
       fileName,
       chunks: chunksLength,
       embeddings: vectorsLength,
     })
-    await newFile
+    let uploadedFile = await newFile
+    await uploadChunksToPineCone(
+      chunks,
+      vectors,
+      filePath,
+      file.name,
+      uploadedFile.id,
+    )
 
-    return NextResponse.json({ newFile }, { status: 200 })
+    return NextResponse.json({ uploadedFile }, { status: 200 })
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },
@@ -85,6 +91,7 @@ const uploadChunksToPineCone = async (
   embeddings: any,
   fileUrl: string,
   fileName: string,
+  fileId: string,
 ) => {
   try {
     let batchSize = 100
@@ -92,6 +99,7 @@ const uploadChunksToPineCone = async (
     for (let i = 0; i < chunks.length; i++) {
       let chunk: any = chunks[i]
       const metadata = {
+        fileId: fileId,
         text: chunk,
         url: fileUrl,
         name: fileName,
@@ -110,18 +118,16 @@ const uploadChunksToPineCone = async (
   }
 }
 
-
-
-export const GET=async(request:NextRequest,response:NextResponse)=>{
+export const GET = async (request: NextRequest, response: NextResponse) => {
   try {
     await connectDB()
-    let knowledgeBaseFiles=await FileModel.find()
+    let knowledgeBaseFiles = await FileModel.find()
 
-    return NextResponse.json({files:knowledgeBaseFiles},{status:200})
-
-    
+    return NextResponse.json({ files: knowledgeBaseFiles }, { status: 200 })
   } catch (error) {
-    return NextResponse.json({error:"Internal Server Error"},{status:200})
-    
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 200 },
+    )
   }
 }

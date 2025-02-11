@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
@@ -8,22 +8,23 @@ import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { AddOpenAIKey } from '@/apis/admin/knowledgeBase'
+import { AddOpenAIKey, GetOpenAIData } from '@/apis/admin/knowledgeBase'
 import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import Spinner from '../../_components/Spinner'
 import KnowledegeBaseTabs from './_components/KnowledegeBaseTabs/KnowledegeBaseTabs'
 
 const UpdateSchema = z.object({
   botName: z.string().min(1, { message: 'Bot Name is Required' }),
-  openAIKey: z.string().min(1, { message: 'OpenAIkey is Required' }),
+  openAIKey: z.string().min(1, { message: 'OpenAI Key is Required' }),
 })
 
 type TUpdateSchema = z.infer<typeof UpdateSchema>
 
 export default function KnowledgeBase() {
-  const { mutate } = useMutation({
+  const { mutate, isPending: botPending } = useMutation({
     mutationFn: async (data: { user: string | null } & TUpdateSchema) => {
       await AddOpenAIKey(data)
     },
@@ -34,18 +35,34 @@ export default function KnowledgeBase() {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<TUpdateSchema>({
     resolver: zodResolver(UpdateSchema),
   })
 
   const { user } = useTokenStore()
+  const { data } = useSession()
+
+  console.log(data)
+
+  const getData = async () => {
+    let res = await GetOpenAIData()
+    console.log(res.bot[0])
+    if (res?.bot?.[0]) {
+      reset({
+        botName: res.bot[0].botName,
+        openAIKey: res.bot[0].openAIKey,
+      })
+    }
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   const handleClick = (data: TUpdateSchema) => {
     mutate({ user, ...data })
-    reset()
   }
-  const { data } = useSession()
-  console.log(data)
 
   return (
     <div className='mx-auto h-full w-[95%]'>
@@ -91,6 +108,7 @@ export default function KnowledgeBase() {
               <Button
                 className='h-9 w-20 bg-gray-500 p-1 text-dashboardSecondary'
                 type='submit'
+                disabled={botPending}
               >
                 Update
               </Button>

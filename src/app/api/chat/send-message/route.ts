@@ -1,10 +1,16 @@
+import { NextResponse } from 'next/server'
+
+import { connectDB } from '@/models'
+import Prompt from '@/models/knowledgeBase/Prompt.model'
 import { converse } from '@/services/chat/conversation'
 
 export async function POST(request: Request, response: Response) {
   try {
     // indexId is the id of the document index
+    await connectDB()
     const { apiKey, messages, indexId, chatId } = await request.json()
     // Documents chat
+    const prompt = await Prompt.find()
     const streamedResponse = await converse(
       messages[messages.length - 1].content,
       messages,

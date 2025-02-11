@@ -45,12 +45,9 @@ export const DeleteFile = async (fileId: string) => {
 // Prompt related Stuff
 interface PromptData {
   prompt: string
-  preset: number
   modelConfiguration: {
     temperature: number
     topP: number
-    frequency: number
-    pressure: number
   }
 }
 
@@ -60,6 +57,15 @@ export const AddPrompt = async (data: PromptData) => {
     return response.data
   } catch (error) {
     throw new Error('Internal Server Error')
+  }
+}
+
+export const GetPrompt = async () => {
+  try {
+    const response = await axiosInstance(`/api/knowledgebase/prompt`)
+    return response.data
+  } catch (error) {
+    throw new Error('Error in Getting The Prompt')
   }
 }
 
@@ -91,6 +97,31 @@ export const AddQuestions = async (askAnything: boolean, data: Data) => {
   }
 }
 
+// get ask-anything Questions
+
+export const GetAskAnythingQuestions = async () => {
+  try {
+    const response = await axiosInstance(
+      `/api/knowledgebase/questions/ask-anything`,
+    )
+    return response.data
+  } catch (error) {
+    throw new Error('Error in Getting AskAnything Questions')
+  }
+}
+
+// get ask-mainefest Questions
+
+export const GetAskMainefestQuestions = async () => {
+  try {
+    const response = await axiosInstance(
+      `/api/knowledgebase/questions/ask-mainefest`,
+    )
+    return response.data
+  } catch (error) {
+    throw new Error('Error in Getting AskAnything Questions')
+  }
+}
 // OpenAI KEY related STUFF
 
 interface OPENAIDATA {
@@ -104,5 +135,14 @@ export const AddOpenAIKey = async (data: OPENAIDATA) => {
     return response.data
   } catch (error) {
     throw new Error('Error in Updation of the OpenAIKEY')
+  }
+}
+
+export const GetOpenAIData = async () => {
+  try {
+    const response = await axiosInstance(`/api/bot`)
+    return response.data
+  } catch (error) {
+    throw new Error('Error in GetOpenAIData')
   }
 }

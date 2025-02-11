@@ -10,24 +10,13 @@ const PromptSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    preset: {
-      type: Number,
-      required: true,
-    },
+
     modelConfiguration: {
       temperature: {
         type: Number,
         required: true,
       },
       topP: {
-        type: Number,
-        required: true,
-      },
-      frequency: {
-        type: Number,
-        required: true,
-      },
-      pressure: {
         type: Number,
         required: true,
       },

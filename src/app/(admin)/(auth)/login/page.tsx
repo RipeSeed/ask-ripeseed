@@ -1,5 +1,7 @@
 'use client'
 
+import { AnyMxRecord } from 'dns'
+import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn, useSession } from 'next-auth/react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -28,16 +30,22 @@ export default function Login() {
     resolver: zodResolver(formSchema),
   })
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isError, setIsError] = useState('')
+
   const onSubmit = async (data: any) => {
     try {
       await signIn('credentials', {
         email: data.email,
         password: data.password,
-        redirectTo: '/dashboard/summary',
+        redirectTo: '/dashboard/knowledgebase',
       })
+      setIsSubmitting(true)
 
       form.reset()
-    } catch (error) {
+      setIsSubmitting(false)
+    } catch (error: any) {
+      setIsError(error.message)
       throw new Error('Error in The Login')
     }
   }
@@ -86,7 +94,7 @@ export default function Login() {
                 type='submit'
                 className='rounded bg-black px-4 py-2 text-white'
               >
-                Submit
+                {isSubmitting ? <>Signin In..</> : <>Submit</>}
               </button>
             </div>
           </form>

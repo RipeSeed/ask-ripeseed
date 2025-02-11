@@ -4,14 +4,13 @@ import Image from 'next/image'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import KnowledegBasePrompts from './_components/KnowledegBasePrompts'
-import KnowledegBaseQuestions from './_components/KnowledegBaseQuestions'
 import KnowledegeBaseDocuments from './_components/KnowledegeBaseDocuments'
 
 export default function KnowledegeBaseTabs() {
   return (
     <div className='h-[95%] w-full'>
       <Tabs defaultValue='documents' className='mt-4 h-full w-full'>
-        <TabsList className='my-2 flex h-[10%] w-[40%] items-center justify-center space-x-2 bg-transparent py-1'>
+        <TabsList className='my-2 flex h-[10%] w-[40%] items-center justify-start space-x-2 bg-transparent py-1'>
           <TabsTrigger value='documents' className='space-x-1'>
             <Image
               src={`/assets/knowledgebase/document-text.svg`}
@@ -30,15 +29,6 @@ export default function KnowledegeBaseTabs() {
             />
             <span className='text-sm'> Prompts Settings</span>
           </TabsTrigger>
-          <TabsTrigger value='questions' className='space-x-1'>
-            <Image
-              src={`/assets/knowledgebase/message-question.svg`}
-              alt=''
-              width={20}
-              height={20}
-            />
-            <span className='text-sm'>Questions</span>
-          </TabsTrigger>
         </TabsList>
         <Separator />
 
@@ -47,9 +37,6 @@ export default function KnowledegeBaseTabs() {
         </TabsContent>
         <TabsContent value='prompts' className='h-[89%]'>
           <KnowledegBasePrompts />
-        </TabsContent>
-        <TabsContent value='questions' className='h-[89%]'>
-          <KnowledegBaseQuestions />
         </TabsContent>
       </Tabs>
     </div>

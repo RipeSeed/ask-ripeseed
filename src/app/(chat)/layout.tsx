@@ -13,10 +13,8 @@ import { useEffect, useState } from 'react'
 import type { Viewport } from 'next'
 import Image from 'next/image'
 
-import { ThemeConfig } from '@/apis/admin/config'
 import ChatHeader from '@/components/common/_components/ChatButtonsHeader'
 import Sidebar from '@/components/Sidebar'
-import { useClientThemeStore } from './_utils/store/client-themeStore'
 
 export const viewport: Viewport = {
   themeColor: 'black',
@@ -37,46 +35,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const [isClient, setIsClient] = useState(false)
-  const { clientTheme, setClientTheme } = useClientThemeStore()
-
-  const fetchThemeConfig = async () => {
-    try {
-      const results = await ThemeConfig()
-      setClientTheme(results?.themeCredentials[0] || null)
-    } catch (error) {
-      console.error('Error fetching theme config:', error)
-    }
-  }
-
-  useEffect(() => {
-    setIsClient(true)
-    fetchThemeConfig()
-  }, [])
-  useEffect(() => {
-    if (clientTheme?.theme?.colorAdjustments) {
-      document.documentElement.style.setProperty(
-        '--historyPannelBackground',
-        clientTheme?.theme.colorAdjustments.historyPannelBackground ||
-          '#1B1B21',
-      )
-      document.documentElement.style.setProperty(
-        '--chatBackground',
-        clientTheme?.theme.colorAdjustments.chatBackground || '#363639',
-      )
-      document.documentElement.style.setProperty(
-        '--chatBotBubble',
-        clientTheme?.theme.colorAdjustments.chatBotBubble || '#1B1B21',
-      )
-      document.documentElement.style.setProperty(
-        '--chatUserBubble',
-        clientTheme?.theme.colorAdjustments.chatUserBubble || '#404043',
-      )
-    }
-  }, [clientTheme])
-
-  if (!isClient) return null
-
   return (
     <html lang='en'>
       <body
@@ -89,7 +47,7 @@ export default function RootLayout({
         <Providers>
           <main className='fixed m-auto grid h-[100svh] w-full md:grid-cols-[260px_1fr] lg:grid-cols-[300px_1fr]'>
             <div className='hidden h-full md:block'>
-              <div className='dark:bg-historyPannelBackground h-screen bg-[#EBEBEB] px-8 text-white'>
+              <div className='h-screen bg-[#EBEBEB] px-8 text-white dark:bg-black'>
                 <div className='sticky flex h-24 items-center justify-center border-b border-[#ACACAC] dark:border-[#34343B]'>
                   <Image
                     src='/ripeseed.png'
