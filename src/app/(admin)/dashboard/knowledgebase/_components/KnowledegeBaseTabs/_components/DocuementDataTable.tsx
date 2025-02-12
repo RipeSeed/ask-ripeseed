@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Trash } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Trash } from 'lucide-react'
 
 import { DeleteFile, GetKnowledegeBaseFiles } from '@/apis/admin/knowledgeBase'
 import {
@@ -28,7 +28,7 @@ export default function DocumentDataTable() {
 
   const [tableData, setTableData] = useState<TableData[]>([])
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 3
+  const itemsPerPage = 4
   const startIndex = (currentPage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
   const currentItems = tableData.slice(startIndex, endIndex)
@@ -144,11 +144,11 @@ export default function DocumentDataTable() {
           <button
             onClick={handlePrevious}
             disabled={currentPage === 1}
-            className='rounded bg-gray-100 px-4 py-2 text-gray-600 disabled:cursor-not-allowed disabled:opacity-50'
+            className='flex items-center gap-2 rounded bg-gray-100 px-4 py-2 text-gray-600 transition-all hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50'
           >
-            Previous
+            <ChevronLeft size={16} />
           </button>
-          <span>
+          <span className='text-sm font-medium'>
             Page {currentPage} of {Math.ceil(tableData.length / itemsPerPage)}
           </span>
           <button
@@ -156,9 +156,9 @@ export default function DocumentDataTable() {
             disabled={
               currentPage === Math.ceil(tableData.length / itemsPerPage)
             }
-            className='rounded bg-gray-100 px-4 py-2 text-gray-600 disabled:cursor-not-allowed disabled:opacity-50'
+            className='flex items-center gap-2 rounded bg-gray-100 px-4 py-2 text-gray-600 transition-all hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50'
           >
-            Next
+            <ChevronRight size={16} />
           </button>
         </div>
       )}

@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 
 interface boxState {
-  boxOpen: any
-  setBoxOpen: any
+  boxOpen: boolean
+  setBoxOpen: (open: boolean) => void
 }
 
 export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
@@ -19,20 +19,22 @@ export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
   const queryClient = useQueryClient()
 
   const handleFileOpen = () => {
-    if (fileRef.current) {
-      fileRef.current.click()
-    }
+    fileRef.current?.click()
   }
 
-  const handleDrop = (e: any) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     if (e.dataTransfer.files?.[0]) {
       setFile(e.dataTransfer.files[0])
     }
   }
 
-  const handleDragOver = (e: any) => {
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
+  }
+
+  const removeFile = () => {
+    setFile(null)
   }
 
   const { mutate, isPending } = useMutation({
@@ -57,15 +59,13 @@ export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
   }
 
   return (
-    <div className='gap- absolute bottom-0 left-0 right-0 top-0 z-50 m-auto flex h-80 w-80 flex-col items-center rounded-2xl border-[1px] border-solid border-gray-300 bg-white py-3'>
-      <div id='top' className='flex w-full justify-between px-3 py-3'>
-        <div></div>
+    <div className='absolute bottom-0 left-0 right-0 top-0 z-50 m-auto flex h-[370px] w-80 flex-col items-center rounded-2xl border border-gray-300 bg-white py-3'>
+      <div className='flex w-full justify-between px-3 py-3'>
         <h1 className='text-lg font-medium'>Upload Documents</h1>
         <X onClick={() => setBoxOpen(false)} className='cursor-pointer' />
       </div>
 
       <div
-        id='center'
         className='flex w-72 cursor-pointer flex-col items-center gap-2 rounded-lg p-5'
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -74,7 +74,7 @@ export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
           <img
             src='/assets/knowledgebase/document-upload.svg'
             className='h-6 w-6'
-            alt=''
+            alt='Upload Icon'
           />
         </div>
         <span className='text-xs font-medium'>
@@ -86,7 +86,6 @@ export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
         <input
           ref={fileRef}
           type='file'
-          name='file'
           className='hidden'
           accept='.pdf'
           onChange={(e) => e.target.files?.[0] && setFile(e.target.files[0])}
@@ -99,16 +98,23 @@ export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
         </button>
       </div>
 
-      <div id='bottom' className='flex gap-3'>
+      {file && (
+        <div className='mt-3 flex w-72 items-center justify-between rounded-lg border border-gray-300 p-2'>
+          <span className='text-xs font-medium'>{file.name}</span>
+          <X className='cursor-pointer' onClick={removeFile} />
+        </div>
+      )}
+
+      <div className='mt-4 flex gap-3'>
         <button
           onClick={() => setBoxOpen(false)}
-          className='h-10 w-32 rounded-lg border-[1px] border-solid border-gray-300 text-xs font-medium'
+          className='h-10 w-32 rounded-lg border border-gray-300 text-xs font-medium'
         >
           Close
         </button>
         <button
           onClick={handleFileUpload}
-          className='flex h-10 w-32 items-center justify-center rounded-lg bg-black text-center text-xs font-medium text-white'
+          className='flex h-10 w-32 items-center justify-center rounded-lg bg-black text-xs font-medium text-white'
           disabled={!file || isPending}
         >
           {isPending ? <Spinner /> : 'Done'}
