@@ -32,7 +32,6 @@ export const createEmbeddings = async (
     })
     return vectorStore
   } catch (error) {
-    console.log(error)
     throw Error('Error creating indexes')
   }
 }

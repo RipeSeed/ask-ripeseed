@@ -10,7 +10,6 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     await connectDB()
     let reqBody = await request.json()
     const { firstName, lastName, email, password } = reqBody
-    console.log(reqBody)
 
     let user = await User.findOne({ email })
 

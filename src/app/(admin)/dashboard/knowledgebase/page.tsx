@@ -59,7 +59,6 @@ export default function KnowledgeBase() {
   //  get Credential
   const getData = async () => {
     let res = await GetOpenAIData()
-    console.log(res.bot[0])
     if (res?.bot?.[0]) {
       reset({
         botName: res.bot[0].botName,

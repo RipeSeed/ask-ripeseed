@@ -29,7 +29,6 @@ export default function AdminLayout({
       }
     }
   }, [])
-  console.log(user)
 
   return (
     <div className={`h-screen w-screen ${manrope.className}`}>

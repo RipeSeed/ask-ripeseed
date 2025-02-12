@@ -18,7 +18,7 @@ export default function KnowledegeBaseDocuments() {
     queryFn: GetKnowledegeBaseFiles,
   })
 
-  const handleClickOutside = (e) => {
+  const handleClickOutside = (e: any) => {
     if (e.target.id === 'modalOverlay') {
       setBoxOpen(false)
     }

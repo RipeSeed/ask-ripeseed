@@ -7,7 +7,12 @@ import Spinner from '@/app/(admin)/_components/Spinner'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 
-export default function FileUpload({ boxOpen, setBoxOpen }) {
+interface boxState {
+  boxOpen: any
+  setBoxOpen: any
+}
+
+export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
   const { toast } = useToast()
   const [file, setFile] = useState<File | null>(null)
   const fileRef = useRef<HTMLInputElement | null>(null)
@@ -19,14 +24,14 @@ export default function FileUpload({ boxOpen, setBoxOpen }) {
     }
   }
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: any) => {
     e.preventDefault()
     if (e.dataTransfer.files?.[0]) {
       setFile(e.dataTransfer.files[0])
     }
   }
 
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: any) => {
     e.preventDefault()
   }
 
@@ -35,7 +40,7 @@ export default function FileUpload({ boxOpen, setBoxOpen }) {
     onSuccess: () => {
       setBoxOpen(false)
       setFile(null)
-      queryClient.invalidateQueries(['getAllFile'])
+      queryClient.invalidateQueries({ queryKey: ['getAllFile'] })
       toast({
         title: 'File Upload',
         description: 'Your file has been successfully uploaded.',

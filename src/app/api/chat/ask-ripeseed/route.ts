@@ -10,12 +10,8 @@ export async function POST(request: Request) {
   const indexId = process.env.RIPESEED_DOC_INDEX_ID!
   const apiKey = process.env.RIPESEED_OPENAI_API_KEY!
 
-  console.log(apiKey, '..s.s.s.s.s.s.s')
-  console.log(indexId, '............')
-
   await connectDB()
   const promptSettings = await Prompt.find()
-  console.log(promptSettings)
 
   const streamedResponse = converse(
     promptSettings,

@@ -110,7 +110,6 @@ export function converse(
   openAIApiKey: string,
   isAskRipeseedChat: boolean = false,
 ) {
-  console.log(promptSettings[0].prompt)
   return new ReadableStream({
     async start(controller) {
       const question = message
@@ -149,7 +148,6 @@ export function converse(
         // newly added
         instructions: isAskRipeseedChat ? promptMessage : '',
       }
-      console.log(questionGeneratorInput)
 
       const stream = (await getChain(openAIApiKey)).streamEvents(
         questionGeneratorInput,

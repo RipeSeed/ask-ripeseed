@@ -16,7 +16,7 @@ export default async function DashBoardLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session: TSession | null = await auth()
+  const session: any = await auth()
 
   if (!session?.user) {
     redirect('/login')

@@ -15,10 +15,8 @@ export const fileUpload = async (formData: FormData) => {
         },
       },
     )
-    console.log(response.data)
     return response.data
   } catch (error) {
-    console.error('Upload failed:', error)
     throw new Error('File upload failed')
   }
 }

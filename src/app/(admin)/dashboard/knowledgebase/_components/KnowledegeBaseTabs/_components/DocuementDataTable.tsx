@@ -51,7 +51,7 @@ export default function DocumentDataTable() {
       await DeleteFile(id)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['getAllFile'])
+      queryClient.invalidateQueries({ queryKey: ['getAllFile'] })
       toast({
         title: 'Delete',
         description: 'Your file has been successfully deleted.',
