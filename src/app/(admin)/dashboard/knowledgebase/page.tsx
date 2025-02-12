@@ -90,7 +90,7 @@ export default function KnowledgeBase() {
           <span>Publish Change</span>
         </Button>
       </div>
-      <div className='flex h-[85%] rounded-lg'>
+      <div className='flex h-[85%] rounded-2xl'>
         <div className='flex h-full w-full flex-col rounded-lg bg-dashboardSecondary'>
           <form
             onSubmit={handleSubmit(handleClick)}
@@ -118,7 +118,7 @@ export default function KnowledgeBase() {
             </div>
             <div className='mt-5 flex flex-[.2] items-center justify-center'>
               <Button
-                className='h-9 w-20 bg-gray-500 p-1 text-dashboardSecondary'
+                className='h-9 w-20 bg-[#909090] p-1 text-white'
                 type='submit'
                 disabled={botPending}
               >

@@ -79,9 +79,9 @@ export default function KnowledgeBasePrompts() {
   }, [PromptData])
   // .......................
   return (
-    <div className='flex h-full w-full px-5'>
+    <div className='flex h-full w-full px-2'>
       {/* Left Side */}
-      <div className='flex-[7] space-y-5 border-r-2 border-solid border-dashboardBorder px-2'>
+      <div className='flex-[7] border-r-2 border-solid border-dashboardBorder px-2'>
         <div className='flex flex-col py-4'>
           <span className='text-lg font-medium'>Prompt Settings</span>
           <span className='text-sm font-light text-gray-500'>
@@ -107,7 +107,7 @@ export default function KnowledgeBasePrompts() {
       </div>
 
       {/* Right Side */}
-      <div className='flex flex-[3] flex-col space-y-3 p-5'>
+      <div className='flex flex-[3] flex-col gap-6 p-5'>
         {/* Presets */}
         <div className='flex flex-col space-y-2'>
           <span className='text-lg font-medium'>Presets</span>
@@ -165,7 +165,7 @@ export default function KnowledgeBasePrompts() {
         <Button
           onClick={handleSubmit(handleClick)}
           disabled={promptPending}
-          className='mt-2 bg-dashboardBorder text-black'
+          className='mt-2 bg-[#EAEAEA] text-black'
         >
           Save as preset
         </Button>

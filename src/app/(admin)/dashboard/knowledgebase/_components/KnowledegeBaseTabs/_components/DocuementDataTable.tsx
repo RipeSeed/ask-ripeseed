@@ -33,7 +33,7 @@ export default function DocumentDataTable() {
   const endIndex = startIndex + itemsPerPage
   const currentItems = tableData.slice(startIndex, endIndex)
 
-  // getAll files
+  // Fetch files
   const { data, isLoading } = useQuery({
     queryKey: ['getAllFile'],
     queryFn: GetKnowledegeBaseFiles,
@@ -44,8 +44,28 @@ export default function DocumentDataTable() {
       setTableData(data.files)
     }
   }, [data])
-  // ....................
 
+  // Delete mutation
+  const deleteFileMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await DeleteFile(id)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getAllFile'])
+      toast({
+        title: 'Delete',
+        description: 'Your file has been successfully deleted.',
+      })
+    },
+  })
+
+  // Handle file deletion
+  const handleDeletFile = (fileId: string) => {
+    setTableData((prev) => prev.filter((i) => i._id !== fileId))
+    deleteFileMutation.mutate(fileId)
+  }
+
+  // Pagination handlers
   const handleNext = () => {
     if (currentPage < Math.ceil(tableData.length / itemsPerPage)) {
       setCurrentPage((prevPage) => prevPage + 1)
@@ -58,30 +78,24 @@ export default function DocumentDataTable() {
     }
   }
 
-  // delete files
-  const { mutate: handleDelete, isPending: isDeleting } = useMutation({
-    mutationFn: async (id: string) => {
-      await DeleteFile(id)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getAllFile'])
-      toast({
-        title: 'Delete',
-        description: 'Your File has Successfully Deleted',
-      })
-    },
-  })
-  // .................
   return (
     <div className='mt-2 h-full rounded-md border border-dashboardBorder shadow-sm'>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className='w-[25%] text-xs'>File ID</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead className='text-left text-xs'>File Chunks</TableHead>
-            <TableHead className='text-left text-xs'>Embeddings</TableHead>
-            <TableHead className='text-left text-xs'>Actions</TableHead>
+            <TableHead className='w-[25%] text-xs font-medium'>
+              File ID
+            </TableHead>
+            <TableHead className='text-xs font-medium'>Name</TableHead>
+            <TableHead className='text-left text-xs font-medium'>
+              File Chunks
+            </TableHead>
+            <TableHead className='text-left text-xs font-medium'>
+              Embeddings
+            </TableHead>
+            <TableHead className='text-left text-xs font-medium'>
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -99,7 +113,7 @@ export default function DocumentDataTable() {
             </TableRow>
           ) : (
             currentItems.map((file: TableData) => (
-              <TableRow key={file?._id}>
+              <TableRow key={file._id}>
                 <TableCell className='truncate text-sm font-normal'>
                   {file._id}
                 </TableCell>
@@ -112,9 +126,9 @@ export default function DocumentDataTable() {
                 </TableCell>
                 <TableCell className='text-left text-sm font-normal'>
                   <button
-                    className={`text-dashboardPreviewText`}
-                    onClick={() => handleDelete(file._id)}
-                    disabled={isDeleting}
+                    className='text-dashboardPreviewText'
+                    onClick={() => handleDeletFile(file._id)}
+                    disabled={deleteFileMutation.isPending}
                   >
                     <Trash size={16} />
                   </button>

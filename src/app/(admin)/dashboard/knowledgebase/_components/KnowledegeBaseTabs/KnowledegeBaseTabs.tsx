@@ -10,7 +10,7 @@ export default function KnowledegeBaseTabs() {
   return (
     <div className='h-[95%] w-full'>
       <Tabs defaultValue='documents' className='mt-4 h-full w-full'>
-        <TabsList className='my-2 flex h-[10%] w-[40%] items-center justify-start space-x-2 bg-transparent py-1'>
+        <TabsList className='my-2 flex h-[10%] w-[40%] items-center justify-start space-x-2 bg-transparent'>
           <TabsTrigger value='documents' className='space-x-1'>
             <Image
               src={`/assets/knowledgebase/document-text.svg`}

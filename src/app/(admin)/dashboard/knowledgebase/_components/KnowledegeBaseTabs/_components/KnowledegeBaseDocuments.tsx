@@ -25,11 +25,11 @@ export default function KnowledegeBaseDocuments() {
   }
 
   return (
-    <div className='relative flex h-full w-full flex-col px-5'>
+    <div className='relative flex h-full w-full flex-col px-4'>
       {/* Dark overlay only when modal is open */}
       {boxOpen && <div className='fixed inset-0 z-10 bg-black bg-opacity-50' />}
 
-      <div className={`relative z-20 ${boxOpen ? 'pointer-events-none' : ''}`}>
+      <div className={`relative ${boxOpen ? 'pointer-events-none' : ''}`}>
         {/* Document upload button section */}
         <div className='flex flex-[1] items-center justify-between py-4'>
           <div className='flex flex-col space-y-1'>
@@ -48,7 +48,7 @@ export default function KnowledegeBaseDocuments() {
               width={20}
               height={20}
             />
-            <span>Upload</span>
+            <span className='text-[14px] font-semibold'>Upload</span>
           </Button>
         </div>
 
