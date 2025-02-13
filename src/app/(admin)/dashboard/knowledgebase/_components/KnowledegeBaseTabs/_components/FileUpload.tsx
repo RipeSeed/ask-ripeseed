@@ -40,22 +40,34 @@ export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
   const { mutate, isPending } = useMutation({
     mutationFn: async (form: FormData) => await fileUpload(form),
     onSuccess: () => {
-      setBoxOpen(false)
-      setFile(null)
-      queryClient.invalidateQueries({ queryKey: ['getAllFile'] })
       toast({
         title: 'File Upload',
         description: 'Your file has been successfully uploaded.',
       })
+      queryClient.invalidateQueries({ queryKey: ['getAllFile'] })
+      setFile(null)
+      setBoxOpen(false)
+    },
+    onError: (error) => {
+      toast({
+        title: 'File Upload Failed...',
+        description: error.message || 'Server error during file upload.',
+      })
     },
   })
 
-  const handleFileUpload = () => {
-    if (file) {
-      const form = new FormData()
-      form.append('file', file)
-      mutate(form)
+  const handleFileUpload = async () => {
+    if (!file) {
+      toast({
+        title: 'Error',
+        description: 'No file selected for upload.',
+      })
+      return
     }
+
+    const form = new FormData()
+    form.append('file', file)
+    mutate(form)
   }
 
   return (
