@@ -41,8 +41,8 @@ export default function DashboardSideBar() {
   return (
     <div className='h-full w-full flex-[2] bg-dashboardSecondary'>
       <div className='m-auto h-full w-[90%] pt-5'>
-        <div className='h-[5%]'>
-          <Image src={`/logo/logo.svg`} width={150} height={150} alt='' />
+        <div className='h-[5%] ps-2 pt-3'>
+          <Image src={`/logo/logo.svg`} width={110} height={110} alt='' />
         </div>
         <div className='mt-3 flex h-[93%] w-full flex-col justify-between pt-5'>
           <ul className='mt-3 flex flex-col space-y-4'>
@@ -60,33 +60,35 @@ export default function DashboardSideBar() {
               </Link>
             ))}
           </ul>
-          <div className='relative flex items-center gap-2 space-x-2 border-t-2 border-solid border-dashboardBorder p-3'>
-            <div className='h-11 w-11'>
-              <Avatar>
+
+          <div className='flex h-20 items-center justify-between gap-4 border-t border-dashboardBorder'>
+            <div className='flex items-center gap-2 pb-2 ps-4 pt-2'>
+              <Avatar className='h-10 w-10'>
                 <AvatarImage src='https://github.com/shadcn.png' />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
+              <div className='flex flex-col leading-tight'>
+                <span className='text-sm font-medium'>User</span>
+                <span className='text-sm font-light text-gray-500'>
+                  {data?.user?.email || 'N/A'}
+                </span>
+              </div>
             </div>
-            <div className='flex-cl flex flex-col text-base'>
-              <span className='text-sm font-medium'>User</span>
-              <span className='text-sm font-normal text-gray-600'>
-                {data?.user?.email || 'N/A'}
-              </span>
+            <div className='flex items-center'>
+              <button
+                onClick={handleClick}
+                className={`flex items-center ${isLoggingOut ? 'cursor-not-allowed opacity-50' : ''}`}
+                disabled={isLoggingOut}
+              >
+                <Image
+                  src='/assets/export.svg'
+                  width={20}
+                  height={20}
+                  alt='LogOut'
+                  className='h-5 w-5'
+                />
+              </button>
             </div>
-            <button
-              onClick={handleClick}
-              className={`mb-4 cursor-pointer ${
-                isLoggingOut ? 'cursor-not-allowed opacity-50' : ''
-              }`}
-              disabled={isLoggingOut}
-            >
-              <Image
-                src={`/assets/export.svg`}
-                width={20}
-                height={20}
-                alt='LogOut'
-              />
-            </button>
           </div>
         </div>
       </div>

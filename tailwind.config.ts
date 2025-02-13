@@ -78,6 +78,8 @@ const config = {
         dashboardPreviewBg: 'var(--dashboard-preview-bg)',
         dashboardPreviewText: 'var(--dashboard-preview-text)',
         dashboardSecondaryText: 'var(--dashboard-gray-text)',
+        dashboardHeading: 'var(--dashboard-heading)',
+        dashboardText: 'var( --dashboard-text)',
         dashboardBg: 'var(--dashboard-carousel-bg)',
         dashboardBtn: 'var(--dashboard-buttons-bg)',
         white: 'var(--white)',

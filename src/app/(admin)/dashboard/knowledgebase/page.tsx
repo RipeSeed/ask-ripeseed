@@ -78,7 +78,9 @@ export default function KnowledgeBase() {
   return (
     <div className='mx-auto h-full w-[95%]'>
       <div className='flex h-[10%] items-center justify-between'>
-        <h1 className='text-3xl font-medium'>Knowledge Base Settings</h1>
+        <h1 className='text-dashboardHeading text-3xl font-normal'>
+          Knowledge Base Settings
+        </h1>
         <Button className='flex items-center justify-center space-x-1 bg-[#EAEAEA] text-sm text-black'>
           <Image
             src={`/assets/brandSettings/global.svg`}
@@ -86,38 +88,76 @@ export default function KnowledgeBase() {
             height={20}
             alt=''
           />
-          <span>Publish Change</span>
+          <span>Publish Changes</span>
         </Button>
       </div>
       <div className='flex h-[85%] rounded-2xl'>
-        <div className='flex h-full w-full flex-col rounded-lg bg-dashboardSecondary'>
+        <div className='flex h-full w-full flex-col rounded-xl bg-dashboardSecondary'>
           <form
             onSubmit={handleSubmit(handleClick)}
-            className='flex flex-[2] items-center justify-between space-x-2 px-4'
+            className='flex items-center justify-between gap-2 space-x-2 px-8 py-8'
           >
             <div className='flex flex-[2] flex-col space-y-2'>
-              <Label>OpenAI token</Label>
+              <Label className='text-dashboardText flex items-center'>
+                <span>OpenAI Token</span>
+                <svg
+                  width='15'
+                  height='15'
+                  viewBox='0 0 15 15'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='relative -top-1.5'
+                  color='red'
+                >
+                  <path
+                    d='M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z'
+                    fill='currentColor'
+                  ></path>
+                </svg>
+              </Label>
+
               <input
                 {...register('openAIKey')}
                 type='text'
-                className='h-9 rounded-lg border-2 border-solid border-dashboardBorder p-1 text-sm outline-none'
+                className='h-10 rounded-lg border border-solid border-dashboardBorder p-3 text-sm outline-none'
                 placeholder='Paste link here...'
               />
-              {errors.openAIKey && <>{errors.openAIKey.message}</>}
+              {errors.openAIKey && (
+                <p className='mt-1 text-xs text-red-500'>
+                  {errors.openAIKey.message}
+                </p>
+              )}
             </div>
+
             <div className='flex flex-[2] flex-col space-y-2'>
-              <Label>Bot Name</Label>
+              <Label className='text-dashboardText flex items-center'>
+                <span>Bot Name</span>
+                <svg
+                  width='15'
+                  height='15'
+                  viewBox='0 0 15 15'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='relative -top-1.5'
+                  color='red'
+                >
+                  <path
+                    d='M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z'
+                    fill='currentColor'
+                  ></path>
+                </svg>
+              </Label>
               <input
                 {...register('botName')}
                 type='text'
                 placeholder='Enter bot name'
-                className='h-9 rounded-lg border-2 border-solid border-dashboardBorder p-1 text-sm outline-none'
+                className='h-10 rounded-lg border border-solid border-dashboardBorder p-3 text-sm outline-none'
               />
               {errors.botName && <>{errors.botName.message}</>}
             </div>
             <div className='mt-5 flex flex-[.2] items-center justify-center'>
               <Button
-                className='h-9 w-20 bg-[#909090] p-1 text-white'
+                className='h-10 w-20 bg-[#909090] p-1 text-white'
                 type='submit'
                 disabled={botPending}
               >
