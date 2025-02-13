@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
+import axios from 'axios'
 
 import axiosInstance from '@/utils/axios'
 
 // fileUpload
-
 export const fileUpload = async (formData: FormData) => {
   try {
     const response = await axiosInstance.post(
@@ -15,9 +15,20 @@ export const fileUpload = async (formData: FormData) => {
         },
       },
     )
+    if (response.status !== 200) {
+      throw new Error(`Failed with status ${response.status}`)
+    }
     return response.data
   } catch (error) {
-    throw new Error('File upload failed')
+    if (axios.isAxiosError(error)) {
+      console.error('Upload Error:', error.response?.data || error.message)
+    } else {
+      console.error('Upload Error:', error)
+    }
+    throw new Error(
+      (error as any).response?.data?.message ||
+        'File upload failed, please try again.',
+    )
   }
 }
 

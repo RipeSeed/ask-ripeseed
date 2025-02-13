@@ -10,8 +10,10 @@ import { v4 as uuid } from 'uuid'
 import { connectDB } from '@/models'
 import FileModel from '@/models/knowledgeBase/File.model'
 
-const pinecone = new PineconeClient()
-const pineconeIndex: Index = pinecone.Index(process.env.RIPESEED_DOC_INDEX_ID!)
+const pinecone = new PineconeClient({
+  apiKey: process.env.PINECONE_API_KEY!,
+})
+const pineconeIndex: Index = pinecone.Index(process.env.PINECONE_INDEX!)
 export const POST = async (request: NextRequest, response: NextResponse) => {
   try {
     const form = await request.formData()
@@ -79,6 +81,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
 
     return NextResponse.json({ uploadedFile }, { status: 200 })
   } catch (error) {
+    console.error('File Upload Error:', error)
     return NextResponse.json({ error: 'Internal Sever Error' }, { status: 500 })
   }
 }
