@@ -114,7 +114,7 @@ export function ChatMessageInput() {
   return (
     <div
       ref={parentDivRef}
-      className='flex h-full w-full items-center justify-between gap-2 rounded-[100px] bg-[#E0E0E0] p-2 dark:bg-black'
+      className='flex h-full w-full items-center justify-between gap-2 rounded-[100px] bg-[#E0E0E0] p-2 dark:bg-[#2F2F2F]'
     >
       <AnimatePresence initial={false}>
         <motion.div

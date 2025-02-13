@@ -36,7 +36,7 @@ const ShowMessage: React.FC<ShowMessageProps> = ({ message, components }) => {
   } else {
     return (
       <MessageMarkdownMemoized
-        className='prose min-w-full space-y-6 rounded-xl bg-white p-3 dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 dark:bg-black'
+        className='dark:bg-chatUserBubble prose min-w-full space-y-6 rounded-xl bg-white p-3 dark:prose-invert prose-p:leading-relaxed prose-pre:p-0'
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeKatex]}
         components={components}
