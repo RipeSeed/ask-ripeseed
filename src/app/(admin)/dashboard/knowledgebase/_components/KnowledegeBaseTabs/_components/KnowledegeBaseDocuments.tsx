@@ -25,7 +25,7 @@ export default function KnowledegeBaseDocuments() {
   }
 
   return (
-    <div className='relative flex h-full w-full flex-col px-4'>
+    <div className='relative flex h-full w-full flex-col py-4'>
       {/* Dark overlay only when modal is open */}
       {boxOpen && <div className='fixed inset-0 z-10 bg-black bg-opacity-50' />}
 
@@ -33,9 +33,11 @@ export default function KnowledegeBaseDocuments() {
         {/* Document upload button section */}
         <div className='flex flex-[1] items-center justify-between py-4'>
           <div className='flex flex-col space-y-1'>
-            <span className='text-lg font-medium'>Documents</span>
-            <span className='text-sm font-light text-gray-500'>
-              Your PDFs that will be searched and update the knowledge base
+            <span className='text-lg font-medium text-dashboardHeading'>
+              Documents
+            </span>
+            <span className='text-sm font-thin text-dashboardSecondaryText'>
+              Your PDFs that will be searched and update the knowledge base.
             </span>
           </div>
           <Button
@@ -48,7 +50,9 @@ export default function KnowledegeBaseDocuments() {
               width={20}
               height={20}
             />
-            <span className='text-[14px] font-semibold'>Upload</span>
+            <span className='text-[14px] font-semibold hover:text-gray-600'>
+              Upload
+            </span>
           </Button>
         </div>
 

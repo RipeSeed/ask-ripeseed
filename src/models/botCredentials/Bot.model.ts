@@ -6,12 +6,23 @@ const BotSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
     },
-    botName: {
-      type: String,
-    },
     openAIKey: {
       type: String,
-      required: true,
+      required: false,
+    },
+    deepseek: {
+      accessKey: {
+        type: String,
+      },
+      baseUrl: {
+        type: String,
+      },
+    },
+    x: {
+      accessKey: {
+        type: String,
+      },
+      baseUrl: { type: String },
     },
   },
   { timestamps: true },

@@ -79,21 +79,23 @@ export default function DocumentDataTable() {
   }
 
   return (
-    <div className='mt-2 h-full rounded-md border border-dashboardBorder shadow-sm'>
-      <Table>
+    <div className='mt-2 rounded-md border border-dashboardBorder'>
+      <Table className='w-full table-fixed'>
         <TableHeader>
           <TableRow>
-            <TableHead className='w-[25%] text-xs font-medium'>
+            <TableHead className='w-[25%] bg-dashboardActive text-xs font-medium'>
               File ID
             </TableHead>
-            <TableHead className='text-xs font-medium'>Name</TableHead>
-            <TableHead className='text-left text-xs font-medium'>
+            <TableHead className='bg-dashboardActive text-xs font-medium'>
+              Name
+            </TableHead>
+            <TableHead className='bg-dashboardActive text-left text-xs font-medium'>
               File Chunks
             </TableHead>
-            <TableHead className='text-left text-xs font-medium'>
+            <TableHead className='bg-dashboardActive text-left text-xs font-medium'>
               Embeddings
             </TableHead>
-            <TableHead className='text-left text-xs font-medium'>
+            <TableHead className='bg-dashboardActive text-left text-xs font-medium'>
               Actions
             </TableHead>
           </TableRow>
@@ -112,21 +114,28 @@ export default function DocumentDataTable() {
               </TableCell>
             </TableRow>
           ) : (
-            currentItems.map((file: TableData) => (
-              <TableRow key={file._id}>
-                <TableCell className='truncate text-sm font-normal'>
+            currentItems.map((file: TableData, index: number) => (
+              <TableRow
+                key={file._id}
+                className={
+                  index % 2 === 1 ? 'border-b-0 bg-gray-50' : 'border-b-0'
+                }
+              >
+                <TableCell className='truncate text-left text-sm font-normal'>
                   {file._id}
                 </TableCell>
-                <TableCell>{file.fileName}</TableCell>
-                <TableCell className='text-left text-sm font-normal'>
+                <TableCell className='truncate text-left text-sm font-normal'>
+                  {file.fileName}
+                </TableCell>
+                <TableCell className='truncate text-left text-sm font-normal'>
                   {file.chunks}
                 </TableCell>
-                <TableCell className='text-left text-sm font-normal'>
+                <TableCell className='truncate text-left text-sm font-normal'>
                   {file.embeddings}
                 </TableCell>
-                <TableCell className='text-left text-sm font-normal'>
+                <TableCell className='truncate text-left text-sm font-normal'>
                   <button
-                    className='text-dashboardPreviewText'
+                    className='text-dashboardPreviewText transition-colors hover:text-red-600'
                     onClick={() => handleDeletFile(file._id)}
                     disabled={deleteFileMutation.isPending}
                   >

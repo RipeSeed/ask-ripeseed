@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
@@ -17,8 +17,11 @@ import { useToast } from '@/hooks/use-toast'
 import KnowledegeBaseTabs from './_components/KnowledegeBaseTabs/KnowledegeBaseTabs'
 
 const UpdateSchema = z.object({
-  botName: z.string().min(1, { message: 'Bot Name is Required' }),
-  openAIKey: z.string().min(1, { message: 'OpenAI Key is Required' }),
+  openAIKey: z.string(),
+  deepseekAccessKey: z.string().optional(),
+  deepseekBaseUrl: z.string().optional(),
+  xAccessKey: z.string().optional(),
+  xBaseUrl: z.string().optional(),
 })
 
 type TUpdateSchema = z.infer<typeof UpdateSchema>
@@ -61,8 +64,11 @@ export default function KnowledgeBase() {
     let res = await GetOpenAIData()
     if (res?.bot?.[0]) {
       reset({
-        botName: res.bot[0].botName,
         openAIKey: res.bot[0].openAIKey,
+        deepseekAccessKey: res.bot[0].deepseek?.accessKey || '',
+        deepseekBaseUrl: res.bot[0].deepseek?.baseUrl || '',
+        xAccessKey: res.bot[0].x?.accessKey || '',
+        xBaseUrl: res.bot[0].x?.baseUrl || '',
       })
     }
   }
@@ -72,92 +78,163 @@ export default function KnowledgeBase() {
   }, [])
 
   const handleClick = (data: TUpdateSchema) => {
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(
+        ([_, value]) => value !== '' && value !== undefined,
+      ),
+    )
     mutate({ user, ...data })
   }
 
   return (
-    <div className='mx-auto h-full w-[95%]'>
-      <div className='flex h-[10%] items-center justify-between'>
-        <h1 className='text-dashboardHeading text-3xl font-normal'>
+    <div className='mx-auto flex w-[95%] flex-col gap-6'>
+      <div className='flex flex-row items-start justify-between pt-6 md:items-center'>
+        <h1 className='pl-10 text-2xl font-normal text-dashboardHeading md:text-3xl lg:pl-1'>
           Knowledge Base Settings
         </h1>
-        <Button className='flex items-center justify-center space-x-1 bg-[#EAEAEA] text-sm text-black'>
+        <Button className='flex items-center justify-center space-x-1 bg-[#EAEAEA] text-sm font-normal text-dashboardButtonBg hover:bg-neutral-200 md:mt-0'>
           <Image
-            src={`/assets/brandSettings/global.svg`}
+            src='/assets/brandSettings/global.svg'
             width={20}
             height={20}
-            alt=''
+            alt='globe'
           />
-          <span>Publish Changes</span>
+          <span>Publish changes</span>
         </Button>
       </div>
-      <div className='flex h-[85%] rounded-2xl'>
-        <div className='flex h-full w-full flex-col rounded-xl bg-dashboardSecondary'>
+
+      <div className='flex h-full rounded-2xl'>
+        <div className='flex h-full w-full flex-col rounded-xl bg-dashboardSecondary md:min-h-[750px]'>
           <form
             onSubmit={handleSubmit(handleClick)}
-            className='flex items-center justify-between gap-2 space-x-2 px-8 py-8'
+            className='flex flex-col gap-4 p-6'
           >
-            <div className='flex flex-[2] flex-col space-y-2'>
-              <Label className='text-dashboardText flex items-center'>
-                <span>OpenAI Token</span>
-                <svg
-                  width='15'
-                  height='15'
-                  viewBox='0 0 15 15'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='relative -top-1.5'
-                  color='red'
-                >
-                  <path
-                    d='M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z'
-                    fill='currentColor'
-                  ></path>
-                </svg>
-              </Label>
-
-              <input
-                {...register('openAIKey')}
-                type='text'
-                className='h-10 rounded-lg border border-solid border-dashboardBorder p-3 text-sm outline-none'
-                placeholder='Paste link here...'
-              />
-              {errors.openAIKey && (
-                <p className='mt-1 text-xs text-red-500'>
-                  {errors.openAIKey.message}
-                </p>
-              )}
-            </div>
-
-            <div className='flex flex-[2] flex-col space-y-2'>
-              <Label className='text-dashboardText flex items-center'>
-                <span>Bot Name</span>
-                <svg
-                  width='15'
-                  height='15'
-                  viewBox='0 0 15 15'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='relative -top-1.5'
-                  color='red'
-                >
-                  <path
-                    d='M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z'
-                    fill='currentColor'
-                  ></path>
-                </svg>
-              </Label>
-              <input
-                {...register('botName')}
-                type='text'
-                placeholder='Enter bot name'
-                className='h-10 rounded-lg border border-solid border-dashboardBorder p-3 text-sm outline-none'
-              />
-              {errors.botName && <>{errors.botName.message}</>}
-            </div>
-            <div className='mt-5 flex flex-[.2] items-center justify-center'>
+            {/* First Row */}
+            <div className='flex flex-col gap-4 md:flex-row'>
+              <div className='flex w-full flex-col space-y-2'>
+                <Label className='flex items-center gap-2 text-dashboardText'>
+                  <span>OpenAI Key</span>
+                  <span className='relative -top-1.5 mt-1'>
+                    <Image
+                      src='/assets/knowledgebase/required.svg'
+                      alt='required'
+                      width={4}
+                      height={4}
+                    />
+                  </span>
+                </Label>
+                <input
+                  {...register('openAIKey')}
+                  type='text'
+                  className='h-10 rounded-lg border p-3 text-sm outline-none'
+                  placeholder='Paste key here...'
+                />
+                {errors.openAIKey && (
+                  <p className='text-xs text-red-500'>
+                    {errors.openAIKey.message}
+                  </p>
+                )}
+              </div>
               <Button
-                className='h-10 w-20 bg-[#909090] p-1 text-white'
+                className='h-10 w-full bg-black text-white hover:bg-gray-800 md:mt-5 md:w-20'
+                type='submit'
+                disabled={botPending}
+              >
+                Update
+              </Button>
+            </div>
+
+            {/* Second Row */}
+            <div className='flex flex-col gap-4 md:flex-row'>
+              <div className='flex w-full flex-col space-y-2'>
+                <Label className='flex items-center gap-2 text-dashboardText'>
+                  <span>Deepseek Access Key</span>
+                  <span className='relative -top-1.5 mt-1'>
+                    <Image
+                      src='/assets/knowledgebase/required.svg'
+                      alt='required'
+                      width={4}
+                      height={4}
+                    />
+                  </span>
+                </Label>
+                <input
+                  {...register('deepseekAccessKey')}
+                  type='text'
+                  className='h-10 rounded-lg border p-3 text-sm outline-none'
+                  placeholder='Enter key'
+                />
+              </div>
+              <div className='flex w-full flex-col space-y-2'>
+                <Label className='flex items-center gap-2 text-dashboardText'>
+                  <span>Deepseek Base URL</span>
+                  <span className='relative -top-1.5 mt-1'>
+                    <Image
+                      src='/assets/knowledgebase/required.svg'
+                      alt='required'
+                      width={4}
+                      height={4}
+                    />
+                  </span>
+                </Label>
+                <input
+                  {...register('deepseekBaseUrl')}
+                  type='text'
+                  className='h-10 rounded-lg border p-3 text-sm outline-none'
+                  placeholder='Enter URL'
+                />
+              </div>
+              <Button
+                className='h-10 w-full bg-black text-white hover:bg-gray-800 md:mt-5 md:w-20'
+                type='submit'
+                disabled={botPending}
+              >
+                Update
+              </Button>
+            </div>
+
+            {/* Third Row */}
+            <div className='flex flex-col gap-4 md:flex-row'>
+              <div className='flex w-full flex-col space-y-2'>
+                <Label className='flex items-center gap-2 text-dashboardText'>
+                  <span>X Access Key</span>
+                  <span className='relative -top-1.5 mt-1'>
+                    <Image
+                      src='/assets/knowledgebase/required.svg'
+                      alt='required'
+                      width={4}
+                      height={4}
+                    />
+                  </span>
+                </Label>
+                <input
+                  {...register('xAccessKey')}
+                  type='text'
+                  className='h-10 rounded-lg border p-3 text-sm outline-none'
+                  placeholder='Enter key'
+                />
+              </div>
+              <div className='flex w-full flex-col space-y-2'>
+                <Label className='flex items-center gap-2 text-dashboardText'>
+                  <span>X Base URL</span>
+                  <span className='relative -top-1.5 mt-1'>
+                    <Image
+                      src='/assets/knowledgebase/required.svg'
+                      alt='required'
+                      width={4}
+                      height={4}
+                    />
+                  </span>
+                </Label>
+                <input
+                  {...register('xBaseUrl')}
+                  type='text'
+                  className='h-10 rounded-lg border p-3 text-sm outline-none'
+                  placeholder='Enter URL'
+                />
+              </div>
+              <Button
+                className='h-10 w-full bg-black text-white hover:bg-gray-800 md:mt-5 md:w-20'
                 type='submit'
                 disabled={botPending}
               >
@@ -165,8 +242,8 @@ export default function KnowledgeBase() {
               </Button>
             </div>
           </form>
-          <Separator />
-          <div className='flex-[8]'>
+          <Separator className='my-4' />
+          <div className='w-full p-6'>
             <KnowledegeBaseTabs />
           </div>
         </div>

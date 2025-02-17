@@ -1,5 +1,3 @@
-import { mkdir, writeFile } from 'fs/promises'
-import path from 'path'
 import { NextRequest, NextResponse } from 'next/server'
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf'
 import { OpenAIEmbeddings } from '@langchain/openai'
@@ -27,20 +25,8 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
       )
     }
 
-    const arrayBuffer = await file.arrayBuffer()
-
-    const buffer = Buffer.from(arrayBuffer)
-
-    const uploadDir = path.join(process.cwd(), 'public/knowledgebase/documents')
-
-    await mkdir(uploadDir, { recursive: true })
-
-    const filePath = path.join(uploadDir, file.name)
-
-    await writeFile(filePath, buffer as unknown as string | Uint8Array)
-
+    // Create a memory-based loader for PDF without saving to disk
     const loader = new PDFLoader(file)
-
     const docs = await loader.load()
     const extractedText = docs.map((doc) => doc.pageContent).join('\n')
 
@@ -50,16 +36,14 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     })
 
     const outPut = await splitter.createDocuments([extractedText])
-
     const chunks = outPut.map((chunk) => chunk.pageContent.replace(/\n/g, ''))
-
     const chunksLength = chunks.length
+
     const embeddings = new OpenAIEmbeddings({
       apiKey: process.env.OPENAI_KEY,
     })
 
     const vectors = await embeddings.embedDocuments(chunks)
-
     const vectorsLength = vectors.length
 
     const fileName = file.name
@@ -71,10 +55,14 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
       embeddings: vectorsLength,
     })
     let uploadedFile = await newFile
+
+    // Pass virtual file path instead of actual file path
+    const virtualFilePath = `knowledgebase/documents/${file.name}`
+
     await uploadChunksToPineCone(
       chunks,
       vectors,
-      filePath,
+      virtualFilePath,
       file.name,
       uploadedFile.id,
     )
@@ -82,7 +70,10 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     return NextResponse.json({ uploadedFile }, { status: 200 })
   } catch (error) {
     console.error('File Upload Error:', error)
-    return NextResponse.json({ error: 'Internal Sever Error' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 },
+    )
   }
 }
 

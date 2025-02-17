@@ -7,38 +7,56 @@ import KnowledegBasePrompts from './_components/KnowledegBasePrompts'
 import KnowledegeBaseDocuments from './_components/KnowledegeBaseDocuments'
 
 export default function KnowledegeBaseTabs() {
+  const [activeTab, setActiveTab] = React.useState('documents')
+
   return (
-    <div className='h-[95%] w-full'>
-      <Tabs defaultValue='documents' className='mt-4 h-full w-full'>
-        <TabsList className='my-2 flex h-[10%] w-[40%] items-center justify-start space-x-2 bg-transparent'>
+    <Tabs
+      defaultValue='documents'
+      className='h-[95%] w-full'
+      onValueChange={setActiveTab}
+    >
+      <div className='pt-4'>
+        <TabsList className='mb-1 flex items-center space-x-2 bg-transparent'>
           <TabsTrigger value='documents' className='space-x-1'>
             <Image
-              src={`/assets/knowledgebase/document-text.svg`}
-              alt=''
+              src={
+                activeTab === 'documents'
+                  ? `/assets/knowledgebase/document-text-shadow.svg`
+                  : `/assets/knowledgebase/document-text.svg`
+              }
+              alt='Documents'
               width={20}
               height={20}
             />
-            <span className='text-sm'>Documents</span>
+            <span className='text-sm text-dashboardButtonBg hover:text-gray-600'>
+              Documents
+            </span>
           </TabsTrigger>
           <TabsTrigger value='prompts' className='space-x-1'>
             <Image
-              src={`/assets/knowledgebase/message-programming.svg`}
-              alt=''
+              src={
+                activeTab === 'prompts'
+                  ? `/assets/knowledgebase/message-question.svg`
+                  : `/assets/knowledgebase/message-programming.svg`
+              }
+              alt='Prompts'
               width={20}
               height={20}
             />
-            <span className='text-sm'> Prompts Settings</span>
+            <span className='text-sm text-dashboardButtonBg hover:text-gray-600'>
+              Prompts Settings
+            </span>
           </TabsTrigger>
         </TabsList>
-        <Separator />
+        <Separator className='w-full' />
+      </div>
 
-        <TabsContent value='documents' className='h-[89%]'>
-          <KnowledegeBaseDocuments />
-        </TabsContent>
-        <TabsContent value='prompts' className='h-[89%]'>
-          <KnowledegBasePrompts />
-        </TabsContent>
-      </Tabs>
-    </div>
+      <TabsContent value='documents' className='h-[89%]'>
+        <KnowledegeBaseDocuments />
+      </TabsContent>
+      <TabsContent value='prompts' className='h-[89%]'>
+        <KnowledegBasePrompts />
+      </TabsContent>
+    </Tabs>
   )
 }

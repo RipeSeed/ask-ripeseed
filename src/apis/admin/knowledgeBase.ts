@@ -85,11 +85,13 @@ export const GetPrompt = async () => {
 }
 
 // OpenAI KEY related STUFF
-
 interface OPENAIDATA {
   user: string | null
-  botName: string
-  openAIKey: string
+  openAIKey?: string
+  deepseekAccessKey?: string
+  deepseekBaseUrl?: string
+  xAccessKey?: string
+  xBaseUrl?: string
 }
 // add or update credentials
 export const AddOpenAIKey = async (data: OPENAIDATA) => {
