@@ -1,60 +1,67 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
+
+import useStore from '@/app/(chat)/_utils/store/store'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import useStore from '@/app/_utils/store/store'
+} from '@/components/ui/select'
 
 interface ModelSelectProps {
-  className?: string;
+  className?: string
 }
 
-const ModelSelect: React.FC<ModelSelectProps> = ({
-                                                   className = '',
-                                                 }) => {
-
+const ModelSelect: React.FC<ModelSelectProps> = ({ className = '' }) => {
   const { selectedModel, setSelectedModel } = useStore()
 
-  const handleValueChange = (value: string) => {
-    setSelectedModel(value);
-    localStorage.setItem('selected_model', value);
-  };
+  const [availableModels, setAvailableModels] = useState<string[]>([])
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const response = await fetch('/api/check-models')
+        const data = await response.json()
+        setAvailableModels(data.models)
 
-  const getInitials = (model: string) => {
-    switch (model) {
-      case 'openai':
-        return 'O'
-      case 'deepseek':
-        return 'D'
-      case 'xai':
-        return 'X'
-      default:
-        return 'O'
+        const storedModel = localStorage.getItem('selected_model')
+        if (storedModel && data.models.includes(storedModel)) {
+          setSelectedModel(storedModel)
+        } else if (data.models.length > 0) {
+          setSelectedModel(data.models[0]) // Default to first available model
+          localStorage.setItem('selected_model', data.models[0])
+        } else {
+          setSelectedModel('')
+          localStorage.removeItem('selected_model')
+        }
+      } catch (error) {
+        console.error('Error fetching models:', error)
+      }
     }
-  };
+    fetchModels()
+  }, [setSelectedModel])
+
+  const handleValueChange = (value: string) => {
+    setSelectedModel(value)
+    localStorage.setItem('selected_model', value)
+  }
 
   return (
-    <Select
-      value={selectedModel}
-      onValueChange={handleValueChange}
-    >
-      <SelectTrigger className={`w-9 xl:w-[120px] ${className}`}>
-        <SelectValue>
-          <span className="xl:hidden">{getInitials(selectedModel)}</span>
-          <span className="hidden xl:block">{selectedModel}</span>
-        </SelectValue>
+    <Select value={selectedModel} onValueChange={handleValueChange}>
+      <SelectTrigger className='w-9 xl:w-[120px]'>
+        <SelectValue>{selectedModel}</SelectValue>
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="deepseek">DeepSeek</SelectItem>
-        <SelectItem value="openai">OpenAI</SelectItem>
-        <SelectItem value="xai">X Grok</SelectItem>
+        {availableModels.map((model) => (
+          <SelectItem key={model} value={model}>
+            {model.charAt(0) + model.slice(1)}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
-  );
-};
+  )
+}
 
-export default ModelSelect;
+export default ModelSelect

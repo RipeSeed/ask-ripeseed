@@ -1,4 +1,3 @@
-import { Message } from '@/app/_lib/db'
 import { AskRipeseedChat } from '@/models'
 import type { Message as MessageModel } from '@/models/AskRipeseedChat.model'
 import { converse } from '@/services/chat/conversation'

@@ -4,8 +4,12 @@ import { formatDocumentsAsString } from 'langchain/util/document'
 
 import 'server-only'
 
+import axios from 'axios'
 import { OpenAI } from 'openai'
 
+import { auth } from '@/lib/auth'
+import { connectDB } from '@/models'
+import Bot from '@/models/botCredentials/Bot.model'
 import { pineconeIndex } from './config'
 
 export interface Context {
@@ -50,26 +54,27 @@ interface QuestionGeneratorInput {
   question: string
 }
 
-const getClientConfig = (provider: string) => {
+const getClientConfig = async (provider: string) => {
+  await connectDB()
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
+
+  const bot = await Bot.findOne({ user: session.user.id })
+  if (!bot) throw new Error('No API keys found for user')
+
   switch (provider) {
     case 'openai':
-      return {
-        apiKey: process.env.OPENAI_API_KEY,
-      }
+      return { apiKey: bot.openAIKey }
     case 'deepseek':
-      return {
-        baseURL: process.env.DEEPSEEK_BASE_URL,
-        apiKey: process.env.DEEPSEEK_API_KEY,
-      }
+      if (!bot.deepseek?.baseUrl || !bot.deepseek?.accessKey)
+        throw new Error('DeepSeek API keys missing')
+      return { baseURL: bot.deepseek.baseUrl, apiKey: bot.deepseek.accessKey }
     case 'xai':
-      return {
-        baseURL: process.env.XAI_BASE_URL,
-        apiKey: process.env.XAI_API_KEY,
-      }
+      if (!bot.x?.baseUrl || !bot.x?.accessKey)
+        throw new Error('X API keys missing')
+      return { baseURL: bot.x.baseUrl, apiKey: bot.x.accessKey }
     default:
-      return {
-        apiKey: process.env.OPENAI_API_KEY,
-      }
+      throw new Error('Invalid provider')
   }
 }
 
@@ -90,36 +95,60 @@ const getChain = async (
   questionGeneratorInput: QuestionGeneratorInput,
   provider: string,
 ) => {
-  const openai = new OpenAI(getClientConfig(provider))
+  const config = await getClientConfig(provider)
 
   const finalPrompt = `Use the following pieces of context to answer the question at the end.
     ----------
     CONTEXT: ${questionGeneratorInput.context}
     ----------
-    CHAT HISTORY: ${questionGeneratorInput?.chatHistory}
+    CHAT HISTORY: ${questionGeneratorInput?.chatHistory || ''}
     ----------
     QUESTION: ${questionGeneratorInput.question}
     ----------
     Helpful Answer:`
 
   const messages = [
-    {
-      role: 'system' as const,
-      content: instructions,
-    },
+    { role: 'system' as const, content: instructions },
     { role: 'user' as const, content: finalPrompt },
   ]
-  const model = getClientModel(provider) || 'gpt-4o-mini'
-  const stream: any = await openai.chat.completions.create({
-    model: model,
-    messages: messages,
-    stream: true,
-    temperature: 0,
-    tools: tools,
-    tool_choice: 'auto',
-  })
 
-  return stream
+  const model = getClientModel(provider)
+
+  if (provider === 'openai') {
+    const openai = new OpenAI({ apiKey: config.apiKey })
+    return await openai.chat.completions.create({
+      model,
+      messages,
+      stream: true,
+      temperature: 0,
+      tools,
+      tool_choice: 'auto',
+    })
+  }
+
+  if (provider === 'deepseek' || provider === 'xai') {
+    if (!config.baseURL) throw new Error(`${provider} baseURL is missing`)
+
+    const response = await axios.post(
+      config.baseURL,
+      {
+        model,
+        messages,
+        temperature: 0.7,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${config.apiKey}`,
+        },
+        responseType: 'stream',
+      },
+    )
+
+    return response.data
+  }
+
+  throw new Error('Invalid provider')
 }
 
 const serializeChatHistory = (chatHistory: Context[]): string => {
