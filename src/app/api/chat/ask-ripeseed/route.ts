@@ -6,7 +6,7 @@ import { converse } from '@/services/chat/conversation'
 
 // this is chat with ripeseed's own document. so users can ask questions
 export async function POST(request: Request) {
-  const { messages, uId } = await request.json()
+  const { messages, uId, provider } = await request.json()
   const indexId = process.env.RIPESEED_DOC_INDEX_ID!
   const apiKey = process.env.RIPESEED_OPENAI_API_KEY!
 
@@ -20,6 +20,7 @@ export async function POST(request: Request) {
     [indexId],
     apiKey,
     true,
+    provider,
   )
 
   return new Response(streamedResponse, {
