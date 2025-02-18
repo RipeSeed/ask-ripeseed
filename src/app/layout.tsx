@@ -46,10 +46,10 @@ export default function RootLayout({
               <div className='h-screen bg-[#EBEBEB] px-8 text-white dark:bg-black'>
                 <div className='sticky flex h-24 items-center justify-center border-b border-[#ACACAC] dark:border-[#34343B]'>
                   <Image
-                    src='/ripeseed.png'
+                    src='/logo/logo_new.svg'
                     alt='logo'
-                    height={28}
-                    width={160}
+                    height={600}
+                    width={600}
                   />
                 </div>
                 <Sidebar />
