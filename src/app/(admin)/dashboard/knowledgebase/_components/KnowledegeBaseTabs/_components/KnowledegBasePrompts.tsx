@@ -79,9 +79,9 @@ export default function KnowledgeBasePrompts() {
   }, [PromptData])
   // .......................
   return (
-    <div className='flex h-full w-full py-4'>
+    <div className='flex h-full w-full'>
       {/* Left Side */}
-      <div className='flex-[7] border-r-2 border-solid border-dashboardBorder pr-6'>
+      <div className='flex-[7] border-r-2 border-solid border-dashboardBorder py-4 pr-6'>
         <div className='mb-1 flex flex-col space-y-1 py-4'>
           <span className='text-lg font-medium text-dashboardHeading'>
             Prompt Settings

@@ -15,7 +15,7 @@ export default function KnowledegeBaseTabs() {
       className='h-[95%] w-full'
       onValueChange={setActiveTab}
     >
-      <div className='pt-4'>
+      <div>
         <TabsList className='mb-1 flex items-center space-x-2 bg-transparent'>
           <TabsTrigger value='documents' className='space-x-1'>
             <Image
@@ -36,7 +36,7 @@ export default function KnowledegeBaseTabs() {
             <Image
               src={
                 activeTab === 'prompts'
-                  ? `/assets/knowledgebase/message-question.svg`
+                  ? `/assets/knowledgebase/message.svg`
                   : `/assets/knowledgebase/message-programming.svg`
               }
               alt='Prompts'

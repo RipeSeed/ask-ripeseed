@@ -24,53 +24,77 @@ export const POST = async (request: NextRequest) => {
 
     await connectDB()
 
-    // Create update object with required openAI key
-    const updateData: any = {
-      user,
-      openAIKey,
-    }
-
-    // Add deepseek data only if both fields are provided
-    if (deepseekAccessKey && deepseekBaseUrl) {
-      updateData.deepseek = {
-        accessKey: deepseekAccessKey,
-        baseUrl: deepseekBaseUrl,
-      }
-    }
-
-    // Add X data only if both fields are provided
-    if (xAccessKey && xBaseUrl) {
-      updateData.x = {
-        accessKey: xAccessKey,
-        baseUrl: xBaseUrl,
-      }
-    }
-
     const existingBot = await Bot.findOne({ user })
 
     if (existingBot) {
-      const updateOperations: any = { openAIKey }
+      const updateOperations: any = {}
 
-      if (updateData.deepseek) {
-        updateOperations.deepseek = updateData.deepseek
+      if (openAIKey) {
+        updateOperations.openAIKey = openAIKey
+      } else {
+        await Bot.updateOne({ user }, { $unset: { openAIKey: '' } })
       }
 
-      if (updateData.x) {
-        updateOperations.x = updateData.x
+      // Handle deepseek credentials
+      if (deepseekAccessKey && deepseekBaseUrl) {
+        updateOperations.deepseek = {
+          accessKey: deepseekAccessKey,
+          baseUrl: deepseekBaseUrl,
+        }
+      } else {
+        await Bot.updateOne({ user }, { $unset: { deepseek: '' } })
       }
 
-      const updatedBot = await Bot.findOneAndUpdate(
-        { user },
-        { $set: updateOperations },
-        { new: true },
-      )
+      // Handle X credentials
+      if (xAccessKey && xBaseUrl) {
+        updateOperations.x = {
+          accessKey: xAccessKey,
+          baseUrl: xBaseUrl,
+        }
+      } else {
+        await Bot.updateOne({ user }, { $unset: { x: '' } })
+      }
 
-      return NextResponse.json(
-        { message: 'Updated Credentials', bot: updatedBot },
-        { status: 200 },
-      )
+      if (Object.keys(updateOperations).length > 0) {
+        const updatedBot = await Bot.findOneAndUpdate(
+          { user },
+          { $set: updateOperations },
+          { new: true },
+        )
+
+        return NextResponse.json(
+          { message: 'Updated Credentials', bot: updatedBot },
+          { status: 200 },
+        )
+      } else {
+        const currentBot = await Bot.findOne({ user })
+        return NextResponse.json(
+          { message: 'Nothing to update', bot: currentBot },
+          { status: 200 },
+        )
+      }
     } else {
-      const newBot = await Bot.create(updateData)
+      const createData: any = { user }
+
+      if (openAIKey) {
+        createData.openAIKey = openAIKey
+      }
+
+      if (deepseekAccessKey && deepseekBaseUrl) {
+        createData.deepseek = {
+          accessKey: deepseekAccessKey,
+          baseUrl: deepseekBaseUrl,
+        }
+      }
+
+      if (xAccessKey && xBaseUrl) {
+        createData.x = {
+          accessKey: xAccessKey,
+          baseUrl: xBaseUrl,
+        }
+      }
+
+      const newBot = await Bot.create(createData)
       return NextResponse.json(
         { message: 'Credentials Saved Successfully', bot: newBot },
         { status: 200 },

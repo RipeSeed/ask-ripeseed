@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { ExternalLink, Settings, Trash } from 'lucide-react'
@@ -8,6 +8,8 @@ import { toast } from 'sonner'
 
 import { deleteAllMessages_aRS } from '@/app/(chat)/_lib/db'
 import useStore from '@/app/(chat)/_utils/store/store'
+// import useStore from '@/app/_utils/store/store'
+import ModelSelect from '@/components/common/_components/ModelSelect'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -45,11 +47,14 @@ export default function ChatHeader() {
           Ask Anything
         </li>
       </div>
-      <div className='absolute right-0 mr-[14px]'>
+      <div className='absolute right-0 mr-[14px] flex items-center'>
         {isPath(askRSPaths, pathname) ? (
-          askRSmsg ? (
-            <DeleteConfirmationDialog />
-          ) : null
+          <>
+            <div className='flex items-center justify-center'>
+              <ModelSelect />
+            </div>
+            {askRSmsg ? <DeleteConfirmationDialog /> : null}
+          </>
         ) : (
           <ConfigDialogue />
         )}

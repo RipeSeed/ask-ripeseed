@@ -1,90 +1,154 @@
-import { PromptTemplate } from '@langchain/core/prompts'
-import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
+import { OpenAIEmbeddings } from '@langchain/openai'
 import { Document } from 'langchain/document'
 import { formatDocumentsAsString } from 'langchain/util/document'
 
 import 'server-only'
 
-import { CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk'
-import { MomentoCache } from '@langchain/community/caches/momento'
-import { tool } from '@langchain/core/tools'
-import { HttpResponseOutputParser } from 'langchain/output_parsers'
+import axios from 'axios'
+import { OpenAI } from 'openai'
 
+import { auth } from '@/lib/auth'
 import { connectDB } from '@/models'
-import Prompt from '@/models/knowledgeBase/Prompt.model'
+import Bot from '@/models/botCredentials/Bot.model'
 import { pineconeIndex } from './config'
 
 export interface Context {
-  role: 'user' | 'assistant' | 'system'
+  role: 'system' | 'user' | 'assistant' | 'tool' | 'function'
   content: string
 }
 
-const instructions = `Act Like the agent of pedro`
+const instructions = `
+  Act like an agent from RipeSeed, a software services company and answer the user queries accordingly.
+  If a user asks if we can develop something they want to, mention the projects that are similar to the user's requirements as an example.
+  If a user asks about particular technology/niche, check if its available in the context you have. IF available, give answers accordingly. ELSE IF NOT AVAILABLE in the context, check if a similar/niche technology is available in the context and present that to the user
+  If you need more information about the technologies client is looking for, feel free to ask them and narrow down the client's requirements before checking the context.
+  If a user asks for bugdet/timeline for a project ask them to schedule a call with ripeseed representative and also give them the RipeSee's Contact Us and Get a Quote links (https://ripeseed.io/request-a-quote).
+  In your response do not include the steps or logic you are taking to conclude the answer.
+  Your responses should include the relevant information and not the words like context, chat history, etc.
+  If you are mentioning multiple projects, mention them as a numbered list ONLY IF there are multiple projects.
+  Make sure assistant response is ALWAYS in markdown format.
+  Provide a paragraph where necessary, List where necessary, and code block with code language for syntax highlighting where code is needed.
+  Note: If user asks something NOT related to ripeseed, like any code snippet any other general question excuse them politely and ask them to ask the relevant questions regarding ripeseed.
+`
 
-const questionPrompt = PromptTemplate.fromTemplate(
-  `Use the following pieces of context to answer the question at the end.
-----------
-INSTRUCTIONS: {instructions}
-----------
-CONTEXT: {context}
-----------
-CHAT HISTORY: {chatHistory}
-----------
-QUESTION: {question}
-----------
-Helpful Answer:`,
-)
+const tools: OpenAI.Chat.ChatCompletionTool[] = [
+  {
+    type: 'function',
+    function: {
+      name: 'book_meeting_call_appointment',
+      description:
+        'If someone wants to talk, books calls, meetings, appointments, or any meet-up with RipeSeed',
+      parameters: {
+        type: 'object',
+        properties: {},
+        required: [],
+      },
+    },
+  },
+]
 
-async function initializeCache() {
-  try {
-    const client = new CacheClient({
-      configuration: Configurations.Laptop.v1(),
-      credentialProvider: CredentialProvider.fromEnvironmentVariable({
-        environmentVariableName: 'MOMENTO_API_KEY',
-      }),
-      defaultTtlSeconds: 60 * 60 * 24,
-    })
+interface QuestionGeneratorInput {
+  instructions: string
+  context: string
+  chatHistory?: string
+  question: string
+}
 
-    const cache = await MomentoCache.fromProps({
-      client,
-      cacheName: 'ask-ripeseed',
-    })
+const getClientConfig = async (provider: string) => {
+  await connectDB()
+  const session = await auth()
+  if (!session?.user?.id) throw new Error('Unauthorized')
 
-    return cache
-  } catch (error) {
-    console.warn('Failed to initialize cache:', error)
-    return null
+  const bot = await Bot.findOne({ user: session.user.id })
+  if (!bot) throw new Error('No API keys found for user')
+
+  switch (provider) {
+    case 'openai':
+      return { apiKey: bot.openAIKey }
+    case 'deepseek':
+      if (!bot.deepseek?.baseUrl || !bot.deepseek?.accessKey)
+        throw new Error('DeepSeek API keys missing')
+      return { baseURL: bot.deepseek.baseUrl, apiKey: bot.deepseek.accessKey }
+    case 'xai':
+      if (!bot.x?.baseUrl || !bot.x?.accessKey)
+        throw new Error('X API keys missing')
+      return { baseURL: bot.x.baseUrl, apiKey: bot.x.accessKey }
+    default:
+      throw new Error('Invalid provider')
   }
 }
 
-const getMeetingTool = tool(
-  async () => {
-    return 'BOOK_MEETING'
-  },
-  {
-    name: 'book_meeting_call_appointment',
-    description:
-      'If someone want to talk, books calls, meetings, appointments, or any meet-up with RipeSeed',
-  },
-)
+const getClientModel = (provider: string) => {
+  switch (provider) {
+    case 'openai':
+      return 'gpt-4o-mini'
+    case 'deepseek':
+      return 'deepseek-chat'
+    case 'xai':
+      return 'grok-2-latest'
+    default:
+      return 'gpt-4o-mini'
+  }
+}
 
-const getChain = async (apiKey: string) => {
-  const parser = new HttpResponseOutputParser()
+const getChain = async (
+  questionGeneratorInput: QuestionGeneratorInput,
+  provider: string,
+) => {
+  const config = await getClientConfig(provider)
 
-  // Try to initialize cache, but continue without it if it fails
-  const cache = await initializeCache().catch(() => null)
+  const finalPrompt = `Use the following pieces of context to answer the question at the end.
+    ----------
+    CONTEXT: ${questionGeneratorInput.context}
+    ----------
+    CHAT HISTORY: ${questionGeneratorInput?.chatHistory || ''}
+    ----------
+    QUESTION: ${questionGeneratorInput.question}
+    ----------
+    Helpful Answer:`
 
-  const chatModel = new ChatOpenAI({
-    ...(cache && { cache }), // Only include cache if initialization succeeded
-    apiKey,
-    model: 'gpt-4o-mini',
-    streaming: true,
-  })
+  const messages = [
+    { role: 'system' as const, content: instructions },
+    { role: 'user' as const, content: finalPrompt },
+  ]
 
-  const func_chatModel = chatModel.bindTools([getMeetingTool])
-  const chain = questionPrompt.pipe(func_chatModel).pipe(parser)
+  const model = getClientModel(provider)
 
-  return chain
+  if (provider === 'openai') {
+    const openai = new OpenAI({ apiKey: config.apiKey })
+    return await openai.chat.completions.create({
+      model,
+      messages,
+      stream: true,
+      temperature: 0,
+      tools,
+      tool_choice: 'auto',
+    })
+  }
+
+  if (provider === 'deepseek' || provider === 'xai') {
+    if (!config.baseURL) throw new Error(`${provider} baseURL is missing`)
+
+    const response = await axios.post(
+      config.baseURL,
+      {
+        model,
+        messages,
+        temperature: 0.7,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${config.apiKey}`,
+        },
+        responseType: 'stream',
+      },
+    )
+
+    return response.data
+  }
+
+  throw new Error('Invalid provider')
 }
 
 const serializeChatHistory = (chatHistory: Context[]): string => {
@@ -102,13 +166,12 @@ const serializeChatHistory = (chatHistory: Context[]): string => {
 }
 
 export function converse(
-  // newly added
-  promptSettings: any,
   message: string,
   context: Context[],
   idArray: string[],
   openAIApiKey: string,
   isAskRipeseedChat: boolean = false,
+  provider: string = 'openai',
 ) {
   return new ReadableStream({
     async start(controller) {
@@ -124,8 +187,8 @@ export function converse(
       if (idArray[0] !== null) {
         const docs = await pineconeIndex.query({
           vector,
-          // newly added
-          topK: 2,
+          topK: 5,
+          filter: { id: { $in: idArray } },
           includeMetadata: true,
         })
 
@@ -139,35 +202,31 @@ export function converse(
           ),
         )
       }
-      // newly added
-      let promptMessage = await promptSettings[0].prompt
-      const questionGeneratorInput = {
+
+      const questionGeneratorInput: QuestionGeneratorInput = {
         chatHistory,
         context: serializedDocs,
         question,
-        // newly added
-        instructions: isAskRipeseedChat ? promptMessage : '',
+        instructions: isAskRipeseedChat ? instructions : '',
       }
 
-      const stream = (await getChain(openAIApiKey)).streamEvents(
-        questionGeneratorInput,
-        { version: 'v1' },
-      )
-
+      const stream = await getChain(questionGeneratorInput, provider)
+      let completeMessage = ''
       for await (const chunk of stream) {
-        if (chunk?.event === 'on_parser_stream') {
-          const data = chunk?.data.chunk
-          controller.enqueue(data)
-        } else if (chunk.event === 'on_llm_end') {
-          const data = chunk?.data?.output?.generations[0]
-          console.log('Tool end:', chunk?.data?.output?.generations[0])
-          if (
-            Array.isArray(data) &&
-            data[0]?.message?.tool_calls &&
-            data[0].message.tool_calls[0]?.name ===
-              'book_meeting_call_appointment'
-          ) {
-            controller.enqueue('BOOK_MEETING')
+        if (chunk.choices[0]?.delta?.content) {
+          const content = chunk.choices[0].delta.content
+          controller.enqueue(content)
+          completeMessage += content
+        }
+
+        if (chunk.choices[0]?.delta?.tool_calls) {
+          const toolCalls = chunk.choices[0].delta.tool_calls
+          if (Array.isArray(toolCalls) && toolCalls.length > 0) {
+            if (
+              toolCalls[0].function?.name === 'book_meeting_call_appointment'
+            ) {
+              controller.enqueue('BOOK_MEETING')
+            }
           }
         }
       }
