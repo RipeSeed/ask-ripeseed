@@ -43,10 +43,24 @@ export const askRS_sendMessage = async ({
       body: raw,
     }
 
-    const response = await fetch(`/api/chat/ask-ripeseed`, requestOptions)
+    const response: any = await fetch(`/api/chat/ask-ripeseed`, requestOptions)
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`)
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('Failed to get reader')
+
+      const decoder = new TextDecoder()
+      let message = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        const chunk = decoder.decode(value, { stream: true })
+        message += chunk
+      }
+
+      throw new Error(message)
     }
 
     const reader = response.body?.getReader()

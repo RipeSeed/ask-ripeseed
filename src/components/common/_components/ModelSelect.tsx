@@ -17,48 +17,63 @@ interface ModelSelectProps {
 
 const ModelSelect: React.FC<ModelSelectProps> = ({ className = '' }) => {
   const { selectedModel, setSelectedModel } = useStore()
-
   const [availableModels, setAvailableModels] = useState<string[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+
   useEffect(() => {
     const fetchModels = async () => {
+      setLoading(true)
       try {
         const response = await fetch('/api/check-models')
+        if (!response.ok) throw new Error('Failed to fetch models')
+
         const data = await response.json()
         setAvailableModels(data.models)
 
-        const storedModel = localStorage.getItem('selected_model')
-        if (storedModel && data.models.includes(storedModel)) {
-          setSelectedModel(storedModel)
-        } else if (data.models.length > 0) {
-          setSelectedModel(data.models[0]) // Default to first available model
-          localStorage.setItem('selected_model', data.models[0])
+        if (data.models.length > 0) {
+          setSelectedModel(data.models[0]) // Set first available model
         } else {
           setSelectedModel('')
-          localStorage.removeItem('selected_model')
         }
       } catch (error) {
         console.error('Error fetching models:', error)
+        setAvailableModels([])
+        setSelectedModel('')
+      } finally {
+        setLoading(false)
       }
     }
+
     fetchModels()
   }, [setSelectedModel])
 
   const handleValueChange = (value: string) => {
     setSelectedModel(value)
-    localStorage.setItem('selected_model', value)
   }
 
   return (
-    <Select value={selectedModel} onValueChange={handleValueChange}>
+    <Select
+      value={selectedModel || undefined}
+      onValueChange={handleValueChange}
+      disabled={loading || availableModels.length === 0}
+    >
       <SelectTrigger className='w-9 xl:w-[120px]'>
-        <SelectValue>{selectedModel}</SelectValue>
+        <SelectValue>
+          {loading ? 'Loading...' : selectedModel || 'Select Model'}
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
-        {availableModels.map((model) => (
-          <SelectItem key={model} value={model}>
-            {model.charAt(0) + model.slice(1)}
-          </SelectItem>
-        ))}
+        {availableModels.length > 0 ? (
+          availableModels.map((model) => (
+            <SelectItem key={model} value={model}>
+              {model.charAt(0).toUpperCase() + model.slice(1)}
+            </SelectItem>
+          ))
+        ) : (
+          <div className='p-2 text-center text-sm text-gray-500'>
+            No models available
+          </div>
+        )}
       </SelectContent>
     </Select>
   )

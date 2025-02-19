@@ -4,7 +4,6 @@ import { X } from 'lucide-react'
 
 import { fileUpload } from '@/apis/admin/knowledgeBase'
 import Spinner from '@/app/(admin)/_components/Spinner'
-import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 
 interface boxState {
@@ -19,7 +18,10 @@ export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
   const queryClient = useQueryClient()
 
   const handleFileOpen = () => {
-    fileRef.current?.click()
+    if (fileRef.current) {
+      fileRef.current.value = ''
+      fileRef.current.click()
+    }
   }
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -72,7 +74,7 @@ export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
 
   return (
     <div
-      className={`absolute bottom-0 left-0 right-0 top-0 z-50 m-auto flex w-80 flex-col items-center overflow-y-auto rounded-2xl border border-gray-300 bg-white p-3 shadow-lg transition-all duration-300 ${file ? 'h-auto max-h-[70vh]' : 'h-[350px]'}`}
+      className={`absolute bottom-0 left-0 right-0 top-0 z-50 m-auto flex w-80 flex-col items-center overflow-y-auto rounded-2xl border border-gray-300 bg-white p-3 shadow-lg transition-all duration-300 ${file ? 'h-auto max-h-[50vh]' : 'h-[350px]'}`}
     >
       <div className='flex w-full items-center justify-center'>
         <h1 className='mt-4 text-xl font-normal text-dashboardHeading'>

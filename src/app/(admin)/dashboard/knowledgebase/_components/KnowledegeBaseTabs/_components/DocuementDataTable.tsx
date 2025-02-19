@@ -80,74 +80,75 @@ export default function DocumentDataTable() {
 
   return (
     <div className='mt-2 rounded-md border border-dashboardBorder'>
-      <Table className='w-full table-fixed'>
-        <TableHeader>
-          <TableRow>
-            <TableHead className='w-[25%] bg-dashboardActive text-xs font-medium'>
-              File ID
-            </TableHead>
-            <TableHead className='bg-dashboardActive text-xs font-medium'>
-              Name
-            </TableHead>
-            <TableHead className='bg-dashboardActive text-left text-xs font-medium'>
-              File Chunks
-            </TableHead>
-            <TableHead className='bg-dashboardActive text-left text-xs font-medium'>
-              Embeddings
-            </TableHead>
-            <TableHead className='bg-dashboardActive text-left text-xs font-medium'>
-              Actions
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {isLoading ? (
-            <TableRow>
-              <TableCell colSpan={5} className='text-center'>
-                Loading files...
-              </TableCell>
-            </TableRow>
-          ) : currentItems.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={5} className='text-center'>
-                No files found.
-              </TableCell>
-            </TableRow>
-          ) : (
-            currentItems.map((file: TableData, index: number) => (
-              <TableRow
-                key={file._id}
-                className={
-                  index % 2 === 1 ? 'border-b-0 bg-gray-50' : 'border-b-0'
-                }
-              >
-                <TableCell className='truncate text-left text-sm font-normal'>
-                  {file._id}
-                </TableCell>
-                <TableCell className='truncate text-left text-sm font-normal'>
-                  {file.fileName}
-                </TableCell>
-                <TableCell className='truncate text-left text-sm font-normal'>
-                  {file.chunks}
-                </TableCell>
-                <TableCell className='truncate text-left text-sm font-normal'>
-                  {file.embeddings}
-                </TableCell>
-                <TableCell className='truncate text-left text-sm font-normal'>
-                  <button
-                    className='text-dashboardPreviewText transition-colors hover:text-red-600'
-                    onClick={() => handleDeletFile(file._id)}
-                    disabled={deleteFileMutation.isPending}
-                  >
-                    <Trash size={16} />
-                  </button>
-                </TableCell>
+      <div className='overflow-x-auto'>
+        <div className='min-w-[640px]'>
+          <Table className='w-full table-fixed overflow-auto'>
+            <TableHeader>
+              <TableRow>
+                <TableHead className='w-[30%] bg-dashboardActive text-xs font-medium'>
+                  File ID
+                </TableHead>
+                <TableHead className='w-[30%] bg-dashboardActive text-xs font-medium'>
+                  Name
+                </TableHead>
+                <TableHead className='w-[20%] bg-dashboardActive text-left text-xs font-medium'>
+                  File Chunks
+                </TableHead>
+                <TableHead className='w-[20%] bg-dashboardActive text-left text-xs font-medium'>
+                  Embeddings
+                </TableHead>
+                <TableHead className='w-[10%] bg-dashboardActive text-center text-xs font-medium'></TableHead>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={5} className='text-center'>
+                    Loading files...
+                  </TableCell>
+                </TableRow>
+              ) : currentItems.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className='text-center'>
+                    No files found.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                currentItems.map((file: TableData, index: number) => (
+                  <TableRow
+                    key={file._id}
+                    className={
+                      index % 2 === 1 ? 'border-b-0 bg-gray-50' : 'border-b-0'
+                    }
+                  >
+                    <TableCell className='w-[30%] truncate pe-5 text-left text-sm font-normal'>
+                      {file._id}
+                    </TableCell>
+                    <TableCell className='w-[30%] truncate pe-5 text-left text-sm font-normal'>
+                      {file.fileName}
+                    </TableCell>
+                    <TableCell className='w-[20%] truncate pe-4 text-left text-sm font-normal'>
+                      {file.chunks}
+                    </TableCell>
+                    <TableCell className='w-[20%] truncate pe-4 text-left text-sm font-normal'>
+                      {file.embeddings}
+                    </TableCell>
+                    <TableCell className='w-[10%] truncate pe-4 text-right text-sm font-normal'>
+                      <button
+                        className='text-dashboardPreviewText transition-colors hover:text-red-600'
+                        onClick={() => handleDeletFile(file._id)}
+                        disabled={deleteFileMutation.isPending}
+                      >
+                        <Trash size={16} />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
       {tableData.length > itemsPerPage && (
         <div className='flex items-center justify-between p-4'>
           <button
