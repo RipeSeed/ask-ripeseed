@@ -18,6 +18,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/login', req.url))
   }
 
+  if (nextUrl.pathname === '/dashboard' && !userExists) {
+    return NextResponse.redirect(new URL('/register', req.url))
+  }
+
   if (nextUrl.pathname === '/dashboard') {
     const url = req.nextUrl.clone()
     url.pathname = '/dashboard/knowledgebase'
@@ -28,5 +32,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard', '/register'],
+  matcher: ['/dashboard', '/register', '/login'],
 }
