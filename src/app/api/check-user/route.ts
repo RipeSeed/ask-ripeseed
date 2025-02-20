@@ -8,7 +8,6 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
     await connectDB()
     const existingUser = await User.findOne()
     const userExists = !!existingUser
-    //return !!existingUser
     return NextResponse.json({ exists: userExists }, { status: 200 })
   } catch (error) {
     return NextResponse.json(
