@@ -1,8 +1,14 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { ArrowRight, InfoIcon } from 'lucide-react'
 
 import useStore from '@/app/(chat)/_utils/store/store'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
 import {
   Select,
   SelectContent,
@@ -52,30 +58,53 @@ const ModelSelect: React.FC<ModelSelectProps> = ({ className = '' }) => {
   }
 
   return (
-    <Select
-      value={selectedModel || undefined}
-      onValueChange={handleValueChange}
-      disabled={loading || availableModels.length === 0}
-    >
-      <SelectTrigger className='w-9 xl:w-[120px]'>
-        <SelectValue>
-          {loading ? 'Loading...' : selectedModel || 'Select Model'}
-        </SelectValue>
-      </SelectTrigger>
-      <SelectContent>
-        {availableModels.length > 0 ? (
-          availableModels.map((model) => (
-            <SelectItem key={model} value={model}>
-              {model.charAt(0).toUpperCase() + model.slice(1)}
-            </SelectItem>
-          ))
-        ) : (
-          <div className='p-2 text-center text-sm text-gray-500'>
-            No models available
-          </div>
-        )}
-      </SelectContent>
-    </Select>
+    <div className='flex items-center gap-2'>
+      <Select
+        value={selectedModel || undefined}
+        onValueChange={handleValueChange}
+        disabled={loading || availableModels.length === 0}
+      >
+        <SelectTrigger className='w-9 xl:w-[120px]'>
+          <SelectValue>
+            {loading ? 'Loading...' : selectedModel || 'Select Model'}
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          {availableModels.length > 0 ? (
+            availableModels.map((model) => (
+              <SelectItem key={model} value={model}>
+                {model.charAt(0).toUpperCase() + model.slice(1)}
+              </SelectItem>
+            ))
+          ) : (
+            <div className='p-2 text-center text-sm text-gray-500'>
+              No models available
+            </div>
+          )}
+        </SelectContent>
+      </Select>
+      {!loading && availableModels.length === 0 && (
+        <HoverCard>
+          <HoverCardTrigger>
+            <InfoIcon className='h-4 w-4 cursor-help text-gray-500' />
+          </HoverCardTrigger>
+          <HoverCardContent className='w-80'>
+            <div>
+              <p className='text-sm text-muted-foreground'>
+                No models have been configured yet.
+              </p>
+              <a
+                href='/dashboard'
+                className='inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80'
+              >
+                Configure models in dashboard
+                <ArrowRight className='h-4 w-4' />
+              </a>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
+      )}
+    </div>
   )
 }
 
