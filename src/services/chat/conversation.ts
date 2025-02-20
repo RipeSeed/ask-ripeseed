@@ -157,7 +157,6 @@ export function converse(
 
       try {
         if (!promptSettings || promptSettings.length === 0) {
-          console.log('Prompt settings are empty or undefined.')
           controller.enqueue(
             "I apologize, but I don't have any prompts configured at the moment. Please have an administrator set up the appropriate prompts.",
           )
