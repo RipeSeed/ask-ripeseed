@@ -29,9 +29,13 @@ const ModelSelect: React.FC<ModelSelectProps> = ({ className = '' }) => {
 
         const data = await response.json()
         setAvailableModels(data.models)
+        const savedModel = localStorage.getItem('selected_model')
 
-        if (data.models.length > 0) {
-          setSelectedModel(data.models[0]) // Set first available model
+        if (savedModel && data.models.includes(savedModel)) {
+          setSelectedModel(savedModel)
+        } else if (data.models.length > 0) {
+          setSelectedModel(data.models[0])
+          localStorage.setItem('selected_model', data.models[0])
         } else {
           setSelectedModel('')
         }
@@ -49,6 +53,7 @@ const ModelSelect: React.FC<ModelSelectProps> = ({ className = '' }) => {
 
   const handleValueChange = (value: string) => {
     setSelectedModel(value)
+    localStorage.setItem('selected_model', value)
   }
 
   return (
