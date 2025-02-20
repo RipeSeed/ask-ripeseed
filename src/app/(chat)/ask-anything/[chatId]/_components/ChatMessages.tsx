@@ -267,7 +267,7 @@ export function ChatMessages() {
         </AnimatePresence>
       </div>
       <div className='w-full px-4 pb-4 md:px-20'>
-        <ChatMessageInput isPendingS={isPending} />
+        <ChatMessageInput isPending={isPending} />
       </div>
     </div>
   )

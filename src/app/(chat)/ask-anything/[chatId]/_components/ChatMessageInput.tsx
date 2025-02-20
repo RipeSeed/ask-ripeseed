@@ -13,12 +13,12 @@ import { addAndSelectChat } from '../utils/creatNewChat'
 const queryIcon = '/query.png'
 
 interface ChatMessageInputProps {
-  isPendingS: boolean
+  isPending: boolean
 }
-export function ChatMessageInput({ isPendingS }: ChatMessageInputProps) {
+export function ChatMessageInput({ isPending }: ChatMessageInputProps) {
   const [message, setMessage] = useState('')
   const [textareaHeight, setTextareaHeight] = useState<number | null>(null)
-  const [isPending, setIsPending] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const parentDivRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
@@ -32,7 +32,7 @@ export function ChatMessageInput({ isPendingS }: ChatMessageInputProps) {
         ? '-1'
         : (pathname.split('/')[2] ?? '0')
     if (stateMetadata.chatId !== Number(path)) {
-      setIsPending(false)
+      setIsLoading(false)
     }
     return path
   }, [pathname])
@@ -46,7 +46,7 @@ export function ChatMessageInput({ isPendingS }: ChatMessageInputProps) {
 
   useEffect(() => {
     if (stateMetadata && !stateMetadata.message.trim()) {
-      setIsPending(false)
+      setIsLoading(false)
       setMessage(stateMetadata.message || '')
       if (inputRef.current) {
         inputRef.current.disabled = false
@@ -104,7 +104,7 @@ export function ChatMessageInput({ isPendingS }: ChatMessageInputProps) {
   }
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (isPending) return
+    if (isLoading) return
 
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault()
@@ -142,7 +142,7 @@ export function ChatMessageInput({ isPendingS }: ChatMessageInputProps) {
               autoComplete='off'
               value={message}
               ref={inputRef}
-              disabled={isPendingS}
+              disabled={isPending}
               onKeyDown={handleKeyPress}
               onChange={handleInputChange}
               name='message'
@@ -160,11 +160,11 @@ export function ChatMessageInput({ isPendingS }: ChatMessageInputProps) {
         </motion.div>
       </AnimatePresence>
       <Button
-        disabled={isPendingS}
+        disabled={isPending}
         className='h-10 rounded-3xl bg-crayola hover:border hover:border-primary dark:hover:text-white md:h-12'
         onClick={handleSendMessage}
       >
-        {isPendingS ? (
+        {isPending ? (
           <LoaderCircle className='animate-spin text-primary' />
         ) : (
           <Image alt='query arrow' src={queryIcon} width={30} height={23} />
