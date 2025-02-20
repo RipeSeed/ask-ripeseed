@@ -85,6 +85,9 @@ export function ChatMessages() {
     },
     onError: (err) => {
       toast.error(err.message)
+      setWaitingForStream(false)
+      // Remove the last two messages (user message and empty assistant message)
+      setMessages((messages) => messages.slice(0, -2))
     },
   })
 
@@ -170,6 +173,7 @@ export function ChatMessages() {
           closeButton: false,
         },
       )
+
       return false
     }
 
@@ -263,7 +267,7 @@ export function ChatMessages() {
         </AnimatePresence>
       </div>
       <div className='w-full px-4 pb-4 md:px-20'>
-        <ChatMessageInput isPending={isPending} />
+        <ChatMessageInput isPendingS={isPending} />
       </div>
     </div>
   )
