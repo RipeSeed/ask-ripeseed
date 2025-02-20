@@ -8,7 +8,7 @@ export async function POST(request: Request, response: Response) {
   try {
     // indexId is the id of the document index
     await connectDB()
-    const { apiKey, messages, indexId, chatId } = await request.json()
+    const { apiKey, messages, indexId, chatId, provider } = await request.json()
     // Documents chat
     const promptSettings = await Prompt.find()
     const streamedResponse = await converse(
@@ -17,6 +17,8 @@ export async function POST(request: Request, response: Response) {
       messages,
       [indexId],
       apiKey,
+      provider,
+      true,
     )
     return new Response(streamedResponse, {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
