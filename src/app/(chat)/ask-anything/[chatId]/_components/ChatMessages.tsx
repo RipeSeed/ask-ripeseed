@@ -103,7 +103,7 @@ export function ChatMessages() {
   })
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       if (selectedChatId) {
         const chatData = await getChat({ id: selectedChatId })
         if (!chatData) {
@@ -263,7 +263,7 @@ export function ChatMessages() {
         </AnimatePresence>
       </div>
       <div className='w-full px-4 pb-4 md:px-20'>
-        <ChatMessageInput />
+        <ChatMessageInput isPending={isPending} />
       </div>
     </div>
   )

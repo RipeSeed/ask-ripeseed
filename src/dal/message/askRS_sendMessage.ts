@@ -4,6 +4,7 @@ type APIRequest = {
   message: Message
   uId: string
   _id: number // this id is key of the last message added. Ensuring that the streamed content is added to the correct position
+  provider: string
 }
 
 export const askRS_sendMessage = async ({
@@ -11,6 +12,7 @@ export const askRS_sendMessage = async ({
   uId,
   onChunkReceived,
   _id,
+  provider = 'openai',
 }: APIRequest & {
   onChunkReceived?: (id: number, chunk: string) => void
 }): Promise<void> => {
@@ -32,6 +34,7 @@ export const askRS_sendMessage = async ({
           content: message.content,
         },
       ],
+      provider,
     })
 
     const requestOptions = {
@@ -40,10 +43,24 @@ export const askRS_sendMessage = async ({
       body: raw,
     }
 
-    const response = await fetch(`/api/chat/ask-ripeseed`, requestOptions)
+    const response: any = await fetch(`/api/chat/ask-ripeseed`, requestOptions)
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`)
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('Failed to get reader')
+
+      const decoder = new TextDecoder()
+      let message = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        const chunk = decoder.decode(value, { stream: true })
+        message += chunk
+      }
+
+      throw new Error(message)
     }
 
     const reader = response.body?.getReader()

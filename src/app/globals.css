@@ -24,10 +24,31 @@
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
     --radius: 0.5rem;
+    --dashboard-bg-primary: #f9f9f9;
+    --dashboard-bg-secondary: #ffffff;
+    --dashboard-active: #f9fafb;
+    --dashboard-border: #ededed;
+    --dashboard-buttons-bg: #eaeaea;
+    --dashboard-preview-bg: #eaeaea;
+    --dashboard-preview-text: #637085;
+    --dashboard-gray-text: #555555;
     --dashboard-carousel-bg: #f7f4ee;
     --dashboard-buttons-bg: #222222;
+    --dashboard-heading: #101828;
+    --dashboard-text: #333333;
+    --dashboard-input: #757575;
+    --dashboard-sidebar-footer: #344054;
+    --dashboard-footer-light: #667085;
     --white: #ffffff;
     --black: #1b1b21;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -50,6 +71,14 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -87,4 +116,8 @@ pre > pre {
 * {
   padding: 0;
   margin: 0;
+}
+
+.accordion::-webkit-scrollbar {
+  width: 2px;
 }

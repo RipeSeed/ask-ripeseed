@@ -40,6 +40,8 @@ export function ChatMessages() {
     updateStateMetadata,
     resetStateMetadata,
     addedAskRSmsg,
+    selectedModel,
+    setSelectedModel,
   } = useStore()
 
   const queryClient = useQueryClient()
@@ -90,8 +92,10 @@ export function ChatMessages() {
         scrollToBottom()
       }, 0)
     },
-    onError: (err) => {
-      toast.error(err.message)
+    onError: (err: any) => {
+      toast.error(err)
+      setWaitingForStream(false)
+      setClearChat(false)
     },
   })
 
@@ -203,6 +207,7 @@ export function ChatMessages() {
       uId,
       _id,
       onChunkReceived: handleChunkReceived,
+      provider: selectedModel,
     })
     return true
   }
@@ -245,7 +250,7 @@ export function ChatMessages() {
         </AnimatePresence>
       </div>
       <div className='w-full px-4 pb-4 lg:px-20'>
-        <ChatMessageInput />
+        <ChatMessageInput isPending={isPending} />
       </div>
     </div>
   )

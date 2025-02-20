@@ -12,10 +12,9 @@ import { addAndSelectChat } from '../utils/creatNewChat'
 
 const queryIcon = '/query.png'
 
-export function ChatMessageInput() {
+export function ChatMessageInput({ isPending }: { isPending: boolean }) {
   const [message, setMessage] = useState('')
   const [textareaHeight, setTextareaHeight] = useState<number | null>(null)
-  const [isPending, setIsPending] = useState(false)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const parentDivRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
@@ -29,7 +28,7 @@ export function ChatMessageInput() {
         ? '-1'
         : (pathname.split('/')[2] ?? '0')
     if (stateMetadata.chatId !== Number(path)) {
-      setIsPending(false)
+      // setIsPending(false)
     }
     return path
   }, [pathname])
@@ -40,20 +39,6 @@ export function ChatMessageInput() {
       adjustTextareaHeight(inputRef.current)
     }
   }, [message])
-
-  useEffect(() => {
-    if (stateMetadata && !stateMetadata.message.trim()) {
-      setIsPending(false)
-      if (inputRef.current) {
-        inputRef.current.focus()
-        inputRef.current.style.height = 'auto'
-        setTextareaHeight(null)
-      }
-      if (parentDivRef.current) {
-        parentDivRef.current.style.removeProperty('border-radius')
-      }
-    }
-  }, [stateMetadata])
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value)
@@ -86,7 +71,6 @@ export function ChatMessageInput() {
         setMessage('')
         if (chatId) router.push(`/ask-anything/${chatId}`)
       } else {
-        setIsPending(true)
         updateStateMetadata({
           chatId,
           message,
@@ -114,7 +98,7 @@ export function ChatMessageInput() {
   return (
     <div
       ref={parentDivRef}
-      className='flex h-full w-full items-center justify-between gap-2 rounded-[100px] bg-[#E0E0E0] p-2 dark:bg-black'
+      className='flex h-full w-full items-center justify-between gap-2 rounded-[100px] bg-[#E0E0E0] p-2 dark:bg-[#2F2F2F]'
     >
       <AnimatePresence initial={false}>
         <motion.div

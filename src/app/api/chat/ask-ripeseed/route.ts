@@ -1,25 +1,41 @@
-import { Message } from '@/app/(chat)/_lib/db'
-import { AskRipeseedChat } from '@/models'
+import { NextRequest, NextResponse } from 'next/server'
+
+import { AskRipeseedChat, connectDB } from '@/models'
 import type { Message as MessageModel } from '@/models/AskRipeseedChat.model'
+import Prompt from '@/models/knowledgeBase/Prompt.model'
 import { converse } from '@/services/chat/conversation'
 
 // this is chat with ripeseed's own document. so users can ask questions
-export async function POST(request: Request) {
-  const { messages, uId } = await request.json()
-  const indexId = process.env.RIPESEED_DOC_INDEX_ID!
-  const apiKey = process.env.RIPESEED_OPENAI_API_KEY!
+export async function POST(request: NextRequest, response: NextResponse) {
+  try {
+    const { messages, uId, provider } = await request.json()
+    const indexId = process.env.RIPESEED_DOC_INDEX_ID!
+    const apiKey = process.env.RIPESEED_OPENAI_API_KEY!
 
-  const streamedResponse = converse(
-    messages[messages.length - 1].content,
-    messages,
-    [indexId],
-    apiKey,
-    true,
-  )
+    await connectDB()
+    const promptSettings = await Prompt.find()
+    if (promptSettings.length === 0) {
+      throw new Error('No prompts are configured. Please add a prompt.')
+    }
 
-  return new Response(streamedResponse, {
-    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-  })
+    const streamedResponse = converse(
+      promptSettings,
+      messages[messages.length - 1].content,
+      messages,
+      [indexId],
+      apiKey,
+      provider,
+      true,
+    )
+    return new Response(streamedResponse, {
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    })
+  } catch (error) {
+    if (error instanceof Error) {
+      return new Response(error.message, { status: 400 })
+    }
+    return new Response('Something went wrong', { status: 500 })
+  }
 
   // TODO: Saving the response in mongodb (the folllowing code is not removed intentionally)
 

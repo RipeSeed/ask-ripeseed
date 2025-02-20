@@ -16,13 +16,17 @@ const config = {
       padding: '2rem',
       screens: {
         '2xl': '1400px',
-        sm: { max: '768px' },
-        xs: { max: '420px' },
+        sm: {
+          max: '768px',
+        },
+        xs: {
+          max: '420px',
+        },
       },
     },
     extend: {
       screens: {
-        xs: '400px', // Add custom screen size
+        xs: '400px',
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
@@ -66,9 +70,37 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        dashboardPrimary: 'var(--dashboard-bg-primary)',
+        dashboardSecondary: 'var(--dashboard-bg-secondary)',
+        dashboardActive: 'var(--dashboard-active)',
+        dashboardBorder: 'var(--dashboard-border)',
+        dashboardButtonBg: 'var(--dashboard-buttons-bg)',
+        dashboardPreviewBg: 'var(--dashboard-preview-bg)',
+        dashboardPreviewText: 'var(--dashboard-preview-text)',
+        dashboardSecondaryText: 'var(--dashboard-gray-text)',
+        dashboardHeading: 'var(--dashboard-heading)',
+        dashboardInput: 'var(--dashboard-input)',
+        dashboardText: 'var( --dashboard-text)',
         dashboardBg: 'var(--dashboard-carousel-bg)',
         dashboardBtn: 'var(--dashboard-buttons-bg)',
+        dashboardSidebarFooter: 'var(--dashboard-sidebar-footer)',
+        dashboardFooter: 'var(--dashboard-footer-light)',
         white: 'var(--white)',
+        honey: 'var(--historyPannelBackground)',
+        chatBackground: 'var(--chatBackground)',
+        chatBotBubble: 'var(--chatBotBubble)',
+        chatUserBubble: 'var(--chatUserBubble)',
+        historyPannelBackground: 'var(--historyPannelBackground)',
+        sidebar: {
+          DEFAULT: 'hsl(var(--sidebar-background))',
+          foreground: 'hsl(var(--sidebar-foreground))',
+          primary: 'hsl(var(--sidebar-primary))',
+          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+          accent: 'hsl(var(--sidebar-accent))',
+          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+          border: 'hsl(var(--sidebar-border))',
+          ring: 'hsl(var(--sidebar-ring))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -77,12 +109,20 @@ const config = {
       },
       keyframes: {
         'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
         },
         'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
         },
       },
       animation: {

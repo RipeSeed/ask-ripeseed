@@ -1,100 +1,125 @@
-import { PromptTemplate } from '@langchain/core/prompts'
-import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai'
+import { OpenAIEmbeddings } from '@langchain/openai'
 import { Document } from 'langchain/document'
 import { formatDocumentsAsString } from 'langchain/util/document'
 
 import 'server-only'
 
-import { CacheClient, Configurations, CredentialProvider } from '@gomomento/sdk'
-import { MomentoCache } from '@langchain/community/caches/momento'
-import { tool } from '@langchain/core/tools'
-import { HttpResponseOutputParser } from 'langchain/output_parsers'
+import axios from 'axios'
+import { OpenAI } from 'openai'
 
+import { auth } from '@/lib/auth'
+import { connectDB } from '@/models'
+import Bot from '@/models/botCredentials/Bot.model'
+import Prompt from '@/models/knowledgeBase/Prompt.model'
 import { pineconeIndex } from './config'
 
 export interface Context {
-  role: 'user' | 'assistant' | 'system'
+  role: 'system' | 'user' | 'assistant' | 'tool' | 'function'
   content: string
 }
 
-const instructions = `
-  Act like an agent from RipeSeed, a software services company and answer the user queries accordingly.
-  If a user asks if we can develop something they want to, mention the projects that are similar to the user's requirements as an example.
-  If a user asks about particular technology/niche, check if its available in the context you have. IF available, give answers accordingly. ELSE IF NOT AVAILABLE in the context, check if a similar/niche technology is available in the context and present that to the user
-  If you need more information about the technologies client is looking for, feel free to ask them and narrow down the client's requirements before checking the context.
-  If a user asks for bugdet/timeline for a project ask them to schedule a call with ripeseed representative and also give them the RipeSee's Contact Us and Get a Quote links (https://ripeseed.io/request-a-quote).
-  In your response do not include the steps or logic you are taking to conclude the answer.
-  Your responses should include the relevant information and not the words like context, chat history, etc.
-  If you are mentioning multiple projects, mention them as a numbered list ONLY IF there are multiple projects.
-  Make sure assistant response is ALWAYS in markdown format.
-  Provide a paragraph where necessary, List where necessary, and code block with code language for syntax highlighting where code is needed.
-  Note: If user asks something NOT related to ripeseed, excuse them politely and ask them to ask the relevant questions.
-`
-
-const questionPrompt = PromptTemplate.fromTemplate(
-  `Use the following pieces of context to answer the question at the end.
-----------
-INSTRUCTIONS: {instructions}
-----------
-CONTEXT: {context}
-----------
-CHAT HISTORY: {chatHistory}
-----------
-QUESTION: {question}
-----------
-Helpful Answer:`,
-)
-
-async function initializeCache() {
-  try {
-    const client = new CacheClient({
-      configuration: Configurations.Laptop.v1(),
-      credentialProvider: CredentialProvider.fromEnvironmentVariable({
-        environmentVariableName: 'MOMENTO_API_KEY',
-      }),
-      defaultTtlSeconds: 60 * 60 * 24,
-    })
-
-    const cache = await MomentoCache.fromProps({
-      client,
-      cacheName: 'ask-ripeseed',
-    })
-
-    return cache
-  } catch (error) {
-    console.warn('Failed to initialize cache:', error)
-    return null
+interface PromptModel {
+  prompt: string
+  modelConfiguration: {
+    temperature: number
+    topP: number
   }
 }
 
-const getMeetingTool = tool(
-  async () => {
-    return 'BOOK_MEETING'
-  },
+const tools: OpenAI.Chat.ChatCompletionTool[] = [
   {
-    name: 'book_meeting_call_appointment',
-    description:
-      'If someone want to talk, books calls, meetings, appointments, or any meet-up with RipeSeed',
+    type: 'function',
+    function: {
+      name: 'book_meeting_call_appointment',
+      description:
+        'If someone wants to talk, books calls, meetings, appointments, or any meet-up with RipeSeed',
+      parameters: {
+        type: 'object',
+        properties: {},
+        required: [],
+      },
+    },
   },
-)
+]
 
-const getChain = async (apiKey: string) => {
-  const parser = new HttpResponseOutputParser()
+interface QuestionGeneratorInput {
+  instructions: string
+  context: string
+  chatHistory?: string
+  question: string
+}
 
-  // Try to initialize cache, but continue without it if it fails
-  const cache = await initializeCache().catch(() => null)
+const getClientConfig = async (provider: string) => {
+  await connectDB()
 
-  const chatModel = new ChatOpenAI({
-    ...(cache && { cache }), // Only include cache if initialization succeeded
-    apiKey,
-    model: 'gpt-4o-mini',
-    streaming: true,
+  const bot = await Bot.findOne()
+  if (!bot) throw new Error('No API keys found')
+
+  switch (provider) {
+    case 'openai':
+      return { apiKey: bot.openAIKey }
+    case 'deepseek':
+      if (!bot.deepseek?.baseUrl || !bot.deepseek?.accessKey)
+        throw new Error('DeepSeek API keys missing')
+      return { baseURL: bot.deepseek.baseUrl, apiKey: bot.deepseek.accessKey }
+    case 'xai':
+      if (!bot.x?.baseUrl || !bot.x?.accessKey)
+        throw new Error('X API keys missing')
+      return { baseURL: bot.x.baseUrl, apiKey: bot.x.accessKey }
+    default:
+      throw new Error('Invalid provider')
+  }
+}
+
+const getClientModel = (provider: string) => {
+  switch (provider) {
+    case 'openai':
+      return 'gpt-4o-mini'
+    case 'deepseek':
+      return 'deepseek-chat'
+    case 'xai':
+      return 'grok-2-latest'
+    default:
+      return 'gpt-4o-mini'
+  }
+}
+const getChain = async (
+  questionGeneratorInput: QuestionGeneratorInput,
+  provider: string,
+  modelConfig: { temperature: number; topP: number },
+) => {
+  const config = await getClientConfig(provider)
+  const openai = new OpenAI(config)
+
+  const finalPrompt = `Use the following pieces of context to answer the question at the end.
+    ----------
+    CONTEXT: ${questionGeneratorInput.context}
+    ----------
+    CHAT HISTORY: ${questionGeneratorInput?.chatHistory}
+    ----------
+    QUESTION: ${questionGeneratorInput.question}
+    ----------
+    Helpful Answer:`
+
+  const messages = [
+    {
+      role: 'system' as const,
+      content: questionGeneratorInput.instructions,
+    },
+    { role: 'user' as const, content: finalPrompt },
+  ]
+
+  const model = getClientModel(provider)
+  const stream = await openai.chat.completions.create({
+    model,
+    messages,
+    stream: true,
+    temperature: modelConfig.temperature,
+    top_p: modelConfig.topP,
+    tools: tools,
+    tool_choice: 'auto',
   })
-
-  const func_chatModel = chatModel.bindTools([getMeetingTool])
-  const chain = questionPrompt.pipe(func_chatModel).pipe(parser)
-
-  return chain
+  return stream
 }
 
 const serializeChatHistory = (chatHistory: Context[]): string => {
@@ -112,73 +137,112 @@ const serializeChatHistory = (chatHistory: Context[]): string => {
 }
 
 export function converse(
+  promptSettings: any,
   message: string,
   context: Context[],
   idArray: string[],
   openAIApiKey: string,
+  provider: string,
   isAskRipeseedChat: boolean = false,
 ) {
   return new ReadableStream({
     async start(controller) {
-      const question = message
-
-      const chatHistory = await serializeChatHistory(context)
-
-      const embeddings = new OpenAIEmbeddings({ openAIApiKey })
-      const vector = await embeddings.embedQuery(question)
-
-      let serializedDocs = ''
-
-      if (idArray[0] !== null) {
-        const docs = await pineconeIndex.query({
-          vector,
-          topK: 5,
-          filter: { id: { $in: idArray } },
-          includeMetadata: true,
-        })
-
-        serializedDocs = formatDocumentsAsString(
-          docs.matches.map(
-            (doc) =>
-              new Document({
-                metadata: doc.metadata,
-                pageContent: doc.metadata?.text?.toString() || '',
-              }),
-          ),
-        )
-      }
-
-      const questionGeneratorInput = {
-        chatHistory,
-        context: serializedDocs,
-        question,
-        instructions: isAskRipeseedChat ? instructions : '',
-      }
-
-      const stream = (await getChain(openAIApiKey)).streamEvents(
-        questionGeneratorInput,
-        { version: 'v1' },
-      )
-
-      for await (const chunk of stream) {
-        if (chunk?.event === 'on_parser_stream') {
-          const data = chunk?.data.chunk
-          controller.enqueue(data)
-        } else if (chunk.event === 'on_llm_end') {
-          const data = chunk?.data?.output?.generations[0]
-          console.log('Tool end:', chunk?.data?.output?.generations[0])
-          if (
-            Array.isArray(data) &&
-            data[0]?.message?.tool_calls &&
-            data[0].message.tool_calls[0]?.name ===
-              'book_meeting_call_appointment'
-          ) {
-            controller.enqueue('BOOK_MEETING')
-          }
+      let isControllerClosed = false
+      const closeController = () => {
+        if (!isControllerClosed) {
+          controller.close()
+          isControllerClosed = true
         }
       }
 
-      controller.close()
+      try {
+        if (!promptSettings || promptSettings.length === 0) {
+          controller.enqueue(
+            "I apologize, but I don't have any prompts configured at the moment. Please have an administrator set up the appropriate prompts.",
+          )
+          closeController()
+          return
+        }
+
+        // Ensure prompt is not undefined
+        const currentPrompt = promptSettings[0]
+        if (!currentPrompt || !currentPrompt.prompt?.trim()) {
+          controller.enqueue(
+            'The configured prompt is empty. Please check the prompt settings.',
+          )
+          closeController()
+          return
+        }
+        const promptMessage = currentPrompt.prompt.trim()
+
+        const chatHistory = await serializeChatHistory(context)
+        const embeddings = new OpenAIEmbeddings({ openAIApiKey })
+        const vector = await embeddings.embedQuery(message)
+
+        let serializedDocs = ''
+        if (idArray[0] !== null) {
+          const docs = await pineconeIndex.query({
+            vector,
+            topK: 2,
+            includeMetadata: true,
+          })
+
+          serializedDocs = formatDocumentsAsString(
+            docs.matches.map(
+              (doc) =>
+                new Document({
+                  metadata: doc.metadata,
+                  pageContent: doc.metadata?.text?.toString() || '',
+                }),
+            ),
+          )
+        }
+
+        const systemMessage = isAskRipeseedChat
+          ? promptMessage
+          : 'You are an AI assistant configured to answer user questions. Please respond clearly and concisely.'
+
+        const questionGeneratorInput = {
+          chatHistory,
+          context: serializedDocs,
+          question: message,
+          instructions: systemMessage,
+        }
+
+        const stream = await getChain(
+          questionGeneratorInput,
+          provider,
+          currentPrompt.modelConfiguration,
+        )
+
+        for await (const chunk of stream) {
+          const delta = chunk.choices[0]?.delta
+
+          if (delta?.content) {
+            controller.enqueue(delta.content)
+          }
+
+          if (delta?.tool_calls) {
+            const toolCalls = delta.tool_calls
+            if (Array.isArray(toolCalls) && toolCalls.length > 0) {
+              if (
+                toolCalls[0]?.function?.name === 'book_meeting_call_appointment'
+              ) {
+                controller.enqueue('BOOK_MEETING')
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error in converse:', error)
+        if (!isControllerClosed) {
+          controller.enqueue(
+            'I encountered an error while processing your request. Please try again later.',
+          )
+        }
+      } finally {
+        closeController()
+      }
     },
   })
 }

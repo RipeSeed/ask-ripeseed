@@ -27,7 +27,7 @@ const fontSans = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700'],
   subsets: ['latin'],
   variable: '--font-sans',
-  display: 'swap', // Ensures font is loaded before content
+  display: 'swap',
 })
 
 export default function RootLayout({
@@ -35,19 +35,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  if (!isClient) {
-    return null // Prevents rendering on the server side to avoid mismatch
-  }
-
   return (
-    <html lang='en'>
-      <body
+    <main lang='en'>
+      <div
         className={cn(
           'm-auto bg-background font-sans antialiased',
           fontSans.variable,
@@ -83,7 +73,7 @@ export default function RootLayout({
             richColors
           />
         </Providers>
-      </body>
+      </div>
 
       <Script
         async
@@ -97,6 +87,6 @@ export default function RootLayout({
           gtag('js', new Date());
           gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');`}
       </Script>
-    </html>
+    </main>
   )
 }
