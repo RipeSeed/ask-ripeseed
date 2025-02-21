@@ -46,7 +46,7 @@ export default function ChatHeader() {
           Ask Anything
         </li>
       </div>
-      <div className='absolute right-0 mr-[14px] flex items-center'>
+      <div className='absolute right-0 mr-[14px] flex items-center px-3'>
         {isPath(askRSPaths, pathname) ? (
           <>
             <div className='flex items-center justify-center'>
