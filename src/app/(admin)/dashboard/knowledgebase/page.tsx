@@ -106,11 +106,6 @@ export default function KnowledgeBase() {
   }, [])
 
   const handleClick = (data: TUpdateSchema) => {
-    const filteredData = Object.fromEntries(
-      Object.entries(data).filter(
-        ([_, value]) => value !== '' && value !== undefined,
-      ),
-    )
     mutate({ user, ...data })
   }
 
@@ -160,7 +155,6 @@ export default function KnowledgeBase() {
               <Button
                 className='h-10 w-full bg-black text-white hover:bg-gray-800 md:mt-5 md:w-20'
                 type='submit'
-                // disabled={botPending}
                 disabled={buttonDisabled || botPending}
               >
                 Update
@@ -227,7 +221,6 @@ export default function KnowledgeBase() {
                 <Button
                   className='h-10 w-full bg-black text-white hover:bg-gray-800 md:mt-5 md:w-20'
                   type='submit'
-                  // disabled={botPending}
                   disabled={buttonDisabled || botPending}
                 >
                   Update
@@ -292,7 +285,6 @@ export default function KnowledgeBase() {
                 <Button
                   className='h-10 w-full bg-black text-white hover:bg-gray-800 md:mt-5 md:w-20'
                   type='submit'
-                  // disabled={botPending}
                   disabled={buttonDisabled || botPending}
                 >
                   Update

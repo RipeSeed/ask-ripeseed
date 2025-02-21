@@ -116,7 +116,6 @@ export default function KnowledgeBasePrompts() {
               required
               rows={10}
               value={prompt}
-              // onChange={(e) => setPrompt(e.target.value)}
               onChange={handlePromptChange}
               className='focus:border-gray-400 focus:ring-0'
             />
@@ -126,7 +125,6 @@ export default function KnowledgeBasePrompts() {
             <Button
               className='bg-black text-dashboardSecondary hover:bg-gray-800'
               onClick={handleSubmit(handleClick)}
-              // disabled={promptPending}
               disabled={buttonDisabled}
             >
               Save changes
@@ -169,12 +167,6 @@ export default function KnowledgeBasePrompts() {
               min={0}
               max={2}
               step={0.1}
-              // onValueChange={(value) =>
-              //   setModelConfiguration({
-              //     ...modelConfiguration,
-              //     temperature: value[0],
-              //   })
-              //}
               onValueChange={handleTemperatureChange}
             />
           </div>
@@ -193,9 +185,6 @@ export default function KnowledgeBasePrompts() {
               min={0}
               max={1}
               step={0.01}
-              // onValueChange={(value) =>
-              //   setModelConfiguration({ ...modelConfiguration, topP: value[0] })
-              // }
               onValueChange={handleTopChange}
             />
           </div>
@@ -203,7 +192,6 @@ export default function KnowledgeBasePrompts() {
 
         <Button
           onClick={handleSubmit(handleClick)}
-          // disabled={promptPending}
           disabled={buttonDisabled}
           className='mt-2 bg-[#EAEAEA] text-dashboardHeading hover:bg-neutral-200'
         >
