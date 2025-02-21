@@ -167,8 +167,8 @@ export function ChatMessages() {
         'Need OpenAI key. You can enter your key from gear icon - top-right',
         {
           style: {
-            background: '#13A682',
-            color: '#fff',
+            background: '#6BFF97',
+            color: '#1b1b21',
           },
           closeButton: false,
         },

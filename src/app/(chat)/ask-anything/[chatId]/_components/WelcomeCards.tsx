@@ -88,7 +88,7 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
         ) : null}
         <div className='flex w-full flex-col items-center justify-center gap-2'>
           <Card
-            className='flex h-24 w-full cursor-pointer items-center justify-center border border-[#CECECE] bg-[#EFEFEF] p-2 text-lightText shadow-sm dark:border-[#3C3C3F] dark:bg-[#404043] dark:text-darkText'
+            className='flex h-24 w-full cursor-pointer items-center justify-center border border-[#DBDBDB] bg-[#FAF9F6] p-2 text-lightText shadow-sm dark:border-[#3C3C3F] dark:bg-[#404043] dark:text-darkText'
             onClick={() => messageHandler(cards.top)}
           >
             <div className='text-center'>
@@ -105,7 +105,7 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
 
           <div className='flex w-full flex-row gap-2'>
             <Card
-              className='flex h-24 w-full cursor-pointer items-center justify-center border border-[#CECECE] bg-[#EFEFEF] p-2 text-lightText shadow-sm dark:border-[#3C3C3F] dark:bg-[#404043] dark:text-darkText'
+              className='flex h-24 w-full cursor-pointer items-center justify-center border border-[#DBDBDB] bg-[#FAF9F6] p-2 text-lightText shadow-sm dark:border-[#3C3C3F] dark:bg-[#404043] dark:text-darkText'
               onClick={() => messageHandler(cards.bottomLeft)}
             >
               <div className='text-center'>
@@ -121,7 +121,7 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
             </Card>
 
             <Card
-              className='flex h-24 w-full cursor-pointer items-center justify-center border border-[#CECECE] bg-[#EFEFEF] p-2 text-lightText shadow-sm dark:border-[#3C3C3F] dark:bg-[#404043] dark:text-darkText'
+              className='flex h-24 w-full cursor-pointer items-center justify-center border border-[#DBDBDB] bg-[#FAF9F6] p-2 text-lightText shadow-sm dark:border-[#3C3C3F] dark:bg-[#404043] dark:text-darkText'
               onClick={() => messageHandler(cards.bottomRight)}
             >
               <div className='text-center'>
@@ -152,7 +152,7 @@ const Note = ({
   return (
     <Alert
       variant='info'
-      className={`${className} border-[#1B9E84] bg-[#D4E1DE] text-white dark:bg-[#334040]`}
+      className={`${className} border-[#15331E] bg-[#C4FFD533] text-white dark:bg-[#334040]`}
       onClick={handleOpenConfig}
     >
       <AlertDescription className='flex flex-row items-center gap-2'>
@@ -163,7 +163,7 @@ const Note = ({
           height={16}
           width={18}
         />
-        <span className='text-[#1B9E84]'>
+        <span className='text-[#15331E] dark:text-white'>
           Configure your OpenAI Key from gear icon at top-right to continue.
         </span>
       </AlertDescription>
