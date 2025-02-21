@@ -43,6 +43,11 @@ export default function DashboardSideBar() {
       title: 'Knowledge base settings',
       url: 'knowledgebase',
     },
+    {
+      id: 2,
+      title: 'Configuration',
+      url: 'configuration',
+    },
   ]
 
   return (
