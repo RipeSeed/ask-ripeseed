@@ -124,7 +124,7 @@ export default function Auth() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className='text-sm font-medium'>
-                    Set Password
+                    Password
                   </FormLabel>
                   <FormControl>
                     <Input placeholder='123@321' {...field} />

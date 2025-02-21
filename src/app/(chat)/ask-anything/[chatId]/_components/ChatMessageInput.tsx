@@ -12,9 +12,13 @@ import { addAndSelectChat } from '../utils/creatNewChat'
 
 const queryIcon = '/query.png'
 
-export function ChatMessageInput({ isPending }: { isPending: boolean }) {
+interface ChatMessageInputProps {
+  isPending: boolean
+}
+export function ChatMessageInput({ isPending }: ChatMessageInputProps) {
   const [message, setMessage] = useState('')
   const [textareaHeight, setTextareaHeight] = useState<number | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const parentDivRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
@@ -28,7 +32,7 @@ export function ChatMessageInput({ isPending }: { isPending: boolean }) {
         ? '-1'
         : (pathname.split('/')[2] ?? '0')
     if (stateMetadata.chatId !== Number(path)) {
-      // setIsPending(false)
+      setIsLoading(false)
     }
     return path
   }, [pathname])
@@ -39,6 +43,22 @@ export function ChatMessageInput({ isPending }: { isPending: boolean }) {
       adjustTextareaHeight(inputRef.current)
     }
   }, [message])
+
+  useEffect(() => {
+    if (stateMetadata && !stateMetadata.message.trim()) {
+      setIsLoading(false)
+      setMessage(stateMetadata.message || '')
+      if (inputRef.current) {
+        inputRef.current.disabled = false
+        inputRef.current.focus()
+        inputRef.current.style.height = 'auto'
+        setTextareaHeight(null)
+      }
+      if (parentDivRef.current) {
+        parentDivRef.current.style.removeProperty('border-radius')
+      }
+    }
+  }, [stateMetadata])
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event.target.value)
@@ -71,6 +91,7 @@ export function ChatMessageInput({ isPending }: { isPending: boolean }) {
         setMessage('')
         if (chatId) router.push(`/ask-anything/${chatId}`)
       } else {
+        //setIsPending(true)
         updateStateMetadata({
           chatId,
           message,
@@ -83,7 +104,7 @@ export function ChatMessageInput({ isPending }: { isPending: boolean }) {
   }
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (isPending) return
+    if (isLoading) return
 
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault()
@@ -98,7 +119,7 @@ export function ChatMessageInput({ isPending }: { isPending: boolean }) {
   return (
     <div
       ref={parentDivRef}
-      className='flex h-full w-full items-center justify-between gap-2 rounded-[100px] bg-[#E0E0E0] p-2 dark:bg-[#2F2F2F]'
+      className='flex h-full w-full items-center justify-between gap-2 rounded-[100px] bg-[#E0E0E0] p-2 dark:bg-black'
     >
       <AnimatePresence initial={false}>
         <motion.div

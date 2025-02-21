@@ -13,7 +13,7 @@ export default function KnowledgeBase() {
         </h1>
       </div>
 
-      <div className='flex h-full rounded-2xl'>
+      <div className='mb-5 flex h-full rounded-2xl'>
         <div className='flex h-full w-full flex-col rounded-xl bg-dashboardSecondary md:min-h-[700px]'>
           <div className='w-full p-6'>
             <KnowledegeBaseTabs />
