@@ -154,20 +154,20 @@ export function ChatMessageInput({ isPending }: ChatMessageInputProps) {
                   textareaHeight && textareaHeight > 50 ? '15px' : '100px',
                 transition: 'border-radius 0.2s ease-in-out',
               }}
-              className='flex max-h-[100px] w-full resize-none overflow-y-auto rounded-[100px] bg-[f2f2f2] p-3 placeholder:text-[16px] focus:outline-none dark:bg-[#313136]'
+              className='flex max-h-[100px] w-full resize-none overflow-y-auto rounded-[100px] bg-[#FAF9F6] p-3 placeholder:text-[16px] focus:outline-none dark:bg-[#313136]'
             ></textarea>
           </div>
         </motion.div>
       </AnimatePresence>
       <Button
         disabled={isPending}
-        className='h-10 rounded-3xl bg-crayola hover:border hover:border-primary dark:hover:text-white md:h-12'
+        className='h-10 rounded-3xl bg-mintGreen hover:border hover:border-primary dark:hover:text-black md:h-12'
         onClick={handleSendMessage}
       >
         {isPending ? (
           <LoaderCircle className='animate-spin text-primary' />
         ) : (
-          <Image alt='query arrow' src={queryIcon} width={30} height={23} />
+          <Image alt='query arrow' src={queryIcon} width={23} height={20} />
         )}
       </Button>
     </div>

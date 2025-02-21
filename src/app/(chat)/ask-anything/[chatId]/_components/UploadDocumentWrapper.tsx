@@ -38,12 +38,12 @@ const UploadDocumentWrapper = ({
           >
             <Button
               variant={'outline'}
-              className='group max-w-48 cursor-pointer rounded-3xl border border-[#575757] bg-transparent px-5 text-xs text-[#575757] transition duration-300 hover:border-crayola hover:bg-transparent dark:border-white dark:text-white dark:hover:border-crayola'
+              className='group max-w-48 cursor-pointer rounded-3xl border border-[#575757] bg-transparent px-5 text-xs text-[#575757] transition duration-300 hover:border-green-500 hover:bg-transparent dark:border-white dark:text-white dark:hover:border-green-500'
               onClick={() => setIsUploadDocOpen(true)}
             >
               <div className='flex items-center gap-2'>
-                <Paperclip className='h-4 w-4 transition duration-300 group-hover:text-crayola dark:text-[#EBEBEB]' />
-                <span className='font-semibold transition duration-300 group-hover:text-crayola'>
+                <Paperclip className='h-4 w-4 transition duration-300 group-hover:text-green-500 dark:text-[#EBEBEB]' />
+                <span className='font-semibold transition duration-300 group-hover:text-green-500'>
                   Attach Knowledge
                 </span>
               </div>

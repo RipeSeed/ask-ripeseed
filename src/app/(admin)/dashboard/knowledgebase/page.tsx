@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
@@ -55,6 +55,7 @@ type TUpdateSchema = z.infer<typeof UpdateSchema>
 export default function KnowledgeBase() {
   const { toast } = useToast()
 
+  const [buttonDisabled, setButtonDisabled] = useState(true)
   // Add credentials
   const {
     mutate,
@@ -69,6 +70,7 @@ export default function KnowledgeBase() {
         title: 'Credentials Updated',
         description: 'Your credentials have been successfully updated.',
       })
+      setButtonDisabled(true)
     },
   })
   // ...............................
@@ -142,6 +144,9 @@ export default function KnowledgeBase() {
                 </Label>
                 <input
                   {...register('openAIKey')}
+                  onChange={(e) => {
+                    setButtonDisabled(false)
+                  }}
                   type='text'
                   className='h-10 rounded-lg border p-3 text-sm outline-none'
                   placeholder='Paste key here...'
@@ -155,7 +160,8 @@ export default function KnowledgeBase() {
               <Button
                 className='h-10 w-full bg-black text-white hover:bg-gray-800 md:mt-5 md:w-20'
                 type='submit'
-                disabled={botPending}
+                // disabled={botPending}
+                disabled={buttonDisabled || botPending}
               >
                 Update
               </Button>
@@ -178,6 +184,9 @@ export default function KnowledgeBase() {
                   </Label>
                   <input
                     {...register('deepseekAccessKey')}
+                    onChange={(e) => {
+                      setButtonDisabled(false)
+                    }}
                     type='text'
                     className='h-10 rounded-lg border p-3 text-sm outline-none'
                     placeholder='Enter key'
@@ -202,6 +211,9 @@ export default function KnowledgeBase() {
                   </Label>
                   <input
                     {...register('deepseekBaseUrl')}
+                    onChange={(e) => {
+                      setButtonDisabled(false)
+                    }}
                     type='text'
                     className='h-10 rounded-lg border p-3 text-sm outline-none'
                     placeholder='Enter URL'
@@ -215,7 +227,8 @@ export default function KnowledgeBase() {
                 <Button
                   className='h-10 w-full bg-black text-white hover:bg-gray-800 md:mt-5 md:w-20'
                   type='submit'
-                  disabled={botPending}
+                  // disabled={botPending}
+                  disabled={buttonDisabled || botPending}
                 >
                   Update
                 </Button>
@@ -239,6 +252,9 @@ export default function KnowledgeBase() {
                   </Label>
                   <input
                     {...register('xAccessKey')}
+                    onChange={(e) => {
+                      setButtonDisabled(false)
+                    }}
                     type='text'
                     className='h-10 rounded-lg border p-3 text-sm outline-none'
                     placeholder='Enter key'
@@ -276,7 +292,8 @@ export default function KnowledgeBase() {
                 <Button
                   className='h-10 w-full bg-black text-white hover:bg-gray-800 md:mt-5 md:w-20'
                   type='submit'
-                  disabled={botPending}
+                  // disabled={botPending}
+                  disabled={buttonDisabled || botPending}
                 >
                   Update
                 </Button>

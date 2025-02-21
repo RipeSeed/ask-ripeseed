@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
@@ -23,6 +23,7 @@ export default function KnowledgeBasePrompts() {
     useKnowledgeStore()
 
   const { user } = useTokenStore()
+  const [buttonDisabled, setButtonDisabled] = useState(true)
 
   interface Data {
     user: string | null
@@ -58,6 +59,7 @@ export default function KnowledgeBasePrompts() {
         title: 'Prompt Settings',
         description: 'Prompt Settings has Successfully Updated',
       })
+      setButtonDisabled(true)
     },
   })
   // ..........................
@@ -65,6 +67,21 @@ export default function KnowledgeBasePrompts() {
   const handleClick = () => {
     mutate({ user, prompt, modelConfiguration })
     reset()
+  }
+
+  const handlePromptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPrompt(e.target.value)
+    setButtonDisabled(false)
+  }
+
+  const handleTemperatureChange = (value: number[]) => {
+    setModelConfiguration({ ...modelConfiguration, temperature: value[0] })
+    setButtonDisabled(false)
+  }
+
+  const handleTopChange = (value: number[]) => {
+    setModelConfiguration({ ...modelConfiguration, topP: value[0] })
+    setButtonDisabled(false)
   }
 
   // getPrompt
@@ -75,6 +92,7 @@ export default function KnowledgeBasePrompts() {
   useEffect(() => {
     if (PromptData && PromptData?.prompt[0]?.prompt) {
       setPrompt(PromptData.prompt[0].prompt)
+      setButtonDisabled(true)
     }
   }, [PromptData])
   // .......................
@@ -98,7 +116,8 @@ export default function KnowledgeBasePrompts() {
               required
               rows={10}
               value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
+              // onChange={(e) => setPrompt(e.target.value)}
+              onChange={handlePromptChange}
               className='focus:border-gray-400 focus:ring-0'
             />
             {errors.prompt && <>{errors.prompt.message}</>}
@@ -107,7 +126,8 @@ export default function KnowledgeBasePrompts() {
             <Button
               className='bg-black text-dashboardSecondary hover:bg-gray-800'
               onClick={handleSubmit(handleClick)}
-              disabled={promptPending}
+              // disabled={promptPending}
+              disabled={buttonDisabled}
             >
               Save changes
             </Button>
@@ -149,12 +169,13 @@ export default function KnowledgeBasePrompts() {
               min={0}
               max={2}
               step={0.1}
-              onValueChange={(value) =>
-                setModelConfiguration({
-                  ...modelConfiguration,
-                  temperature: value[0],
-                })
-              }
+              // onValueChange={(value) =>
+              //   setModelConfiguration({
+              //     ...modelConfiguration,
+              //     temperature: value[0],
+              //   })
+              //}
+              onValueChange={handleTemperatureChange}
             />
           </div>
 
@@ -172,16 +193,18 @@ export default function KnowledgeBasePrompts() {
               min={0}
               max={1}
               step={0.01}
-              onValueChange={(value) =>
-                setModelConfiguration({ ...modelConfiguration, topP: value[0] })
-              }
+              // onValueChange={(value) =>
+              //   setModelConfiguration({ ...modelConfiguration, topP: value[0] })
+              // }
+              onValueChange={handleTopChange}
             />
           </div>
         </div>
 
         <Button
           onClick={handleSubmit(handleClick)}
-          disabled={promptPending}
+          // disabled={promptPending}
+          disabled={buttonDisabled}
           className='mt-2 bg-[#EAEAEA] text-dashboardHeading hover:bg-neutral-200'
         >
           Save as preset
