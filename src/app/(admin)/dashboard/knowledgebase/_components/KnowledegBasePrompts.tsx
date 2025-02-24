@@ -96,99 +96,93 @@ export default function KnowledgeBasePrompts() {
   }, [PromptData])
 
   return (
-    <div className='flex h-full w-full'>
-      <div className='flex-[7] border-r-2 border-solid border-dashboardBorder py-4 pr-6'>
-        <div className='mb-1 flex flex-col space-y-1 py-4'>
-          <span className='text-lg font-medium text-dashboardHeading'>
-            Prompt Settings
-          </span>
-          <span className='text-sm font-thin text-dashboardSecondaryText'>
-            Give prompts to your bot on how it should act with the user
-          </span>
-        </div>
-        <div className='flex flex-col gap-14'>
-          <div>
-            <Textarea
-              {...register('prompt')}
-              placeholder='Type here.'
-              required
-              rows={10}
-              value={prompt}
-              onChange={handlePromptChange}
-              className='focus:border-gray-400 focus:ring-0'
-            />
-            {errors.prompt && <>{errors.prompt.message}</>}
+    <div className='flex flex-col gap-4'>
+      <div className='flex h-full w-full'>
+        <div className='flex-[7] border-r-2 border-solid border-dashboardBorder py-4 pr-6'>
+          <div className='mb-1 flex flex-col space-y-1 py-4'>
+            <span className='text-lg font-medium text-dashboardHeading'>
+              Prompt Settings
+            </span>
+            <span className='text-sm font-thin text-dashboardSecondaryText'>
+              Give prompts to your bot on how it should act with the user
+            </span>
           </div>
-          <div className='flex items-center justify-end'>
-            <Button
-              className='bg-black text-dashboardSecondary hover:bg-gray-800'
-              onClick={handleSubmit(handleClick)}
-              disabled={buttonDisabled}
-            >
-              Save changes
-            </Button>
+          <div className='flex flex-col gap-14'>
+            <div>
+              <Textarea
+                {...register('prompt')}
+                placeholder='Type here.'
+                required
+                rows={10}
+                value={prompt}
+                onChange={handlePromptChange}
+                className='focus:border-gray-400 focus:ring-0'
+              />
+              {errors.prompt && <>{errors.prompt.message}</>}
+            </div>
+          </div>
+        </div>
+
+        <div className='flex flex-[3] flex-col justify-between p-5'>
+          <div className='flex flex-col gap-6'>
+            {/* Presets */}
+            <div className='flex flex-col space-y-2'>
+              <span className='text-lg font-medium text-dashboardHeading'>
+                Model Configuration
+              </span>
+              <span className='text-sm font-thin text-dashboardSecondaryText'>
+                Adjust your model parameters here.
+              </span>
+            </div>
+
+            <div className='flex flex-col space-y-2'>
+              <div className='flex flex-col space-y-3'>
+                <div className='flex justify-between'>
+                  <span className='text-sm text-dashboardSecondaryText'>
+                    Temperature
+                  </span>
+                  <span className='text-sm text-dashboardSecondaryText'>
+                    {modelConfiguration.temperature.toFixed(1)}
+                  </span>
+                </div>
+                <Slider
+                  defaultValue={[modelConfiguration.temperature]}
+                  className='py-2'
+                  min={0}
+                  max={2}
+                  step={0.1}
+                  onValueChange={handleTemperatureChange}
+                />
+              </div>
+              <div className='flex flex-col space-y-3'>
+                <div className='flex justify-between'>
+                  <span className='text-sm text-dashboardSecondaryText'>
+                    Top P
+                  </span>
+                  <span className='text-sm text-dashboardSecondaryText'>
+                    {modelConfiguration.topP.toFixed(2)}
+                  </span>
+                </div>
+                <Slider
+                  defaultValue={[modelConfiguration.topP]}
+                  className='py-2'
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  onValueChange={handleTopChange}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div className='flex flex-[3] flex-col gap-6 p-5'>
-        {/* Presets */}
-        <div className='flex flex-col space-y-2'>
-          <span className='text-lg font-medium text-dashboardHeading'>
-            Presets
-          </span>
-          <span className='text-sm font-thin text-dashboardSecondaryText'>
-            Adjust your preferences here.
-          </span>
-        </div>
-
-        <div className='flex flex-col space-y-2'>
-          <span className='text-sm font-medium text-dashboardHeading'>
-            Model Configuration
-          </span>
-
-          <div className='flex flex-col space-y-3'>
-            <div className='flex justify-between'>
-              <span className='text-sm text-dashboardSecondaryText'>
-                Temperature
-              </span>
-              <span className='text-sm text-dashboardSecondaryText'>
-                {modelConfiguration.temperature.toFixed(1)}
-              </span>
-            </div>
-            <Slider
-              defaultValue={[modelConfiguration.temperature]}
-              className='py-2'
-              min={0}
-              max={2}
-              step={0.1}
-              onValueChange={handleTemperatureChange}
-            />
-          </div>
-          <div className='flex flex-col space-y-3'>
-            <div className='flex justify-between'>
-              <span className='text-sm text-dashboardSecondaryText'>Top P</span>
-              <span className='text-sm text-dashboardSecondaryText'>
-                {modelConfiguration.topP.toFixed(2)}
-              </span>
-            </div>
-            <Slider
-              defaultValue={[modelConfiguration.topP]}
-              className='py-2'
-              min={0}
-              max={1}
-              step={0.01}
-              onValueChange={handleTopChange}
-            />
-          </div>
-        </div>
-
+      <div className="flex justify-end">
         <Button
           onClick={handleSubmit(handleClick)}
           disabled={buttonDisabled}
-          className='mt-2 bg-[#EAEAEA] text-dashboardHeading hover:bg-neutral-200'
+          className='bg-black text-dashboardSecondary hover:bg-gray-800'
         >
-          Save as preset
+          Save changes
         </Button>
       </div>
     </div>
