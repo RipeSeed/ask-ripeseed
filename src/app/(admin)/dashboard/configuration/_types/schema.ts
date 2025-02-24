@@ -8,6 +8,7 @@ export const UpdateSchema = z
     xAccessKey: z.string().optional(),
     xBaseUrl: z.string().optional(),
     pineconeApiKey: z.string().optional(),
+    calendlyMeetingLink: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     if (

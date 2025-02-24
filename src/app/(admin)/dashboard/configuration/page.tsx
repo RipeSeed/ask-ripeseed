@@ -5,16 +5,14 @@ import Image from 'next/image'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 
 import { AddOpenAIKey, GetOpenAIData } from '@/apis/admin/configuration'
 import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
-import { TUpdateSchema, UpdateSchema } from './_types/schema'
 import { InputWithToggle } from './_components/InputWithToggle'
-
+import { TUpdateSchema, UpdateSchema } from './_types/schema'
 
 export default function Configuration() {
   const { toast } = useToast()
@@ -79,7 +77,10 @@ export default function Configuration() {
       <div className='flex h-full rounded-2xl'>
         <div className='flex h-full w-full flex-col rounded-xl bg-dashboardSecondary md:min-h-[700px]'>
           <div className='p-6'>
-            <form onSubmit={handleSubmit(handleClick)} className='flex flex-col gap-8'>
+            <form
+              onSubmit={handleSubmit(handleClick)}
+              className='flex flex-col gap-8'
+            >
               <div>
                 <h2 className='mb-6 text-xl font-semibold text-dashboardHeading'>
                   Models Configuration
@@ -100,17 +101,17 @@ export default function Configuration() {
                     </Label>
                     <InputWithToggle
                       register={register}
-                      name="openAIKey"
+                      name='openAIKey'
                       show={showOpenAIKey}
                       setShow={setShowOpenAIKey}
-                      placeholder="sk-1234...5678"
+                      placeholder='sk-1234...5678'
                       error={errors.openAIKey}
                     />
                   </div>
                 </div>
 
                 {/* Second Row */}
-                <div className='flex flex-col gap-4 mt-4'>
+                <div className='mt-4 flex flex-col gap-4'>
                   <div className='flex flex-col gap-4 md:flex-row'>
                     <div className='flex w-full flex-col space-y-2'>
                       <Label className='flex items-center gap-2 text-dashboardText'>
@@ -126,10 +127,10 @@ export default function Configuration() {
                       </Label>
                       <InputWithToggle
                         register={register}
-                        name="deepseekAccessKey"
+                        name='deepseekAccessKey'
                         show={showDeepseekKey}
                         setShow={setShowDeepseekKey}
-                        placeholder="sk_1234...5678"
+                        placeholder='sk_1234...5678'
                         error={errors.deepseekAccessKey}
                       />
                     </div>
@@ -161,7 +162,7 @@ export default function Configuration() {
                 </div>
 
                 {/* Third Row */}
-                <div className='flex flex-col gap-4 mt-4'>
+                <div className='mt-4 flex flex-col gap-4'>
                   <div className='flex flex-col gap-4 md:flex-row'>
                     <div className='flex w-full flex-col space-y-2'>
                       <Label className='flex items-center gap-2 text-dashboardText'>
@@ -177,10 +178,10 @@ export default function Configuration() {
                       </Label>
                       <InputWithToggle
                         register={register}
-                        name="xAccessKey"
+                        name='xAccessKey'
                         show={showXKey}
                         setShow={setShowXKey}
-                        placeholder="xAI-1234...5678"
+                        placeholder='xAI-1234...5678'
                         error={errors.xAccessKey}
                       />
                     </div>
@@ -203,7 +204,9 @@ export default function Configuration() {
                         placeholder='Enter URL'
                       />
                       {errors.xBaseUrl && (
-                        <p className='text-xs text-red-500'>{errors.xBaseUrl.message}</p>
+                        <p className='text-xs text-red-500'>
+                          {errors.xBaseUrl.message}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -230,12 +233,45 @@ export default function Configuration() {
                     </Label>
                     <InputWithToggle
                       register={register}
-                      name="pineconeApiKey"
+                      name='pineconeApiKey'
                       show={showPineconeKey}
                       setShow={setShowPineconeKey}
-                      placeholder="pc_1234...5678"
+                      placeholder='pc_1234...5678'
                       error={errors.pineconeApiKey}
                     />
+                  </div>
+                </div>
+              </div>
+
+              {/* Calendly Section */}
+              <div>
+                <h2 className='mb-6 text-xl font-semibold text-dashboardHeading'>
+                  Booking Configuration
+                </h2>
+                <div className='flex flex-col gap-4'>
+                  <div className='flex w-full flex-col space-y-2'>
+                    <Label className='flex items-center gap-2 text-dashboardText'>
+                      <span>Calendly</span>
+                      <span className='relative -top-1.5 mt-1'>
+                        <Image
+                          src='/assets/knowledgebase/required.svg'
+                          alt='required'
+                          width={4}
+                          height={4}
+                        />
+                      </span>
+                    </Label>
+                    <input
+                      {...register('calendlyMeetingLink')}
+                      type='text'
+                      className='h-10 rounded-lg border p-3 text-sm outline-none'
+                      placeholder='https://calendly.com/xx/yyy'
+                    />
+                    {errors.calendlyMeetingLink && (
+                      <p className='text-xs text-red-500'>
+                        {errors.calendlyMeetingLink.message}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
