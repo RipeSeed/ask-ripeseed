@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -12,48 +12,17 @@ import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
+import { TUpdateSchema, UpdateSchema } from './_types/schema'
+import { InputWithToggle } from './_components/InputWithToggle'
 
-const UpdateSchema = z
-  .object({
-    openAIKey: z.string(),
-    deepseekAccessKey: z.string().optional(),
-    deepseekBaseUrl: z.string().optional(),
-    xAccessKey: z.string().optional(),
-    xBaseUrl: z.string().optional(),
-    pineconeApiKey: z.string().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (
-      (data.deepseekAccessKey && !data.deepseekBaseUrl) ||
-      (!data.deepseekAccessKey && data.deepseekBaseUrl)
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Both Deepseek Access Key and Base URL are required',
-        path: data.deepseekAccessKey
-          ? ['deepseekBaseUrl']
-          : ['deepseekAccessKey'],
-      })
-    }
-
-    if (
-      (data.xAccessKey && !data.xBaseUrl) ||
-      (!data.xAccessKey && data.xBaseUrl)
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Both X Access Key and Base URL are required',
-        path: data.xAccessKey ? ['xBaseUrl'] : ['xAccessKey'],
-      })
-    }
-  })
-
-type TUpdateSchema = z.infer<typeof UpdateSchema>
 
 export default function Configuration() {
   const { toast } = useToast()
+  const [showOpenAIKey, setShowOpenAIKey] = useState(false)
+  const [showDeepseekKey, setShowDeepseekKey] = useState(false)
+  const [showXKey, setShowXKey] = useState(false)
+  const [showPineconeKey, setShowPineconeKey] = useState(false)
 
-  // Add credentials
   const { mutate, isPending: botPending } = useMutation({
     mutationFn: async (data: { user: string | null } & TUpdateSchema) => {
       await AddOpenAIKey(data)
@@ -78,7 +47,7 @@ export default function Configuration() {
   const { user } = useTokenStore()
 
   useQuery({
-    queryKey: ['openai-config'],
+    queryKey: ['chat-config'],
     queryFn: async () => {
       const data = await GetOpenAIData()
       if (data && data?.bot?.[0]) {
@@ -110,149 +79,135 @@ export default function Configuration() {
       <div className='flex h-full rounded-2xl'>
         <div className='flex h-full w-full flex-col rounded-xl bg-dashboardSecondary md:min-h-[700px]'>
           <div className='p-6'>
-            <form
-              onSubmit={handleSubmit(handleClick)}
-              className='flex flex-col gap-8'
-            >
+            <form onSubmit={handleSubmit(handleClick)} className='flex flex-col gap-8'>
               <div>
                 <h2 className='mb-6 text-xl font-semibold text-dashboardHeading'>
                   Models Configuration
                 </h2>
-              {/* First Row */}
-              <div className='flex flex-col gap-4 md:flex-row'>
-                <div className='flex w-full flex-col space-y-2'>
-                  <Label className='flex items-center gap-2 text-dashboardText'>
-                    <span>OpenAI Key</span>
-                    <span className='relative -top-1.5 mt-1'>
-                      <Image
-                        src='/assets/knowledgebase/required.svg'
-                        alt='required'
-                        width={4}
-                        height={4}
+                {/* First Row */}
+                <div className='flex flex-col gap-4 md:flex-row'>
+                  <div className='flex w-full flex-col space-y-2'>
+                    <Label className='flex items-center gap-2 text-dashboardText'>
+                      <span>OpenAI Key</span>
+                      <span className='relative -top-1.5 mt-1'>
+                        <Image
+                          src='/assets/knowledgebase/required.svg'
+                          alt='required'
+                          width={4}
+                          height={4}
+                        />
+                      </span>
+                    </Label>
+                    <InputWithToggle
+                      register={register}
+                      name="openAIKey"
+                      show={showOpenAIKey}
+                      setShow={setShowOpenAIKey}
+                      placeholder="Paste key here..."
+                      error={errors.openAIKey}
+                    />
+                  </div>
+                </div>
+
+                {/* Second Row */}
+                <div className='flex flex-col gap-4 mt-4'>
+                  <div className='flex flex-col gap-4 md:flex-row'>
+                    <div className='flex w-full flex-col space-y-2'>
+                      <Label className='flex items-center gap-2 text-dashboardText'>
+                        <span>Deepseek Access Key</span>
+                        <span className='relative -top-1.5 mt-1'>
+                          <Image
+                            src='/assets/knowledgebase/required.svg'
+                            alt='required'
+                            width={4}
+                            height={4}
+                          />
+                        </span>
+                      </Label>
+                      <InputWithToggle
+                        register={register}
+                        name="deepseekAccessKey"
+                        show={showDeepseekKey}
+                        setShow={setShowDeepseekKey}
+                        placeholder="Enter key"
+                        error={errors.deepseekAccessKey}
                       />
-                    </span>
-                  </Label>
-                  <input
-                    {...register('openAIKey')}
-                    type='text'
-                    className='h-10 rounded-lg border p-3 text-sm outline-none'
-                    placeholder='Paste key here...'
-                  />
-                  {errors.openAIKey && (
-                    <p className='text-xs text-red-500'>
-                      {errors.openAIKey.message}
-                    </p>
-                  )}
+                    </div>
+                    <div className='flex w-full flex-col space-y-2'>
+                      <Label className='flex items-center gap-2 text-dashboardText'>
+                        <span>Deepseek Base URL</span>
+                        <span className='relative -top-1.5 mt-1'>
+                          <Image
+                            src='/assets/knowledgebase/required.svg'
+                            alt='required'
+                            width={4}
+                            height={4}
+                          />
+                        </span>
+                      </Label>
+                      <input
+                        {...register('deepseekBaseUrl')}
+                        type='text'
+                        className='h-10 rounded-lg border p-3 text-sm outline-none'
+                        placeholder='Enter URL'
+                      />
+                      {errors.deepseekBaseUrl && (
+                        <p className='text-xs text-red-500'>
+                          {errors.deepseekBaseUrl.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Second Row */}
-              <div className='flex flex-col gap-4 mt-4'>
-                <div className='flex flex-col gap-4 md:flex-row'>
-                  <div className='flex w-full flex-col space-y-2'>
-                    <Label className='flex items-center gap-2 text-dashboardText'>
-                      <span>Deepseek Access Key</span>
-                      <span className='relative -top-1.5 mt-1'>
-                        <Image
-                          src='/assets/knowledgebase/required.svg'
-                          alt='required'
-                          width={4}
-                          height={4}
-                        />
-                      </span>
-                    </Label>
-                    <input
-                      {...register('deepseekAccessKey')}
-                      type='text'
-                      className='h-10 rounded-lg border p-3 text-sm outline-none'
-                      placeholder='Enter key'
-                    />
-                    {errors.deepseekAccessKey && (
-                      <p className='text-xs text-red-500'>
-                        {errors.deepseekAccessKey.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className='flex w-full flex-col space-y-2'>
-                    <Label className='flex items-center gap-2 text-dashboardText'>
-                      <span>Deepseek Base URL</span>
-                      <span className='relative -top-1.5 mt-1'>
-                        <Image
-                          src='/assets/knowledgebase/required.svg'
-                          alt='required'
-                          width={4}
-                          height={4}
-                        />
-                      </span>
-                    </Label>
-                    <input
-                      {...register('deepseekBaseUrl')}
-                      type='text'
-                      className='h-10 rounded-lg border p-3 text-sm outline-none'
-                      placeholder='Enter URL'
-                    />
-                    {errors.deepseekBaseUrl && (
-                      <p className='text-xs text-red-500'>
-                        {errors.deepseekBaseUrl.message}
-                      </p>
-                    )}
+                {/* Third Row */}
+                <div className='flex flex-col gap-4 mt-4'>
+                  <div className='flex flex-col gap-4 md:flex-row'>
+                    <div className='flex w-full flex-col space-y-2'>
+                      <Label className='flex items-center gap-2 text-dashboardText'>
+                        <span>X Access Key</span>
+                        <span className='relative -top-1.5 mt-1'>
+                          <Image
+                            src='/assets/knowledgebase/required.svg'
+                            alt='required'
+                            width={4}
+                            height={4}
+                          />
+                        </span>
+                      </Label>
+                      <InputWithToggle
+                        register={register}
+                        name="xAccessKey"
+                        show={showXKey}
+                        setShow={setShowXKey}
+                        placeholder="Enter key"
+                        error={errors.xAccessKey}
+                      />
+                    </div>
+                    <div className='flex w-full flex-col space-y-2'>
+                      <Label className='flex items-center gap-2 text-dashboardText'>
+                        <span>X Base URL</span>
+                        <span className='relative -top-1.5 mt-1'>
+                          <Image
+                            src='/assets/knowledgebase/required.svg'
+                            alt='required'
+                            width={4}
+                            height={4}
+                          />
+                        </span>
+                      </Label>
+                      <input
+                        {...register('xBaseUrl')}
+                        type='text'
+                        className='h-10 rounded-lg border p-3 text-sm outline-none'
+                        placeholder='Enter URL'
+                      />
+                      {errors.xBaseUrl && (
+                        <p className='text-xs text-red-500'>{errors.xBaseUrl.message}</p>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Third Row */}
-              <div className='flex flex-col gap-4 mt-4'>
-                <div className='flex flex-col gap-4 md:flex-row'>
-                  <div className='flex w-full flex-col space-y-2'>
-                    <Label className='flex items-center gap-2 text-dashboardText'>
-                      <span>X Access Key</span>
-                      <span className='relative -top-1.5 mt-1'>
-                        <Image
-                          src='/assets/knowledgebase/required.svg'
-                          alt='required'
-                          width={4}
-                          height={4}
-                        />
-                      </span>
-                    </Label>
-                    <input
-                      {...register('xAccessKey')}
-                      type='text'
-                      className='h-10 rounded-lg border p-3 text-sm outline-none'
-                      placeholder='Enter key'
-                    />
-                    {errors.xAccessKey && (
-                      <p className='text-xs text-red-500'>
-                        {errors.xAccessKey.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className='flex w-full flex-col space-y-2'>
-                    <Label className='flex items-center gap-2 text-dashboardText'>
-                      <span>X Base URL</span>
-                      <span className='relative -top-1.5 mt-1'>
-                        <Image
-                          src='/assets/knowledgebase/required.svg'
-                          alt='required'
-                          width={4}
-                          height={4}
-                        />
-                      </span>
-                    </Label>
-                    <input
-                      {...register('xBaseUrl')}
-                      type='text'
-                      className='h-10 rounded-lg border p-3 text-sm outline-none'
-                      placeholder='Enter URL'
-                    />
-                    {errors.xBaseUrl && (
-                      <p className='text-xs text-red-500'>
-                        {errors.xBaseUrl.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
               </div>
 
               {/* Vector Database Section */}
@@ -273,17 +228,14 @@ export default function Configuration() {
                         />
                       </span>
                     </Label>
-                    <input
-                      {...register('pineconeApiKey')}
-                      type='text'
-                      className='h-10 rounded-lg border p-3 text-sm outline-none'
-                      placeholder='Enter Pinecone API key...'
+                    <InputWithToggle
+                      register={register}
+                      name="pineconeApiKey"
+                      show={showPineconeKey}
+                      setShow={setShowPineconeKey}
+                      placeholder="Enter Pinecone API key..."
+                      error={errors.pineconeApiKey}
                     />
-                    {errors.pineconeApiKey && (
-                      <p className='text-xs text-red-500'>
-                        {errors.pineconeApiKey.message}
-                      </p>
-                    )}
                   </div>
                 </div>
               </div>
