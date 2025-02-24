@@ -12,8 +12,6 @@ export const splitText = async (file: File, id: string) => {
   try {
     const splitter = new RecursiveCharacterTextSplitter()
     const loader = new PDFLoader(file)
-    // const docs = loader.loadAndSplit(splitter)
-    // return docs;
     const laoded = await loader.load()
     const splittedDocs = await splitter.splitDocuments(laoded)
     return splittedDocs

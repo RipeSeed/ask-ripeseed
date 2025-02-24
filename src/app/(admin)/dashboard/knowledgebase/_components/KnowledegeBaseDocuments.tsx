@@ -1,22 +1,12 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { useQuery } from '@tanstack/react-query'
 
-import { GetKnowledegeBaseFiles } from '@/apis/admin/knowledgeBase'
 import { Button } from '@/components/ui/button'
-import { useToast } from '@/hooks/use-toast'
 import DocuementDataTable from './DocuementDataTable'
 import FileUpload from './FileUpload'
 
 export default function KnowledegeBaseDocuments() {
-  const { toast } = useToast()
   const [boxOpen, setBoxOpen] = useState(false)
-
-  // Get all files
-  const { data: FileData, isLoading: FileLoading } = useQuery({
-    queryKey: ['getAllFile'],
-    queryFn: GetKnowledegeBaseFiles,
-  })
 
   const handleClickOutside = (e: any) => {
     if (e.target.id === 'modalOverlay') {
@@ -30,7 +20,6 @@ export default function KnowledegeBaseDocuments() {
       {boxOpen && <div className='fixed inset-0 z-10 bg-black bg-opacity-50' />}
 
       <div className={`relative ${boxOpen ? 'pointer-events-none' : ''}`}>
-        {/* Document upload button section */}
         <div className='flex flex-[1] items-center justify-between py-4'>
           <div className='flex flex-col space-y-1'>
             <span className='text-lg font-medium text-dashboardHeading'>
@@ -56,7 +45,6 @@ export default function KnowledegeBaseDocuments() {
           </Button>
         </div>
 
-        {/* Main Documents Table Section */}
         <div className='flex-[6.5]'>
           <DocuementDataTable />
         </div>

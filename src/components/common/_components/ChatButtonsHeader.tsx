@@ -65,14 +65,7 @@ export default function ChatHeader() {
 const DeleteConfirmationDialog = () => {
   const closeRef = useRef<HTMLButtonElement>(null)
   const openRef = useRef<HTMLButtonElement>(null)
-  const {
-    isDeleteDialogOpen,
-    toggleDeleteDialogOpen,
-    setClearChat,
-    toggleConfigOpen,
-    setOpenAIKey,
-    clearAskRSmsg,
-  } = useStore()
+  const { isDeleteDialogOpen, setClearChat, clearAskRSmsg } = useStore()
 
   useEffect(() => {
     if (isDeleteDialogOpen) {

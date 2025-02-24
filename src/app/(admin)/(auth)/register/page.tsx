@@ -44,7 +44,6 @@ type FormSchema = z.infer<typeof formSchema>
 
 export default function Auth() {
   const router = useRouter()
-  const { user, setUser } = useTokenStore()
   const form = useForm<FormSchema>({ resolver: zodResolver(formSchema) })
   const { handleSubmit, control, reset } = form
 

@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server'
 import axios from 'axios'
 
 import axiosInstance from '@/utils/axios'
@@ -93,6 +92,7 @@ interface OPENAIDATA {
   xAccessKey?: string
   xBaseUrl?: string
 }
+
 // add or update credentials
 export const AddOpenAIKey = async (data: OPENAIDATA) => {
   try {

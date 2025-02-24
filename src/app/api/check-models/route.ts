@@ -6,8 +6,6 @@ import Bot from '@/models/botCredentials/Bot.model'
 export const GET = async (request: NextRequest) => {
   try {
     await connectDB()
-
-    // Fetch all bots from the database
     const allBots = await Bot.find({})
 
     if (!allBots || allBots.length === 0) {

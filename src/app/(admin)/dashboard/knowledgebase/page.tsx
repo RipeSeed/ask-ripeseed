@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/hooks/use-toast'
-import KnowledegeBaseTabs from './_components/KnowledegeBaseTabs/KnowledegeBaseTabs'
+import KnowledegeBaseTabs from './_components/KnowledegeBaseTabs'
 
 const UpdateSchema = z
   .object({
@@ -56,7 +56,6 @@ export default function KnowledgeBase() {
   const { toast } = useToast()
 
   const [buttonDisabled, setButtonDisabled] = useState(true)
-  // Add credentials
   const {
     mutate,
     isPending: botPending,
@@ -73,7 +72,7 @@ export default function KnowledgeBase() {
       setButtonDisabled(true)
     },
   })
-  // ...............................
+
   const {
     register,
     handleSubmit,
@@ -87,7 +86,6 @@ export default function KnowledgeBase() {
   const { user } = useTokenStore()
   const { data } = useSession()
 
-  //  get Credential
   const getData = async () => {
     let res = await GetOpenAIData()
     if (res?.bot?.[0]) {
@@ -123,7 +121,6 @@ export default function KnowledgeBase() {
             onSubmit={handleSubmit(handleClick)}
             className='flex flex-col gap-4 p-6'
           >
-            {/* First Row */}
             <div className='flex flex-col gap-4 md:flex-row'>
               <div className='flex w-full flex-col space-y-2'>
                 <Label className='flex items-center gap-2 text-dashboardText'>
@@ -161,7 +158,6 @@ export default function KnowledgeBase() {
               </Button>
             </div>
 
-            {/* Second Row */}
             <div className='flex flex-col gap-4'>
               <div className='flex flex-col gap-4 md:flex-row'>
                 <div className='flex w-full flex-col space-y-2'>
@@ -228,7 +224,6 @@ export default function KnowledgeBase() {
               </div>
             </div>
 
-            {/* Third Row */}
             <div className='flex flex-col gap-4'>
               <div className='flex flex-col gap-4 md:flex-row'>
                 <div className='flex w-full flex-col space-y-2'>

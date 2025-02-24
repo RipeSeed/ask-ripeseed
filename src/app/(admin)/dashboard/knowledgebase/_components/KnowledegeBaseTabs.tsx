@@ -3,8 +3,8 @@ import Image from 'next/image'
 
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import KnowledegBasePrompts from './_components/KnowledegBasePrompts'
-import KnowledegeBaseDocuments from './_components/KnowledegeBaseDocuments'
+import KnowledegBasePrompts from './KnowledegBasePrompts'
+import KnowledegeBaseDocuments from './KnowledegeBaseDocuments'
 
 export default function KnowledegeBaseTabs() {
   const [activeTab, setActiveTab] = React.useState('documents')
