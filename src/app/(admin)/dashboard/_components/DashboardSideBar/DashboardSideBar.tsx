@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X } from 'lucide-react'
+import { Book, Menu, Settings, X } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 
 import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
@@ -40,13 +40,15 @@ export default function DashboardSideBar() {
   const links = [
     {
       id: 1,
-      title: 'Knowledge base settings',
+      title: 'Knowledge Base',
       url: 'knowledgebase',
+      icon: Book,
     },
     {
       id: 2,
       title: 'Configuration',
       url: 'configuration',
+      icon: Settings
     },
   ]
 
@@ -84,16 +86,12 @@ export default function DashboardSideBar() {
                     className={`flex w-full cursor-pointer items-center space-x-2 rounded-lg p-3 ${item.url === url ? 'bg-dashboardActive' : ''} hover:bg-dashboardActive/80 transition-colors duration-200`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Image
-                      src={`${
-                        item.url === url
-                          ? '/assets/knowledgebase/book-shadow.png'
-                          : '/assets/knowledgebase/book.png'
-                      }`}
-                      alt='book'
-                      width={20}
-                      height={20}
-                    />
+                    {React.createElement(
+                      item.icon,
+                      {
+                        className: 'h-5 w-5',
+                      }
+                    )}
 
                     <span className='self-center text-dashboardSidebarFooter'>
                       {item.title}
