@@ -103,7 +103,7 @@ export default function Configuration() {
                       name="openAIKey"
                       show={showOpenAIKey}
                       setShow={setShowOpenAIKey}
-                      placeholder="Paste key here..."
+                      placeholder="sk-1234...5678"
                       error={errors.openAIKey}
                     />
                   </div>
@@ -129,7 +129,7 @@ export default function Configuration() {
                         name="deepseekAccessKey"
                         show={showDeepseekKey}
                         setShow={setShowDeepseekKey}
-                        placeholder="Enter key"
+                        placeholder="sk_1234...5678"
                         error={errors.deepseekAccessKey}
                       />
                     </div>
@@ -180,7 +180,7 @@ export default function Configuration() {
                         name="xAccessKey"
                         show={showXKey}
                         setShow={setShowXKey}
-                        placeholder="Enter key"
+                        placeholder="xAI-1234...5678"
                         error={errors.xAccessKey}
                       />
                     </div>
@@ -233,7 +233,7 @@ export default function Configuration() {
                       name="pineconeApiKey"
                       show={showPineconeKey}
                       setShow={setShowPineconeKey}
-                      placeholder="Enter Pinecone API key..."
+                      placeholder="pc_1234...5678"
                       error={errors.pineconeApiKey}
                     />
                   </div>
