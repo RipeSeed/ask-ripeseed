@@ -9,7 +9,6 @@ import { cn } from '@/lib/utils'
 
 import '../globals.css'
 
-import { useEffect, useState } from 'react'
 import type { Viewport } from 'next'
 import Image from 'next/image'
 

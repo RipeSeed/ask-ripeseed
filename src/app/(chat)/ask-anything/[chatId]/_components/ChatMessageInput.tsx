@@ -91,7 +91,6 @@ export function ChatMessageInput({ isPending }: ChatMessageInputProps) {
         setMessage('')
         if (chatId) router.push(`/ask-anything/${chatId}`)
       } else {
-        //setIsPending(true)
         updateStateMetadata({
           chatId,
           message,

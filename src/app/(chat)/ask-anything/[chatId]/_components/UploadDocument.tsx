@@ -139,14 +139,20 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
                 type='file'
                 name='file'
                 multiple={false}
-                className='w-full cursor-pointer'
+                className='w-full cursor-pointer rounded-full'
                 accept='.pdf, .txt'
               />
             </div>
           </div>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
-            <Button type='submit' disabled={isPending} className='bg-crayola'>
+            <AlertDialogCancel disabled={isPending} className='rounded-full'>
+              Cancel
+            </AlertDialogCancel>
+            <Button
+              type='submit'
+              disabled={isPending}
+              className='rounded-full bg-mintGreen'
+            >
               {isPending ? 'Submitting ...' : 'Add'}
             </Button>
           </AlertDialogFooter>

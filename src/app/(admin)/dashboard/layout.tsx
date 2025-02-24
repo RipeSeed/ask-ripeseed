@@ -4,13 +4,6 @@ import { auth } from '@/lib/auth'
 import { AuthSession } from '../_components/AuthSession'
 import DashboardSideBar from './_components/DashboardSideBar/DashboardSideBar'
 
-interface TSession {
-  user?: {
-    id: string
-    email: string
-  }
-}
-
 export default async function DashBoardLayout({
   children,
 }: Readonly<{

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
 import {
   FileCode,
   Headset,
@@ -13,7 +12,6 @@ import {
   X,
 } from 'lucide-react'
 
-import { isPath } from '@/components/common/Header/constants'
 import { ChatMessages } from './_components/ChatMessages'
 
 export default function Page() {
@@ -41,10 +39,6 @@ export default function Page() {
     e.stopPropagation()
     setToggle(!toggle)
   }
-  const pathname = usePathname()
-  const router = useRouter()
-  const generalPaths = ['/ask-anything', '/ask-anything/*']
-  const askRSPaths = ['/']
 
   return (
     <div

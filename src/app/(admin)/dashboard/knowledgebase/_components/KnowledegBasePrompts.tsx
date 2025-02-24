@@ -62,7 +62,6 @@ export default function KnowledgeBasePrompts() {
       setButtonDisabled(true)
     },
   })
-  // ..........................
 
   const handleClick = () => {
     mutate({ user, prompt, modelConfiguration })
@@ -95,10 +94,9 @@ export default function KnowledgeBasePrompts() {
       setButtonDisabled(true)
     }
   }, [PromptData])
-  // .......................
+
   return (
     <div className='flex h-full w-full'>
-      {/* Left Side */}
       <div className='flex-[7] border-r-2 border-solid border-dashboardBorder py-4 pr-6'>
         <div className='mb-1 flex flex-col space-y-1 py-4'>
           <span className='text-lg font-medium text-dashboardHeading'>
@@ -133,7 +131,6 @@ export default function KnowledgeBasePrompts() {
         </div>
       </div>
 
-      {/* Right Side */}
       <div className='flex flex-[3] flex-col gap-6 p-5'>
         {/* Presets */}
         <div className='flex flex-col space-y-2'>
@@ -145,13 +142,11 @@ export default function KnowledgeBasePrompts() {
           </span>
         </div>
 
-        {/* Sliders */}
         <div className='flex flex-col space-y-2'>
           <span className='text-sm font-medium text-dashboardHeading'>
             Model Configuration
           </span>
 
-          {/* Temperature */}
           <div className='flex flex-col space-y-3'>
             <div className='flex justify-between'>
               <span className='text-sm text-dashboardSecondaryText'>
@@ -170,8 +165,6 @@ export default function KnowledgeBasePrompts() {
               onValueChange={handleTemperatureChange}
             />
           </div>
-
-          {/* Top P */}
           <div className='flex flex-col space-y-3'>
             <div className='flex justify-between'>
               <span className='text-sm text-dashboardSecondaryText'>Top P</span>

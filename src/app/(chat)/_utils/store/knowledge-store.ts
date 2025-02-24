@@ -1,9 +1,5 @@
 import { create } from 'zustand'
 
-interface singleQuestion {
-  title: string
-  icon: File | null
-}
 interface State {
   prompt: string
   modelConfiguration: {

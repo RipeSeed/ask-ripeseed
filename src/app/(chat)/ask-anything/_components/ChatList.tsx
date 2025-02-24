@@ -28,7 +28,7 @@ import { cn } from '@/lib/utils'
 import chatICon from '../../../../public/chat.png'
 
 export const ChatList = () => {
-  const { selectedChat, chats, setSelectedChat, setChats } = useStore()
+  const { selectedChat, chats, setSelectedChat } = useStore()
   const [allChats, setAllChats] = useState<Chat[]>([])
 
   getAllChats().then((chats) => {
@@ -107,18 +107,16 @@ const SidebarChatComponent = ({ chat }: { chat: Chat }) => {
       <Button
         className={cn(
           buttonVariants({ variant: 'default', size: 'lg' }),
-          `shrink bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#ECECEC] ${variant && 'bg-[#ECECEC] text-primary'
+          `shrink bg-[#FBFBFB] text-gray-500 shadow-none transition-all hover:bg-[#ECECEC] ${
+            variant && 'bg-[#ECECEC] text-primary'
           }`,
         )}
         onClick={() => handleSelectedChatChange(chat)}
       >
         <div className='flex w-full flex-row justify-between'>
           <div className='flex justify-start gap-4 truncate'>
-            {/* // icon */}
             <MessagesSquare className='h-4 w-4' />
-            {/* <span>{truncateString(chat.name, 18)}</span> */}
           </div>
-          {/* //delete scene */}
           <Dialog>
             <DialogTrigger asChild>
               <div className='flex justify-end' onClick={handleDelete}>
