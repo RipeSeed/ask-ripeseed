@@ -224,7 +224,7 @@ const ConfigDialogue = () => {
               <Link
                 href={`https://platform.openai.com/api-keys`}
                 target='_blank'
-                className='flex flex-row gap-1 text-green-500 underline'
+                className='flex flex-row gap-1 text-green-500 underline dark:text-mintGreen'
               >
                 Generate one here <ExternalLink className='h-4 w-4' />
               </Link>

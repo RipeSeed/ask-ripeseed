@@ -54,12 +54,13 @@ export default function RootLayout({
                     alt='logo'
                     height={28}
                     width={160}
+                    className='logo'
                   />
                 </div>
                 <Sidebar />
               </div>
             </div>
-            <div className='flex h-full flex-col bg-[#EBEBEB] p-2'>
+            <div className='flex h-full flex-col bg-[#EBEBEB] p-2 dark:bg-[#1E1E1E]'>
               <div className='overflow-hidden rounded-xl bg-white dark:bg-[#1E1E1E]'>
                 <ChatHeader />
                 <div className='h-full bg-[#E8E8E8] dark:bg-[#363639]'>

@@ -159,7 +159,7 @@ const Note = ({
         <Image
           alt='config'
           src={config}
-          className='h-3 w-3'
+          className='logo h-3 w-3'
           height={16}
           width={18}
         />
