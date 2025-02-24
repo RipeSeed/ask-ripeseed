@@ -84,14 +84,15 @@ export default function DashboardSideBar() {
                     className={`flex w-full cursor-pointer items-center space-x-2 rounded-lg p-3 ${item.url === url ? 'bg-dashboardActive' : ''} hover:bg-dashboardActive/80 transition-colors duration-200`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <img
+                    <Image
                       src={`${
                         item.url === url
                           ? '/assets/knowledgebase/book-shadow.png'
                           : '/assets/knowledgebase/book.png'
                       }`}
-                      alt=''
-                      className='h-5 w-5'
+                      alt='book'
+                      width={20}
+                      height={20}
                     />
 
                     <span className='self-center text-dashboardSidebarFooter'>
@@ -124,7 +125,7 @@ export default function DashboardSideBar() {
                   disabled={isLoggingOut}
                 >
                   <Image
-                    src='/assets/export.svg'
+                    src='/assets/knowledgebase/export.svg'
                     width={20}
                     height={20}
                     alt='LogOut'

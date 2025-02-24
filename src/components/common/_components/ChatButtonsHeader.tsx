@@ -31,17 +31,17 @@ export default function ChatHeader() {
   const askRSmsg = useStore((state) => state.askRSmsg)
 
   return (
-    <div className='top-0 flex items-center justify-center border-b border-[#ACACAC] bg-[#E8E8E8] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:py-6'>
+    <div className='top-0 flex items-center justify-center border-b border-[#DBDBDB] bg-[#FAF9F6] py-3 dark:border-[#1B1B21] dark:bg-[#363639] md:py-6'>
       <div className='flex gap-1 rounded-full bg-[#E0E0E0] text-[#575757] dark:bg-[#5E5E61] dark:text-white'>
         <li
           onClick={() => router.push('/')}
-          className={`cursor-pointer select-none list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? 'rounded-full bg-crayola text-white drop-shadow-lg' : 'rounded-full hover:bg-accent'} `}
+          className={`cursor-pointer select-none list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(askRSPaths, pathname) ? 'rounded-full bg-mintGreen text-black drop-shadow-lg' : 'rounded-full hover:bg-accent'} `}
         >
-          Ask RipeSeed
+          Ask Ripeseed
         </li>
         <li
           onClick={() => router.push('/ask-anything')}
-          className={`cursor-pointer select-none list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? 'rounded-full bg-crayola text-white drop-shadow-lg' : 'rounded-full hover:bg-accent'}`}
+          className={`cursor-pointer select-none list-none px-2 py-1 font-medium transition-all duration-300 ease-linear xs:px-6 md:py-2 md:text-lg ${isPath(generalPaths, pathname) ? 'rounded-full bg-mintGreen text-black drop-shadow-lg' : 'rounded-full hover:bg-accent'}`}
         >
           Ask Anything
         </li>
@@ -65,14 +65,7 @@ export default function ChatHeader() {
 const DeleteConfirmationDialog = () => {
   const closeRef = useRef<HTMLButtonElement>(null)
   const openRef = useRef<HTMLButtonElement>(null)
-  const {
-    isDeleteDialogOpen,
-    toggleDeleteDialogOpen,
-    setClearChat,
-    toggleConfigOpen,
-    setOpenAIKey,
-    clearAskRSmsg,
-  } = useStore()
+  const { isDeleteDialogOpen, setClearChat, clearAskRSmsg } = useStore()
 
   useEffect(() => {
     if (isDeleteDialogOpen) {
@@ -129,7 +122,7 @@ const DeleteConfirmationDialog = () => {
             <Button
               type='button'
               onClick={confirmDelete}
-              className='rounded-full bg-crayola'
+              className='rounded-full bg-mintGreen text-black hover:bg-green-300'
             >
               Yes
             </Button>
@@ -212,7 +205,7 @@ const ConfigDialogue = () => {
               name='openaiKey'
               onChange={handleChange}
               value={formValues.openaiKey}
-              className='rounded-full border-crayola'
+              className='rounded-full border-mintGreen'
               type='password'
             />
           </div>
@@ -224,7 +217,7 @@ const ConfigDialogue = () => {
               <Link
                 href={`https://platform.openai.com/api-keys`}
                 target='_blank'
-                className='flex flex-row gap-1 text-blue-500 underline'
+                className='flex flex-row gap-1 text-green-500 underline dark:text-mintGreen'
               >
                 Generate one here <ExternalLink className='h-4 w-4' />
               </Link>
@@ -244,7 +237,7 @@ const ConfigDialogue = () => {
             <Button
               type='button'
               onClick={saveConfig}
-              className='rounded-full bg-crayola'
+              className='rounded-full bg-mintGreen text-black hover:bg-green-300'
             >
               Save
             </Button>

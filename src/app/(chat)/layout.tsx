@@ -9,7 +9,6 @@ import { cn } from '@/lib/utils'
 
 import '../globals.css'
 
-import { useEffect, useState } from 'react'
 import type { Viewport } from 'next'
 import Image from 'next/image'
 
@@ -48,21 +47,24 @@ export default function RootLayout({
           <main className='fixed m-auto grid h-[100svh] w-full md:grid-cols-[260px_1fr] lg:grid-cols-[300px_1fr]'>
             <div className='hidden h-full md:block'>
               <div className='h-screen bg-[#EBEBEB] px-8 text-white dark:bg-black'>
-                <div className='sticky flex h-24 items-center justify-center border-b border-[#ACACAC] dark:border-[#34343B]'>
+                <div className='sticky flex h-24 items-center justify-center'>
                   <Image
                     src='/ripeseed.png'
                     alt='logo'
                     height={28}
                     width={160}
+                    className='logo'
                   />
                 </div>
                 <Sidebar />
               </div>
             </div>
-            <div className='flex h-full flex-col'>
-              <ChatHeader />
-              <div className='h-full bg-[#E8E8E8] dark:bg-[#363639]'>
-                {children}
+            <div className='flex h-full flex-col bg-[#EBEBEB] p-2 dark:bg-[#1E1E1E]'>
+              <div className='overflow-hidden rounded-xl bg-white dark:bg-[#1E1E1E]'>
+                <ChatHeader />
+                <div className='h-full bg-[#E8E8E8] dark:bg-[#363639]'>
+                  {children}
+                </div>
               </div>
             </div>
           </main>

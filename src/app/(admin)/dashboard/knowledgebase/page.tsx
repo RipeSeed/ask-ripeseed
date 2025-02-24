@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import KnowledegeBaseTabs from './_components/KnowledegeBaseTabs/KnowledegeBaseTabs'
+import KnowledegeBaseTabs from './_components/KnowledegeBaseTabs'
 
 export default function KnowledgeBase() {
   return (

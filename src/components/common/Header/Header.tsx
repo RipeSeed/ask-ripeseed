@@ -28,7 +28,6 @@ import {
 } from '@/components/ui/navigation-menu'
 import { configPaths, isPath, menuItems } from './constants'
 import MenuView from './MenuView'
-import { NavSheet } from './NavSheet'
 import type { Menu } from './types'
 
 export const Header = () => {

@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
@@ -69,6 +68,7 @@ export const MessageContainer = ({
                 alt={message.role}
                 width={100}
                 height={100}
+                className='logo'
               />
             </Avatar>
           </div>

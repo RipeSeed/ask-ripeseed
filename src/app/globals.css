@@ -39,6 +39,7 @@
     --dashboard-input: #757575;
     --dashboard-sidebar-footer: #344054;
     --dashboard-footer-light: #667085;
+    --icon-color: #363639;
     --white: #ffffff;
     --black: #1b1b21;
     --sidebar-background: 0 0% 98%;
@@ -120,4 +121,10 @@ pre > pre {
 
 .accordion::-webkit-scrollbar {
   width: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    filter: brightness(0) invert(1);
+  }
 }

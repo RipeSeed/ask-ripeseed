@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
@@ -23,6 +23,7 @@ export default function KnowledgeBasePrompts() {
     useKnowledgeStore()
 
   const { user } = useTokenStore()
+  const [buttonDisabled, setButtonDisabled] = useState(true)
 
   interface Data {
     user: string | null
@@ -58,13 +59,28 @@ export default function KnowledgeBasePrompts() {
         title: 'Prompt Settings',
         description: 'Prompt Settings has Successfully Updated',
       })
+      setButtonDisabled(true)
     },
   })
-  // ..........................
 
   const handleClick = () => {
     mutate({ user, prompt, modelConfiguration })
     reset()
+  }
+
+  const handlePromptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPrompt(e.target.value)
+    setButtonDisabled(false)
+  }
+
+  const handleTemperatureChange = (value: number[]) => {
+    setModelConfiguration({ ...modelConfiguration, temperature: value[0] })
+    setButtonDisabled(false)
+  }
+
+  const handleTopChange = (value: number[]) => {
+    setModelConfiguration({ ...modelConfiguration, topP: value[0] })
+    setButtonDisabled(false)
   }
 
   // getPrompt
@@ -75,12 +91,12 @@ export default function KnowledgeBasePrompts() {
   useEffect(() => {
     if (PromptData && PromptData?.prompt[0]?.prompt) {
       setPrompt(PromptData.prompt[0].prompt)
+      setButtonDisabled(true)
     }
   }, [PromptData])
-  // .......................
+
   return (
     <div className='flex h-full w-full'>
-      {/* Left Side */}
       <div className='flex-[7] border-r-2 border-solid border-dashboardBorder py-4 pr-6'>
         <div className='mb-1 flex flex-col space-y-1 py-4'>
           <span className='text-lg font-medium text-dashboardHeading'>
@@ -98,7 +114,7 @@ export default function KnowledgeBasePrompts() {
               required
               rows={10}
               value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
+              onChange={handlePromptChange}
               className='focus:border-gray-400 focus:ring-0'
             />
             {errors.prompt && <>{errors.prompt.message}</>}
@@ -107,7 +123,7 @@ export default function KnowledgeBasePrompts() {
             <Button
               className='bg-black text-dashboardSecondary hover:bg-gray-800'
               onClick={handleSubmit(handleClick)}
-              disabled={promptPending}
+              disabled={buttonDisabled}
             >
               Save changes
             </Button>
@@ -115,7 +131,6 @@ export default function KnowledgeBasePrompts() {
         </div>
       </div>
 
-      {/* Right Side */}
       <div className='flex flex-[3] flex-col gap-6 p-5'>
         {/* Presets */}
         <div className='flex flex-col space-y-2'>
@@ -127,13 +142,11 @@ export default function KnowledgeBasePrompts() {
           </span>
         </div>
 
-        {/* Sliders */}
         <div className='flex flex-col space-y-2'>
           <span className='text-sm font-medium text-dashboardHeading'>
             Model Configuration
           </span>
 
-          {/* Temperature */}
           <div className='flex flex-col space-y-3'>
             <div className='flex justify-between'>
               <span className='text-sm text-dashboardSecondaryText'>
@@ -149,16 +162,9 @@ export default function KnowledgeBasePrompts() {
               min={0}
               max={2}
               step={0.1}
-              onValueChange={(value) =>
-                setModelConfiguration({
-                  ...modelConfiguration,
-                  temperature: value[0],
-                })
-              }
+              onValueChange={handleTemperatureChange}
             />
           </div>
-
-          {/* Top P */}
           <div className='flex flex-col space-y-3'>
             <div className='flex justify-between'>
               <span className='text-sm text-dashboardSecondaryText'>Top P</span>
@@ -172,16 +178,14 @@ export default function KnowledgeBasePrompts() {
               min={0}
               max={1}
               step={0.01}
-              onValueChange={(value) =>
-                setModelConfiguration({ ...modelConfiguration, topP: value[0] })
-              }
+              onValueChange={handleTopChange}
             />
           </div>
         </div>
 
         <Button
           onClick={handleSubmit(handleClick)}
-          disabled={promptPending}
+          disabled={buttonDisabled}
           className='mt-2 bg-[#EAEAEA] text-dashboardHeading hover:bg-neutral-200'
         >
           Save as preset

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import Image from 'next/image'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { X } from 'lucide-react'
 
@@ -92,9 +93,10 @@ export default function FileUpload({ boxOpen, setBoxOpen }: boxState) {
         onDragOver={handleDragOver}
       >
         <div className='flex h-14 w-14 items-center justify-center rounded-full border-4 border-gray-200 bg-gray-50'>
-          <img
+          <Image
             src='/assets/knowledgebase/document-upload.svg'
-            className='h-6 w-6'
+            height={23}
+            width={23}
             alt='Upload Icon'
           />
         </div>

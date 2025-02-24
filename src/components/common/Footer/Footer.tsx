@@ -18,6 +18,7 @@ export const Footer = () => {
             alt='ripeseed.io'
             width={70}
             height={70}
+            className='logo'
           />
         </Link>
       </div>

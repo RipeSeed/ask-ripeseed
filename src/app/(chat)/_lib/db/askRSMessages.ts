@@ -31,7 +31,7 @@ export async function appendMessageContent(id: number, content: string) {
   return await db.askRSMessages.put(message)
 }
 
-// delet all messages
+// delete all messages
 export async function deleteAllMessages(): Promise<void> {
   return db.askRSMessages.clear()
 }

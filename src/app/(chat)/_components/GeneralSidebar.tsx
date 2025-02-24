@@ -80,12 +80,12 @@ export default function GeneralSideBar() {
       <div className='h-[calc(100svh-96px)]'>
         <div className='pb-8 pt-7'>
           <div
-            className='group cursor-pointer rounded-lg bg-[#E0E0E0] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#404043] dark:hover:bg-crayola'
+            className='group cursor-pointer rounded-lg bg-[#E0E0E0] p-[16px] pl-[24px] transition duration-300 hover:bg-mintGreen dark:bg-[#404043] dark:hover:bg-mintGreen'
             onClick={handleCreateNewChat}
           >
             <div className='flex items-center gap-2'>
-              <MessageSquare className='h-4 w-4 text-crayola group-hover:text-white' />
-              <span className='text-center font-medium text-black group-hover:text-white dark:text-white'>
+              <MessageSquare className='h-4 w-4 text-iconColor group-hover:text-black dark:text-[#D1D1D1] dark:opacity-50 dark:group-hover:opacity-100' />
+              <span className='text-center font-medium text-black group-hover:text-black dark:text-white'>
                 New Chat
               </span>
             </div>

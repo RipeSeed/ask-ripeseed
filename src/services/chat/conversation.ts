@@ -4,26 +4,15 @@ import { formatDocumentsAsString } from 'langchain/util/document'
 
 import 'server-only'
 
-import axios from 'axios'
 import { OpenAI } from 'openai'
 
-import { auth } from '@/lib/auth'
 import { connectDB } from '@/models'
 import Bot from '@/models/botCredentials/Bot.model'
-import Prompt from '@/models/knowledgeBase/Prompt.model'
 import { pineconeIndex } from './config'
 
 export interface Context {
   role: 'system' | 'user' | 'assistant' | 'tool' | 'function'
   content: string
-}
-
-interface PromptModel {
-  prompt: string
-  modelConfiguration: {
-    temperature: number
-    topP: number
-  }
 }
 
 const tools: OpenAI.Chat.ChatCompletionTool[] = [

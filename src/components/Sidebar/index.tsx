@@ -43,10 +43,10 @@ export default function Sidebar() {
       {/* Ask RipeSeed Button */}
       <div className='pb-8 pt-7'>
         <Link href='/ask-anything'>
-          <div className='group cursor-pointer rounded-lg bg-[#DBDBDB] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#34343C] dark:hover:bg-crayola'>
+          <div className='group cursor-pointer rounded-lg bg-[#DBDBDB] p-[16px] pl-[24px] transition duration-300 hover:bg-mintGreen dark:bg-[#34343C] dark:hover:bg-mintGreen'>
             <div className='flex w-full items-center gap-2'>
-              <MessageSquare className='h-4 w-4 text-crayola group-hover:text-white' />
-              <span className='text-center font-medium text-black group-hover:text-white dark:text-white'>
+              <MessageSquare className='h-4 w-4 text-iconColor group-hover:text-black dark:text-[#D1D1D1] dark:opacity-50 dark:group-hover:opacity-100' />
+              <span className='text-center font-medium text-black group-hover:text-black dark:text-white'>
                 Ask RipeSeed
               </span>
             </div>
@@ -66,7 +66,7 @@ export default function Sidebar() {
               className='group flex list-none items-center justify-between transition duration-300'
             >
               <div className='flex items-center gap-2'>
-                <Icon className='h-4 w-4 text-crayola opacity-50 transition duration-300 group-hover:opacity-100' />
+                <Icon className='h-4 w-4 text-iconColor opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1] dark:opacity-50' />
                 <span className='text-lg font-medium text-black opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]'>
                   {label}
                 </span>
