@@ -20,6 +20,7 @@ const UpdateSchema = z
     deepseekBaseUrl: z.string().optional(),
     xAccessKey: z.string().optional(),
     xBaseUrl: z.string().optional(),
+    pineconeApiKey: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     if (
@@ -87,6 +88,7 @@ export default function Configuration() {
           deepseekBaseUrl: data.bot[0].deepseek?.baseUrl || '',
           xAccessKey: data.bot[0].x?.accessKey || '',
           xBaseUrl: data.bot[0].x?.baseUrl || '',
+          pineconeApiKey: data.bot[0].pinecone?.apiKey || '',
         })
       }
       return data
@@ -108,13 +110,14 @@ export default function Configuration() {
       <div className='flex h-full rounded-2xl'>
         <div className='flex h-full w-full flex-col rounded-xl bg-dashboardSecondary md:min-h-[700px]'>
           <div className='p-6'>
-            <h2 className='mb-6 text-xl font-semibold text-dashboardHeading'>
-              API Settings
-            </h2>
             <form
               onSubmit={handleSubmit(handleClick)}
-              className='flex flex-col gap-4'
+              className='flex flex-col gap-8'
             >
+              <div>
+                <h2 className='mb-6 text-xl font-semibold text-dashboardHeading'>
+                  Models Configuration
+                </h2>
               {/* First Row */}
               <div className='flex flex-col gap-4 md:flex-row'>
                 <div className='flex w-full flex-col space-y-2'>
@@ -144,7 +147,7 @@ export default function Configuration() {
               </div>
 
               {/* Second Row */}
-              <div className='flex flex-col gap-4'>
+              <div className='flex flex-col gap-4 mt-4'>
                 <div className='flex flex-col gap-4 md:flex-row'>
                   <div className='flex w-full flex-col space-y-2'>
                     <Label className='flex items-center gap-2 text-dashboardText'>
@@ -198,7 +201,7 @@ export default function Configuration() {
               </div>
 
               {/* Third Row */}
-              <div className='flex flex-col gap-4'>
+              <div className='flex flex-col gap-4 mt-4'>
                 <div className='flex flex-col gap-4 md:flex-row'>
                   <div className='flex w-full flex-col space-y-2'>
                     <Label className='flex items-center gap-2 text-dashboardText'>
@@ -245,6 +248,40 @@ export default function Configuration() {
                     {errors.xBaseUrl && (
                       <p className='text-xs text-red-500'>
                         {errors.xBaseUrl.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              </div>
+
+              {/* Vector Database Section */}
+              <div>
+                <h2 className='mb-6 text-xl font-semibold text-dashboardHeading'>
+                  Vector Database Configuration
+                </h2>
+                <div className='flex flex-col gap-4'>
+                  <div className='flex w-full flex-col space-y-2'>
+                    <Label className='flex items-center gap-2 text-dashboardText'>
+                      <span>Pinecone API Key</span>
+                      <span className='relative -top-1.5 mt-1'>
+                        <Image
+                          src='/assets/knowledgebase/required.svg'
+                          alt='required'
+                          width={4}
+                          height={4}
+                        />
+                      </span>
+                    </Label>
+                    <input
+                      {...register('pineconeApiKey')}
+                      type='text'
+                      className='h-10 rounded-lg border p-3 text-sm outline-none'
+                      placeholder='Enter Pinecone API key...'
+                    />
+                    {errors.pineconeApiKey && (
+                      <p className='text-xs text-red-500'>
+                        {errors.pineconeApiKey.message}
                       </p>
                     )}
                   </div>
