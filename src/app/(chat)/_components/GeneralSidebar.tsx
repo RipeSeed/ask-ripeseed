@@ -84,7 +84,7 @@ export default function GeneralSideBar() {
             onClick={handleCreateNewChat}
           >
             <div className='flex items-center gap-2'>
-              <MessageSquare className='h-4 w-4 text-iconColor group-hover:text-black' />
+              <MessageSquare className='h-4 w-4 text-iconColor group-hover:text-black dark:text-[#D1D1D1] dark:opacity-50 dark:group-hover:opacity-100' />
               <span className='text-center font-medium text-black group-hover:text-black dark:text-white'>
                 New Chat
               </span>

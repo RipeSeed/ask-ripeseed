@@ -122,3 +122,9 @@ pre > pre {
 .accordion::-webkit-scrollbar {
   width: 2px;
 }
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    filter: brightness(0) invert(1);
+  }
+}
