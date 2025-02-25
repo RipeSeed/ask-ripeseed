@@ -7,8 +7,8 @@ import 'server-only'
 import { OpenAI } from 'openai'
 
 import { connectDB } from '@/models'
-import Bot from '@/models/botCredentials/Bot.model'
 import { pineconeIndex } from './config'
+import APICredentials from '@/models/credentials/APICredentials.model'
 
 export interface Context {
   role: 'system' | 'user' | 'assistant' | 'tool' | 'function'
@@ -41,20 +41,28 @@ interface QuestionGeneratorInput {
 const getClientConfig = async (provider: string) => {
   await connectDB()
 
-  const bot = await Bot.findOne()
-  if (!bot) throw new Error('No API keys found')
+  const credentials = await APICredentials.findOne()
+  if (!credentials) throw new Error('No API credentials found')
 
   switch (provider) {
     case 'openai':
-      return { apiKey: bot.openAIKey }
+      if (!credentials.providers.openai?.apiKey)
+        throw new Error('OpenAI API key missing')
+      return { apiKey: credentials.providers.openai.apiKey }
     case 'deepseek':
-      if (!bot.deepseek?.baseUrl || !bot.deepseek?.accessKey)
-        throw new Error('DeepSeek API keys missing')
-      return { baseURL: bot.deepseek.baseUrl, apiKey: bot.deepseek.accessKey }
+      if (!credentials.providers.deepseek)
+        throw new Error('DeepSeek API credentials missing')
+      return { 
+        baseURL: credentials.providers.deepseek.baseUrl,
+        apiKey: credentials.providers.deepseek.accessKey
+      }
     case 'xai':
-      if (!bot.x?.baseUrl || !bot.x?.accessKey)
-        throw new Error('X API keys missing')
-      return { baseURL: bot.x.baseUrl, apiKey: bot.x.accessKey }
+      if (!credentials.providers.x)
+        throw new Error('X API credentials missing')
+      return { 
+        baseURL: credentials.providers.x.baseUrl,
+        apiKey: credentials.providers.x.accessKey
+      }
     default:
       throw new Error('Invalid provider')
   }
