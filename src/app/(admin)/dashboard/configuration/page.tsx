@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 
 import { addUpdateConfiguration, getConfiguration } from '@/apis/admin/configuration'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
 import { InputWithToggle } from './_components/InputWithToggle'
@@ -54,6 +55,7 @@ export default function Configuration() {
           xAccessKey: creds.providers?.x?.accessKey || '',
           xBaseUrl: creds.providers?.x?.baseUrl || '',
           pineconeApiKey: creds.providers?.pinecone?.apiKey || '',
+          pineconeIndexName: creds.providers?.pinecone?.indexName || '',
           calendlyMeetingLink: creds.calendlyMeetingLink || '',
         })
       }
@@ -242,6 +244,30 @@ export default function Configuration() {
                       placeholder='pc_1234...5678'
                       error={errors.pineconeApiKey}
                     />
+                  </div>
+                  
+                  <div className='flex w-full flex-col space-y-2'>
+                    <Label className='flex items-center gap-2 text-dashboardText'>
+                      <span>Pinecone Index Name</span>
+                      <span className='relative -top-1.5 mt-1'>
+                        <Image
+                          src='/assets/knowledgebase/required.svg'
+                          alt='required'
+                          width={4}
+                          height={4}
+                        />
+                      </span>
+                    </Label>
+                    <Input
+                      {...register('pineconeIndexName')}
+                      placeholder='your-pinecone-index'
+                      className='h-10 bg-white'
+                    />
+                    {errors.pineconeIndexName && (
+                      <p className='text-xs text-red-500'>
+                        {errors.pineconeIndexName.message}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

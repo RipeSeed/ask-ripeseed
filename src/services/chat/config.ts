@@ -1,11 +1,6 @@
 import 'server-only'
 
-import { Pinecone } from '@pinecone-database/pinecone'
+import { getPineconeIndex } from '../pinecone/client'
 
-const pinecone = new Pinecone({
-  apiKey: process.env.PINECONE_API_KEY!,
-})
-
-const pineconeIndex = pinecone.Index(process.env.PINECONE_INDEX!)
-
-export { pineconeIndex }
+// Export the getPineconeIndex function directly
+export { getPineconeIndex }

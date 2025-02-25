@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf'
 import { OpenAIEmbeddings } from '@langchain/openai'
-import { Index, Pinecone as PineconeClient } from '@pinecone-database/pinecone'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { v4 as uuid } from 'uuid'
 
 import { connectDB } from '@/models'
 import FileModel from '@/models/knowledgeBase/File.model'
+import { getPineconeIndex } from '@/services/pinecone/client'
 
-const pinecone = new PineconeClient({
-  apiKey: process.env.PINECONE_API_KEY!,
-})
-const pineconeIndex: Index = pinecone.Index(process.env.PINECONE_INDEX!)
 export const POST = async (request: NextRequest, response: NextResponse) => {
   try {
     const form = await request.formData()
@@ -85,6 +81,9 @@ const uploadChunksToPineCone = async (
   fileId: string,
 ) => {
   try {
+    // Get the Pinecone index from our centralized service
+    const pineconeIndex = await getPineconeIndex()
+    
     let batchSize = 100
     let batch = []
     for (let i = 0; i < chunks.length; i++) {
