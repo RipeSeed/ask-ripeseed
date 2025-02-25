@@ -32,6 +32,10 @@ const APICredentialsSchema = new mongoose.Schema(
         apiKey: {
           type: String,
           required: false
+        },
+        indexName: {
+          type: String,
+          required: false
         }
       }
     },

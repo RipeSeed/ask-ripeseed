@@ -8,6 +8,8 @@ export const POST = async (request: NextRequest) => {
     const { providers, calendlyMeetingLink } = await request.json()
     await connectDB()
 
+    console.log('providers', providers)
+
     await APICredentials.deleteMany({})
 
     const updatedCredentials = await APICredentials.create({

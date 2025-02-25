@@ -7,6 +7,7 @@ interface ConfigurationData {
   xAccessKey?: string
   xBaseUrl?: string
   pineconeApiKey?: string
+  pineconeIndexName?: string
   calendlyMeetingLink?: string
 }
 // add or update credentials
@@ -23,7 +24,10 @@ export const addUpdateConfiguration = async (data: ConfigurationData) => {
           accessKey: data.xAccessKey,
           baseUrl: data.xBaseUrl
         } : undefined,
-        pinecone: data.pineconeApiKey ? { apiKey: data.pineconeApiKey } : undefined
+        pinecone: data.pineconeApiKey ? { 
+          apiKey: data.pineconeApiKey,
+          indexName: data.pineconeIndexName 
+        } : undefined
       },
       calendlyMeetingLink: data.calendlyMeetingLink
     })

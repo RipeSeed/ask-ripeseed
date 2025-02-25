@@ -6,7 +6,7 @@ import { PineconeStore } from '@langchain/pinecone'
 import type { Document as LangchainDoc } from 'langchain/document'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 
-import { pineconeIndex } from './config'
+import { getPineconeIndex } from './config'
 
 export const splitText = async (file: File, id: string) => {
   try {
@@ -25,6 +25,9 @@ export const createEmbeddings = async (
   embeddings: OpenAIEmbeddings,
 ) => {
   try {
+    // Get the Pinecone index
+    const pineconeIndex = await getPineconeIndex()
+    
     const vectorStore = await PineconeStore.fromDocuments(docs, embeddings, {
       pineconeIndex,
     })

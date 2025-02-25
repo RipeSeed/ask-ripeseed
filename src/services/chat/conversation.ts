@@ -7,7 +7,7 @@ import 'server-only'
 import { OpenAI } from 'openai'
 
 import { connectDB } from '@/models'
-import { pineconeIndex } from './config'
+import { getPineconeIndex } from './config'
 import APICredentials from '@/models/credentials/APICredentials.model'
 
 export interface Context {
@@ -178,6 +178,7 @@ export function converse(
 
         let serializedDocs = ''
         if (idArray[0] !== null) {
+          const pineconeIndex = await getPineconeIndex()
           const docs = await pineconeIndex.query({
             vector,
             topK: 2,
