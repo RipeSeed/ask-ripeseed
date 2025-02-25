@@ -6,8 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 
-import { AddOpenAIKey, GetOpenAIData } from '@/apis/admin/configuration'
-import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
+import { addUpdateConfiguration, getConfiguration } from '@/apis/admin/configuration'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
@@ -22,8 +21,8 @@ export default function Configuration() {
   const [showPineconeKey, setShowPineconeKey] = useState(false)
 
   const { mutate, isPending: botPending } = useMutation({
-    mutationFn: async (data: { user: string | null } & TUpdateSchema) => {
-      await AddOpenAIKey(data)
+    mutationFn: async (data: TUpdateSchema) => {
+      await addUpdateConfiguration(data)
     },
     onSuccess: () => {
       toast({
@@ -42,28 +41,31 @@ export default function Configuration() {
     resolver: zodResolver(UpdateSchema),
   })
 
-  const { user } = useTokenStore()
-
   useQuery({
     queryKey: ['chat-config'],
     queryFn: async () => {
-      const data = await GetOpenAIData()
-      if (data && data?.bot?.[0]) {
+      const data = await getConfiguration()
+      if (data && data?.credentials?.[0]) {
+        const creds = data.credentials[0]
         reset({
-          openAIKey: data.bot[0].openAIKey,
-          deepseekAccessKey: data.bot[0].deepseek?.accessKey || '',
-          deepseekBaseUrl: data.bot[0].deepseek?.baseUrl || '',
-          xAccessKey: data.bot[0].x?.accessKey || '',
-          xBaseUrl: data.bot[0].x?.baseUrl || '',
-          pineconeApiKey: data.bot[0].pinecone?.apiKey || '',
+          openAIKey: creds.providers?.openai?.apiKey || '',
+          deepseekAccessKey: creds.providers?.deepseek?.accessKey || '',
+          deepseekBaseUrl: creds.providers?.deepseek?.baseUrl || '',
+          xAccessKey: creds.providers?.x?.accessKey || '',
+          xBaseUrl: creds.providers?.x?.baseUrl || '',
+          pineconeApiKey: creds.providers?.pinecone?.apiKey || '',
         })
       }
       return data
     },
+    // Disable automatic refetching
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
   })
 
   const handleClick = (data: TUpdateSchema) => {
-    mutate({ user, ...data })
+    mutate(data)
   }
 
   return (
