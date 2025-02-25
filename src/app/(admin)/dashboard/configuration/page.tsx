@@ -6,7 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 
-import { addUpdateConfiguration, getConfiguration } from '@/apis/admin/configuration'
+import {
+  addUpdateConfiguration,
+  getConfiguration,
+} from '@/apis/admin/configuration'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -64,7 +67,7 @@ export default function Configuration() {
     // Disable automatic refetching
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    refetchOnReconnect: false
+    refetchOnReconnect: false,
   })
 
   const handleClick = (data: TUpdateSchema) => {
@@ -245,7 +248,7 @@ export default function Configuration() {
                       error={errors.pineconeApiKey}
                     />
                   </div>
-                  
+
                   <div className='flex w-full flex-col space-y-2'>
                     <Label className='flex items-center gap-2 text-dashboardText'>
                       <span>Pinecone Index Name</span>
@@ -263,6 +266,10 @@ export default function Configuration() {
                       placeholder='your-pinecone-index'
                       className='h-10 bg-white'
                     />
+                    <p className='mt-1 text-xs text-muted-foreground'>
+                      You can find your index name in the Pinecone dashboard
+                      under &apos;Indexes&apos;
+                    </p>
                     {errors.pineconeIndexName && (
                       <p className='text-xs text-red-500'>
                         {errors.pineconeIndexName.message}
