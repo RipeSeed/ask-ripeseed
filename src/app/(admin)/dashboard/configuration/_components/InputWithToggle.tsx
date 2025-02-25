@@ -1,5 +1,6 @@
 import { Eye, EyeOff } from 'lucide-react'
 import { TUpdateSchema } from '../_types/schema'
+import { UseFormRegister } from 'react-hook-form'
 
 export const InputWithToggle = ({ 
     register, 
@@ -9,7 +10,7 @@ export const InputWithToggle = ({
     placeholder, 
     error 
   }: { 
-    register: any, 
+    register: UseFormRegister<TUpdateSchema>, 
     name: keyof TUpdateSchema, 
     show: boolean, 
     setShow: (show: boolean) => void, 

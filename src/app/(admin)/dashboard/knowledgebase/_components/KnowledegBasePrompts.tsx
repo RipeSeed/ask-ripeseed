@@ -84,16 +84,16 @@ export default function KnowledgeBasePrompts() {
   }
 
   // getPrompt
-  const { data: PromptData, isLoading: FileLoading } = useQuery({
+  const { data: promptData } = useQuery({
     queryKey: ['getPrompt'],
     queryFn: GetPrompt,
   })
   useEffect(() => {
-    if (PromptData && PromptData?.prompt[0]?.prompt) {
-      setPrompt(PromptData.prompt[0].prompt)
+    if (promptData && promptData?.prompt[0]?.prompt) {
+      setPrompt(promptData.prompt[0].prompt)
       setButtonDisabled(true)
     }
-  }, [PromptData])
+  }, [promptData, setPrompt])
 
   return (
     <div className='flex flex-col gap-4'>
@@ -179,10 +179,10 @@ export default function KnowledgeBasePrompts() {
       <div className="flex justify-end">
         <Button
           onClick={handleSubmit(handleClick)}
-          disabled={buttonDisabled}
-          className='bg-black text-dashboardSecondary hover:bg-gray-800'
+          disabled={buttonDisabled || promptPending}
+          className='bg-black text-dashboardSecondary hover:bg-gray-800 relative'
         >
-          Save changes
+          {promptPending ? 'Saving...' : 'Save changes'}
         </Button>
       </div>
     </div>

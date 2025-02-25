@@ -86,12 +86,7 @@ export default function DashboardSideBar() {
                     className={`flex w-full cursor-pointer items-center space-x-2 rounded-lg p-3 ${item.url === url ? 'bg-dashboardActive' : ''} hover:bg-dashboardActive/80 transition-colors duration-200`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {React.createElement(
-                      item.icon,
-                      {
-                        className: 'h-5 w-5',
-                      }
-                    )}
+                    <item.icon className="h-5 w-5" />
 
                     <span className='self-center text-dashboardSidebarFooter'>
                       {item.title}
