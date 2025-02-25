@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { encryptionPlugin } from '../../utils/encryptionPlugin'
 
 const APIProviderSchema = new mongoose.Schema({
   accessKey: {
@@ -46,6 +47,16 @@ const APICredentialsSchema = new mongoose.Schema(
   },
   { timestamps: true }
 )
+
+// Apply the encryption plugin to encrypt all API keys
+APICredentialsSchema.plugin(encryptionPlugin, {
+  fields: [
+    'providers.openai.apiKey',
+    'providers.deepseek.accessKey',
+    'providers.x.accessKey',
+    'providers.pinecone.apiKey'
+  ]
+})
 
 const APICredentials = mongoose.models.APICredentials || mongoose.model('APICredentials', APICredentialsSchema)
 

@@ -12,6 +12,14 @@ export const connectDB = async () => {
     console.log(
       `\n MongoDB connected !! DB HOST: ${connectionInstance.connection.host}`,
     )
+    
+    // Make sure to set ENCRYPTION_KEY in your environment variables for production
+    if (!process.env.ENCRYPTION_KEY) {
+      console.warn(
+        'Warning: ENCRYPTION_KEY environment variable is not set. Using default key for field encryption.',
+        'This is not secure for production environments.'
+      )
+    }
   } catch (error) {
     console.log('MONGODB connection FAILED ', error)
   }
