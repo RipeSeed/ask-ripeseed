@@ -37,7 +37,7 @@ import * as crypto from 'crypto';
 // Environment variable for encryption (create a strong, random key in production)
 // Update the key handling to ensure 32 bytes
 // generate using: openssl rand -hex 32
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'secure-key-1234567890'
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '7a3f945f458198c0a63ba48c546cbeb37a3f945f458198c0a63ba48c546cbeb3'
 
 // Ensure key is exactly 32 bytes
 function getKey(): Buffer {
