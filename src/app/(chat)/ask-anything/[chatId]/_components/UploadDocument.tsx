@@ -151,7 +151,7 @@ export const UploadDocument = ({ isOpen, setIsOpen }: Props) => {
             <Button
               type='submit'
               disabled={isPending}
-              className='rounded-full bg-mintGreen'
+              className='rounded-full bg-crayola'
             >
               {isPending ? 'Submitting ...' : 'Add'}
             </Button>

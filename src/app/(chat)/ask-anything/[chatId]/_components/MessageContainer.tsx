@@ -68,7 +68,6 @@ export const MessageContainer = ({
                 alt={message.role}
                 width={100}
                 height={100}
-                className='logo'
               />
             </Avatar>
           </div>
