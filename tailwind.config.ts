@@ -33,7 +33,6 @@ const config = {
       },
       colors: {
         crayola: '#13A682',
-        mintGreen: '#6BFF97',
         darkCard: '#B5B5B5',
         darkText: '#C6C2C2',
         lightText: '#676767',
@@ -71,7 +70,6 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        iconColor: 'var(--icon-color)',
         dashboardPrimary: 'var(--dashboard-bg-primary)',
         dashboardSecondary: 'var(--dashboard-bg-secondary)',
         dashboardActive: 'var(--dashboard-active)',
