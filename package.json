@@ -13,7 +13,6 @@
     "pages:build": "npx @cloudflare/next-on-pages"
   },
   "dependencies": {
-    "@gomomento/sdk": "^1.93.0",
     "@hookform/resolvers": "^3.9.1",
     "@infisical/sdk": "^3.0.2",
     "@langchain/community": "^0.3.3",
