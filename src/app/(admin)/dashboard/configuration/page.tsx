@@ -54,6 +54,7 @@ export default function Configuration() {
           xAccessKey: creds.providers?.x?.accessKey || '',
           xBaseUrl: creds.providers?.x?.baseUrl || '',
           pineconeApiKey: creds.providers?.pinecone?.apiKey || '',
+          calendlyMeetingLink: creds.calendlyMeetingLink || '',
         })
       }
       return data

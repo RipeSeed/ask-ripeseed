@@ -25,7 +25,7 @@ export const POST = async (request: NextRequest) => {
   } catch (error) {
     console.error('Error in API:', error)
     return NextResponse.json(
-      { error: 'Internal Server Error', details: (error as Error).message },
+      { error: 'Internal Server Error' },
       { status: 500 },
     )
   }
