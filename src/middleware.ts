@@ -1,20 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt';
 
-const checkIfUserExists = async () => {
-  const res = await fetch(`${process.env.BASE_URL}/api/check-user`, {
-    method: 'GET',
-  })
-
-  const data = await res.json()
-  return data.exists
-}
+const ADMIN_ROUTE_PREFIXES = [
+  '/api/knowledgebase',
+  '/api/config',
+];
 
 const isAdminRoute = (pathname: string): boolean => {
-  const ADMIN_ROUTE_PREFIXES = [
-    '/api/knowledgebase',
-    '/api/config',
-  ];
 
   const normalizedPath = String(pathname).trim();
 

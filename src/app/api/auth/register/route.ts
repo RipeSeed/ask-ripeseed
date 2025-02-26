@@ -16,7 +16,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     if (userCount > 0) {
       return NextResponse.json(
           { error: 'User already exists in the system' },
-          { status: 500 },
+          { status: 409 },
       )
     }
 
