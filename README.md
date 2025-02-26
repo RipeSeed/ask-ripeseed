@@ -46,7 +46,7 @@ Try the deployed application on the link [here](https://ask.ripeseed.io). "Ask R
 Ask RipeSeed utilizes a modern and efficient tech stack to deliver a robust user experience. Below is an overview of the core libraries and tools used in the project:
 
 | Library                  | Category                | Version  | Description                                                                                |
-| ------------------------ | ----------------------- | -------- | ------------------------------------------------------------------------------------------ | --- |
+| ------------------------ | ----------------------- | -------- | ------------------------------------------------------------------------------------------ |
 | Next.js                  | Web Framework           | v14.2.3  | A powerful React framework for building scalable web applications.                         |
 | TypeScript               | Language                | v5       | Provides static type checking to improve code quality and maintainability.                 |
 | Tailwind CSS             | Styling Framework       | v3.4.1   | A utility-first CSS framework for rapidly building custom designs.                         |
@@ -59,7 +59,6 @@ Ask RipeSeed utilizes a modern and efficient tech stack to deliver a robust user
 | Dexie                    | IndexedDB Wrapper       | v4.0.7   | A minimalistic wrapper for IndexedDB to handle local storage effectively.                  |
 | PDF-parse                | Document Parsing        | v1.1.1   | Parses and processes PDF documents to extract content.                                     |
 | Radix-ui                 | UI Components           | v1.0.x   | Provides a set of accessible and composable UI components for React.                       |
-| Valtio                   | State Management        | v1.13.2  | A simple and efficient state management library for React.                                 |
 | react-syntax-highlighter | Syntax Highlighting     | v15.5.0  | Provides syntax highlighting for code snippets and markdown content.                       |
 | rehype-highlight         | Markdown Parser         | v7.0.0   | A plugin for Rehype to highlight code blocks in markdown.                                  |
 | rehype-katex             | Math Rendering          | v7.0.0   | A plugin for Rehype to render math expressions using KaTeX.                                |     |
@@ -71,18 +70,25 @@ Additional dependencies include several Radix UI components, libraries for state
 
 ## Documentation
 
-### Replacing the RipeSeed Knowledge Base
+### Dashboard Configuration
 
-To customize the chatbot's responses with your own knowledge base, follow these steps to create and upload document chunks:
+We are excited to introduce a new dashboard that allows users to easily configure various aspects of the Ask RipeSeed application. You can access the dashboard via the `/dashboard` route. 
 
-1. **Prepare Your Documents**: We have provided a [template](https://github.com/RipeSeed/ask-ripeseed/blob/main/public/example-docs/knowledgebase.template) and an [example document](https://github.com/RipeSeed/ask-ripeseed/blob/main/public/example-docs/knowledgebase) to start with and give agencies an idea on how should they create their knowledgebase. Use that or create your own document and place that in PDF format in the "Documents" folder located in the same directory as the chunking script.
-2. **Run the Chunking Script**: Use our script located [here](https://github.com/RipeSeed/ask-ripeseed/blob/main/scripts/ask_ripeseed_LC_chunking.ipynb). This script is an `.ipynb` file that can be run locally using Jupyter Notebook or online via Google Colab.
-3. **Configure the Script**: In the `upload_documents_service` function, set up the following variables:
-   - `api_key`: Your Pinecone API key.
-   - `pinecone.Index()`: Your Pinecone index name.
-   - `openai_api_key`: Your OpenAI API key.
-   - `id`: A hardcoded identifier in the metadata of vectors for distinguishing your documents in the vector database.
-4. **Run the Script**: Execute all the cells in sequence. This will vectorize your documents and store them in Pinecone with the specified index and metadata.
+If there are no users in the database, you will be first navigated to the registration page. This is a one-time process, and after completing registration, you will not be able to access the registration route again.
+
+With this dashboard, you can manage:
+
+- **Models**: Select and configure the AI models used for responses.
+- **Pinecone**: Set up and manage your Pinecone index for efficient data storage and retrieval.
+- **Calendly**: Integrate your Calendly link for seamless scheduling.
+- **Prompts**: Customize the prompts used by the AI to tailor responses to your needs.
+- **Knowledge Base**: Upload and manage your knowledge base documents directly from the dashboard.
+
+This new feature simplifies the setup process and enhances the overall user experience, making it easier to customize the AI assistant to fit your specific requirements.
+
+## Encryption
+
+For security purposes, sensitive data is encrypted. For detailed information about the encryption methods implemented in this project, please refer to the [ENCRYPTION.md](ENCRYPTION.md) file located in the root of the project.
 
 ## Running the Application
 
@@ -99,12 +105,12 @@ To run Ask RipeSeed locally, follow these steps:
 
    - `MONGO_CONNECTION_STRING`: Your MongoDB connection string.
    - `NEXT_PUBLIC_GA_ID`: Google Analytics ID.
-   - `OPENAI_KEY`: Your OpenAI API key.
-   - `PINECONE_API_KEY`: Your Pinecone API key.
    - `PINECONE_INDEX`: Your Pinecone index name.
-   - `RIPESEED_DOC_INDEX_ID`: The hardcoded ID for your indexed document in Pinecone.
-   - `RIPESEED_OPENAI_API_KEY`: OpenAI key for querying the knowledge base.
    - `NEXT_PUBLIC_CALENDLY`: Your calendly link.
+   - `ENCRYPTION_KEY`: Your encryption key for securing sensitive data.
+   - `JWT_SEC`: Your JSON Web Token secret for authentication.
+   - `AUTH_SECRET`: Your authentication secret key.
+   - `BASE_URL`: The base URL of your application.
 
 3. **Install Dependencies**:
 

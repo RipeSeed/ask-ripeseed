@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid'
 import { connectDB } from '@/models'
 import FileModel from '@/models/knowledgeBase/File.model'
 import { getPineconeIndex } from '@/services/pinecone/client'
+import APICredentials from '@/models/credentials/APICredentials.model'
 
 export const POST = async (request: NextRequest, response: NextResponse) => {
   try {
@@ -35,8 +36,15 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     const chunks = outPut.map((chunk) => chunk.pageContent.replace(/\n/g, ''))
     const chunksLength = chunks.length
 
+    await connectDB()
+    const credentials = await APICredentials.findOne()
+
+    if (!credentials || !credentials.providers.openai?.apiKey) {
+      throw new Error('OpenAI API key not found in database')
+    }
+
     const embeddings = new OpenAIEmbeddings({
-      apiKey: process.env.OPENAI_KEY,
+      apiKey: credentials.providers.openai.apiKey,
     })
 
     const vectors = await embeddings.embedDocuments(chunks)
