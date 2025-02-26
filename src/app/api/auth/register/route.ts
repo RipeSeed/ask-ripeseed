@@ -11,12 +11,12 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     let reqBody = await request.json()
     const { firstName, lastName, email, password } = reqBody
 
-    let user = await User.findOne({ email })
+    const userCount = await User.countDocuments()
 
-    if (user) {
+    if (userCount > 0) {
       return NextResponse.json(
-        { error: 'User with this email already Exists' },
-        { status: 500 },
+          { error: 'User already exists in the system' },
+          { status: 409 },
       )
     }
 
