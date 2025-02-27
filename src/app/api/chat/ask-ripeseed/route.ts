@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
 import { connectDB } from '@/models'
 import Prompt from '@/models/knowledgeBase/Prompt.model'
@@ -6,42 +6,39 @@ import APICredentials from '@/models/credentials/APICredentials.model'
 import { converse } from '@/services/chat/conversation'
 
 // this is chat with ripeseed's own document. so users can ask questions
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest) {
   try {
     const { messages, provider } = await request.json()
     await connectDB()
 
+    // Get API credentials
     const credentials = await APICredentials.findOne()
-    if (!credentials) {
-      throw new Error('No API credentials found')
-    }
-
-    const apiKey = credentials.providers.openai?.apiKey
-    if (!apiKey) {
+    if (!credentials?.providers.openai?.apiKey) {
       throw new Error('OpenAI API key not configured')
     }
 
+    // Get prompt settings
     const promptSettings = await Prompt.find()
-    if (promptSettings.length === 0) {
+    if (!promptSettings.length) {
       throw new Error('No prompts are configured. Please add a prompt.')
     }
 
+    // Create streaming response
     const streamedResponse = converse(
       promptSettings,
       messages[messages.length - 1].content,
       messages,
       [credentials.providers.pinecone?.indexId || ''],
-      apiKey,
+      credentials.providers.openai.apiKey,
       provider,
-      true,
+      true
     )
+
     return new Response(streamedResponse, {
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
     })
   } catch (error) {
-    if (error instanceof Error) {
-      return new Response(error.message, { status: 400 })
-    }
-    return new Response('Something went wrong', { status: 500 })
+    const message = error instanceof Error ? error.message : 'Something went wrong'
+    return new Response(message, { status: error instanceof Error ? 400 : 500 })
   }
 }

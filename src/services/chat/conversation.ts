@@ -1,27 +1,26 @@
 import { OpenAIEmbeddings } from '@langchain/openai'
 import { Document } from 'langchain/document'
 import { formatDocumentsAsString } from 'langchain/util/document'
+import { OpenAI } from 'openai'
 
 import 'server-only'
 
-import { OpenAI } from 'openai'
-
 import { connectDB } from '@/models'
-import { getPineconeIndex } from './config'
 import APICredentials from '@/models/credentials/APICredentials.model'
+import { getPineconeIndex } from './config'
 
 export interface Context {
   role: 'system' | 'user' | 'assistant' | 'tool' | 'function'
   content: string
 }
 
-const tools: OpenAI.Chat.ChatCompletionTool[] = [
+// Available tools for the AI
+const AVAILABLE_TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
   {
     type: 'function',
     function: {
       name: 'book_meeting_call_appointment',
-      description:
-        'If someone wants to talk, books calls, meetings, appointments, or any meet-up with RipeSeed',
+      description: 'Books calls, meetings, or appointments with RipeSeed',
       parameters: {
         type: 'object',
         properties: {},
@@ -31,215 +30,171 @@ const tools: OpenAI.Chat.ChatCompletionTool[] = [
   },
 ]
 
-interface QuestionGeneratorInput {
-  instructions: string
-  context: string
-  chatHistory?: string
-  question: string
-}
-
-const getClientConfig = async (provider: string) => {
+// Get provider-specific configuration
+async function getProviderConfig(provider: string) {
   await connectDB()
-
   const credentials = await APICredentials.findOne()
   if (!credentials) throw new Error('No API credentials found')
 
-  switch (provider) {
-    case 'openai':
-      if (!credentials.providers.openai?.apiKey)
-        throw new Error('OpenAI API key missing')
-      return { apiKey: credentials.providers.openai.apiKey }
-    case 'deepseek':
-      if (!credentials.providers.deepseek)
-        throw new Error('DeepSeek API credentials missing')
-      return { 
-        baseURL: credentials.providers.deepseek.baseUrl,
-        apiKey: credentials.providers.deepseek.accessKey
-      }
-    case 'xai':
-      if (!credentials.providers.x)
-        throw new Error('X API credentials missing')
-      return { 
-        baseURL: credentials.providers.x.baseUrl,
-        apiKey: credentials.providers.x.accessKey
-      }
-    default:
-      throw new Error('Invalid provider')
-  }
-}
-
-const getClientModel = (provider: string) => {
-  switch (provider) {
-    case 'openai':
-      return 'gpt-4o-mini'
-    case 'deepseek':
-      return 'deepseek-chat'
-    case 'xai':
-      return 'grok-2-latest'
-    default:
-      return 'gpt-4o-mini'
-  }
-}
-const getChain = async (
-  questionGeneratorInput: QuestionGeneratorInput,
-  provider: string,
-  modelConfig: { temperature: number; topP: number },
-) => {
-  const config = await getClientConfig(provider)
-  const openai = new OpenAI(config)
-
-  const finalPrompt = `Use the following pieces of context to answer the question at the end.
-    ----------
-    CONTEXT: ${questionGeneratorInput.context}
-    ----------
-    CHAT HISTORY: ${questionGeneratorInput?.chatHistory}
-    ----------
-    QUESTION: ${questionGeneratorInput.question}
-    ----------
-    Helpful Answer:`
-
-  const messages = [
-    {
-      role: 'system' as const,
-      content: questionGeneratorInput.instructions,
+  const configs = {
+    openai: {
+      apiKey: credentials.providers.openai?.apiKey,
+      model: 'gpt-4o-mini',
     },
-    { role: 'user' as const, content: finalPrompt },
-  ]
+    deepseek: {
+      baseURL: credentials.providers.deepseek?.baseUrl,
+      apiKey: credentials.providers.deepseek?.accessKey,
+      model: 'deepseek-chat',
+    },
+    xai: {
+      baseURL: credentials.providers.x?.baseUrl,
+      apiKey: credentials.providers.x?.accessKey,
+      model: 'grok-2-latest',
+    },
+  }
 
-  const model = getClientModel(provider)
-  const stream = await openai.chat.completions.create({
-    model,
-    messages,
-    stream: true,
-    temperature: modelConfig.temperature,
-    top_p: modelConfig.topP,
-    tools: tools,
-    tool_choice: 'auto',
-  })
-  return stream
+  const config = configs[provider as keyof typeof configs]
+  if (!config) throw new Error('Invalid provider')
+  if (!config.apiKey) throw new Error(`${provider} API credentials missing`)
+
+  return config
 }
 
-const serializeChatHistory = (chatHistory: Context[]): string => {
-  return chatHistory
-    .map((chatMessage) => {
-      if (chatMessage.role === 'user') {
-        return `Human: ${chatMessage.content}`
-      } else if (chatMessage.role === 'assistant') {
-        return `Assistant: ${chatMessage.content}`
-      } else {
-        return `${chatMessage.content}`
-      }
+// Format chat history for context
+function formatChatHistory(history: Context[]): string {
+  return history
+    .map((msg) => {
+      const role = msg.role === 'user' ? 'Human' : 'Assistant'
+      return `${role}: ${msg.content}`
     })
     .join('\n')
 }
 
+// Get relevant documents from vector store
+async function getRelevantDocs(
+  message: string,
+  openAIApiKey: string,
+  indexId: string,
+) {
+  if (!indexId) return ''
+
+  const embeddings = new OpenAIEmbeddings({ openAIApiKey })
+  const vector = await embeddings.embedQuery(message)
+  const pineconeIndex = await getPineconeIndex()
+
+  const docs = await pineconeIndex.query({
+    vector,
+    topK: 2,
+    includeMetadata: true,
+  })
+
+  return formatDocumentsAsString(
+    docs.matches.map(
+      (doc) =>
+        new Document({
+          metadata: doc.metadata,
+          pageContent: doc.metadata?.text?.toString() || '',
+        }),
+    ),
+  )
+}
+
+// Create streaming response
+function createStream(controller: ReadableStreamDefaultController) {
+  return {
+    write: (text: string) => controller.enqueue(text),
+    close: () => controller.close(),
+    error: (err: Error) => {
+      console.error('Stream error:', err)
+      controller.enqueue('An error occurred while processing your request.')
+      controller.close()
+    },
+  }
+}
+
 export function converse(
-  promptSettings: any,
+  promptSettings: any[],
   message: string,
   context: Context[],
-  idArray: string[],
+  indexIds: string[],
   openAIApiKey: string,
   provider: string,
   isAskRipeseedChat: boolean = false,
 ) {
   return new ReadableStream({
     async start(controller) {
-      let isControllerClosed = false
-      const closeController = () => {
-        if (!isControllerClosed) {
-          controller.close()
-          isControllerClosed = true
-        }
-      }
+      const stream = createStream(controller)
 
       try {
-        if (!promptSettings || promptSettings.length === 0) {
-          controller.enqueue(
-            "I apologize, but I don't have any prompts configured at the moment. Please have an administrator set up the appropriate prompts.",
+        // Validate prompt settings
+        if (!promptSettings?.length || !promptSettings[0]?.prompt?.trim()) {
+          stream.write(
+            'No valid prompts are configured. Please check the prompt settings.',
           )
-          closeController()
-          return
+          return stream.close()
         }
 
-        // Ensure prompt is not undefined
         const currentPrompt = promptSettings[0]
-        if (!currentPrompt || !currentPrompt.prompt?.trim()) {
-          controller.enqueue(
-            'The configured prompt is empty. Please check the prompt settings.',
-          )
-          closeController()
-          return
-        }
-        const promptMessage = currentPrompt.prompt.trim()
-
-        const chatHistory = await serializeChatHistory(context)
-        const embeddings = new OpenAIEmbeddings({ openAIApiKey })
-        const vector = await embeddings.embedQuery(message)
-
-        let serializedDocs = ''
-        if (idArray[0] !== null) {
-          const pineconeIndex = await getPineconeIndex()
-          const docs = await pineconeIndex.query({
-            vector,
-            topK: 2,
-            includeMetadata: true,
-          })
-
-          serializedDocs = formatDocumentsAsString(
-            docs.matches.map(
-              (doc) =>
-                new Document({
-                  metadata: doc.metadata,
-                  pageContent: doc.metadata?.text?.toString() || '',
-                }),
-            ),
-          )
-        }
-
         const systemMessage = isAskRipeseedChat
-          ? promptMessage
+          ? currentPrompt.prompt.trim()
           : 'You are an AI assistant configured to answer user questions. Please respond clearly and concisely.'
 
-        const questionGeneratorInput = {
-          chatHistory,
-          context: serializedDocs,
-          question: message,
-          instructions: systemMessage,
-        }
+        // Get provider configuration
+        const config = await getProviderConfig(provider)
+        const openai = new OpenAI(config)
 
-        const stream = await getChain(
-          questionGeneratorInput,
-          provider,
-          currentPrompt.modelConfiguration,
+        // Get relevant documents and format context
+        const relevantDocs = await getRelevantDocs(
+          message,
+          openAIApiKey,
+          indexIds[0],
         )
+        const chatHistory = formatChatHistory(context)
 
-        for await (const chunk of stream) {
+        // Construct the final prompt
+        const finalPrompt = `Use the following pieces of context to answer the question at the end.
+                              ----------
+                              CONTEXT: ${relevantDocs}
+                              ----------
+                              CHAT HISTORY: ${chatHistory}
+                              ----------
+                              QUESTION: ${message}
+                              ----------
+                              Helpful Answer:`
+
+        // Create completion stream
+        const completion = await openai.chat.completions.create({
+          model: config.model,
+          messages: [
+            { role: 'system', content: systemMessage },
+            { role: 'user', content: finalPrompt },
+          ],
+          stream: true,
+          temperature: currentPrompt.modelConfiguration.temperature,
+          top_p: currentPrompt.modelConfiguration.topP,
+          tools: AVAILABLE_TOOLS,
+          tool_choice: 'auto',
+        })
+
+        // Process the stream
+        for await (const chunk of completion) {
           const delta = chunk.choices[0]?.delta
 
           if (delta?.content) {
-            controller.enqueue(delta.content)
+            stream.write(delta.content)
           }
 
-          if (delta?.tool_calls) {
-            const toolCalls = delta.tool_calls
-            if (Array.isArray(toolCalls) && toolCalls.length > 0) {
-              if (
-                toolCalls[0]?.function?.name === 'book_meeting_call_appointment'
-              ) {
-                controller.enqueue('BOOK_MEETING')
-              }
-            }
+          if (
+            delta?.tool_calls?.[0]?.function?.name ===
+            'book_meeting_call_appointment'
+          ) {
+            stream.write('BOOK_MEETING')
           }
         }
       } catch (error) {
-        console.error('Error in converse:', error)
-        if (!isControllerClosed) {
-          controller.enqueue(
-            'I encountered an error while processing your request. Please try again later.',
-          )
-        }
+        stream.error(error as Error)
       } finally {
-        closeController()
+        stream.close()
       }
     },
   })
