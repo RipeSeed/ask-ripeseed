@@ -76,27 +76,63 @@ async function getRelevantDocs(
   openAIApiKey: string,
   indexId: string,
 ) {
-  if (!indexId) return ''
+  if (!indexId) {
+    console.warn('No Pinecone index ID provided')
+    return ''
+  }
 
-  const embeddings = new OpenAIEmbeddings({ openAIApiKey })
-  const vector = await embeddings.embedQuery(message)
-  const pineconeIndex = await getPineconeIndex()
+  try {
+    const embeddings = new OpenAIEmbeddings({ openAIApiKey })
+    const vector = await embeddings.embedQuery(message)
+    const pineconeIndex = await getPineconeIndex()
 
-  const docs = await pineconeIndex.query({
-    vector,
-    topK: 2,
-    includeMetadata: true,
-  })
+    const queryResponse = await pineconeIndex.query({
+      vector,
+      topK: 5, // Increased from 2 to 5 for better context
+      includeMetadata: true,
+      includeValues: true,
+    })
 
-  return formatDocumentsAsString(
-    docs.matches.map(
-      (doc) =>
-        new Document({
-          metadata: doc.metadata,
-          pageContent: doc.metadata?.text?.toString() || '',
-        }),
-    ),
-  )
+    if (!queryResponse.matches?.length) {
+      console.warn('No matches found in Pinecone for query:', message)
+      return ''
+    }
+
+    console.log('Found matches:', queryResponse.matches.length)
+
+    const documents = queryResponse.matches
+      .filter((match) => {
+        // Filter out matches with no or invalid metadata
+        const metadata = match.metadata as Record<string, unknown> | undefined
+        if (!metadata?.text) {
+          console.warn('Match missing metadata or text:', match.id)
+          return false
+        }
+        return true
+      })
+      .map(
+        (match) =>
+          new Document({
+            metadata: match.metadata as Record<string, unknown>,
+            pageContent:
+              (match.metadata as Record<string, unknown>).text?.toString() ||
+              '',
+          }),
+      )
+
+    if (!documents.length) {
+      console.warn('No valid documents found after filtering')
+      return ''
+    }
+
+    const formattedDocs = formatDocumentsAsString(documents)
+    console.log('Formatted documents length:', formattedDocs.length)
+
+    return formattedDocs
+  } catch (error) {
+    console.error('Error retrieving documents from Pinecone:', error)
+    return ''
+  }
 }
 
 // Create streaming response
@@ -149,10 +185,17 @@ export function converse(
           openAIApiKey,
           indexIds[0],
         )
+        if (!relevantDocs && isAskRipeseedChat) {
+          stream.write(
+            "I couldn't find any relevant information in the knowledge base for your question. Please try rephrasing your question or ask something else.",
+          )
+          return stream.close()
+        }
+
         const chatHistory = formatChatHistory(context)
 
         // Construct the final prompt
-        const finalPrompt = `Use the following pieces of context to answer the question at the end.
+        const finalPrompt = `Use the following pieces of context to answer the question at the end. If the context doesn't contain relevant information, say so instead of making up an answer.
                               ----------
                               CONTEXT: ${relevantDocs}
                               ----------

@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server'
 
 import { connectDB } from '@/models'
-import Prompt from '@/models/knowledgeBase/Prompt.model'
 import APICredentials from '@/models/credentials/APICredentials.model'
+import Prompt from '@/models/knowledgeBase/Prompt.model'
 import { converse } from '@/services/chat/conversation'
 
 // this is chat with ripeseed's own document. so users can ask questions
@@ -28,17 +28,18 @@ export async function POST(request: NextRequest) {
       promptSettings,
       messages[messages.length - 1].content,
       messages,
-      [credentials.providers.pinecone?.indexId || ''],
+      [credentials.providers.pinecone?.indexName || ''],
       credentials.providers.openai.apiKey,
       provider,
-      true
+      true,
     )
 
     return new Response(streamedResponse, {
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     })
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Something went wrong'
+    const message =
+      error instanceof Error ? error.message : 'Something went wrong'
     return new Response(message, { status: error instanceof Error ? 400 : 500 })
   }
 }
