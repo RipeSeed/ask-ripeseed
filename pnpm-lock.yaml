@@ -137,6 +137,9 @@ importers:
       langchain:
         specifier: ^0.2.3
         version: 0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.9)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.9)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0)
+      langfuse:
+        specifier: ^3.35.3
+        version: 3.35.3
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -4634,6 +4637,14 @@ packages:
         optional: true
       youtubei.js:
         optional: true
+
+  langfuse-core@3.35.3:
+    resolution: {integrity: sha512-Nvq8Q1FpyA0/Dr7nV9cni0jQDDKDa2AQsiYfUrax0y6paDans5kDjaKi4kbtySreTV83i+VfJcAmRUsgthAH6g==}
+    engines: {node: '>=18'}
+
+  langfuse@3.35.3:
+    resolution: {integrity: sha512-/jCuraBLSdSymACohqN1OVBtsTpx0881/YLv6PxDJzGG2oGRvcYi9gDYFFWU0vLeW9z0RAxhyNw4+f4cS0BkpQ==}
+    engines: {node: '>=18'}
 
   langsmith@0.1.41:
     resolution: {integrity: sha512-8R7s/225Pxmv0ipMfd6sqmWVsfHLQivYlQZ0vx5K+ReoknummTenQlVK8gapk3kqRMnzkrouuRHMhWjMR6RgUA==}
@@ -10873,6 +10884,14 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - openai
+
+  langfuse-core@3.35.3:
+    dependencies:
+      mustache: 4.2.0
+
+  langfuse@3.35.3:
+    dependencies:
+      langfuse-core: 3.35.3
 
   langsmith@0.1.41(@langchain/core@0.2.21)(langchain@0.2.13(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@langchain/community@0.3.16(@browserbasehq/sdk@2.0.0(encoding@0.1.13))(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.6)(encoding@0.1.13)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(zod@3.23.8))(@gomomento/sdk-core@1.93.0)(@gomomento/sdk@1.93.0(encoding@0.1.13))(@ibm-cloud/watsonx-ai@1.2.0)(@langchain/core@0.2.21)(@pinecone-database/pinecone@2.2.2)(axios@1.7.9)(encoding@0.1.13)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.1)(jsonwebtoken@9.0.2)(lodash@4.17.21)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(@pinecone-database/pinecone@2.2.2)(axios@1.7.9)(encoding@0.1.13)(ignore@5.3.1)(mongodb@6.7.0)(openai@4.55.0(encoding@0.1.13)(zod@3.23.8))(pdf-parse@1.1.1)(playwright@1.49.0)(ws@8.18.0))(openai@4.55.0(encoding@0.1.13)(zod@3.23.8)):
     dependencies:

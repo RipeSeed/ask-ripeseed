@@ -2,6 +2,7 @@ import { OpenAIEmbeddings } from '@langchain/openai'
 import { Document } from 'langchain/document'
 import { formatDocumentsAsString } from 'langchain/util/document'
 import { OpenAI } from 'openai'
+import { createTrace, createGeneration, createSpan, createEvent } from '../langfuse/client'
 
 import 'server-only'
 
@@ -160,8 +161,16 @@ export function converse(
   return new ReadableStream({
     async start(controller) {
       const stream = createStream(controller)
+      let trace: any = null
 
       try {
+        // Start Langfuse trace
+        trace = await createTrace('chat_conversation', undefined, {
+          isAskRipeseedChat,
+          provider,
+          messageCount: context.length
+        })
+
         // Validate prompt settings
         if (!promptSettings?.length || !promptSettings[0]?.prompt?.trim()) {
           stream.write(
@@ -179,12 +188,24 @@ export function converse(
         const config = await getProviderConfig(provider)
         const openai = new OpenAI(config)
 
-        // Get relevant documents and format context
-        const relevantDocs = await getRelevantDocs(
+        // Create span for document retrieval
+        const docSpan = await createSpan(trace, 'document_retrieval', { message })
+        const relevantDocs: string = await getRelevantDocs(
           message,
           openAIApiKey,
-          indexIds[0],
+          indexIds[0] || '',
         )
+        await docSpan.end({ 
+          output: { hasRelevantDocs: relevantDocs.length > 0 },
+          input: { message },
+          usage: {
+            prompt_tokens: Math.ceil(message.length / 4), // Approximate token count
+            completion_tokens: 0,
+            total_tokens: Math.ceil(message.length / 4),
+            cost: (Math.ceil(message.length / 4) * 0.0001) // OpenAI embeddings cost $0.0001 per token
+          }
+        })
+
         if (!relevantDocs && isAskRipeseedChat) {
           stream.write(
             "I couldn't find any relevant information in the knowledge base for your question. Please try rephrasing your question or ask something else.",
@@ -205,6 +226,9 @@ export function converse(
                               ----------
                               Helpful Answer:`
 
+        // Create generation for the chat completion
+        const generation = await createGeneration(trace, 'chat_completion', finalPrompt)
+
         // Create completion stream
         const completion = await openai.chat.completions.create({
           model: config.model,
@@ -219,12 +243,17 @@ export function converse(
           tool_choice: 'auto',
         })
 
+        let fullResponse = ''
+        let totalTokens = 0
+
         // Process the stream
         for await (const chunk of completion) {
           const delta = chunk.choices[0]?.delta
 
           if (delta?.content) {
             stream.write(delta.content)
+            fullResponse += delta.content
+            totalTokens += Math.ceil(delta.content.length / 4) // Approximate token count
           }
 
           if (
@@ -232,9 +261,42 @@ export function converse(
             'book_meeting_call_appointment'
           ) {
             stream.write('BOOK_MEETING')
+            await createEvent(trace, 'book_meeting_requested')
           }
         }
+
+        // Calculate prompt tokens (system message + final prompt)
+        const promptTokens = Math.ceil((systemMessage.length + finalPrompt.length) / 4)
+        
+        // Calculate completion tokens from the full response
+        const completionTokens = Math.ceil(fullResponse.length / 4)
+        
+        // Calculate total cost (using GPT-4 pricing)
+        const promptCost = promptTokens * 0.00003 // $0.03 per 1K tokens for input
+        const completionCost = completionTokens * 0.00006 // $0.06 per 1K tokens for output
+
+        // End the generation with the full response and usage metrics
+        await generation.end({ 
+          output: fullResponse,
+          usage: {
+            prompt_tokens: promptTokens,
+            completion_tokens: completionTokens,
+            total_tokens: promptTokens + completionTokens,
+            cost: promptCost + completionCost
+          }
+        })
+        
+        // End the trace with total cost
+        await trace.update({ 
+          metadata: { 
+            status: 'success',
+            total_cost: promptCost + completionCost + (Math.ceil(message.length / 4) * 0.0001) // Including embeddings cost
+          } 
+        })
       } catch (error) {
+        if (trace) {
+          await trace.update({ metadata: { status: 'error', errorMessage: error instanceof Error ? error.message : 'Unknown error' } })
+        }
         stream.error(error as Error)
       } finally {
         stream.close()

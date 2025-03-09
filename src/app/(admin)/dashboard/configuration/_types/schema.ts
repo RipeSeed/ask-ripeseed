@@ -2,42 +2,29 @@ import { z } from 'zod'
 
 export const UpdateSchema = z
   .object({
-    openAIKey: z.string(),
-    deepseekAccessKey: z.string().optional(),
-    deepseekBaseUrl: z.string().url('Please enter a valid Deepseek API base URL (e.g., https://api.deepseek.com)').optional(),
-    xAccessKey: z.string().optional(),
-    xBaseUrl: z.string().url('Please enter a valid X API base URL (e.g., https://api.x.com)').optional(),
-    pineconeApiKey: z.string().optional(),
-    pineconeIndexName: z.string().optional(),
-    calendlyMeetingLink: z.string().url('Please enter a valid Calendly meeting URL (e.g., https://calendly.com/your-name/meeting)').optional(),
+    openAIKey: z.string().min(1, { message: 'OpenAI Key is required' }),
+    deepseekAccessKey: z.string().min(1, { message: 'Deepseek Access Key is required' }),
+    deepseekBaseUrl: z.string().url('Please enter a valid Deepseek API base URL'),
+    xAccessKey: z.string().min(1, { message: 'X Access Key is required' }),
+    xBaseUrl: z.string().url('Please enter a valid X API base URL'),
+    pineconeApiKey: z.string().min(1, { message: 'Pinecone API Key is required' }),
+    pineconeIndexName: z.string().min(1, { message: 'Pinecone Index Name is required' }),
+    langfusePublicKey: z.string().min(1, { message: 'Langfuse Public Key is required' }),
+    langfuseSecretKey: z.string().min(1, { message: 'Langfuse Secret Key is required' }),
+    langfuseBaseUrl: z.string().url('Please enter a valid Langfuse base URL').optional(),
+    calendlyMeetingLink: z.string().url('Please enter a valid Calendly meeting URL'),
   })
-  .superRefine((data, ctx) => {
-    if (
-      (data.deepseekAccessKey && !data.deepseekBaseUrl) ||
-      (!data.deepseekAccessKey && data.deepseekBaseUrl)
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Both Deepseek Access Key and Base URL are required',
-        path: data.deepseekAccessKey ? ['deepseekBaseUrl'] : ['deepseekAccessKey'],
-      })
+  .refine(
+    (data) => {
+      // Both Langfuse keys must be provided together
+      const hasPublicKey = !!data.langfusePublicKey
+      const hasSecretKey = !!data.langfuseSecretKey
+      return hasPublicKey === hasSecretKey
+    },
+    {
+      message: 'Both Langfuse Public Key and Secret Key must be provided together',
+      path: ['langfusePublicKey', 'langfuseSecretKey'],
     }
-
-    if ((data.xAccessKey && !data.xBaseUrl) || (!data.xAccessKey && data.xBaseUrl)) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Both X Access Key and Base URL are required',
-        path: data.xAccessKey ? ['xBaseUrl'] : ['xAccessKey'],
-      })
-    }
-    
-    if (data.pineconeApiKey && !data.pineconeIndexName) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Pinecone Index Name is required when API Key is provided',
-        path: ['pineconeIndexName'],
-      })
-    }
-  })
+  )
 
 export type TUpdateSchema = z.infer<typeof UpdateSchema>

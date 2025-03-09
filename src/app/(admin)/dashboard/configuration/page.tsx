@@ -23,6 +23,7 @@ export default function Configuration() {
   const [showDeepseekKey, setShowDeepseekKey] = useState(false)
   const [showXKey, setShowXKey] = useState(false)
   const [showPineconeKey, setShowPineconeKey] = useState(false)
+  const [showLangfuseKeys, setShowLangfuseKeys] = useState(false)
 
   const { mutate, isPending: botPending } = useMutation({
     mutationFn: async (data: TUpdateSchema) => {
@@ -59,6 +60,9 @@ export default function Configuration() {
           xBaseUrl: creds.providers?.x?.baseUrl || '',
           pineconeApiKey: creds.providers?.pinecone?.apiKey || '',
           pineconeIndexName: creds.providers?.pinecone?.indexName || '',
+          langfusePublicKey: creds.providers?.langfuse?.publicKey || '',
+          langfuseSecretKey: creds.providers?.langfuse?.secretKey || '',
+          langfuseBaseUrl: creds.providers?.langfuse?.baseUrl || '',
           calendlyMeetingLink: creds.calendlyMeetingLink || '',
         })
       }
@@ -273,6 +277,77 @@ export default function Configuration() {
                     {errors.pineconeIndexName && (
                       <p className='text-xs text-red-500'>
                         {errors.pineconeIndexName.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Langfuse Section */}
+              <div>
+                <h2 className='mb-6 text-xl font-semibold text-dashboardHeading'>
+                  Analytics Configuration
+                </h2>
+                <div className='flex flex-col gap-4'>
+                  <div className='flex w-full flex-col space-y-2'>
+                    <Label className='flex items-center gap-2 text-dashboardText'>
+                      <span>Langfuse Public Key</span>
+                      <span className='relative -top-1.5 mt-1'>
+                        <Image
+                          src='/assets/knowledgebase/required.svg'
+                          alt='required'
+                          width={4}
+                          height={4}
+                        />
+                      </span>
+                    </Label>
+                    <InputWithToggle
+                      register={register}
+                      name='langfusePublicKey'
+                      show={showLangfuseKeys}
+                      setShow={setShowLangfuseKeys}
+                      placeholder='pk-lf-...'
+                      error={errors.langfusePublicKey}
+                    />
+                  </div>
+
+                  <div className='flex w-full flex-col space-y-2'>
+                    <Label className='flex items-center gap-2 text-dashboardText'>
+                      <span>Langfuse Secret Key</span>
+                      <span className='relative -top-1.5 mt-1'>
+                        <Image
+                          src='/assets/knowledgebase/required.svg'
+                          alt='required'
+                          width={4}
+                          height={4}
+                        />
+                      </span>
+                    </Label>
+                    <InputWithToggle
+                      register={register}
+                      name='langfuseSecretKey'
+                      show={showLangfuseKeys}
+                      setShow={setShowLangfuseKeys}
+                      placeholder='sk-lf-...'
+                      error={errors.langfuseSecretKey}
+                    />
+                  </div>
+
+                  <div className='flex w-full flex-col space-y-2'>
+                    <Label className='flex items-center gap-2 text-dashboardText'>
+                      <span>Langfuse Base URL</span>
+                    </Label>
+                    <Input
+                      {...register('langfuseBaseUrl')}
+                      placeholder='https://cloud.langfuse.com'
+                      className='h-10 bg-white'
+                    />
+                    <p className='mt-1 text-xs text-muted-foreground'>
+                      Optional. Defaults to https://cloud.langfuse.com
+                    </p>
+                    {errors.langfuseBaseUrl && (
+                      <p className='text-xs text-red-500'>
+                        {errors.langfuseBaseUrl.message}
                       </p>
                     )}
                   </div>

@@ -38,6 +38,21 @@ const APICredentialsSchema = new mongoose.Schema(
           type: String,
           required: false
         }
+      },
+      langfuse: {
+        publicKey: {
+          type: String,
+          required: false
+        },
+        secretKey: {
+          type: String,
+          required: false
+        },
+        baseUrl: {
+          type: String,
+          required: false,
+          default: 'https://cloud.langfuse.com'
+        }
       }
     },
     calendlyMeetingLink: {
@@ -54,7 +69,9 @@ APICredentialsSchema.plugin(encryptionPlugin, {
     'providers.openai.apiKey',
     'providers.deepseek.accessKey',
     'providers.x.accessKey',
-    'providers.pinecone.apiKey'
+    'providers.pinecone.apiKey',
+    'providers.langfuse.publicKey',
+    'providers.langfuse.secretKey'
   ]
 })
 

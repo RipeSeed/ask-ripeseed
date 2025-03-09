@@ -56,6 +56,7 @@
     "jwt-decode": "^4.0.0",
     "katex": "^0.16.11",
     "langchain": "^0.2.3",
+    "langfuse": "^3.35.3",
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.379.0",
