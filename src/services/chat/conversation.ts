@@ -70,6 +70,10 @@ function formatChatHistory(history: Context[]): string {
     .join('\n')
 }
 
+// Add a simple cache for memoizing document retrieval results
+const docsCache = new Map<string, { timestamp: number, docs: string }>();
+const CACHE_TTL = 1000 * 60 * 30; // 30 minutes cache TTL
+
 // Get relevant documents from vector store
 async function getRelevantDocs(
   message: string,
@@ -79,6 +83,23 @@ async function getRelevantDocs(
   if (!indexId) {
     console.warn('No Pinecone index ID provided')
     return ''
+  }
+
+
+  /*
+    This implementation will significantly improve performance when:
+    - The same question is asked multiple times in a conversation
+    - Similar questions are asked that would retrieve the same documents
+    - Multiple users ask the same questions within the TTL period
+  */
+  // Create a cache key from the message and indexId
+  const cacheKey = `${message}:${indexId}`;
+  
+  // Check if we have a cached result
+  const cachedResult = docsCache.get(cacheKey);
+  if (cachedResult && (Date.now() - cachedResult.timestamp) < CACHE_TTL) {
+    console.log('Using cached document results for query:', message);
+    return cachedResult.docs;
   }
 
   try {
@@ -128,6 +149,12 @@ async function getRelevantDocs(
     const formattedDocs = formatDocumentsAsString(documents)
     console.log('Formatted documents length:', formattedDocs.length)
 
+    // Cache the result
+    docsCache.set(cacheKey, {
+      timestamp: Date.now(),
+      docs: formattedDocs
+    });
+    
     return formattedDocs
   } catch (error) {
     console.error('Error retrieving documents from Pinecone:', error)
