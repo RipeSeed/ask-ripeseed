@@ -20,7 +20,7 @@ const AVAILABLE_TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
     type: 'function',
     function: {
       name: 'book_meeting_call_appointment',
-      description: 'Books calls, meetings, or appointments with RipeSeed',
+      description: 'Connect with RipeSeed to schedule a meeting or appointment. This will display a Calendly widget for easy booking.',
       parameters: {
         type: 'object',
         properties: {},
