@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { ArrowRight, InfoIcon } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { ArrowRight, ChevronDown, InfoIcon } from 'lucide-react'
 
 import useStore from '@/app/(chat)/_utils/store/store'
 import {
@@ -25,6 +26,7 @@ const ModelSelect: React.FC<ModelSelectProps> = ({ className = '' }) => {
   const { selectedModel, setSelectedModel } = useStore()
   const [availableModels, setAvailableModels] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const pathname = usePathname()
 
   useEffect(() => {
     const fetchModels = async () => {
@@ -62,22 +64,32 @@ const ModelSelect: React.FC<ModelSelectProps> = ({ className = '' }) => {
     localStorage.setItem('selected_model', value)
   }
 
+  const isDisabled =
+    loading ||
+    availableModels.length === 0 ||
+    pathname.includes('/ask-anything')
+
   return (
     <div className='flex items-center gap-2'>
       <Select
         value={selectedModel || undefined}
         onValueChange={handleValueChange}
-        disabled={loading || availableModels.length === 0}
+        disabled={isDisabled}
       >
-        <SelectTrigger className='w-9 xl:w-[120px]'>
+        <SelectTrigger className='flex h-8 items-center gap-1 rounded-lg border bg-transparent px-2 text-sm font-medium text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'>
           <SelectValue>
             {loading ? 'Loading...' : selectedModel || 'Select Model'}
           </SelectValue>
+          <ChevronDown className='h-4 w-4' />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className='min-w-[180px] rounded-lg border-none bg-white p-1 shadow-lg dark:bg-[#1B1B21]'>
           {availableModels.length > 0 ? (
             availableModels.map((model) => (
-              <SelectItem key={model} value={model}>
+              <SelectItem
+                key={model}
+                value={model}
+                className='rounded-md px-2 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+              >
                 {model.charAt(0).toUpperCase() + model.slice(1)}
               </SelectItem>
             ))
@@ -93,14 +105,14 @@ const ModelSelect: React.FC<ModelSelectProps> = ({ className = '' }) => {
           <HoverCardTrigger>
             <InfoIcon className='h-4 w-4 cursor-help text-gray-500' />
           </HoverCardTrigger>
-          <HoverCardContent className='w-80'>
+          <HoverCardContent className='w-80 rounded-lg border-none bg-white p-4 shadow-lg dark:bg-[#1B1B21]'>
             <div>
-              <p className='text-sm text-muted-foreground'>
+              <p className='text-sm text-gray-600 dark:text-gray-300'>
                 No models have been configured yet.
               </p>
               <a
                 href='/dashboard'
-                className='inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80'
+                className='mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80'
               >
                 Configure models in dashboard
                 <ArrowRight className='h-4 w-4' />
