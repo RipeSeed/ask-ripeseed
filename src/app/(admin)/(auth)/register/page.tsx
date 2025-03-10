@@ -1,10 +1,11 @@
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
-import { signIn } from '@/lib/auth'
 
-import { checkAdminExists } from '@/lib/auth-helpers'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { signIn } from '@/lib/auth'
+import { checkAdminExists } from '@/lib/auth-helpers'
+import axiosInstance from '@/utils/axios'
 import FormWrapper, { SubmitButton } from './form-wrapper'
 
 // Form validation schema
@@ -30,10 +31,9 @@ const formSchema = z
   })
 
 // Server action for form submission
-
 async function registerUser(state: { error?: string }, formData: FormData) {
   'use server'
-  
+
   try {
     // Extract and validate form data
     const rawFormData = {
@@ -43,13 +43,13 @@ async function registerUser(state: { error?: string }, formData: FormData) {
       password: formData.get('password') as string,
       confirmPassword: formData.get('confirmPassword') as string,
     }
-    
+
     // Validate form data
     const validationResult = formSchema.safeParse(rawFormData)
     if (!validationResult.success) {
       const formattedErrors = validationResult.error.format()
       const errorMessages = []
-      
+
       if (formattedErrors.firstName?._errors) {
         errorMessages.push(formattedErrors.firstName._errors[0])
       }
@@ -65,46 +65,29 @@ async function registerUser(state: { error?: string }, formData: FormData) {
       if (formattedErrors.confirmPassword?._errors) {
         errorMessages.push(formattedErrors.confirmPassword._errors[0])
       }
-      
+
       return { error: errorMessages.join(', ') }
     }
-    
+
     const { firstName, lastName, email, password } = validationResult.data
-    
-    const response = await fetch(`${process.env.BASE_URL}/api/auth/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password,
-      }),
+
+    await axiosInstance.post('/api/auth/register', {
+      firstName,
+      lastName,
+      email,
+      password,
     })
-    
-    if (!response.ok) {
-      const errorData = await response.json()
-      return { error: errorData.error || 'Registration failed' }
-    }
-    
-    try {
-      await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      })
-      
-      // Redirect to dashboard on success
-      redirect('/dashboard')
-    } catch (signInError: any) {
-      console.error('Sign-in error after registration:', signInError)
-      return { error: 'Registration successful, but sign-in failed. Please try logging in.' }
-    }
+
+    await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    })
+
+    redirect('/dashboard')
   } catch (error: any) {
-    console.error('Registration error:', error)
-    return { error: error.message || 'An error occurred during registration' }
+    console.error('Unexpected error during registration:', error)
+    return { error: error.message || 'An unexpected error occurred' }
   }
 }
 
@@ -129,11 +112,11 @@ export default async function RegisterPage() {
               <label htmlFor='firstName' className='text-sm font-medium'>
                 First Name
               </label>
-              <Input 
+              <Input
                 id='firstName'
-                name='firstName' 
-                placeholder='John' 
-                required 
+                name='firstName'
+                placeholder='John'
+                required
                 minLength={3}
               />
             </div>
@@ -141,55 +124,55 @@ export default async function RegisterPage() {
               <label htmlFor='lastName' className='text-sm font-medium'>
                 Last Name
               </label>
-              <Input 
+              <Input
                 id='lastName'
-                name='lastName' 
-                placeholder='Doe' 
-                required 
+                name='lastName'
+                placeholder='Doe'
+                required
                 minLength={3}
               />
             </div>
           </div>
-          
+
           {/* Email Section */}
           <div>
             <label htmlFor='email' className='text-sm font-medium'>
               Email
             </label>
-            <Input 
+            <Input
               id='email'
-              name='email' 
+              name='email'
               type='email'
-              placeholder='johndoe@xyz.com' 
-              required 
+              placeholder='johndoe@xyz.com'
+              required
             />
           </div>
-          
+
           {/* Password Section */}
           <div>
             <label htmlFor='password' className='text-sm font-medium'>
               Password
             </label>
-            <Input 
+            <Input
               id='password'
-              name='password' 
+              name='password'
               type='password'
-              placeholder='••••••••' 
-              required 
+              placeholder='••••••••'
+              required
               minLength={5}
             />
           </div>
-          
+
           <div>
             <label htmlFor='confirmPassword' className='text-sm font-medium'>
               Confirm Password
             </label>
-            <Input 
+            <Input
               id='confirmPassword'
-              name='confirmPassword' 
+              name='confirmPassword'
               type='password'
-              placeholder='••••••••' 
-              required 
+              placeholder='••••••••'
+              required
             />
           </div>
 
