@@ -1,22 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+import { signIn } from '@/lib/auth'
 
 import { connectDB } from '@/models'
 import User from '@/models/user/user.model'
+import { checkAdminExists } from '@/lib/auth-helpers'
 
-export const POST = async (request: NextRequest, response: NextResponse) => {
+export const POST = async (request: NextRequest) => {
   try {
     await connectDB()
+    
+    // Check if admin already exists
+    const adminExists = await checkAdminExists()
+    if (adminExists) {
+      return NextResponse.json(
+        { error: 'Admin user already exists. Registration is disabled.' },
+        { status: 403 },
+      )
+    }
+    
     let reqBody = await request.json()
     const { firstName, lastName, email, password } = reqBody
 
-    const userCount = await User.countDocuments()
-
-    if (userCount > 0) {
+    if (!firstName || !lastName || !email || !password) {
       return NextResponse.json(
-          { error: 'User already exists in the system' },
-          { status: 409 },
+        { error: 'All fields are required' },
+        { status: 400 },
+      )
+    }
+
+    // Check if email already exists
+    const existingUser = await User.findOne({ email })
+    if (existingUser) {
+      return NextResponse.json(
+        { error: 'Email already exists. Please use a different email.' },
+        { status: 409 },
       )
     }
 
@@ -29,17 +47,21 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
       email,
       password: hash,
     })
+    
     const createdUser = await User.findById(newUser.id).select('-password')
-    const data = {
-      user: {
-        id: newUser.id,
-      },
+    
+    return NextResponse.json({ user: createdUser }, { status: 200 })
+  } catch (error: any) {
+    console.error('Registration error:', error)
+    
+    // Check for MongoDB duplicate key error
+    if (error.code === 11000) {
+      return NextResponse.json(
+        { error: 'Email already exists. Please use a different email.' },
+        { status: 409 },
+      )
     }
-    let secret: string = process.env.JWT_SEC!!
-    const token = jwt.sign(data, secret)
-
-    return NextResponse.json({ user: createdUser, token }, { status: 200 })
-  } catch (error) {
+    
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 },

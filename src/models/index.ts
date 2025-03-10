@@ -1,9 +1,5 @@
 import mongoose from 'mongoose'
 
-import { AskRipeseedChat } from './AskRipeseedChat.model'
-
-export { AskRipeseedChat }
-
 export const connectDB = async () => {
   try {
     const connectionInstance = await mongoose.connect(

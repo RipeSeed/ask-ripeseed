@@ -1,24 +1,14 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
-import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
-import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { signIn } from '@/lib/auth'
+import { checkAdminExists } from '@/lib/auth-helpers'
 import axiosInstance from '@/utils/axios'
+import FormWrapper, { SubmitButton } from './form-wrapper'
 
+// Form validation schema
 const formSchema = z
   .object({
     firstName: z
@@ -40,24 +30,72 @@ const formSchema = z
     path: ['confirmPassword'],
   })
 
-type FormSchema = z.infer<typeof formSchema>
+// Server action for form submission
+async function registerUser(state: { error?: string }, formData: FormData) {
+  'use server'
 
-export default function Auth() {
-  const router = useRouter()
-  const form = useForm<FormSchema>({ resolver: zodResolver(formSchema) })
-  const { handleSubmit, control, reset } = form
-
-  async function onSubmit(values: FormSchema) {
-    try {
-      const response = await axiosInstance.post(`/api/auth/register`, values)
-
-      const data = await response.data
-
-      reset()
-      router.push('/login')
-    } catch (error) {
-      throw new Error('Error in the Registeration of the User')
+  try {
+    // Extract and validate form data
+    const rawFormData = {
+      firstName: formData.get('firstName') as string,
+      lastName: formData.get('lastName') as string,
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+      confirmPassword: formData.get('confirmPassword') as string,
     }
+
+    // Validate form data
+    const validationResult = formSchema.safeParse(rawFormData)
+    if (!validationResult.success) {
+      const formattedErrors = validationResult.error.format()
+      const errorMessages = []
+
+      if (formattedErrors.firstName?._errors) {
+        errorMessages.push(formattedErrors.firstName._errors[0])
+      }
+      if (formattedErrors.lastName?._errors) {
+        errorMessages.push(formattedErrors.lastName._errors[0])
+      }
+      if (formattedErrors.email?._errors) {
+        errorMessages.push(formattedErrors.email._errors[0])
+      }
+      if (formattedErrors.password?._errors) {
+        errorMessages.push(formattedErrors.password._errors[0])
+      }
+      if (formattedErrors.confirmPassword?._errors) {
+        errorMessages.push(formattedErrors.confirmPassword._errors[0])
+      }
+
+      return { error: errorMessages.join(', ') }
+    }
+
+    const { firstName, lastName, email, password } = validationResult.data
+
+    await axiosInstance.post('/api/auth/register', {
+      firstName,
+      lastName,
+      email,
+      password,
+    })
+
+    await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    })
+
+    redirect('/dashboard')
+  } catch (error: any) {
+    console.error('Unexpected error during registration:', error)
+    return { error: error.message || 'An unexpected error occurred' }
+  }
+}
+
+export default async function RegisterPage() {
+  const adminExists = await checkAdminExists()
+
+  if (adminExists) {
+    redirect('/login?from=register')
   }
 
   return (
@@ -67,96 +105,79 @@ export default function Auth() {
       </div>
       <Separator />
       <div className='m-auto w-[70%] flex-[4] pt-16'>
-        <Form {...form}>
-          <form onSubmit={handleSubmit(onSubmit)} className='space-y-8'>
-            {/* Name Section */}
-            <div className='flex justify-between space-x-2'>
-              <FormField
-                control={control}
+        <FormWrapper action={registerUser}>
+          {/* Name Section */}
+          <div className='flex justify-between space-x-2'>
+            <div className='w-1/2'>
+              <label htmlFor='firstName' className='text-sm font-medium'>
+                First Name
+              </label>
+              <Input
+                id='firstName'
                 name='firstName'
-                render={({ field }) => (
-                  <FormItem className='w-1/2'>
-                    <FormLabel className='text-sm font-medium'>
-                      First Name
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder='John' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name='lastName'
-                render={({ field }) => (
-                  <FormItem className='w-1/2'>
-                    <FormLabel className='text-sm font-medium'>
-                      Last Name
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder='Doe' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                placeholder='John'
+                required
+                minLength={3}
               />
             </div>
-            {/* Email Section */}
-            <FormField
-              control={control}
-              name='email'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-sm font-medium'>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder='johndoe@xyz.com' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* Password Section */}
-            <FormField
-              control={control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-sm font-medium'>
-                    Password
-                  </FormLabel>
-                  <FormControl>
-                    <Input placeholder='123@321' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name='confirmPassword'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-sm font-medium'>
-                    Confirm Password
-                  </FormLabel>
-                  <FormControl>
-                    <Input placeholder='123@321' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className='w-1/2'>
+              <label htmlFor='lastName' className='text-sm font-medium'>
+                Last Name
+              </label>
+              <Input
+                id='lastName'
+                name='lastName'
+                placeholder='Doe'
+                required
+                minLength={3}
+              />
+            </div>
+          </div>
 
-            <Button
-              type='submit'
-              className='mt-14 w-full bg-black p-3'
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting ? 'Submitting...' : 'Next'}
-            </Button>
-          </form>
-        </Form>
+          {/* Email Section */}
+          <div>
+            <label htmlFor='email' className='text-sm font-medium'>
+              Email
+            </label>
+            <Input
+              id='email'
+              name='email'
+              type='email'
+              placeholder='johndoe@xyz.com'
+              required
+            />
+          </div>
+
+          {/* Password Section */}
+          <div>
+            <label htmlFor='password' className='text-sm font-medium'>
+              Password
+            </label>
+            <Input
+              id='password'
+              name='password'
+              type='password'
+              placeholder='••••••••'
+              required
+              minLength={5}
+            />
+          </div>
+
+          <div>
+            <label htmlFor='confirmPassword' className='text-sm font-medium'>
+              Confirm Password
+            </label>
+            <Input
+              id='confirmPassword'
+              name='confirmPassword'
+              type='password'
+              placeholder='••••••••'
+              required
+            />
+          </div>
+
+          <SubmitButton />
+        </FormWrapper>
       </div>
     </div>
   )

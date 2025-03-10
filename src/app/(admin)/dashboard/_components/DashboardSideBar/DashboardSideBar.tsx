@@ -3,11 +3,10 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Book, Menu, Settings, X } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 
-import { useTokenStore } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function DashboardSideBar() {
@@ -15,18 +14,24 @@ export default function DashboardSideBar() {
   const url = pathname?.split('/')[2] || ''
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { setUser } = useTokenStore()
+  const router = useRouter()
+  
+  const { data: session } = useSession()
+  const userEmail = session?.user?.email
 
   const handleClick = async () => {
-    if (isLoggingOut) return
     setIsLoggingOut(true)
 
     try {
-      await signOut()
-      localStorage.removeItem('user')
-      setUser('')
+      await signOut({
+        redirectTo: '/login',
+        redirect: true
+      })
+      
     } catch (error) {
       console.error('Logout failed', error)
+      // If the redirect doesn't work, manually redirect
+      router.push('/login')
     } finally {
       setIsLoggingOut(false)
     }
@@ -36,7 +41,6 @@ export default function DashboardSideBar() {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
 
-  const { data } = useSession()
   const links = [
     {
       id: 1,
@@ -104,10 +108,10 @@ export default function DashboardSideBar() {
                 </Avatar>
                 <div className='flex flex-col leading-tight'>
                   <span className='text-sm font-medium text-dashboardSidebarFooter'>
-                    User
+                    Admin
                   </span>
                   <span className='text-sm font-light text-dashboardFooter'>
-                    {data?.user?.email || 'N/A'}
+                    {userEmail || 'N/A'}
                   </span>
                 </div>
               </div>
