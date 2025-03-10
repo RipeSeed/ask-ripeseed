@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { AddPrompt, GetPrompt } from '@/apis/admin/knowledgeBase'
 import {
-  useKnowledgeStore,
-  useTokenStore,
+  useKnowledgeStore
 } from '@/app/(chat)/_utils/store/knowledge-store'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
@@ -19,11 +19,13 @@ import { useToast } from '@/hooks/use-toast'
 export default function KnowledgeBasePrompts() {
   const { toast } = useToast()
 
+  const { data: sessionData } = useSession();
+
   const { prompt, setPrompt, modelConfiguration, setModelConfiguration } =
     useKnowledgeStore()
 
-  const { user } = useTokenStore()
   const [buttonDisabled, setButtonDisabled] = useState(true)
+
 
   interface Data {
     user: string | null
@@ -64,7 +66,7 @@ export default function KnowledgeBasePrompts() {
   })
 
   const handleClick = () => {
-    mutate({ user, prompt, modelConfiguration })
+    mutate({ user: sessionData?.user?.id || '', prompt, modelConfiguration })
     reset()
   }
 
@@ -176,11 +178,11 @@ export default function KnowledgeBasePrompts() {
           </div>
         </div>
       </div>
-      <div className="flex justify-end">
+      <div className='flex justify-end'>
         <Button
           onClick={handleSubmit(handleClick)}
           disabled={buttonDisabled || promptPending}
-          className='bg-black text-dashboardSecondary hover:bg-gray-800 relative'
+          className='relative bg-black text-dashboardSecondary hover:bg-gray-800'
         >
           {promptPending ? 'Saving...' : 'Save changes'}
         </Button>

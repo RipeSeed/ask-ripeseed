@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn } from 'next-auth/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useSearchParams } from 'next/navigation'
 
 import {
   FormControl,
@@ -16,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/hooks/use-toast'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 const formSchema = z.object({
   email: z.string().email('Email must be a valid email'),
@@ -26,11 +28,22 @@ const formSchema = z.object({
 
 export default function Login() {
   const { toast } = useToast()
+  const searchParams = useSearchParams()
+  const [showAdminExistsAlert, setShowAdminExistsAlert] = useState(false)
+  
   const form = useForm({
     resolver: zodResolver(formSchema),
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  
+  useEffect(() => {
+    // Check if redirected from register page
+    const from = searchParams.get('from')
+    if (from === 'register') {
+      setShowAdminExistsAlert(true)
+    }
+  }, [searchParams])
 
   const onSubmit = async (data: any) => {
     setIsSubmitting(true)
@@ -39,19 +52,14 @@ export default function Login() {
       const result = await signIn('credentials', {
         email: data.email,
         password: data.password,
-        redirect: false,
+        redirect: true,
+        redirectTo: "/dashboard/knowledgebase"
       })
 
       if (result?.error) {
         throw new Error(result.error)
       }
 
-      toast({
-        title: 'Login Successful',
-        description: 'Redirecting...',
-      })
-
-      window.location.href = '/dashboard/knowledgebase'
     } catch (error: any) {
       toast({
         title: 'Login Error',
@@ -70,6 +78,13 @@ export default function Login() {
       </div>
       <Separator />
       <div className='m-auto w-[70%] flex-[4] pt-16'>
+        {showAdminExistsAlert && (
+          <Alert className="mb-6 bg-amber-50 text-amber-800 border-amber-200">
+            <AlertDescription>
+              An admin user already exists. Registration is disabled. Please login with your admin credentials.
+            </AlertDescription>
+          </Alert>
+        )}
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
             <FormField

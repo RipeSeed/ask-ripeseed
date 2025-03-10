@@ -12,9 +12,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: {},
         password: {},
       },
-      authorize: async (
-        credentials: Partial<Record<'email' | 'password', unknown>>,
-      ) => {
+      async authorize(credentials) {
         const { email, password } = credentials as {
           email: string
           password: string
@@ -63,6 +61,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return session
     },
+  },
+  pages: {
+    signIn: '/login'
+  },
+  session: {
+    strategy: 'jwt',
   },
   trustHost: true,
 })
