@@ -50,7 +50,7 @@ Ask RipeSeed utilizes a modern and efficient tech stack to deliver a robust user
 | Next.js                  | Web Framework           | v14.2.3  | A powerful React framework for building scalable web applications.                         |
 | TypeScript               | Language                | v5       | Provides static type checking to improve code quality and maintainability.                 |
 | Tailwind CSS             | Styling Framework       | v3.4.1   | A utility-first CSS framework for rapidly building custom designs.                         |
-| Ttanstack/react-query    | Data Fetching & Caching | v5.40.0  | A robust data-fetching and state management library for React applications.                |
+| Tanstack/react-query     | Data Fetching & Caching | v5.40.0  | A robust data-fetching and state management library for React applications.                |
 | Langchain                | LLM Toolkit             | v0.2.6   | Toolkit for building applications using large language models like OpenAI's GPT.           |
 | OpenAI                   | LLM Platform            | v4.47.1  | Provides natural language processing and AI-driven responses for the chatbot.              |
 | Pinecone                 | Vector Database         | v2.2.1   | A scalable vector database for storing and querying high-dimensional data like embeddings. |
