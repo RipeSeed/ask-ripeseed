@@ -12,7 +12,7 @@ import { addAndSelectChat } from '../utils/creatNewChat'
 
 const queryIcon = '/query.png'
 
-export function ChatMessageInput() {
+export function ChatMessageInput({ onStartCall }: { onStartCall: () => void }) {
   const [message, setMessage] = useState('')
   const [textareaHeight, setTextareaHeight] = useState<number | null>(null)
   const [isPending, setIsPending] = useState(false)
@@ -165,6 +165,12 @@ export function ChatMessageInput() {
           <Image alt='query arrow' src={queryIcon} width={30} height={23} />
         )}
       </Button>
+      <button
+        className='ml-2 rounded-full bg-black p-2 text-white'
+        onClick={onStartCall}
+      >
+        O
+      </button>
     </div>
   )
 }

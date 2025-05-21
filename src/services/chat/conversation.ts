@@ -54,7 +54,7 @@ const getClientConfig = (provider: string) => {
   switch (provider) {
     case 'openai':
       return {
-        apiKey: process.env.OPENAI_API_KEY,
+        apiKey: process.env.OPENAI_KEY,
       }
     case 'deepseek':
       return {

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import Vapi from '@vapi-ai/web'
 import { AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 
@@ -19,6 +20,9 @@ import { sendMessage as apiSendMessage } from '@/dal/message'
 import { ChatMessageInput } from './ChatMessageInput'
 import { MessageContainer } from './MessageContainer'
 import { Cardset, WelcomeCards } from './WelcomeCards'
+
+// Initialize with your public key
+const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || '')
 
 const cards: Cardset = {
   top: "What are Ḥasan Ibn al-Haytham's contributions?",
@@ -261,6 +265,26 @@ export function ChatMessages() {
             </>
           )}
         </AnimatePresence>
+      </div>
+      <div className='flex w-60 justify-around'>
+        <button
+          onClick={async () => {
+            const indexId = (await getChat({ id: selectedChatId }))?.indexId
+            vapi.start(process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || '', {
+              metadata: { idxId: indexId },
+            })
+          }}
+        >
+          Start
+        </button>
+
+        <button
+          onClick={() => {
+            vapi.stop()
+          }}
+        >
+          stop
+        </button>
       </div>
       <div className='w-full px-4 pb-4 md:px-20'>
         <ChatMessageInput />

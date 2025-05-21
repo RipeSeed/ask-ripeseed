@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createId } from '@paralleldrive/cuid2'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import Vapi from '@vapi-ai/web'
 import { AnimatePresence } from 'framer-motion'
 import { toast } from 'sonner'
 
@@ -13,6 +14,7 @@ import {
   getAllMessages_aRS,
   Message,
 } from '@/app/_lib/db'
+import { CallScreen } from '@/app/ask-anything/[chatId]/_components/CallScreen'
 import { ChatMessageInput } from '@/app/ask-anything/[chatId]/_components/ChatMessageInput'
 import { MessageContainer } from '@/app/ask-anything/[chatId]/_components/MessageContainer'
 import {
@@ -22,6 +24,8 @@ import {
 import Loading from '@/app/loading'
 import { askRS_sendMessage as apiSendMessage } from '@/dal/message'
 import useStore from '../_utils/store/store'
+
+const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY || '')
 
 const cards: Cardset = {
   top: 'Can you tell me about some of your projects?',
@@ -41,11 +45,12 @@ export function ChatMessages() {
     resetStateMetadata,
     addedAskRSmsg,
     selectedModel,
-    setSelectedModel
+    setSelectedModel,
   } = useStore()
 
   const queryClient = useQueryClient()
   const [waitingForStream, setWaitingForStream] = useState(false)
+  const [isCalling, setIsCalling] = useState(false)
 
   // to handle chunks sequentially, we are using a queue
   const chunkQueue = useRef<{ id: number; chunk: string }[]>([])
@@ -210,6 +215,18 @@ export function ChatMessages() {
     return true
   }
 
+  const handleStartCall = () => {
+    setIsCalling(true)
+  }
+
+  const handleEndCall = () => {
+    setIsCalling(false)
+  }
+
+  if (isCalling) {
+    return <CallScreen onEndCall={handleEndCall} />
+  }
+
   if (isLoading) {
     return <Loading />
   }
@@ -218,11 +235,11 @@ export function ChatMessages() {
     <div className='flex h-[calc(100svh-57px)] w-full flex-col overflow-y-auto overflow-x-hidden md:h-[calc(100svh-93px)]'>
       <div
         ref={messagesContainerRef}
-        className={`flex w-full flex-auto flex-col ${!messages.length ? 'justify-center' : 'none'} grow overflow-y-auto overflow-x-hidden md:h-[85%]`}
+        className={`flex w-full flex-auto ${!messages.length ? 'justify-center' : ''} flex-col overflow-y-auto overflow-x-hidden md:h-[80%]`}
       >
         <AnimatePresence>
           {!messages.length ? (
-            <WelcomeCards cards={cards} hideSetupKey={true} />
+            <WelcomeCards cards={cards} />
           ) : (
             <>
               {messages.map(
@@ -247,8 +264,8 @@ export function ChatMessages() {
           )}
         </AnimatePresence>
       </div>
-      <div className='w-full px-4 pb-4 lg:px-20'>
-        <ChatMessageInput />
+      <div className='w-full px-4 pb-4 md:px-20'>
+        <ChatMessageInput onStartCall={handleStartCall} />
       </div>
     </div>
   )

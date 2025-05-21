@@ -36,6 +36,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tailwindcss/typography": "^0.5.13",
     "@tanstack/react-query": "^5.40.0",
+    "@vapi-ai/web": "^2.2.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dexie": "^4.0.7",
@@ -64,6 +65,7 @@
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "vapi-web": "^1.0.5",
     "zustand": "^5.0.1"
   },
   "devDependencies": {
