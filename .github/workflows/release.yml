@@ -1,0 +1,131 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine version bump
+        id: version
+        run: |
+          # Get the latest commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+
+          # Determine version bump type based on commit message
+          if echo "$COMMIT_MSG" | grep -qiE "^(feat|feature)(\(.+\))?!:|^BREAKING CHANGE:"; then
+            echo "bump=major" >> $GITHUB_OUTPUT
+          elif echo "$COMMIT_MSG" | grep -qiE "^(feat|feature)(\(.+\))?:"; then
+            echo "bump=minor" >> $GITHUB_OUTPUT
+          else
+            echo "bump=patch" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump version
+        id: bump
+        run: |
+          # Get current version
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+
+          # Bump version based on type
+          pnpm version ${{ steps.version.outputs.bump }} --no-git-tag-version
+
+          # Get new version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "version_tag=v$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update CHANGELOG
+        run: |
+          NEW_VERSION="${{ steps.bump.outputs.new_version }}"
+          DATE=$(date +%Y-%m-%d)
+
+          # Create changelog entry
+          cat > temp_changelog.md << EOF
+          ## [${NEW_VERSION}] - ${DATE}
+
+          ### Changes
+          $(git log v${{ steps.bump.outputs.current_version }}..HEAD --pretty=format:"- %s" || git log --pretty=format:"- %s" -10)
+
+          EOF
+
+          # Prepend to CHANGELOG.md if it exists, otherwise create it
+          if [ -f CHANGELOG.md ]; then
+            cat temp_changelog.md CHANGELOG.md > temp_full.md
+            mv temp_full.md CHANGELOG.md
+          else
+            mv temp_changelog.md CHANGELOG.md
+          fi
+
+          rm -f temp_changelog.md
+
+      - name: Commit version bump
+        run: |
+          git add package.json CHANGELOG.md
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.new_version }} [skip ci]"
+          git tag ${{ steps.bump.outputs.version_tag }}
+          git push origin main
+          git push origin ${{ steps.bump.outputs.version_tag }}
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          NEW_VERSION="${{ steps.bump.outputs.new_version }}"
+          CURRENT_VERSION="${{ steps.bump.outputs.current_version }}"
+
+          # Generate release notes from commits
+          echo "Release notes for v${NEW_VERSION}" > release_notes.md
+          echo "" >> release_notes.md
+          echo "## What's Changed" >> release_notes.md
+          echo "" >> release_notes.md
+
+          # Get commits since last version
+          git log v${CURRENT_VERSION}..HEAD --pretty=format:"- %s (%h)" >> release_notes.md || \
+          git log --pretty=format:"- %s (%h)" -10 >> release_notes.md
+
+          echo "" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/v${CURRENT_VERSION}...v${NEW_VERSION}" >> release_notes.md
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.bump.outputs.version_tag }}
+          release_name: Release ${{ steps.bump.outputs.version_tag }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
