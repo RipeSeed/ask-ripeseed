@@ -21,16 +21,16 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
 
       - name: Configure Git
         run: |
@@ -73,13 +73,21 @@ jobs:
           DATE=$(date +%Y-%m-%d)
 
           # Create changelog entry
-          cat > temp_changelog.md << EOF
-          ## [${NEW_VERSION}] - ${DATE}
+          cat > temp_changelog.md << 'EOF'
+          ## [${{ steps.bump.outputs.new_version }}] - $(date +%Y-%m-%d)
 
           ### Changes
-          $(git log v${{ steps.bump.outputs.current_version }}..HEAD --pretty=format:"- %s" || git log --pretty=format:"- %s" -10)
-
           EOF
+
+          # Add commit messages
+          if git rev-parse v${{ steps.bump.outputs.current_version }} >/dev/null 2>&1; then
+            git log v${{ steps.bump.outputs.current_version }}..HEAD --pretty=format:"- %s" >> temp_changelog.md
+          else
+            git log --pretty=format:"- %s" -10 >> temp_changelog.md
+          fi
+
+          echo "" >> temp_changelog.md
+          echo "" >> temp_changelog.md
 
           # Prepend to CHANGELOG.md if it exists, otherwise create it
           if [ -f CHANGELOG.md ]; then
@@ -93,7 +101,7 @@ jobs:
 
       - name: Commit version bump
         run: |
-          git add package.json CHANGELOG.md
+          git add package.json CHANGELOG.md pnpm-lock.yaml
           git commit -m "chore: bump version to ${{ steps.bump.outputs.new_version }} [skip ci]"
           git tag ${{ steps.bump.outputs.version_tag }}
           git push origin main
@@ -112,20 +120,23 @@ jobs:
           echo "" >> release_notes.md
 
           # Get commits since last version
-          git log v${CURRENT_VERSION}..HEAD --pretty=format:"- %s (%h)" >> release_notes.md || \
-          git log --pretty=format:"- %s (%h)" -10 >> release_notes.md
+          if git rev-parse v${CURRENT_VERSION} >/dev/null 2>&1; then
+            git log v${CURRENT_VERSION}..HEAD --pretty=format:"- %s (%h)" >> release_notes.md
+          else
+            git log --pretty=format:"- %s (%h)" -10 >> release_notes.md
+          fi
 
           echo "" >> release_notes.md
           echo "" >> release_notes.md
           echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/v${CURRENT_VERSION}...v${NEW_VERSION}" >> release_notes.md
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.bump.outputs.version_tag }}
-          release_name: Release ${{ steps.bump.outputs.version_tag }}
+          name: Release ${{ steps.bump.outputs.version_tag }}
           body_path: release_notes.md
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
