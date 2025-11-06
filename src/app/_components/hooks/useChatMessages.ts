@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useChat } from '@ai-sdk/react'
 import { createId } from '@paralleldrive/cuid2'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
