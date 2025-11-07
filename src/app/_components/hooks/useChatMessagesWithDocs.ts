@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useChat } from '@ai-sdk/react'
 import { createId } from '@paralleldrive/cuid2'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { DefaultChatTransport, UIMessage } from 'ai'
 import { toast } from 'sonner'
 
@@ -19,7 +19,6 @@ import useStore from '@/app/_utils/store/store'
  * Used for ask-anything chats with document uploads
  */
 export function useChatMessagesWithDocs(chatId: number) {
-  const queryClient = useQueryClient()
   const { stateMetadata, resetStateMetadata, selectedModel } = useStore()
 
   const {
