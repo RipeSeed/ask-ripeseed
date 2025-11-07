@@ -13,9 +13,6 @@ import {
 } from 'lucide-react'
 
 import { ChatMessages } from './_components/ChatMessages'
-import { isPath } from '@/components/common/Header/constants'
-import { usePathname, useRouter } from 'next/navigation'
-import useStore from '@/app/_utils/store/store'
 
 export default function Page() {
   const links = [
@@ -42,10 +39,6 @@ export default function Page() {
     e.stopPropagation()
     setToggle(!toggle)
   }
-  const pathname = usePathname()
-  const router = useRouter()
-  const generalPaths = ['/ask-anything', '/ask-anything/*']
-  const askRSPaths = ['/']
 
   return (
     <div
@@ -70,31 +63,28 @@ export default function Page() {
             onClick={(event) => event.stopPropagation()}
           >
             <div>
-              <div
-                className="group cursor-pointer rounded-lg bg-[#DBDBDB] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#34343C] dark:hover:bg-crayola">
-                <div className="flex w-full items-center gap-2">
-                  <MessageSquare className="h-4 w-4 text-crayola group-hover:text-white" />
-                  <span className="text-center font-medium text-black group-hover:text-white dark:text-white">
+              <div className='group cursor-pointer rounded-lg bg-[#DBDBDB] p-[16px] pl-[24px] transition duration-300 hover:bg-crayola dark:bg-[#34343C] dark:hover:bg-crayola'>
+                <div className='flex w-full items-center gap-2'>
+                  <MessageSquare className='h-4 w-4 text-crayola group-hover:text-white' />
+                  <span className='text-center font-medium text-black group-hover:text-white dark:text-white'>
                     Ask RipeSeed
                   </span>
                 </div>
               </div>
             </div>
-            <div className="grow"></div>
-            <div className="flex flex-col gap-3 pb-12">
-              <div className="flex flex-col gap-3 pb-10">
+            <div className='grow'></div>
+            <div className='flex flex-col gap-3 pb-12'>
+              <div className='flex flex-col gap-3 pb-10'>
                 {links.map(({ href, label, Icon }) => (
                   <Link
                     key={label}
                     href={href}
-                    target="_blank"
-                    className="group flex list-none items-center justify-between transition duration-300"
+                    target='_blank'
+                    className='group flex list-none items-center justify-between transition duration-300'
                   >
-                    <div className="flex items-center gap-2">
-                      <Icon
-                        className="h-4 w-4 text-crayola opacity-50 transition duration-300 group-hover:opacity-100" />
-                      <span
-                        className="text-lg font-medium text-black opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]">
+                    <div className='flex items-center gap-2'>
+                      <Icon className='h-4 w-4 text-crayola opacity-50 transition duration-300 group-hover:opacity-100' />
+                      <span className='text-lg font-medium text-black opacity-50 transition duration-300 group-hover:opacity-100 dark:text-[#D1D1D1]'>
                         {label}
                       </span>
                     </div>
