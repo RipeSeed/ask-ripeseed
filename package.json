@@ -19,7 +19,7 @@
     "@gomomento/sdk": "^1.93.0",
     "@infisical/sdk": "^3.0.2",
     "@langchain/community": "^0.3.3",
-    "@langchain/core": "^0.2.6",
+    "@langchain/core": "^0.3.80",
     "@langchain/openai": "^0.0.34",
     "@langchain/pinecone": "^0.0.7",
     "@nextui-org/tooltip": "^2.0.39",
