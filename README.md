@@ -63,7 +63,6 @@ Ask RipeSeed utilizes a modern and efficient tech stack to deliver a robust user
 | react-syntax-highlighter | Syntax Highlighting     | v15.5.0  | Provides syntax highlighting for code snippets and markdown content.                       |
 | rehype-highlight         | Markdown Parser         | v7.0.0   | A plugin for Rehype to highlight code blocks in markdown.                                  |
 | rehype-katex             | Math Rendering          | v7.0.0   | A plugin for Rehype to render math expressions using KaTeX.                                |
-| @gomomento/sdk           | Caching                 | v1.93.0  | Provides a fast and scalable caching solution using Momento.                               |
 | lodash                   | Utility Library         | v4.17.21 | A modern JavaScript utility library delivering modularity, performance, and extras.        |
 | eslint                   | Linting                 | v8       | A pluggable linting utility for JavaScript and TypeScript.                                 |
 | prettier                 | Code Formatter          | v3.3.3   | An opinionated code formatter that supports many languages.                                |

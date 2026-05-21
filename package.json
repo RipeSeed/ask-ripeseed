@@ -16,7 +16,6 @@
     "@ai-sdk/openai": "^2.0.62",
     "@ai-sdk/react": "^2.0.87",
     "@ai-sdk/xai": "^2.0.31",
-    "@gomomento/sdk": "^1.93.0",
     "@infisical/sdk": "^3.0.2",
     "@langchain/community": "^0.3.3",
     "@langchain/core": "^0.2.6",
