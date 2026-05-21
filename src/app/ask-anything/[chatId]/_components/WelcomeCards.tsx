@@ -60,12 +60,14 @@ export const WelcomeCards = ({ cards, hideSetupKey = false }: Props) => {
       let chatId = Number(pathname)
       if (chatId === 0) {
         chatId = await addAndSelectChat(setSelectedChat, setChats)
+        if (!chatId) return
+
         updateStateMetadata({
           chatId,
           message,
           indexId: '',
         })
-        if (chatId) router.push(`/ask-anything/${chatId}`)
+        router.replace(`/ask-anything/${chatId}`)
       } else {
         // for ask-ripeseed i.e. chatId = -1
         updateStateMetadata({

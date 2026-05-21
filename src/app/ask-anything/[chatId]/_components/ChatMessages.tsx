@@ -60,6 +60,7 @@ export function ChatMessages() {
   const streamPreviewRef = useRef('')
   const firstMessageUserTextRef = useRef('')
   const firstMessageApiKeyRef = useRef('')
+  const pendingSendKeyRef = useRef<string | null>(null)
 
   const processNextChunk = async () => {
     if (processingChunk.current || chunkQueue.current.length === 0) return
@@ -167,21 +168,35 @@ export function ChatMessages() {
 
   useEffect(() => {
     const sendStateMessage = async () => {
+      const { chatId, message, inProgress } = stateMetadata
+
       if (
-        stateMetadata.chatId === selectedChatId ||
-        stateMetadata.chatId === 0
+        chatId !== selectedChatId ||
+        selectedChatId <= 0 ||
+        !message.trim() ||
+        inProgress
       ) {
-        if (stateMetadata.message.length && !stateMetadata.inProgress) {
-          updateStateMetadata({ inProgress: true })
-          await sendMessage()
-          resetStateMetadata()
-        }
+        return
+      }
+
+      const sendKey = `${chatId}:${message.trim()}`
+      if (pendingSendKeyRef.current === sendKey) {
+        return
+      }
+      pendingSendKeyRef.current = sendKey
+
+      updateStateMetadata({ inProgress: true })
+      try {
+        await sendMessage(message.trim())
+      } finally {
+        pendingSendKeyRef.current = null
+        resetStateMetadata()
       }
     }
 
     void sendStateMessage()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stateMetadata])
+  }, [stateMetadata, selectedChatId])
 
   useEffect(() => {
     if (messages.length) {
@@ -190,10 +205,11 @@ export function ChatMessages() {
   }, [messages])
 
   useEffect(() => {
-    if (messagesRes?.length) {
-      setMessages(messagesRes)
+    if (!messagesRes?.length || isPending || waitingForStream) {
+      return
     }
-  }, [messagesRes])
+    setMessages(messagesRes)
+  }, [messagesRes, isPending, waitingForStream])
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -204,8 +220,7 @@ export function ChatMessages() {
     }, 0)
   }
 
-  const sendMessage = async () => {
-    const newMessage = stateMetadata?.message.trim()
+  const sendMessage = async (newMessage: string) => {
     if (!newMessage || isPending || selectedChatId === null) {
       return false
     }

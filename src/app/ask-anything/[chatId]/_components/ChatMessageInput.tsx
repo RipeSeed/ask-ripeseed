@@ -77,6 +77,8 @@ export function ChatMessageInput() {
       let chatId = Number(pathname)
       if (chatId === 0) {
         chatId = await addAndSelectChat(setSelectedChat, setChats)
+        if (!chatId) return
+
         updateStateMetadata({
           chatId,
           message,
@@ -84,7 +86,7 @@ export function ChatMessageInput() {
           inProgress: false,
         })
         setMessage('')
-        if (chatId) router.push(`/ask-anything/${chatId}`)
+        router.replace(`/ask-anything/${chatId}`)
       } else {
         setIsPending(true)
         updateStateMetadata({
