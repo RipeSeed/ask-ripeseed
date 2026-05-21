@@ -1,6 +1,6 @@
+import { formatDocumentsAsString } from '@langchain/classic/util/document'
+import { Document } from '@langchain/core/documents'
 import { OpenAIEmbeddings } from '@langchain/openai'
-import { Document } from 'langchain/document'
-import { formatDocumentsAsString } from 'langchain/util/document'
 
 import 'server-only'
 

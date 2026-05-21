@@ -8,8 +8,8 @@ import {
   streamText,
   UIMessage,
 } from 'ai'
-import { Document } from 'langchain/document'
-import { formatDocumentsAsString } from 'langchain/util/document'
+import { formatDocumentsAsString } from '@langchain/classic/util/document'
+import { Document } from '@langchain/core/documents'
 import { z } from 'zod'
 
 import { pineconeIndex } from '@/services/chat/config'

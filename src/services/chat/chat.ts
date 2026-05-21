@@ -1,10 +1,10 @@
 import 'server-only'
 
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf'
+import type { Document as LangchainDoc } from '@langchain/core/documents'
 import { OpenAIEmbeddings } from '@langchain/openai'
 import { PineconeStore } from '@langchain/pinecone'
-import type { Document as LangchainDoc } from 'langchain/document'
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
+import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters'
 
 import { pineconeIndex } from './config'
 

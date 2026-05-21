@@ -1,6 +1,6 @@
 import { converse } from '@/services/chat/conversation'
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
   try {
     // indexId is the id of the document index
     const { apiKey, messages, indexId, chatId } = await request.json()
