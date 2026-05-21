@@ -52,7 +52,7 @@ export async function POST(request: Request) {
   }: { messages: UIMessage[]; provider?: string } = await request.json()
 
   const indexId = process.env.RIPESEED_DOC_INDEX_ID!
-  const openAIApiKey = process.env.RIPESEED_OPENAI_API_KEY!
+  const openAIApiKey = process.env.OPENAI_API_KEY!
 
   // Get the last user message
   const lastMessage = messages[messages.length - 1]

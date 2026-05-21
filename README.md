@@ -98,15 +98,15 @@ To run Ask RipeSeed locally, follow these steps:
 
 2. **Set Up Environment Variables**: Add the following environment variables to your `.env` file:
 
-   - `MOMENTO_API_KEY`: Your Momento API key for caching (free).
    - `MONGO_CONNECTION_STRING`: Your MongoDB connection string.
-   - `NEXT_PUBLIC_GA_ID`: Google Analytics ID.
-   - `OPENAI_KEY`: Your OpenAI API key.
+   - `OPENAI_API_KEY`: Your OpenAI API key (chat completions and embeddings).
+   - `DEEPSEEK_API_KEY` / `DEEPSEEK_BASE_URL`: DeepSeek provider credentials.
+   - `XAI_API_KEY` / `XAI_BASE_URL`: xAI (Grok) provider credentials.
    - `PINECONE_API_KEY`: Your Pinecone API key.
    - `PINECONE_INDEX`: Your Pinecone index name.
    - `RIPESEED_DOC_INDEX_ID`: The hardcoded ID for your indexed document in Pinecone.
-   - `RIPESEED_OPENAI_API_KEY`: OpenAI key for querying the knowledge base.
    - `NEXT_PUBLIC_CALENDLY`: Your calendly link.
+   - `NEXT_PUBLIC_GA_ID`: Google Analytics ID.
 
 3. **Install Dependencies**:
 
