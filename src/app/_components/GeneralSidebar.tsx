@@ -18,7 +18,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import useStore from '../_utils/store/store'
+
+const CHAT_TITLE_MAX_LENGTH = 18
 
 export default function GeneralSideBar() {
   const router = useRouter()
@@ -109,9 +116,25 @@ export default function GeneralSideBar() {
               >
                 <li className='flex list-none items-center gap-2'>
                   <MessageSquare className='h-[14px] text-black dark:text-white' />
-                  <span className='text-black dark:text-white'>
-                    {truncateString(chat.name, 18)}
-                  </span>
+                  {chat.name.length > CHAT_TITLE_MAX_LENGTH ? (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className='truncate text-black dark:text-white'>
+                          {truncateString(chat.name, CHAT_TITLE_MAX_LENGTH)}
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent
+                        side='right'
+                        className='max-w-xs break-words'
+                      >
+                        {chat.name}
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : (
+                    <span className='truncate text-black dark:text-white'>
+                      {chat.name}
+                    </span>
+                  )}
                   <div className='ml-auto'>
                     <DropdownMenu>
                       <DropdownMenuTrigger className='focus:outline-none'>
