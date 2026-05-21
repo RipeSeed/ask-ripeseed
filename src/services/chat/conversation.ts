@@ -13,7 +13,7 @@ export interface Context {
   content: string
 }
 
-const instructions = `
+const askRipeseedInstructions = `
   Act like an agent from RipeSeed, a software services company and answer the user queries accordingly.
   If a user asks if we can develop something they want to, mention the projects that are similar to the user's requirements as an example.
   If a user asks about particular technology/niche, check if its available in the context you have. IF available, give answers accordingly. ELSE IF NOT AVAILABLE in the context, check if a similar/niche technology is available in the context and present that to the user
@@ -26,6 +26,9 @@ const instructions = `
   Provide a paragraph where necessary, List where necessary, and code block with code language for syntax highlighting where code is needed.
   Note: If user asks something NOT related to ripeseed, like any code snippet any other general question excuse them politely and ask them to ask the relevant questions regarding ripeseed.
 `
+
+const askAnythingInstructions = `You are a helpful AI assistant. Answer the user's questions clearly, accurately, and conversationally.
+Format your responses in markdown when appropriate. Provide paragraphs where necessary, lists where helpful, and code blocks with language tags when sharing code.`
 
 const tools: OpenAI.Chat.ChatCompletionTool[] = [
   {
@@ -89,10 +92,23 @@ const getClientModel = (provider: string) => {
 const getChain = async (
   questionGeneratorInput: QuestionGeneratorInput,
   provider: string,
+  isAskRipeseedChat: boolean,
+  chatHistory: Context[],
 ) => {
   const openai = new OpenAI(getClientConfig(provider))
+  const systemContent = isAskRipeseedChat
+    ? askRipeseedInstructions
+    : askAnythingInstructions
 
-  const finalPrompt = `Use the following pieces of context to answer the question at the end.
+  const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+    {
+      role: 'system',
+      content: systemContent,
+    },
+  ]
+
+  if (isAskRipeseedChat || questionGeneratorInput.context) {
+    const finalPrompt = `Use the following pieces of context to answer the question at the end.
     ----------
     CONTEXT: ${questionGeneratorInput.context}
     ----------
@@ -102,21 +118,27 @@ const getChain = async (
     ----------
     Helpful Answer:`
 
-  const messages = [
-    {
-      role: 'system' as const,
-      content: instructions,
-    },
-    { role: 'user' as const, content: finalPrompt },
-  ]
+    messages.push({ role: 'user', content: finalPrompt })
+  } else {
+    for (const message of chatHistory) {
+      if (message.role === 'user' || message.role === 'assistant') {
+        messages.push({
+          role: message.role,
+          content: message.content,
+        })
+      }
+    }
+  }
+
   const model = getClientModel(provider) || 'gpt-4o-mini'
   const stream: any = await openai.chat.completions.create({
     model: model,
     messages: messages,
     stream: true,
-    temperature: 0,
-    tools: tools,
-    tool_choice: 'auto',
+    temperature: isAskRipeseedChat ? 0 : 0.7,
+    ...(isAskRipeseedChat
+      ? { tools: tools, tool_choice: 'auto' as const }
+      : {}),
   })
 
   return stream
@@ -155,7 +177,7 @@ export function converse(
 
       let serializedDocs = ''
 
-      if (idArray[0] !== null) {
+      if (idArray[0] != null) {
         const docs = await pineconeIndex.query({
           vector,
           topK: 5,
@@ -178,10 +200,17 @@ export function converse(
         chatHistory,
         context: serializedDocs,
         question,
-        instructions: isAskRipeseedChat ? instructions : '',
+        instructions: isAskRipeseedChat
+          ? askRipeseedInstructions
+          : askAnythingInstructions,
       }
 
-      const stream = await getChain(questionGeneratorInput, provider)
+      const stream = await getChain(
+        questionGeneratorInput,
+        provider,
+        isAskRipeseedChat,
+        context,
+      )
       let completeMessage = ''
       for await (const chunk of stream) {
         if (chunk.choices[0]?.delta?.content) {
