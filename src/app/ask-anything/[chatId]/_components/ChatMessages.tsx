@@ -16,6 +16,11 @@ import {
 import useStore from '@/app/_utils/store/store'
 import Loading from '@/app/loading'
 import { sendMessage as apiSendMessage } from '@/dal/message'
+import {
+  hasEnoughStreamPreview,
+  maybeAutoRenameChat,
+  truncateStreamPreview,
+} from '../utils/autoRenameChat'
 import { ChatMessageInput } from './ChatMessageInput'
 import { MessageContainer } from './MessageContainer'
 import { Cardset, WelcomeCards } from './WelcomeCards'
@@ -35,12 +40,25 @@ export function ChatMessages() {
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const router = useRouter()
-  const { stateMetadata, updateStateMetadata, resetStateMetadata } = useStore()
+  const {
+    stateMetadata,
+    updateStateMetadata,
+    resetStateMetadata,
+    setChats,
+    setSelectedChat,
+  } = useStore()
   const [waitingForStream, setWaitingForStream] = useState(false)
 
   // to handle chunks sequentially, we are using a queue
   const chunkQueue = useRef<{ id: number; chunk: string }[]>([])
   const processingChunk = useRef(false)
+
+  // early auto-rename during first message stream
+  const pendingFirstRenameRef = useRef(false)
+  const titleRenameTriggeredRef = useRef(false)
+  const streamPreviewRef = useRef('')
+  const firstMessageUserTextRef = useRef('')
+  const firstMessageApiKeyRef = useRef('')
 
   const processNextChunk = async () => {
     if (processingChunk.current || chunkQueue.current.length === 0) return
@@ -52,6 +70,33 @@ export function ChatMessages() {
       processingChunk.current = false
     }
     processNextChunk()
+  }
+
+  const tryEarlyAutoRename = () => {
+    if (
+      !pendingFirstRenameRef.current ||
+      titleRenameTriggeredRef.current ||
+      !firstMessageUserTextRef.current ||
+      !firstMessageApiKeyRef.current
+    ) {
+      return
+    }
+
+    const preview = streamPreviewRef.current
+    if (!hasEnoughStreamPreview(preview)) {
+      return
+    }
+
+    titleRenameTriggeredRef.current = true
+
+    void maybeAutoRenameChat({
+      chatId: selectedChatId,
+      userMessage: firstMessageUserTextRef.current,
+      assistantPreview: truncateStreamPreview(preview),
+      apiKey: firstMessageApiKeyRef.current,
+      setChats,
+      setSelectedChat,
+    })
   }
 
   const handleChunkReceived = (id: number, chunk: string) => {
@@ -70,6 +115,11 @@ export function ChatMessages() {
       }
       return prevMessages
     })
+
+    if (pendingFirstRenameRef.current) {
+      streamPreviewRef.current += chunk
+      tryEarlyAutoRename()
+    }
 
     chunkQueue.current.push({ id, chunk })
     processNextChunk() // Start processing the queue
@@ -173,6 +223,16 @@ export function ChatMessages() {
       return false
     }
 
+    const isFirstMessage = messages.length === 0
+
+    if (isFirstMessage) {
+      pendingFirstRenameRef.current = true
+      titleRenameTriggeredRef.current = false
+      streamPreviewRef.current = ''
+      firstMessageUserTextRef.current = newMessage
+      firstMessageApiKeyRef.current = apiKey
+    }
+
     setWaitingForStream(true)
     const tmpMessage: Message = {
       content: newMessage,
@@ -217,6 +277,24 @@ export function ChatMessages() {
       onChunkReceived: handleChunkReceived,
       chatId: selectedChatId,
     })
+
+    if (isFirstMessage && !titleRenameTriggeredRef.current) {
+      titleRenameTriggeredRef.current = true
+      const preview = streamPreviewRef.current.trim()
+      void maybeAutoRenameChat({
+        chatId: selectedChatId,
+        userMessage: newMessage,
+        assistantPreview: preview.length
+          ? truncateStreamPreview(preview)
+          : undefined,
+        apiKey,
+        setChats,
+        setSelectedChat,
+      })
+    }
+
+    pendingFirstRenameRef.current = false
+
     return true
   }
 
