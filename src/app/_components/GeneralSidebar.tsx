@@ -61,14 +61,13 @@ export default function GeneralSideBar() {
     await clearMessagesByChat({ chatId: chat.id! })
 
     const { data: updatedChats } = await refetch()
-    const len = updatedChats?.length ?? 0
     if (!updatedChats || !updatedChats[0]) {
       setSelectedChat(undefined)
       router.push(`/ask-anything`)
       setChats([])
     } else {
-      setSelectedChat(updatedChats[len - 1])
-      router.push(`/ask-anything/${updatedChats[len - 1].id}`)
+      setSelectedChat(updatedChats[0])
+      router.push(`/ask-anything/${updatedChats[0].id}`)
       setChats(updatedChats)
     }
 

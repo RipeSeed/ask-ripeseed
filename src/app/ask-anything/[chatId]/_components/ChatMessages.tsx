@@ -9,6 +9,7 @@ import { toast } from 'sonner'
 import {
   addMessage,
   appendMessageContent,
+  getAllChats,
   getAllMessagesByChat,
   getChat,
   Message,
@@ -252,6 +253,7 @@ export function ChatMessages() {
       content: newMessage,
       role: 'user',
     })
+    setChats(await getAllChats())
 
     const chatbotMessage: Message = {
       content: '',

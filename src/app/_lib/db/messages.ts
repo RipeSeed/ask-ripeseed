@@ -1,3 +1,4 @@
+import { touchChat } from './chats'
 import { db } from './db'
 import { Message, Role } from './types'
 
@@ -13,7 +14,15 @@ export async function addMessage({
 }): Promise<number> {
   const createdAt = new Date().toISOString()
   const updatedAt = createdAt
-  return db.messages.add({ content, chatId, createdAt, updatedAt, role })
+  const messageId = await db.messages.add({
+    content,
+    chatId,
+    createdAt,
+    updatedAt,
+    role,
+  })
+  await touchChat({ id: chatId })
+  return messageId
 }
 
 // Get a message by ID

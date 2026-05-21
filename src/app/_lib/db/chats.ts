@@ -31,9 +31,14 @@ export async function getChat({
   return chat
 }
 
-// Get all chats
+// Get all chats, most recently active first
 export async function getAllChats(): Promise<Chat[]> {
-  return db.chats.orderBy('createdAt').toArray()
+  return db.chats.orderBy('updatedAt').reverse().toArray()
+}
+
+export async function touchChat({ id }: { id: number }): Promise<number> {
+  const updatedAt = new Date().toISOString()
+  return db.chats.update(id, { updatedAt })
 }
 
 // Update a chat by ID
