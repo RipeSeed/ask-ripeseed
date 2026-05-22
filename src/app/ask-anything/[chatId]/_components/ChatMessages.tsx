@@ -338,7 +338,15 @@ export function ChatMessages() {
               {messages.map(
                 (message, i) =>
                   message.content && (
-                    <MessageContainer message={message} key={i} />
+                    <MessageContainer
+                      message={message}
+                      key={i}
+                      hideActions={
+                        message.role === 'assistant' &&
+                        waitingForStream &&
+                        i === messages.length - 1
+                      }
+                    />
                   ),
               )}
               {waitingForStream && (
