@@ -8,6 +8,7 @@ import { getAllChats, getChat, updateChat } from '@/app/_lib/db'
 import { truncateString } from '@/app/_utils'
 import useStore from '@/app/_utils/store/store'
 import { Input } from '@/components/ui/input'
+import { DownloadConversationButton } from './DownloadConversationButton'
 import { UploadDocumentWrapper } from './UploadDocumentWrapper'
 
 export function ChatHeader() {
@@ -116,7 +117,13 @@ export function ChatHeader() {
       </div>
       <div className='col-start-3 col-end-4 row-start-1 row-end-2 flex items-center justify-end px-3 md:px-10'>
         {(!isSmScreen || !isEditing) && (
-          <UploadDocumentWrapper selectedChat={selectedChat} />
+          <div className='flex items-center gap-2'>
+            <DownloadConversationButton
+              chatId={selectedChat?.id}
+              chatName={selectedChat?.name}
+            />
+            <UploadDocumentWrapper selectedChat={selectedChat} />
+          </div>
         )}
       </div>
     </div>
