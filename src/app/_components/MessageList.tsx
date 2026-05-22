@@ -67,6 +67,11 @@ export function MessageList({ messages, status, cards }: MessageListProps) {
                   createdAt: new Date().toString(),
                   updatedAt: new Date().toString(),
                 }}
+                hideActions={
+                  message.role === 'assistant' &&
+                  i === messages.length - 1 &&
+                  (status === 'streaming' || status === 'submitted')
+                }
               />
             )}
             {bookMeetingTool && bookMeetingTool.type === 'tool-bookMeeting' && (
