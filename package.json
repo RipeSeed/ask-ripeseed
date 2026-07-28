@@ -51,7 +51,7 @@
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.379.0",
     "mongoose": "^9.6.2",
-    "next": "^16.2.6",
+    "next": "^16.2.11",
     "next-themes": "^0.3.0",
     "openai": "^4.47.1",
     "pdf-parse": "^1.1.1",
